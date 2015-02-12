@@ -1,3 +1,4 @@
+//Updateed v.1
 <?php
 	session_set_cookie_params(0);
 	session_start();
@@ -151,7 +152,7 @@
 </div>
 
 <div class="footer">
-    </br> ¨Ï MegaMonkey Group - Pensacola Christian College 2015
+    </br> Â¨Ã MegaMonkey Group - Pensacola Christian College 2015
 </div>
 </BODY>
 </HTML>	
