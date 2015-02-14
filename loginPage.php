@@ -87,7 +87,7 @@
 	
 	<?php //Body PHP
 		if(@$_SESSION["session"] != "")
-			header('Location: ./testMakingPage/testMakingPage.html');
+			header('Location: ./testMakingPage.html');
 	
 	
 	
