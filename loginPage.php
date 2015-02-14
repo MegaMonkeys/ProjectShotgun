@@ -21,7 +21,7 @@
 			$u_pw  = html_input($_POST["password"]);
 			$result = check_account($u_id, $u_pw);
 			if($result != "INVALID LOGIN")
-				$session_id = "session_on";
+				$_SESSION["session"] = "session_on";
 		}
 
 		function html_input($data) {
@@ -86,8 +86,7 @@
 	?> 
 	
 	<?php //Body PHP
-		$_SESSION["session"] = $session_id;
-		if($_SESSION["session"] != "")
+		if(@$_SESSION["session"] != "")
 			header('Location: ./testMkaingPae/testMakingPage.php');
 	
 	
@@ -151,7 +150,7 @@
 </div>
 
 <div class="footer">
-    </br> ¨Ï MegaMonkey Group - Pensacola Christian College 2015
+    </br> © MegaMonkey Group - Pensacola Christian College 2015
 </div>
 </BODY>
-</HTML>	
+</HTML>
