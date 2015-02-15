@@ -1,10 +1,26 @@
 <?php
-	session_set_cookie_params(0);
 	session_start();
+	
+	$old_session = @$_SESSION['session'];
+	unset($_SESSION['session']);
+	session_destroy();
+	
+	if(!empty($old_session)) {
+		header('Location: ./index.php');
+		exit;
+	}
+	else {
+		echo "Invalid Access";
+	}
 ?>
 
-<?php
-	$_SESSION["session"] = "";
-	header('Location: ./index.php');
-	exit;
-?>
+<!DOCTYPE html>
+<HTML>
+	<link rel="stylesheet" type="text/css" href="loginStyle.css">
+	<HEAD>
+		<TITLE>MegaTest - Online Testing Application</TITLE>
+	</HEAD>
+	<BODY>
+	
+	</BODY>
+</HTML>
