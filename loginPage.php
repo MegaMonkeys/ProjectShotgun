@@ -104,7 +104,7 @@
 
 		<?php //Body PHP
 			if(@$_SESSION["session"] != "")
-			header('Location: ./testMakingPage.html');
+			header('Location: ./testMakingPage.php');
 		
 			//End of Body PHP
 		?>
