@@ -45,8 +45,9 @@
 <tr>
 <td style="vertical-align: top">
 <div class="content">
-<form action="#.php" method="post">
-You are login as <span> </span> <input type="submit" value="Sign out" class="logout-button"></br>
+<form action="./logout.php" method="post">
+You are login as <span> </span>
+<input type="submit" value="Sign out" class="logout-button"></br>
 <div class="informationForm">
 <table>
 <tr>
