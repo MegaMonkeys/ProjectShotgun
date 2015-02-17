@@ -1,3 +1,4 @@
+<?php include 'sessionCheck.php'; ?>
 <!DOCTYPE html>
 <HTML>
    <link rel="stylesheet" type="text/css" href="testMakingPage.css">
