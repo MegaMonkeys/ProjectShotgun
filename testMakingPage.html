@@ -45,33 +45,38 @@
 <tr>
 <td style="vertical-align: top">
 <div class="content">
-<form action="#.php" method="post">
+<form action="create_test.php" method="post">
 You are login as <span> </span> <input type="submit" value="Sign out" class="logout-button"></br>
 <div class="informationForm">
 <table>
 <tr>
 <td>
 Class: &nbsp;
-<select class="inputs">
+<select class="inputs" name="courseNo">
   <option value="CS214">CS 214</option>
   <option value="CS306">CS 306</option>
   <option value="CS414">CS 414</option>
   <option value="BA303">BA 303</option>
 </select> </br>
+Section: &nbsp;
+<select class="inputs" name="sectionNo">
+  <option value="1">1</option>
+  <option value="2">2</option>
+</select> </br>
 Start: &nbsp;<input type="date" name="startDate" class="inputs"> &nbsp;&nbsp;&nbsp; <input type="time" class="inputs" name="startTime"></br>
-End  : &nbsp;<input type="date" id="endDate" class="inputs">  &nbsp;&nbsp;&nbsp; <input type="time" class="inputs" name="endTime"></br>
+End  : &nbsp;<input type="date" name="endDate" class="inputs">  &nbsp;&nbsp;&nbsp; <input type="time" class="inputs" name="endTime"></br>
 </td>
 <td>
 Test Name:  &nbsp;<input type="text" name="testName" class="inputs" placeholder="Test #1"> </br></br>
 Time limit : &nbsp;<input type="number" name="hours" min="0" max="10" class="inputs" placeholder="1"> &nbsp; hr &nbsp;
-<input type="number" name="minute" min="0" max="60" class="inputs" placeholder="45"> &nbsp; min
+<input type="number" name="minutes" min="0" max="60" class="inputs" placeholder="45"> &nbsp; min
 </td>
 </tr>
 <tr>
 <td colspan="2">
-<input type="submit" value="publish" class="publish-Button">
-<input type="submit" value="save" class="save-Button">
-<input type="submit" value="cancel" class="cancel-Button">
+<input type="submit" name="submitTest" value="publish" class="publish-Button">
+<input type="submit" name="submitTest" value="save" class="save-Button">
+<input type="submit" name="submitTest" value="cancel" class="cancel-Button">
 </td>
 </tr>
 </table>
@@ -219,7 +224,7 @@ PLEDGE:</br>
         ++queNum;
         var newQ =
             '<div id="question'+queNum+'" style="padding: 10px 5px 0px 5px;"><fieldset style="width:400px;">' +
-            '<legend>Multiple Choice Question - <input type="button" value="Option" onclick="add_Q_Multi_Opt('+queNum+');">' +
+            '<legend>'+queNum+' Multiple Choice Question - <input type="button" value="Option" onclick="add_Q_Multi_Opt('+queNum+');">' +
             '<input type="button" value="Remove" onclick="remove_Q('+queNum+');">' +
             ' Point - <input type="text" name="f_point" maxlength="3" size="3"></legend>' +
             '<textarea name="ques_head" rows="2" cols="80"></textarea></fieldset></div>';
@@ -253,7 +258,7 @@ PLEDGE:</br>
         ++queNum;
         var newQ =
             '<div id="question'+queNum+'" style="padding: 10px 5px 0px 5px;"><fieldset style="width:400px;">' +
-            '<legend>True / False Question - ' +
+            '<legend>'+queNum+' True / False Question - ' +
             '<input type="button" value="Remove" onclick="remove_Q('+queNum+');">' +
             ' Point - <input type="text" name="f_point" maxlength="3" size="3"></legend>' +
             '<textarea name="ques_head" rows="2" cols="80"></textarea></fieldset></div>';
@@ -266,7 +271,7 @@ PLEDGE:</br>
         ++queNum;
         var newQ =
             '<div id="question'+queNum+'" style="padding: 10px 5px 0px 5px;"><fieldset style="width:400px;">' +
-            '<legend>Short Answer Question - ' +
+            '<legend>'+queNum+' Short Answer Question - ' +
             '<input type="button" value="Remove" onclick="remove_Q('+queNum+');">' +
             ' Point - <input type="text" name="f_point" maxlength="3" size="3"></legend>' +
             '<textarea name="ques_head" rows="2" cols="80"></textarea></fieldset></div>';
