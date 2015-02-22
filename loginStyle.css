@@ -1,6 +1,4 @@
 body {
-background-image: #FFF;
-  background-size: cover;
   margin:0px 0px;
   font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
 	font-size: 18px;
@@ -9,9 +7,21 @@ background-image: #FFF;
 	font-weight: 500;
 	line-height: 19.7999992370605px;
 }img.header{
+position:fixed;
+top:0px;
+left:0px;
 width:100%;
 height:150px;
 }
+img.logo{
+position:absolute;
+left:100px;
+width:200px;
+}
+img.slideshow{
+position:fixed;
+width:100%;
+height:90%}
 img.footerblue{
 width:100%;
 height:100px;}
@@ -44,12 +54,13 @@ font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
 color: #ffffff;
 }
 .login{
-	position: relative;
-	color: #666666;
-	bottom: calc(20% - 15px);
-	left: calc(60% - 50px);
-	height: 150px;
-	width: 350px;
+	position: fixed;
+	background-color: rgba(255,255,255,0.3);
+	color: #000;
+	top: calc(40% - 15px);
+	left: calc(70% - 50px);
+	height: 200px;
+	width: 280px;
 	padding: 10px;
 	z-index: 2;
 }
@@ -60,7 +71,6 @@ color: #ffffff;
 	background: transparent;
 	border: 1px solid rgba(160,160,160,0.8);
 	border-radius: 2px;
-	color: #585858;
 	font-family: 'Exo', sans-serif;
 	font-size: 16px;
 	font-weight: 400;
@@ -73,7 +83,6 @@ color: #ffffff;
 	background: transparent;
 	border: 1px solid rgba(160,160,160,0.8);
 	border-radius: 2px;
-	color: #585858;
 	font-family: 'Exo', sans-serif;
 	font-size: 16px;
 	font-weight: 400;
