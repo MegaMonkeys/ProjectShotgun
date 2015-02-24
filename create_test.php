@@ -60,4 +60,6 @@
    echo "<hr>";
     
    mysqli_close($conn);
+   
+   header("Location: teacherHomePage.php");
 ?>
