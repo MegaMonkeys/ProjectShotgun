@@ -101,8 +101,7 @@ div.tabcontents
 /*----- Section Content -----*/
 .accordion-section-content {
     padding:15px;
-    display:none;
-}
+    display:none;}
 
 body {
 background-image: #FFF;
