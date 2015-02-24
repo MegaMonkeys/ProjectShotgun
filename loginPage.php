@@ -36,6 +36,9 @@
 				$u_id  = html_input($_POST["user"]);
 				$u_pw  = html_input($_POST["password"]);
 				$result = check_account($u_id, $u_pw);
+
+                $_SESSION["user_id"] = $u_id; //Store user id
+
 				if($result != "INVALID LOGIN")
 					$_SESSION["session"] = "session_on";
 			}
@@ -79,9 +82,11 @@
 					if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
 						if ($row[0] == "I") {//If Instructor
 							$sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
+							$_SESSION["user_type"] = "Teacher"; //Store user type
 						}
 						elseif ($row[0] == "S") {//If Student
 							$sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
+                            $_SESSION["user_type"] = "Student"; //Store user type
 						}
 					}
 					else { //If Length Check fails
@@ -96,15 +101,25 @@
 				}
 				else {
 					mysqli_close($connection);
-					return "Error :- Ducplicate Account Exist";
+					return "Error :- Duplicate Account Exist";
 				}
 			}
 			//End of Main PHP Functions
-		?> 
-
+		?>
+		
 		<?php //Body PHP
-			if(@$_SESSION["session"] != "")
-			header('Location: ./testMakingPage.php');
+            //Redirect user based on their user type (teacher/instructor or student
+			if(@$_SESSION["session"] != ""){
+			    if(@$_SESSION["user_type"] == "Teacher"){
+                    header('Location: ./testMakingPage.php');
+                }
+                else if(@$_SESSION["user_type"] == "Student") {
+                    header('Location: ./studentHomePage.php');
+                }
+                else {
+                    echo '<p>I am so sorry, but an error occurred! :( </p>';
+                }
+            }
 		
 			//End of Body PHP
 		?>
