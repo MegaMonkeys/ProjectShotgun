@@ -39,7 +39,7 @@
 <form action="#.php" method="post">
 <div class="header">
 	<img src="images/header.png" class="header"/>
-	<img src="images/wikitest.png" class="testLogo"/>
+	<img src="images/logo.png" class="testLogo"/>
 	<div class="title"></div>
 
 	<input type="submit" value="Sign out" class="logout-button">

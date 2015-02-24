@@ -36,14 +36,13 @@
 </div>
 <div class="content">
 
-<div id="navigation">
-     <ul>
-          <li><a href="#"><span>Home</span></a></li>
-          <li><a href="#"><span>About</span></a></li>
-          <li><a href="#"><span>Our Work</span></a></li>
-          <li><a href="#"><span>Products</span></a></li>
-          <li class="last"><a href="#"><span>Contact Us</span></a></li>
-     </ul>
+<div id="centeredmenu">
+   <ul>
+      <li><a href="#">Tab one</a></li>
+      <li><a href="#">Tab two</a></li>
+      <li><a href="#">Tab three</a></li>
+      <li><a href="#">Tab four</a></li>
+   </ul>
 </div>
 
 </div>
