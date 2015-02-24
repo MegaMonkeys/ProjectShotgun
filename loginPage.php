@@ -36,6 +36,9 @@
 				$u_id  = html_input($_POST["user"]);
 				$u_pw  = html_input($_POST["password"]);
 				$result = check_account($u_id, $u_pw);
+
+                $_SESSION["user_id"] = $u_id; //Store user id
+
 				if($result != "INVALID LOGIN")
 					$_SESSION["session"] = "session_on";
 			}
@@ -79,11 +82,11 @@
 					if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
 						if ($row[0] == "I") {//If Instructor
 							$sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
-							$_SESSION["user_type"] = "Teacher";
+							$_SESSION["user_type"] = "Teacher"; //Store user type
 						}
 						elseif ($row[0] == "S") {//If Student
 							$sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
-                            $_SESSION["user_type"] = "Student";
+                            $_SESSION["user_type"] = "Student"; //Store user type
 						}
 					}
 					else { //If Length Check fails
@@ -105,6 +108,7 @@
 		?>
 		
 		<?php //Body PHP
+            //Redirect user based on their user type (teacher/instructor or student
 			if(@$_SESSION["session"] != ""){
 			    if(@$_SESSION["user_type"] == "Teacher"){
                     header('Location: ./testMakingPage.php');
