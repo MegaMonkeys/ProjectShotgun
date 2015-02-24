@@ -79,9 +79,11 @@
 					if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
 						if ($row[0] == "I") {//If Instructor
 							$sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
+                            $u_type = "Teacher";
 						}
 						elseif ($row[0] == "S") {//If Student
 							$sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
+                            $u_type = "Student";
 						}
 					}
 					else { //If Length Check fails
@@ -103,8 +105,17 @@
 		?> 
 
 		<?php //Body PHP
-			if(@$_SESSION["session"] != "")
-			header('Location: ./testMakingPage.php');
+			if(@$_SESSION["session"] != ""){
+			    if($u_type == 'Teacher'){
+                    header('Location: ./testMakingPage.php');
+                }
+                else if($u_type == 'Student') {
+                    header('Location: ./studentHomePage.php');
+                }
+                else {
+                    echo '<p>I am so sorry, but an error occurred!</p>';
+                }
+            }
 		
 			//End of Body PHP
 		?>
