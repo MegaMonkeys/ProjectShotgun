@@ -1,4 +1,3 @@
-<?php include 'sessionCheck.php'; ?>
 <!DOCTYPE html>
 <HTML>
    <link rel="stylesheet" type="text/css" href="testMakingPage.css">
@@ -37,85 +36,57 @@
    </HEAD>
 <BODY oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
-
+<form action="#.php" method="post">
 <div class="header">
-<img src="images/header.png" class="header"/>
-<div class="title">Online Test</div>
+	<img src="images/header.png" class="header"/>
+	<img src="images/logo.png" class="testLogo"/>
+	<div class="title"></div>
+
+	<input type="submit" value="Sign out" class="logout-button">
 </div>
-<table>
-<tr>
-<td style="vertical-align: top">
+
 <div class="content">
-<form action="./logout.php" method="post">
-You are login as <span> </span>
-<input type="submit" value="Sign out" class="logout-button"></br>
-<div class="informationForm">
 <table>
 <tr>
-<td>
-Class: &nbsp;
-<select class="inputs">
-  <option value="CS214">CS 214</option>
-  <option value="CS306">CS 306</option>
-  <option value="CS414">CS 414</option>
-  <option value="BA303">BA 303</option>
-</select> </br>
-Start: &nbsp;<input type="date" name="startDate" class="inputs"> &nbsp;&nbsp;&nbsp; <input type="time" class="inputs" name="startTime"></br>
-End  : &nbsp;<input type="date" id="endDate" class="inputs">  &nbsp;&nbsp;&nbsp; <input type="time" class="inputs" name="endTime"></br>
-</td>
-<td>
-Test Name:  &nbsp;<input type="text" name="testName" class="inputs" placeholder="Test #1"> </br></br>
-Time limit : &nbsp;<input type="number" name="hours" min="0" max="10" class="inputs" placeholder="1"> &nbsp; hr &nbsp;
-<input type="number" name="minute" min="0" max="60" class="inputs" placeholder="45"> &nbsp; min
-</td>
-</tr>
-<tr>
-<td colspan="2">
-<input type="submit" value="publish" class="publish-Button">
-<input type="submit" value="save" class="save-Button">
-<input type="submit" value="cancel" class="cancel-Button">
-</td>
-</tr>
-</table>
-</div>
-<div class ="questionTable">
-<table>
-<tr>
-	<td>Question Type</td>
-</tr>
-<tr>
-	<td height="50"><button>Multiple Choice</button></td>
-</tr>
-<tr>
-	<td height="50"><button>True / False</button></td>
-</tr>
-<tr>
-	<td height="50"><button>Short Answer</button></td>
-</tr>
-<tr>
-	<td height="50"><button>Essay</button></td>
-</tr>
-
-</table></div>
-<table>
-<tr>
-<td width="500">
-PLEDGE:</br>
-<input type="text" name="pledge" class="inputs"
- value="This is a pledge. This is a pledge. This is a pledge. This is a pledge. This is a pledge. This is a pledge. "
- style="width:100%; height:100px">
-</br>
-</td>
-<td>&nbsp;&nbsp;
-<input type="submit" value="preview" class="preview-Button">
-</td>
-</tr>
-</table>
-</form>
-</div>
+<td style="vertical-align: top">
+<br />
+	You are login as <span> </span> <br />
+	<div class="informationForm">
+	Class : &nbsp;
+	<select class="inputs">
+	  <option value="CS214">CS 214</option>
+	  <option value="CS306">CS 306</option>
+	  <option value="CS414">CS 414</option>
+	  <option value="BA303">BA 303</option>
+	</select>
+	Section : &nbsp;&nbsp;<select class="inputs">
+	  <option value="1">1</option>
+	  <option value="2">2</option>
+	  <option value="3">3</option>
+	</select><br />
+	Start : &nbsp;&nbsp;<input type="date" name="startDate" class="inputs"> <input type="time" class="inputs" name="startTime"><br />
+	End  : &nbsp;&nbsp;<input type="date" id="endDate" class="inputs"> <input type="time" class="inputs" name="endTime"><br />
+	Time limit : &nbsp;<input type="number" name="hours" min="0" max="10" class="inputs" placeholder="1"> &nbsp; hr &nbsp;
+	<input type="number" name="minute" min="0" max="60" class="inputs" placeholder="45"> &nbsp; min
+	
+	
+	</div>
+	<form id="buttonArea" >
+		<div class="questionType-button">
+            <legend>Question's type:</legend>
+            <input onclick="add_Instruc(this.form);" type="button" value="Instruction" id="instruction"/>
+            <input onclick="add_Q_Multi(this.form);" type="button" value="Multiple Choice" /><br />
+            <input onclick="add_Q_TF(this.form);"    type="button" value="True/False" />
+            <input onclick="add_Q_Short(this.form);" type="button" value="Short Answer" /><br />
+			<input onclick="#" type="button" value="Essay" />
+			<input onclick="#" type="button" value="Matching" />
+		</div>
+    </form>
+	</td>
+<td width="80">
 </td>
 <td style="vertical-align: top">
-
+<div class="scroll">
 
         <script>
             var isNS = (navigator.appName == "Netscape") ? 1 : 0;
@@ -156,20 +127,9 @@ PLEDGE:</br>
             //document.onkeypress    = onKeyDown;
         </script>
 
-
-
-<form method="post">
-    Ctrl + C / Ctrl + V / Ctrl + F / Mouse Right Click Disabled
+  <!-- Ctrl + C / Ctrl + V / Ctrl + F / Mouse Right Click Disabled-->
     
-    <form id="buttonArea">
-        <fieldset style="width:600px;">
-            <legend>New Question</legend>
-            <input onclick="add_Instruc(this.form);" type="button" value="Instruction" />
-            <input onclick="add_Q_Multi(this.form);" type="button" value="Multiple Choice" />
-            <input onclick="add_Q_TF(this.form);"    type="button" value="True/False" />
-            <input onclick="add_Q_Short(this.form);" type="button" value="Short Answer" />
-        </fieldset>
-    </form>
+    Test Name:  &nbsp;<input type="text" name="testName" class="inputs" placeholder="Test #1">
 
     <p>
         <div id="text_instruc_heading">CS 414 Test Instruction</div>
@@ -183,20 +143,6 @@ PLEDGE:</br>
 
     </p>
 
-
-
-
-    <div id="questionArea">
-        <br/><br/>
-        <div id="itemRows">
-            Item quantity: <input type="text" name="add_qty" size="4" />
-            Item name:     <input type="text" name="add_name" />
-            <input onclick="addRow(this.form);" type="button" value="Add row" />
-        </div>
-
-    <div/>
-
-</form>
 
 
 <script>
@@ -276,12 +222,6 @@ PLEDGE:</br>
         jQuery('#mainArea').append(newQ);
 
     }
-
-
-
-
-
-
     function addRow(frm) {
         rowNum ++;
         var row = '<p id="rowNum'+rowNum+'">Item quantity: <input type="text" name="qty[]" size="4" value="'+frm.add_qty.value+'"> Item name: <input type="text" name="name[]" value="'+frm.add_name.value+'"> <input type="button" value="Remove" onclick="removeRow('+rowNum+');"></p>';
@@ -295,12 +235,31 @@ PLEDGE:</br>
     }
 
 </script>
+		PLEDGE:<br />
+		<input type="text" name="pledge" class="inputs"
+		 value="This is a pledge. This is a pledge. This is a pledge. This is a pledge. This is a pledge. This is a pledge. "
+		 style="width:600px; height:100px">
+		<br />
+		
+
+</div>
+
+</td>
+<td>
+	<input type="submit" value="Publish" class="buttons"><br />
+	<input type="submit" value="Save" class="buttons"><br />
+	<input type="submit" value="Cancel" class="buttons"><br />
+	<input type="submit" value="Preview" class="buttons">
 </td>
 </tr>
 </table>
-<div class="footer"></br>
-&copy; MegaMonkey Group - Pensacola Christian College 2015
+</div>
+</form>
+
+<div class="footer"><br />
 <img src="images/footerblue.png" class="footerblue"/>
+&copy; MegaMonkey Group - Pensacola Christian College 2015
+
 </div>
 </BODY>
 </HTML>
