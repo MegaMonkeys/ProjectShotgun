@@ -73,21 +73,12 @@
 
     <div style="width: 500px; margin: auto;">
         <ul class="tabs" data-persist="true">
-            <li><a href="#view1">By Date</a></li>
-            <li><a href="#view2">By Course</a></li>
+            <li><a href="#view1">Courses</a></li>
+            <li><a href="#view2">Grades</a></li>
         </ul>
         <div class="tabcontents">
             <div id="view1">
-                <p>CS 414 - Test 5 - DUE 02/23/15</p>
-                <p>CS 306 - Test 3 - DUE 02/25/15</p>
-                <p>CS 414 - Test 5 - DUE 02/23/15</p>
-                <p>CS 306 - Test 3 - DUE 02/25/15</p>
-                <p>CS 414 - Test 5 - DUE 02/23/15</p>
-                <p>CS 306 - Test 3 - DUE 02/25/15</p>
-
-            </div>
-            <div id="view2">
-                <div class="accordion">
+				<div class="accordion">
                     <div class="accordion-section">
                         <a class="accordion-section-title" href="#accordion-1">CS 414</a>
                         <div id="accordion-1" class="accordion-section-content">
@@ -120,6 +111,9 @@
                         </div><!--end .accordion-section-content-->
                     </div><!--end .accordion-section-->
                 </div><!--end .accordion-->
+            </div>
+            <div id="view2">
+                <p>Grades</p>
             </div>
         </div>
     </div>

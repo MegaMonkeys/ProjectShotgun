@@ -44,7 +44,8 @@ ul.tabs li.selected a, ul.tabs li.selected a:hover
     top: 0px;
     font-weight:bold;
     background: white url(tabbg.gif) 0 0 repeat-x;
-    border-bottom-color: white;
+    border-bottom-color: blue;
+	color: blue;
 }
 
 
