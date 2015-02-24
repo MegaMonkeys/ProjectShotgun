@@ -57,6 +57,7 @@ jQuery(document).ready(function() {
         <li class="active"><a href="#tab1">Tab #1</a></li>
         <li><a href="#tab2">Tab #2</a></li>
     </ul>
+
  
 <div class="tab-content">
 	<div id="tab1" class="tab active">
