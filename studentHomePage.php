@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <HTML>
    <link rel="stylesheet" type="text/css" href="templateStyle.css">
+   <script src="tabcontent.js" type="text/javascript"></script>
+   <link href="template2/templateStyle.css" rel="stylesheet" type="text/css" />
    <HEAD>
    <style>
    div#load_screen{
@@ -23,64 +25,105 @@
       <TITLE>
 	  MegaTest - Online Testing Application
       </TITLE>
+	  
    </HEAD>
-<BODY>
 
+
+
+
+<BODY style="background:#F6F9FC; font-family:Arial;">
 <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
 <div class="header">
 	<img src="images/header.png" class="header"/>
-	<img src="images/wikitest.png" class="testLogo"/>
-	<div class="title">Student Home - Tests</div>
+	<img src="images/logo.png" class="testLogo"/>
+	<div class="title">Student Home</div>
 
 	<input type="submit" value="Sign out" class="logout-button">
 </div>
 
 <script src="jquery-1.11.2.js"></script>
 <script>
-jQuery(document).ready(function() {
-    jQuery('.tabs .tab-links a').on('click', function(e)  {
-        var currentAttrValue = jQuery(this).attr('href');
- 
-        // Show/Hide Tabs
-        jQuery('.tabs ' + currentAttrValue).slideDown(400).siblings().slideUp(400);
- 
-        // Change/remove current tab to active
-        jQuery(this).parent('li').addClass('active').siblings().removeClass('active');
- 
-        e.preventDefault();
+    $(document).ready(function() {
+        function close_accordion_section() {
+            $('.accordion .accordion-section-title').removeClass('active');
+            $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
+        }
+
+        $('.accordion-section-title').click(function(e) {
+            // Grab current anchor value
+            var currentAttrValue = $(this).attr('href');
+
+            if($(e.target).is('.active')) {
+                close_accordion_section();
+            }else {
+                close_accordion_section();
+
+                // Add active class to section title
+                $(this).addClass('active');
+                // Open up the hidden content panel
+                $('.accordion ' + currentAttrValue).slideDown(300).addClass('open');
+            }
+
+            e.preventDefault();
+        });
     });
-});
 </script>
 
-<div class="tabs">
-    <ul class="tab-links">
-        <li class="active"><a href="#tab1">Tab #1</a></li>
-        <li><a href="#tab2">Tab #2</a></li>
-    </ul>
- 
-<div class="tab-content">
-	<div id="tab1" class="tab active">
-		<p>CS 414 - Test 5 - DUE 02/23/15</p>
-		<p>CS 306 - Test 3 - DUE 02/25/15</p>
-	</div>
+<div class="content"></div>
 
-	<div id="tab2" class="tab">
-		<form id="buttonArea" >
-			<div class="questionType-button"><br /><br />
-			<input onclick="#" type="button" value="CS 414" id="instruction"/><br />
-			<input onclick="#" type="button" value="CS 306" /><br />
-			<input onclick="#" type="button" value="CS 368" /><br />
-			<input onclick="#" type="button" value="CS 346" /><br />
-			<input onclick="#" type="button" value="MA 330" /><br />
-			<input onclick="#" type="button" value="BA 300" />
-			</div>
-		</form>
-	</div>
-</div>
+    <div style="width: 500px;  margin: auto;">
+        <ul class="tabs" data-persist="true">
+            <li><a href="#view1">By Date</a></li>
+            <li><a href="#view2">By Course</a></li>
+        </ul>
+        <div class="tabcontents">
+            <div id="view1">
+                <p>CS 414 - Test 5 - DUE 02/23/15</p>
+                <p>CS 306 - Test 3 - DUE 02/25/15</p>
+                <p>CS 414 - Test 5 - DUE 02/23/15</p>
+                <p>CS 306 - Test 3 - DUE 02/25/15</p>
+                <p>CS 414 - Test 5 - DUE 02/23/15</p>
+                <p>CS 306 - Test 3 - DUE 02/25/15</p>
 
-<div class="content">
+            </div>
+            <div id="view2">
+                <div class="accordion">
+                    <div class="accordion-section">
+                        <a class="accordion-section-title" href="#accordion-1">CS 414</a>
+                        <div id="accordion-1" class="accordion-section-content">
+                            <p>Test 1</p>
+                            <p>Test 2</p>
+                            <p>Test 3</p>
+                        </div><!--end .accordion-section-content-->
+                    </div><!--end .accordion-section-->
+                    <div class="accordion-section">
+                        <a class="accordion-section-title" href="#accordion-2">CS 346</a>
+                        <div id="accordion-2" class="accordion-section-content">
+                            <p>Test 1</p>
+                            <p>Test 2</p>
+                        </div><!--end .accordion-section-content-->
+                    </div><!--end .accordion-section-->
+                    <div class="accordion-section">
+                        <a class="accordion-section-title" href="#accordion-3">CS 368</a>
+                        <div id="accordion-3" class="accordion-section-content">
+                            <p>Test 1</p>
+                            <p>Test 2</p>
+                        </div><!--end .accordion-section-content-->
+                    </div><!--end .accordion-section-->
+                    <div class="accordion-section">
+                        <a class="accordion-section-title" href="#accordion-4">CS 306</a>
+                        <div id="accordion-4" class="accordion-section-content">
+                            <p>Test 1</p>
+                            <p>Test 2</p>
+                            <p>Test 3</p>
+                            <p>Test 4</p>
+                        </div><!--end .accordion-section-content-->
+                    </div><!--end .accordion-section-->
+                </div><!--end .accordion-->
+            </div>
+        </div>
+    </div>
 
-</div>
 <div class="footer"></br>
 <img src="images/footerblue.png" class="footerblue"/>
 &copy; MegaMonkey Group - Pensacola Christian College 2015

@@ -1,8 +1,3 @@
-<?php //Session Start
-	session_set_cookie_params(0);
-	session_start();
-?>
-
 <!DOCTYPE html>
 <HTML>
 	<link rel="stylesheet" type="text/css" href="loginStyle.css">
