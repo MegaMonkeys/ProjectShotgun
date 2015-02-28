@@ -98,7 +98,7 @@
 
                         <div>
                            <div id="text_instruc_heading">CS 414 Test Instruction</div>
-                           <textarea name="test_instruc_text" rows="4">Enter Test Instructions . . .</textarea>
+                           <textarea id="test_inst_text" name="test_instruc_text" rows="4">Enter Test Instructions . . .</textarea>
                         </div>
 
                         <hr align="left"> <!-- width="550px" -->
@@ -114,27 +114,27 @@
                               <li class="ui-state-highlight">Item 5</li>-->
                            </ul>
                         </div>
-                        
+                        <div>
                         PLEDGE:<br />
-                        <input type="text" name="pledge" class="inputs"
+                        <input id="pledge_text" type="text" name="pledge" class="inputs"
                            value="This is a pledge. This is a pledge. This is a pledge. This is a pledge. This is a pledge. This is a pledge. "
-                           style="width: 570px; height:100px;"> <!-- width:600px; -->
-                        <br />
+                           style="width: 98%; height:100px;"> <!-- width:600px; -->
+                        </div>
                      </div>
                   </td>
 
-                  <td id="right">
+                  <!--<td id="right">
                      <input type="submit" value="Publish" class="buttons"><br />
                      <input type="submit" value="Save" class="buttons"><br />
                      <input type="submit" value="Cancel" class="buttons"><br />
                      <input type="submit" value="Preview" class="buttons">
 
-                     <div id="destroy_question">
+                     <!--<div id="destroy_question">
                         Destroy Questions Here : - <br>
                         <ul id="sortable4" class="connectedSortableT">
 
                         </ul>
-                     </div>
+                     </div>-->
 
                   </td>
 

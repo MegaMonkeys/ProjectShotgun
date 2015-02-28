@@ -245,29 +245,42 @@ width: 200px;
 }
 #wrap {
 	position: relative;
-	padding-top: 120px;
-	min-width: 1200px;
+	padding-top: 100px;
+	min-width: 1000px;
 }
 
 #middle {
 	vertical-align: top;
-	min-width: 550px;
+	min-width: 650px;
+	max-width: 650px;
 	position: relative;
+    left: 55%;
 }
 
 #left {
 	vertical-align: top;
 	min-width: 350px;
-	position: relative;
-	padding-top: 60px;
+    padding-top: 70px;
+    position: fixed;
+	left: 5em;
 }
 
-#right {
-	vertical-align: top;
-	min-width: 300px;
-	position: relative;
-	padding-top: 100px;
+#destroy_question {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 20;
 }
+
+/*#right {
+	vertical-align: top;
+	min-width: 250px;
+    padding-top: 60px;
+    position: fixed;
+    top:15%;
+    left: 75%;
+    background-color: blue;
+}*/
 
 /* Logout Button Bug
 .logout-button:active {
@@ -329,20 +342,24 @@ width: 200px;
 
 #sortable2 {
    border: 1px solid #eee;
-   width: 555px;
+   width: 98%;
    list-style-type: none;
    margin: 0;
    padding: 5px 0 0 0;
    float: left;
    margin-right: 0px;
    min-height: 300px;
+   background-image: url("./images/q_background.png");
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: 100%;
 }
 
 #sortable2 li {
-   margin: 0 5px 5px 5px;
+   margin: 0 0px 10px 0px;
    padding: 5px;
    font-size: 1.2em;
-   width: 95%;
+   width: 98%;
 }
 
 #sortable4 {
@@ -363,14 +380,36 @@ width: 200px;
 
 /* TextArea Color Change When on Focus */
 textarea {
-   width: 95%;
-   border: 3px solid #cccccc;
+   width: 97%;
+   border: 1px solid #cccccc;
    padding: 5px;
+   margin: 0px;
    font-family: Tahoma, sans-serif;
    resize: none;
 }
 
 input[type=text]:focus, textarea:focus {
    background-color: #FFBFFF;
-   border: 1px solid #ccc;
+   border: 3px solid #ccc;
+}
+
+.q_tf_op {
+    padding-left: 100px;
+}
+
+.q_options {
+    width: 100%;
+	border: 0;
+    padding-left: 15%;
+}
+
+.bin_button {
+	width: 2.2em;
+	height: 2.2em;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	border-style: none;
+	background-color: red;
+	float: right;
 }
