@@ -54,6 +54,35 @@ slideit();
 <img src="images/header.png" class="header"/>
 <div class="title"><img src="images/logo.png" class="logo"/></div>
 </div>
+
+<div class="courseMenu">
+<!-- Start css3menu.com BODY section -->
+<input type="checkbox" id="css3menu-switcher" class="c3m-switch-input">
+<ul id="css3menu1" class="topmenu">
+   <li class="switch"><label onclick="" for="css3menu-switcher"></label></li>
+   <li class="topfirst"><a href="#" style="width:54px;"><span>CS 414</span></a>
+      <ul>
+         <li class="subfirst"><a href="#"><span>Test 1</span></a>
+            <ul>
+               <li class="subfirst"><a href="#">Modify</a></li>
+               <li><a href="#">Publish</a></li>
+               <li><a href="#">Grades</a></li>
+               <li><a href="#">Delete</a></li>
+            </ul></li>
+         <li><a href="#">Test 2</a></li>
+      </ul></li>
+   <li class="topmenu"><a href="#" style="width:54px;">CS 306</a></li>
+   <li class="topmenu"><a href="#" style="width:54px;">BA 300</a></li>
+   <li class="topmenu"><a href="#" style="width:54px;"><span>CS 346</span></a>
+      <ul>
+         <li class="subfirst"><a href="#">Item 1 0</a></li>
+         <li><a href="#">Item 1 1</a></li>
+         <li><a href="#">Item 1 2</a></li>
+      </ul></li>
+   <li class="topmenu"><a href="#" style="width:54px;">MA 330</a></li>
+</ul><p class="_css3m"><a href="http://css3menu.com/">html dropdown menu</a> by Css3Menu.com</p>
+<!-- End css3menu.com BODY section -->
+</div>
 <div class="content">
 </div>
 <div class="footer"></br>
