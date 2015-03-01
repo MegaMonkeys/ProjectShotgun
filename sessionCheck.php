@@ -10,6 +10,6 @@
 		exit;
 	}
 	else {
-		echo "Invalid Access";
+		//echo "Invalid Access";
 	}
 ?>
