@@ -56,7 +56,6 @@
       </div>
 
    <div id="wrap">
-      <!--<form action="#.php" method="post">-->
          <div id="content">
             <table>
                <tr>
@@ -101,17 +100,13 @@
                            <textarea id="test_inst_text" name="test_instruc_text" rows="4">Enter Test Instructions . . .</textarea>
                         </div>
 
-                        <hr align="left"> <!-- width="550px" -->
+                        <hr align="left"> 
 
                         <!-- Where Questions Will Be Placed (YC) -->
                         Questions : - <br>
                         <div id="field_question">
                            <ul id="sortable2" class="connectedSortableF">
-                              <!--<li class="ui-state-highlight">Item 1</li>
-                              <li class="ui-state-highlight">Item 2</li>
-                              <li class="ui-state-highlight">Item 3</li>
-                              <li class="ui-state-highlight">Item 4</li>
-                              <li class="ui-state-highlight">Item 5</li>-->
+                           
                            </ul>
                         </div>
                         <div>
@@ -122,20 +117,6 @@
                         </div>
                      </div>
                   </td>
-
-                  <!--<td id="right">
-                     <input type="submit" value="Publish" class="buttons"><br />
-                     <input type="submit" value="Save" class="buttons"><br />
-                     <input type="submit" value="Cancel" class="buttons"><br />
-                     <input type="submit" value="Preview" class="buttons">
-
-                     <!--<div id="destroy_question">
-                        Destroy Questions Here : - <br>
-                        <ul id="sortable4" class="connectedSortableT">
-
-                        </ul>
-                     </div>-->
-
                   </td>
 
                </tr>
@@ -143,7 +124,6 @@
          </div>
    </div>
 
-      <!--</form>-->
       <div id="footer">
          <img src="images/footerblue.png" class="footerblue"/>
          &copy; MegaMonkey Group - Pensacola Christian College 2015

@@ -1,45 +1,39 @@
 body {
-background-image: #FFF;
-  background-size: cover;
-  margin:0px 0px;
-  font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
-	font-size: 18px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 500;
-	
+   background-image: #FFF;
+   background-size: cover;
+   margin:0px 0px;
+   font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
+   font-size: 18px;
+   font-style: normal;
+   font-variant: normal;
+   font-weight: 500;
 }
-
 div.scroll{
-
-
-	/*overflow: scroll;*/
 }
 
 img.testLogo{
-	width: 200px;
-	position:fixed;
-	top:0px;
-	left: 50px;
-	z-index:100;
+   width: 200px;
+   position:fixed;
+   top:0px;
+   left: 50px;
+   z-index:100;
 }
-
 img.header{
-	position: fixed;
-	width:100%;
-	height:150px;
-	z-index: 20;
+   position: fixed;
+   width:100%;
+   height:150px;
+   z-index: 20;
 }
 
 .inputs {
-    height: 30px;
-    border: 3px solid #EBE6E2;
-    border-radius: 5px;
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
+   height: 30px;
+   border: 3px solid #EBE6E2;
+   border-radius: 5px;
+   -webkit-transition: all 0.3s ease-out;
+   -moz-transition: all 0.3s ease-out;
+   -ms-transition: all 0.3s ease-out;
+   -o-transition: all 0.3s ease-out;
+   transition: all 0.3s ease-out;
 }
 
 .inputs:focus {
@@ -131,23 +125,21 @@ width: 98%;
 .questionTable tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
 }
-}
+
 .header{
-	height: 80px;
-	width: 100%;
-	font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
-	font-size: 24px;
-	background: #93cede; /* Old browsers */
-	top: 0px;
-	left:0px;
-	position: absolute;
+   height: 80px;
+   width: 100%;
+   font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+   font-size: 24px;
+   background: #93cede; /* Old browsers */
+   top: 0px;
+   left:0px;
+   position: absolute;
 }
 div.content{
-	width:100%;
+width:100%;
 	height:100%;
 	position: absolute;
-	/*padding-left:20px;*/
-
 	text-align: left;
 	line-height:40px;
 	left:0px;
@@ -157,37 +149,37 @@ div.content{
 }
 
 #footer{
-	position: relative;
-	color: #666;
-	text-align: center;
-	z-index:10;
+   position: relative;
+   color: #666;
+   text-align: center;
+   z-index:10;
 }
-img.footerblue {
-	position: absolute;
-	left:0px;
-	width: 100%;
-	height:100px;
-	z-index: 5;
+img.footerblue{
+   position: absolute;
+   left:0px;
+   width: 100%;
+   height:100px;
+   z-index: 5;
 }
 .title{
-top: 10px;
-position:fixed;
-font-size: 50px;
-font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
-color: #ffffff;
-z-index: 25;
+   top: 10px;
+   position:fixed;
+   font-size: 50px;
+   font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+   color: #ffffff;
+   z-index: 25;
 }
 .questionType-button {
     margin-bottom: 30px;
     text-align: center;
 }
 .questionType-button input {
-width: 150px;
-    display: inline-block;
-    margin: 0 0 4px 0;
-    padding: 15px 30px;
-    color: #fff;
-    background-color: #67b5d1;
+   width: 150px;
+   display: inline-block;
+   margin: 0 0 4px 0;
+   padding: 15px 30px;
+   color: #fff;
+   background-color: #67b5d1;
 }
 .questionType-button input:hover{
 background-color: #3184a1;
@@ -204,9 +196,8 @@ background-color: #3184a1;
 
 .logout-button {
 z-index: 26;
-position: absolute;
+position: fixed;
 top: 10px;
-
 width: 200px;
 	-moz-box-shadow: 0px 10px 14px -7px #691632;
 	-webkit-box-shadow: 0px 10px 14px -7px #691632;
@@ -243,6 +234,27 @@ width: 200px;
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#570707', endColorstr='#b35959',GradientType=0);
 	background-color:#570707;
 }
+/* Not Working
+.logout-button:active {
+	position:relative;
+	top:1px;
+}
+*/
+.buttons {
+	width: 200px;
+  font-family: verdana;
+  font-size: 14px;
+  padding: 10px 22px;
+  border: 4px solid rgba(173,173,173,0.5);
+  background-color: rgba(255,255,255,0.5);
+}
+.buttons:hover {
+  background-color: rgba(47,165,236,0.9);
+  border: 4px solid rgba(255,255,255,0.5);
+  color: #fff;
+}
+
+/* By YoungChan Youn */
 #wrap {
 	position: relative;
 	padding-top: 100px;
@@ -271,38 +283,6 @@ width: 200px;
     right: 0px;
     z-index: 20;
 }
-
-/*#right {
-	vertical-align: top;
-	min-width: 250px;
-    padding-top: 60px;
-    position: fixed;
-    top:15%;
-    left: 75%;
-    background-color: blue;
-}*/
-
-/* Logout Button Bug
-.logout-button:active {
-	position:relative;
-	top:1px;
-}
-*/
-
-.buttons {
-	width: 200px;
-  font-family: verdana;
-  font-size: 14px;
-  padding: 10px 22px;
-  border: 4px solid rgba(173,173,173,0.5);
-  background-color: rgba(255,255,255,0.5);
-}
-.buttons:hover {
-  background-color: rgba(47,165,236,0.9);
-  border: 4px solid rgba(255,255,255,0.5);
-  color: #fff;
-}
-
 
 /*
    #sortable1      -> Question Form Type

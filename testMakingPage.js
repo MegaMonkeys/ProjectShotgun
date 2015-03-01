@@ -102,6 +102,8 @@ var form_text_array =
 
 
 	function page_resize() {
+		//alert( $(window).height() + " " + $(document).height());
+
 		if( $(window).width() >= 1050 ) {
 			$("#left").css("left", ($(window).width() - 1050) / 2);
 			$("#middle").css("left", ($(window).width() - 300) / 2);
@@ -175,16 +177,19 @@ var form_text_array =
 				//ID is setted in the function
 				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O1");
 				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("id", "Q"+(index+1)+"O1T");
-				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", index+1);
+				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", index+1);
+
 				o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O2");
 				o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("id", "Q"+(index+1)+"O2T");
-				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", index+1);
+				o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", index+1);
+
 				o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O3");
 				o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("id", "Q"+(index+1)+"O3T");
-				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", index+1);
+				o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", index+1);
+
 				o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O4");
 				o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("id", "Q"+(index+1)+"O4T");
-				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", index+1);
+				o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", index+1);
 
 			}
 			else if( q_type == 3 ) {
