@@ -136,7 +136,7 @@ width: 98%;
    position: absolute;
 }
 div.content{
-width:100%;
+    width:100%;
 	height:100%;
 	position: absolute;
 	text-align: left;
@@ -161,6 +161,16 @@ img.footerblue{
    height:100px;
    z-index: 5;
 }
+#footer div {
+    z-index: 100;
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}
+
 .title{
    top: 10px;
    position:fixed;
@@ -238,7 +248,7 @@ width: 150px;
 /* By YoungChan Youn */
 #wrap {
 	position: relative;
-	padding-top: 100px;
+	padding-top: 130px;
 	min-width: 1000px;
 }
 
@@ -247,15 +257,15 @@ width: 150px;
 	min-width: 650px;
 	max-width: 650px;
 	position: relative;
-    left: 55%;
+   left: 55%;
 }
 
 #left {
-	vertical-align: top;
-	min-width: 350px;
-    padding-top: 70px;
-    position: fixed;
-	left: 5em;
+   vertical-align: top;
+   min-width: 350px;
+   padding-top: 70px;
+   position: fixed;
+   left: 5em;
 }
 
 #destroy_question {
@@ -274,10 +284,19 @@ width: 150px;
 */
 
 #form_question {
-    padding-top: 20px;
     padding-left: 10px;
 }
-#optionName{}
+#optionName{
+    font-size: 15px;
+    margin-top: 0px;
+}
+#optionButton{
+    margin-top: 10px;
+}
+button[type=submit]
+{
+    border:0;
+}
 #publish {
 width: 55px;
     height:55px;
@@ -398,8 +417,8 @@ textarea {
 }
 
 input[type=text]:focus, textarea:focus {
-   background-color: rgba(197,235,254,0.4);
-   border: 3px solid #ccc;
+   background-color: #D1F0FF;
+   border: 1px solid #ccc;
 }
 
 .q_tf_op {

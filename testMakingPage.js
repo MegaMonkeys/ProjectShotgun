@@ -5,28 +5,28 @@ var form_array = ['True/False Question', 'Multiple Choice Question', 'Many Choic
 var form_text_array =
 	[
 		//Index:0 - True/False Question
-		' Point - <input type="text" maxlength="3" size="3">' +
+		'<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="True/False Question"></textarea>' +
         '<input type="radio" style="margin-left: 23%;"> True' +
 		'<input type="radio" style="margin-left: 23%;"> False',
 
 		//Index:1 - Multiple Choice Question
-		' Point - <input type="text" maxlength="3" size="3">' +
+      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		//'<input type="button" value="Option" onclick="add_option(this);"><br>' +
 		'<textarea required rows="3" placeholder="Multiple Choice Question"></textarea>',
 
 		//Index:2 - Many Choices
-		' Point - <input type="text" maxlength="3" size="3">' +
+      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		//'<input type="button" value="Option" onclick="add_option(this);"><br>' +
 		'<textarea required rows="3" placeholder="Many Choices Question"></textarea>',
 
 		//Index:3 - Short Answer Question
-		' Point - <input type="text" maxlength="3" size="3"><br>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Short Answer Question"></textarea>' +
         'Answer: <input type="text"  maxlength="50" size="55">',
 
 		//Index:4 - Essay
-		' Point - <input type="text" maxlength="3" size="3"><br>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="4" placeholder="Essay Question"></textarea><br>',
 
 		//Disabled
@@ -114,6 +114,8 @@ var form_text_array =
 			$("#middle").css("left", "55%");
 			$(".logout-button").css("left", 840);
 		}
+
+
 		/*if( $(window).width() <= 1000 ) {
 			$(".logout-button").css("left", 1000);
 			$(".header").css("width", 1250);

@@ -44,7 +44,7 @@
 
    </HEAD>
    <BODY><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
-      <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
+      <div id="load_screen"><img src="images/megamonkeysloading.png" /> </div>
 
       <div id="header">
          <img src="images/header.png" class="header"/>
@@ -60,17 +60,18 @@
                <tr>
 
                   <td id="left">
-                     <br />
+                      <form action="#.php" method="post">
+
                      <div class="informationForm">
                         Class : &nbsp;
-                        <select class="inputs">
+                        <select name="courseNo" class="inputs">
                            <option value="CS214">CS 214</option>
                            <option value="CS306">CS 306</option>
                            <option value="CS414">CS 414</option>
                            <option value="BA303">BA 303</option>
                         </select>
                         &nbsp;
-                        Section : <select class="inputs">
+                        Section : <select name="sectionNo" class="inputs">
                            <option value="1">1</option>
                            <option value="2">2</option>
                            <option value="3">3</option>
@@ -79,18 +80,22 @@
                         End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="endDate" class="inputs"> <input type="time" class="inputs" name="endTime"><br />
                         Time limit : &nbsp;<input type="number" name="hours" min="0" max="10" class="inputs" placeholder="0"> hr &nbsp;
                         &nbsp;&nbsp;&nbsp;
-                        <input type="number" name="minute" min="0" max="60" class="inputs" placeholder="50"> min
+                        <input type="number" name="minutes" min="0" max="60" class="inputs" placeholder="50"> min
+
+                     <div id="optionButton">
+                     <button type="submit" value="publish" id="publish" name="publish"></button>&nbsp;&nbsp;&nbsp;
+                      <button type="submit" value="save" id="save" name="save"></button>&nbsp;&nbsp;&nbsp;
+                      <button type="submit" value="preview" id="preview" name="preview"></button>&nbsp;&nbsp;&nbsp;
+                      <button type="submit" value="cancel" id="cancel" name="cancel"></button>
                      </div>
-                     <br />
-                     <div id="publish"></div>&nbsp;&nbsp;&nbsp;
-                     <div id="save"></div>&nbsp;&nbsp;&nbsp;
-                     <div id="preview"></div>&nbsp;&nbsp;&nbsp;
-                     <div id="cancel"></div>
-                     <div id="optionName">Publish&nbsp;&nbsp;&nbsp;
-                        Save&nbsp;&nbsp;&nbsp;
-                        Preview&nbsp;&nbsp;
+                     </div>
+                      <div id="optionName">Publish&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Preview&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         Cancel
                      </div>
+
+                      </form>
                      <form id="buttonArea" >
                         <div id="form_question"> <!-- Question Types (YC) -->
                            <ul id="sortable1" class="connectedSortable">
@@ -110,7 +115,7 @@
                         <hr align="left"> 
 
                         <!-- Where Questions Will Be Placed (YC) -->
-                        Questions : - <br>
+                        Questions: <br />
                         <div id="field_question">
                            <ul id="sortable2" class="connectedSortableF">
                            
