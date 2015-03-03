@@ -35,6 +35,11 @@ var form_text_array =
 
 		//'<textarea required name="ques_random" rows="4" placeholder="Nothing Nothing"></textarea>'
 	];
+var default_pledge =
+   'This test is completely my own work.' +
+   'I have not had anyone or anything aid me in answering the questions, ' +
+   'including Internet search engines, such as Google, Bing, ect. ' +
+   'I have not received, nor will I give any information regarding this test.';
 
     function removeQ (para) {
 		$(para).parent('li').remove();
@@ -304,6 +309,8 @@ $(function() {
 			$( default_sortable1 ).appendTo( $( "#sortable1" ).empty() );
 		}
 	});
+
+   document.getElementById('pledge_text').value = default_pledge;
 
 	$(document).bind('scroll', function() {
 		//alert($(document).height() + " " + $(window).height());
