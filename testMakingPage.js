@@ -172,6 +172,7 @@ var default_pledge =
 
 			//True / False Question
 			if ( q_type == 0 ) {
+<<<<<<< HEAD
 				//current.children('input').eq(1).attr("id", "Q"+(index+1)+"O1");
 				//current.children('input').eq(2).attr("id", "Q"+(index+1)+"O2");
 				//current.children('input').eq(1).attr("name", "Q"+(index+1)+"O");
@@ -186,6 +187,7 @@ var default_pledge =
 				var o_table = current.children('table').children('tbody');
 				//Radio - Multiple Choice, Checkbox - Many Choice
 				//ID is setted in the function
+<<<<<<< HEAD
 				//o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O1");
 				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"O1T");
 				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
