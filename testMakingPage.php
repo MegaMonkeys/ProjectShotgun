@@ -50,10 +50,19 @@
          <img src="images/header.png" class="header"/>
          <img src="images/logo.png" class="testLogo"/>
 
-         <form action="logout.php" method="post">
+         <form action="loginPage.php" method="post">
             <input type="submit" value="Sign out" class="logout-button">
          </form>
       </div>
+
+   <div id='cssmenu'>
+      <ul>
+         <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
+         <li><a href='#'><span>About</span></a></li>
+         <li><a href='#'><span>Team</span></a></li>
+         <li class='last'><a href='#'><span>Contact</span></a></li>
+      </ul>
+   </div>
    <div id="wrap">
          <div id="content">
             <form action="create_test.php" method="post">
@@ -138,7 +147,7 @@
    </div>
 
       <div id="footer">
-         &copy; MegaMonkey Group - Pensacola Christian College 2015
+         &copy; MegaMonkey Inc. - Pensacola Christian College 2015
       </div>
    <img src="images/footerblue.png" class="footerblue"/>
    </BODY>
