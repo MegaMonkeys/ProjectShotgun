@@ -188,23 +188,23 @@ var default_pledge =
 				//ID is setted in the function
 				//o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O1");
 				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"O1T");
-				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
-            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "A");
+				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"O1");
+            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "1");
 
 				//o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O2");
 				o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"O2T");
-				o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
-            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "B");
+				o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"O2");
+            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "1");
 
 				//o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O3");
 				o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"O3T");
-				o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
-            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "C");
+				o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"O3");
+            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "1");
 
 				//o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O4");
 				o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"O4T");
-				o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
-            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "D");
+				o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"O4");
+            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "1");
 			}
 			else if( q_type == 3 ) {
 				current.children('input').eq(1).attr("name", "Q"+(index+1)+"A");
