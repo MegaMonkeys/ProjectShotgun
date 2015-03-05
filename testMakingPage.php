@@ -118,7 +118,7 @@
 
                         <div>
                            <div id="text_instruc_heading">CS 414 Test Instruction</div>
-                           <textarea id="test_inst_text" name="test_instruc_text" rows="4" placeholder="Enter Test Instructions . . ."></textarea>
+                           <textarea id="test_inst_text" name="test_instruc_text" rows="3" placeholder="Enter Test Instructions . . ."></textarea>
                         </div>
 
                         <hr align="left"> 
@@ -132,8 +132,8 @@
                         </div>
                         <div>
                         PLEDGE:<br />
-                        <textarea id="pledge_text" type="text" name="pledge" class="inputs"
-                                 >
+                           <textarea id="pledge_text" type="text" name="pledge" class="inputs" rows="3"
+                                     style="width: 98%; height: auto;">
                            This test is completely my own work.
                            I have not had anyone or anything aid me in answering the questions,
                            including Internet search engines, such as Google, Bing, ect.
