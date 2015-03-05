@@ -2,8 +2,7 @@
 <HTML>
 <HEAD>
 
-   <link rel="stylesheet" type="text/css" href="loginStyle.css">
-
+   <link rel="stylesheet" type="text/css" href="studentHomePage.css">
    <style>
       div#load_screen{
          background:#FFF;
@@ -25,42 +24,37 @@
    <TITLE>
       MegaTest - Online Testing Application
    </TITLE>
-   <script type="text/javascript">
-
-      var image1 = new Image();
-      image1.src="images/Ethan2.jpg";
-   </script>
 </HEAD>
 
 <BODY>
 
 <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
-<img src="verses/verse5.png" name="slide"  height="600" class="slideshow">
-<script type="text/javascript">
-   <!--
-   var step=1
-   function slideit(){
-      document.images.slide.src=eval("image"+step+".src");
-      if(step<5)
-         step++;
-      else
-         step=1;
-      setTimeout("slideit()",5500);
-   }
-   slideit();
-   -->
-</script>
 <div class="header">
    <img src="images/header.png" class="header"/>
    <div class="title"><img src="images/logo.png" class="logo"/></div>
+   <form action="logout.php" method="post">
+      <input type="submit" value="Sign out" class="logout-button">
+   </form>
+</div>
+<div id='cssmenu'>
+   <ul>
+      <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
+      <li><a href='#'><span>About</span></a></li>
+      <li><a href='#'><span>Team</span></a></li>
+      <li class='last'><a href='#'><span>Contact</span></a></li>
+   </ul>
 </div>
 
 <div class="content">
+
+<img src="images/Ethan2.jpg" name="slide"  height="600" class="slideshow">
+
+
 </div>
 <div class="footer"></br>
    <img src="images/footerblue.png" class="footerblue"/>
-   &copy; MegaMonkey Group - Pensacola Christian College 2015
-
+   <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
 </div>
+
 </BODY>
 </HTML>

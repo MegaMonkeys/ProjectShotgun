@@ -49,84 +49,106 @@
       <div id="header">
          <img src="images/header.png" class="header"/>
          <img src="images/logo.png" class="testLogo"/>
-         <div class="title"></div>
+
          <form action="logout.php" method="post">
             <input type="submit" value="Sign out" class="logout-button">
          </form>
       </div>
 
+   <div id='cssmenu'>
+      <ul>
+         <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
+         <li><a href='#'><span>About</span></a></li>
+         <li><a href='#'><span>Team</span></a></li>
+         <li class='last'><a href='#'><span>Contact</span></a></li>
+      </ul>
+   </div>
    <div id="wrap">
          <div id="content">
-            <table>
-               <tr>
+            <form action="create_test.php" method="post">
+               <table>
+                  <tr>
+                     <td id="left">
+                         
+                        <div class="informationForm">
+                           Class : &nbsp;
+                           <select name="courseNo" class="inputs">
+                              <option value="CS214">CS 214</option>
+                              <option value="CS306">CS 306</option>
+                              <option value="CS414">CS 414</option>
+                              <option value="BA303">BA 303</option>
+                           </select>
+                           &nbsp;
+                           Section : <select name="sectionNo" class="inputs">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                           </select><br />
+                           Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="startDate" class="inputs"> <input type="time" class="inputs" name="startTime"><br />
+                           End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="endDate" class="inputs"> <input type="time" class="inputs" name="endTime"><br />
+                           Time limit : &nbsp;<input type="number" name="hours" min="0" max="10" class="inputs" placeholder="0"> hr &nbsp;
+                           &nbsp;&nbsp;&nbsp;
+                           <input type="number" name="minutes" min="0" max="60" class="inputs" placeholder="50"> min
 
-                  <td id="left">
-                     <br />
-                     <div class="informationForm">
-                        Class : &nbsp;
-                        <select class="inputs">
-                           <option value="CS214">CS 214</option>
-                           <option value="CS306">CS 306</option>
-                           <option value="CS414">CS 414</option>
-                           <option value="BA303">BA 303</option>
-                        </select>
-                        Section : &nbsp;&nbsp;<select class="inputs">
-                           <option value="1">1</option>
-                           <option value="2">2</option>
-                           <option value="3">3</option>
-                        </select><br />
-                        Start : &nbsp;&nbsp;<input type="date" name="startDate" class="inputs" size="15"> <input type="time" class="inputs" name="startTime" size="15"><br />
-                        End  : &nbsp;&nbsp;<input type="date" id="endDate" class="inputs" size="15"> <input type="time" class="inputs" name="endTime" size="15"><br />
-                        Time limit : &nbsp;<input type="number" name="hours" min="0" max="10" class="inputs" placeholder="1" size="3" maxlength="2"> &nbsp; hr &nbsp;
-                        <input type="number" name="minute" min="0" max="60" class="inputs" placeholder="45" size="3" maxlength="2"> &nbsp; min
-                     </div>
-                     <form id="buttonArea" >
-                        <div id="form_question"> <!-- Question Types (YC) -->
-                           <br>
-                           <ul id="sortable1" class="connectedSortable">
-
-                           </ul>
+                        <div id="optionButton">
+                        <button type="submit" value="publish" id="publish" name="publish"></button>&nbsp;&nbsp;&nbsp;
+                        <button type="submit" value="save" id="save" name="save"></button>&nbsp;&nbsp;&nbsp;
+                        <button type="submit" value="preview" id="preview" name="preview"></button>&nbsp;&nbsp;&nbsp;
+                        <button type="submit" value="cancel" id="cancel" name="cancel"></button>
                         </div>
-                     </form>
-                  </td>
-
-                  <td id="middle">
-                     <div class="scroll">
-                        Test Name:  &nbsp;<input type="text" name="testName" class="inputs" placeholder="Test #1">
-
-                        <div>
-                           <div id="text_instruc_heading" >CS 414 Test Instruction</div>
-                           <textarea id="test_inst_text" name="test_instruc_text" rows="4" placeholder="Enter Test Instructions . . ."></textarea>
+                        </div>
+                         <div id="optionName">Publish&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           Preview&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           Cancel
                         </div>
 
-                        <hr align="left"> 
+                        <form id="buttonArea" >
+                           <div id="form_question"> <!-- Question Types (YC) -->
+                              <ul id="sortable1" class="connectedSortable">
+                              </ul>
+                           </div>
+                        </form>
+                     </td>
+                     <td id="middle">
+                        <div class="scroll">
+                           Test Name:  &nbsp;<input type="text" name="testName" class="inputs" placeholder="Test #1">
 
-                        <!-- Where Questions Will Be Placed (YC) -->
-                        Questions : - <br>
-                        <div id="field_question">
-                           <ul id="sortable2" class="connectedSortableF">
-                           
-                           </ul>
-                        </div>
-                        <div>
-                        PLEDGE:<br />
-                        <input id="pledge_text" type="text" name="pledge" class="inputs"
-                           value="This is a pledge. This is a pledge. This is a pledge. This is a pledge. This is a pledge. This is a pledge. "
-                           style="width: 98%; height:100px;"> <!-- width:600px; -->
-                        </div>
-                     </div>
-                  </td>
-                  </td>
+                           <div>
+                              <div id="text_instruc_heading">CS 414 Test Instruction</div>
+                              <textarea id="test_inst_text" name="test_instruc_text" rows="4" placeholder="Enter Test Instructions . . ."></textarea>
+                           </div>
 
-               </tr>
-            </table>
+                           <hr align="left"> 
+
+                           <!-- Where Questions Will Be Placed (YC) -->
+                           Questions: <br />
+                           <div id="field_question">
+                              <ul id="sortable2" class="connectedSortableF">
+                              
+                              </ul>
+                           </div>
+                           <div>
+                           PLEDGE:<br />
+                           <textarea id="pledge_text" type="text" name="pledge" class="inputs"
+                                     style="width: 98%; height:100px;">
+                              This test is completely my own work.
+                              I have not had anyone or anything aid me in answering the questions,
+                              including Internet search engines, such as Google, Bing, ect.
+                              I have not received, nor will I give any information regarding this test.
+                              </textarea> <!-- width:600px; -->
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+            </form>
          </div>
    </div>
 
-      <div id="footer">
-         <img src="images/footerblue.png" class="footerblue"/>
-         <div>&copy; MegaMonkey Group - Pensacola Christian College 2015</div>
-      </div>
-
+   <div class="footer"></br>
+      <img src="images/footerblue.png" class="footerblue"/>
+      <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
+   </div>
    </BODY>
 </HTML>

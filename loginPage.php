@@ -156,7 +156,6 @@ slideit();
 </div>
 <div id='cssmenu'>
 <ul>
-   <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
    <li><a href='#'><span>About</span></a></li>
    <li><a href='#'><span>Team</span></a></li>
    <li class='last'><a href='#'><span>Contact</span></a></li>
@@ -187,9 +186,8 @@ header("Location:http://localhost/login.php?msg=$msg");
 </div>
 </div>
 <div class="footer"></br>
-<img src="images/footerblue.png" class="footerblue"/>
-&copy; MegaMonkey Group - Pensacola Christian College 2015
-
+   <img src="images/footerblue.png" class="footerblue"/>
+   <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
 </div>
 </BODY>
 </HTML>
