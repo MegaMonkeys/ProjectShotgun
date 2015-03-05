@@ -50,10 +50,19 @@
          <img src="images/header.png" class="header"/>
          <img src="images/logo.png" class="testLogo"/>
 
-         <form action="logout.php" method="post">
+         <form action="loginPage.php" method="post">
             <input type="submit" value="Sign out" class="logout-button">
          </form>
       </div>
+
+   <div id='cssmenu'>
+      <ul>
+         <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
+         <li><a href='#'><span>About</span></a></li>
+         <li><a href='#'><span>Team</span></a></li>
+         <li class='last'><a href='#'><span>Contact</span></a></li>
+      </ul>
+   </div>
    <div id="wrap">
          <div id="content">
             <table>
@@ -124,7 +133,7 @@
                         <div>
                         PLEDGE:<br />
                         <textarea id="pledge_text" type="text" name="pledge" class="inputs"
-                                  style="width: 98%; height:100px;">
+                                 >
                            This test is completely my own work.
                            I have not had anyone or anything aid me in answering the questions,
                            including Internet search engines, such as Google, Bing, ect.
@@ -139,7 +148,7 @@
    </div>
 
       <div id="footer">
-         &copy; MegaMonkey Group - Pensacola Christian College 2015
+         &copy; MegaMonkey Inc. - Pensacola Christian College 2015
       </div>
    <img src="images/footerblue.png" class="footerblue"/>
    </BODY>
