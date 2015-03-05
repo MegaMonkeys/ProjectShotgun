@@ -32,7 +32,7 @@
 <div class="header">
     <img src="images/header.png" class="header"/>
     <img src="images/logo.png" class="testLogo"/>
-    <form action="loginPage.php"><input type="submit" value="Sign out" class="logout-button"></form>
+    <form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>
 </div>
 
 <div id='cssmenu'>
@@ -123,9 +123,9 @@
     </div>
 </div>
 
-<div id="footer">
-    &copy; MegaMonkey Inc. - Pensacola Christian College 2015
+<div class="footer"></br>
+   <img src="images/footerblue.png" class="footerblue"/>
+   <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
 </div>
-<img src="images/footerblue.png" class="footerblue"/>
 </BODY>
 </HTML>

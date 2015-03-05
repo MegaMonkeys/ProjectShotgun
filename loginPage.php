@@ -186,9 +186,8 @@ header("Location:http://localhost/login.php?msg=$msg");
 </div>
 </div>
 <div class="footer"></br>
-<img src="images/footerblue.png" class="footerblue"/>
-&copy; MegaMonkey Inc. - Pensacola Christian College 2015
-
+   <img src="images/footerblue.png" class="footerblue"/>
+   <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
 </div>
 </BODY>
 </HTML>
