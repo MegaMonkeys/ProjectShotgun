@@ -45,7 +45,7 @@ ul.tabs li.selected a, ul.tabs li.selected a:hover
     font-weight:bold;
     background: white url(tabbg.gif) 0 0 repeat-x;
     border-bottom-color: blue;
-	color: blue;
+    color: blue;
 }
 
 
@@ -105,104 +105,116 @@ div.tabcontents
     display:none;}
 
 body {
-background-image: #FFF;
-  background-size: cover;
-  margin:0px 0px;
-  font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
-	font-size: 18px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 500;
+    background-image: #FFF;
+    background-size: cover;
+    margin:0px 0px;
+    font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
 }img.header{
-width:100%;
-height:150px;
-}
+     width:100%;
+     height:150px;
+ }
 
 img.testLogo{
-width: 200px;
-position:fixed;
-top:0px;
-left: 50px;
-z-index:100;
+    width: 200px;
+    position:fixed;
+    top:0px;
+    left: 50px;
+    z-index:100;
+}
+
+.create-button {
+    z-index: 26;
+    position: fixed;
+    right: 20px;
+    top: 200px;
+    width: 300px;
+    background-color: rgb(0,150,210);
+    border : 2px solid #123456;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:20px;
+    font-weight:bold;
+    padding:9px 20px 9px 20px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #8a3e3e;
+}
+.create-button:hover {
+    background-color:rgb(0,200,250);
 }
 
 .logout-button {
-z-index: 26;
-position: fixed;
-top: 10px;
-right: 100px;
-width: 200px;
-	-moz-box-shadow: 0px 10px 14px -7px #691632;
-	-webkit-box-shadow: 0px 10px 14px -7px #691632;
-	box-shadow: 0px 10px 14px -7px #691632;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b35959), color-stop(1, #570707));
-	background:-moz-linear-gradient(top, #b35959 5%, #570707 100%);
-	background:-webkit-linear-gradient(top, #b35959 5%, #570707 100%);
-	background:-o-linear-gradient(top, #b35959 5%, #570707 100%);
-	background:-ms-linear-gradient(top, #b35959 5%, #570707 100%);
-	background:linear-gradient(to bottom, #b35959 5%, #570707 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b35959', endColorstr='#570707',GradientType=0);
-	background-color:#b35959;
-	border : 0px solid;
-	-moz-border-radius:8px;
-	-webkit-border-radius:8px;
-	border-radius:8px;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:arial;
-	font-size:20px;
-	font-weight:bold;
-	padding:9px 32px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #8a3e3e;
+    z-index: 26;
+    position: fixed;
+    right: 50px;
+    top: 10px;
+    width: 150px;
+    box-shadow: 0px 10px 14px -7px #691632;
+    background-color: rgb(187,0,0);
+    border : 2px solid;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:20px;
+    font-weight:bold;
+    padding:9px 20px 9px 20px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #8a3e3e;
 }
 .logout-button:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #570707), color-stop(1, #b35959));
-	background:-moz-linear-gradient(top, #570707 5%, #b35959 100%);
-	background:-webkit-linear-gradient(top, #570707 5%, #b35959 100%);
-	background:-o-linear-gradient(top, #570707 5%, #b35959 100%);
-	background:-ms-linear-gradient(top, #570707 5%, #b35959 100%);
-	background:linear-gradient(to bottom, #570707 5%, #b35959 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#570707', endColorstr='#b35959',GradientType=0);
-	background-color:#570707;
-}
-.logout-button:active {
-	position:relative;
-	top:1px;
+    background-color:rgb(255,40,40);
 }
 
-img.footerblue{
-width:100%;
-height:100px;}
 
 div.content{
-	width:90%;
-	height: 100%;
-	padding-left:20px;
-	margin:0px auto;
-	background-color: rgba(255,255,255,0.2);
-	text-align: left;
-	line-height:40px;
-	left:0px;
-	right:0px;
-}
-.footer{
-color: #666666;
-position:fixed;
-bottom: 0px;
-width:100%;
-text-align:center;
-z-index: 10;
-
+    width:90%;
+    height: 100%;
+    padding-left:20px;
+    margin:0px auto;
+    background-color: rgba(255,255,255,0.2);
+    text-align: left;
+    line-height:40px;
+    left:0px;
+    right:0px;
 }
 .title{
-top: 30px;
-position: absolute;
-left: 250px;
-font-size: 50px;
-font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
-color: #ffffff;
+    top: 30px;
+    position: absolute;
+    left: 250px;
+    font-size: 50px;
+    font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+    color: #ffffff;
+}
+
+#footer{
+    position: relative;
+    bottom: -160px;
+    color: #fff;
+    text-align: center;
+    z-index:10;
+}
+img.footerblue{
+    position: absolute;
+    left:0px;
+    bottom:0px;
+    width: 100%;
+    height:100px;
+    z-index: 5;
+}
+#footer div {
+    z-index: 100;
+    position: absolute;
+    top: 60px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
 }
 
 .questionType-button {
@@ -210,7 +222,7 @@ color: #ffffff;
     text-align: center;
 }
 .questionType-button input {
-width: 150px;
+    width: 150px;
     display: inline-block;
     margin: 0 0 4px 0;
     padding: 15px 30px;
@@ -218,7 +230,7 @@ width: 150px;
     background-color: #67b5d1;
 }
 .questionType-button input:hover{
-background-color: #3184a1;
+    background-color: #3184a1;
 }
 #instruction:hover{
 }
@@ -228,3 +240,130 @@ background-color: #3184a1;
 .questionType-button input:focus {
     outline: none;
 }
+
+
+/* this is the menu */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
+#cssmenu {
+    position: absolute;
+    background: rgba(0,0,0,0);
+    top: 30px;
+    right : 10%;
+    width: 500px;
+}
+#cssmenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    display: block;
+    zoom: 1;
+}
+#cssmenu ul:after {
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+#cssmenu ul li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+#cssmenu.align-right ul li {
+    float: right;
+}
+#cssmenu.align-center ul {
+    text-align: center;
+}
+#cssmenu ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 15px 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    position: relative;
+    -webkit-transition: color .25s;
+    -moz-transition: color .25s;
+    -ms-transition: color .25s;
+    -o-transition: color .25s;
+    transition: color .25s;
+}
+#cssmenu ul li a:hover {
+    color: #ffffff ;
+}
+#cssmenu ul li a:hover:before {
+    width: 100%;
+}
+#cssmenu ul li a:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: -3px;
+    top: 19px;
+    height: 6px;
+    width: 6px;
+    background: #fff;
+    opacity: .5;
+}
+#cssmenu ul li a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 0;
+    background: #fff;
+    -webkit-transition: width .25s;
+    -moz-transition: width .25s;
+    -ms-transition: width .25s;
+    -o-transition: width .25s;
+    transition: width .25s;
+}
+#cssmenu ul li.last > a:after,
+#cssmenu ul li:last-child > a:after {
+    display: none;
+}
+#cssmenu ul li.active a {
+    color: #fff;
+}
+#cssmenu ul li.active a:before {
+    width: 100%;
+}
+#cssmenu.align-right li.last > a:after,
+#cssmenu.align-right li:last-child > a:after {
+    display: block;
+}
+#cssmenu.align-right li:first-child a:after {
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    #cssmenu ul li {
+        float: none;
+        display: block;
+    }
+    #cssmenu ul li a {
+        width: 100%;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        border-bottom: 1px solid #fff;
+    }
+    #cssmenu ul li.last > a,
+    #cssmenu ul li:last-child > a {
+        border: 0;
+    }
+    #cssmenu ul li a:after {
+        display: none;
+    }
+    #cssmenu ul li a:before {
+        display: none;
+    }
+}
+
