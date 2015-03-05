@@ -31,17 +31,17 @@
 	<img src="images/header.png" class="header"/>
 	<img src="images/wikitest.png" class="testLogo"/>
 	<div class="title">Student - Test</div>
-
-	<input type="submit" value="Sign out" class="logout-button">
+   <form action="logout.php">
+	   <input type="submit" value="Sign out" class="logout-button">
+   </form>
 </div>
 
 <div class="content">
 
 </div>
 <div class="footer"></br>
-<img src="images/footerblue.png" class="footerblue"/>
-&copy; MegaMonkey Group - Pensacola Christian College 2015
-
+   <img src="images/footerblue.png" class="footerblue"/>
+   <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
 </div>
 </BODY>
 </HTML>
