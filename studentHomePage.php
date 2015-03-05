@@ -37,8 +37,9 @@
 	<img src="images/header.png" class="header"/>
 	<img src="images/logo.png" class="testLogo"/>
 	<div class="title">Student Home</div>
-
-	<input type="submit" value="Sign out" class="logout-button">
+    <form action="logout.php" method="post">
+        <input type="submit" value="Sign out" class="logout-button">
+    </form>
 </div>
 
 <script src="jquery-1.11.2.js"></script>
