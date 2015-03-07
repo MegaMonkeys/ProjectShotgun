@@ -7,27 +7,32 @@ var form_text_array =
 		//Index:0 - True/False Question
 		'<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="True/False Question"></textarea>' +
-        '<input type="radio" style="margin-left: 23%;"> True' +
+      '<input type="text">' +
+      '<input type="radio" style="margin-left: 23%;"> True' +
 		'<input type="radio" style="margin-left: 23%;"> False',
 
 		//Index:1 - Multiple Choice Question
       '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		//'<input type="button" value="Option" onclick="add_option(this);"><br>' +
-		'<textarea required rows="3" placeholder="Multiple Choice Question"></textarea>',
+		'<textarea required rows="3" placeholder="Multiple Choice Question"></textarea>' +
+      '<input type="text">',
 
 		//Index:2 - Many Choices
       '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		//'<input type="button" value="Option" onclick="add_option(this);"><br>' +
-		'<textarea required rows="3" placeholder="Many Choices Question"></textarea>',
+		'<textarea required rows="3" placeholder="Many Choices Question"></textarea>' +
+      '<input type="text">',
 
 		//Index:3 - Short Answer Question
       '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Short Answer Question"></textarea>' +
-        'Answer: <input type="text"  maxlength="50" size="55">',
+      '<input type="text">' +
+      'Answer: <input type="text"  maxlength="50" size="55">',
 
 		//Index:4 - Essay
       '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
-		'<textarea required rows="4" placeholder="Essay Question"></textarea><br>',
+		'<textarea required rows="4" placeholder="Essay Question"></textarea><br>' +
+      '<input type="text">',
 
 		//Disabled
 		'<hr align="left" width="100%" />' +
@@ -170,19 +175,50 @@ var default_pledge =
 			//Set ID for Question Point
 			current.children('input').eq(0).attr("name", "Q"+(index+1)+"P");
 
-			//True / False Question
+			// True / False Question
 			if ( q_type == 0 ) {
+            current.children('input').eq(1).attr("name", "qType"+(index+1));
+            current.children('input').eq(1).attr("value", q_type);
 				//current.children('input').eq(1).attr("id", "Q"+(index+1)+"O1");
 				//current.children('input').eq(2).attr("id", "Q"+(index+1)+"O2");
 				//current.children('input').eq(1).attr("name", "Q"+(index+1)+"O");
 				//current.children('input').eq(2).attr("name", "Q"+(index+1)+"O");
-            current.children('input').eq(1).attr("name", "Q"+(index+1)+"O");
             current.children('input').eq(2).attr("name", "Q"+(index+1)+"O");
-            current.children('input').eq(1).attr("value", "True");
-            current.children('input').eq(2).attr("value", "False");
+            current.children('input').eq(3).attr("name", "Q"+(index+1)+"O");
+            current.children('input').eq(2).attr("value", "True");
+            current.children('input').eq(3).attr("value", "False");
 			}
-			//Multiple or Many Choice Question ?
-			else if( q_type == 1 || q_type == 2) {
+			// Multiple or Many Choice Question ?
+			else if( q_type == 1 ) {
+            current.children('input').eq(1).attr("name", "qType"+(index+1));
+            current.children('input').eq(1).attr("value", q_type);
+				var o_table = current.children('table').children('tbody');
+				//Radio - Multiple Choice, Checkbox - Many Choice
+				//ID is setted in the function
+				//o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O1");
+				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"O1T");
+				o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
+            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "1");
+
+				//o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O2");
+				o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"O2T");
+				o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
+            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "2");
+
+				//o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O3");
+				o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"O3T");
+				o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
+            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "3");
+
+				//o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O4");
+				o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"O4T");
+				o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"O");
+            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "4");
+			}
+         // Many Choice Question
+			else if( q_type == 2 ) {
+            current.children('input').eq(1).attr("name", "qType"+(index+1));
+            current.children('input').eq(1).attr("value", q_type);
 				var o_table = current.children('table').children('tbody');
 				//Radio - Multiple Choice, Checkbox - Many Choice
 				//ID is setted in the function
@@ -207,8 +243,14 @@ var default_pledge =
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "1");
 			}
 			else if( q_type == 3 ) {
-				current.children('input').eq(1).attr("name", "Q"+(index+1)+"A");
+            current.children('input').eq(1).attr("name", "qType"+(index+1));
+            current.children('input').eq(1).attr("value", q_type);
+				current.children('input').eq(2).attr("name", "Q"+(index+1)+"A");
 			}
+         else if( q_type == 4 ) {
+            current.children('input').eq(1).attr("name", "qType"+(index+1));
+            current.children('input').eq(1).attr("value", q_type);
+         }
 		}
 	}
 
@@ -385,7 +427,7 @@ $(function() {
             var cur_po = $(document).scrollTop() / ($(document).height() - $(window).height());
 
 			//Check type of Questions and Expand
-            for(x=0; x<form_array.length; x++) {
+         for(x=0; x<form_array.length; x++) {
 				if( current.text().search(form_array[x]) == 3 ) {
                     current.append(form_text_array[x]);
 
