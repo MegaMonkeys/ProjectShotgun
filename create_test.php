@@ -1,5 +1,6 @@
 <?php
-   // Cancel button not handled on this page.
+   // This page sends tests to the database on a click of the Publish button.
+   // Cancel and Save buttons are not handled on this page.
 
 
 	//Check MySQL initialisation check
@@ -29,142 +30,159 @@
    $sqlComm = "select section_id from section where course_no = '".$cNo."' and section_no = ".$sNo;
    $row = mysqli_fetch_row(mysqli_query($conn, $sqlComm));
    
-   // Get test information. Format the timeLimit, startDate, and endDate to be compatible with the DB
+   // Get test information, and format the timeLimit, startDate, and endDate to be compatible with the DB
 	$sectionId   = $row[0];
-	$testName    = strlen($_POST['testName']) != 0     ? $_POST['testName']  : "Test";
-   $published   = ($_POST['publish'] == "publish") ? "1"                 : "0";
-	$hourLimit   = strlen($_POST['hours']) != 0        ? $_POST['hours']     : "1";
-	$minuteLimit = strlen($_POST['minutes']) != 0      ? $_POST['minutes']   : "0";
+	$testName    = addslashes(strlen($_POST['testName']) != 0 ? $_POST['testName'] : "Test");
+   $published   = ($_POST['publish'] == "publish") ? "1" : "0";
+	$hourLimit   = strlen($_POST['hours']) != 0 ? $_POST['hours'] : "1";
+	$minuteLimit = strlen($_POST['minutes']) != 0 ? $_POST['minutes'] : "0";
    $timeLimit   = ($hourLimit < 10 ? "0" : "") . $hourLimit . ":" . ($minuteLimit < 10 ? "0" : "") . $minuteLimit . ":00" ;
-	$startDate   = strlen($_POST['startDate']) != 0    ? $_POST['startDate'] : date("Y-m-d");
-	$startTime   = strlen($_POST['startTime']) != 0    ? $_POST['startTime'] : "07:30";
+	$startDate   = strlen($_POST['startDate']) != 0 ? $_POST['startDate'] : date("Y-m-d");
+	$startTime   = strlen($_POST['startTime']) != 0 ? $_POST['startTime'] : "07:30";
    $startDate   = $startDate . " " . $startTime;
-	$endDate     = strlen($_POST['endDate']) != 0      ? $_POST['endDate']   : date("y-m-d");
-	$endTime     = strlen($_POST['endTime']) != 0      ? $_POST['endTime']   : "22:00";
+	$endDate     = strlen($_POST['endDate']) != 0 ? $_POST['endDate'] : date("y-m-d");
+	$endTime     = strlen($_POST['endTime']) != 0 ? $_POST['endTime'] : "22:00";
    $endDate     = $endDate . " " . $endTime;
+   $pledge      = addslashes(strlen($_POST['pledge']) != 0 ? $_POST['pledge'] : "");
    
    // Add the test to the database
-	$sqlComm = "insert into test (section_id, test_name, published, time_limit, start_date, end_date, created_date)".
-               " values (".$sectionId.", '".$testName."', ".$published.", '".$timeLimit."', '".$startDate."', '".$endDate."', '".date("Y-m-d")."')";
-
+	$sqlComm = "insert into test (section_id, test_name, published, time_limit, start_date, end_date, created_date, pledge)".
+              " values (".$sectionId.", '".$testName."', ".$published.", '".$timeLimit."', '".$startDate."', '".$endDate."', '".date("Y-m-d")."', '".$pledge."')";
    mysqli_query($conn, $sqlComm);
 
-// Get the test id for the test that was just created.
+   // Get the test id for the test that was just created.
    $testID = mysqli_insert_id($conn);
    
-   echo "<hr>";
-   echo "<br> Success!";
-   echo "<br> Test not created. mysqli_query() command commented out for testing purposes.";
-   echo "<br> SQL Command generated: <br>";        
-   echo "<br> $sqlComm <br>";
-   echo "<hr>";
+   echo "<hr/>";
+   echo "<br/> <b>Success!</b>";
+   echo "<br/>";
+   echo "<br/> SQL Command generated: <br/>";        
+   echo "<br/> $sqlComm <br/>";
    
    
    // Add questions to the database
    $queNum = 1;
    while(isset($_POST['Q'.$queNum.'T']))
    {
-         
+      $queText = addslashes(isset($_POST['Q'.$queNum.'T']) ? $_POST['Q'.$queNum.'T'] : "");
+      $quePoints = isset($_POST['Q'.$queNum.'P']) ? $_POST['Q'.$queNum.'P'] : "";
+      $qType = isset($_POST['qType'.$queNum]) ? $_POST['qType'.$queNum] : "";
+      
       echo "<hr/>";
       echo "question ".$queNum."<br/>";
+      echo "question type: ".$qType."<br/>";
       echo "<hr/>";
-   
-   
-      $queText = $_POST['Q'.$queNum.'T'];
-      $quePoints = $_POST['Q'.$queNum.'P'];
 
-      // If True/False answer is selected, current question must be true/false
-      if(isset($_POST['Q'.$queNum.'O']))
+      if($qType == "0")
       {
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'True/False', '$queText', $quePoints)";
-         
          mysqli_query($conn, $sqlComm);
          
-         echo $sqlComm."<br>";
+         echo $sqlComm."<br/><br/>";
          
          // Get the question id to use with answer
          $quesID = mysqli_insert_id($conn);
          
-         $optText = $_POST['Q'.$queNum.'O'];
+         $optText = isset($_POST['Q'.$queNum.'O']) ? $_POST['Q'.$queNum.'O'] : "";
          
          $sqlComm = "insert into answer (ques_id, ans_text, correct)".
               " values (".$quesID.", '".$optText."', 1)";
-              
-         echo $queNum.". ".$queText."<br/>";
-         echo $optText."<br/>";
+         mysqli_query($conn, $sqlComm);
+         
          echo $sqlComm;
       }
-      // If "Short Answer" answer is filled in, current question must be short answer
-      else if(isset($_POST['Q'.$queNum.'A']))
+      // If Multiple Choice
+      elseif($qType == "1")
+      {
+         $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
+                    " values ($testID, $queNum, 'Multiple Choice', '$queText', $quePoints)";
+         mysqli_query($conn, $sqlComm);
+         $quesID = mysqli_insert_id($conn);
+         
+         echo $sqlComm."<br/><br/>";
+         
+         for($optNum = 1; $optNum <= 4; $optNum++)
+         {
+            if(isset($_POST['Q'.$queNum.'O'.$optNum.'T']))
+            {
+               $optText = addslashes($_POST['Q'.$queNum.'O'.$optNum.'T']);
+               if(isset($_POST['Q'.$queNum.'O']))
+                  $optIsCorrect = addslashes(($_POST['Q'.$queNum.'O'] == $optNum) ? "1" : "0");
+               
+               $sqlComm = "insert into answer (ques_id, ans_text, correct)".
+                 " values (".$quesID.", '".$optText."', ".$optIsCorrect.")";
+               mysqli_query($conn, $sqlComm);
+               
+               echo $sqlComm."<br/>";
+            }
+         }
+      }
+      // If Many Choice
+      elseif($qType == "2")
+      {
+         $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
+                    " values ($testID, $queNum, 'Many Choice', '$queText', $quePoints)";
+         mysqli_query($conn, $sqlComm);
+         $quesID = mysqli_insert_id($conn);
+         
+         echo $sqlComm."<br/><br/>";
+         
+         for($optNum = 1; $optNum <= 4; $optNum++)
+         {
+            if(isset($_POST['Q'.$queNum.'O'.$optNum.'T']))
+            {
+               $optText = addslashes($_POST['Q'.$queNum.'O'.$optNum.'T']);
+               $optIsCorrect = isset($_POST['Q'.$queNum.'O'.$optNum]) ? "1" : "0";
+               
+               $sqlComm = "insert into answer (ques_id, ans_text, correct)".
+                 " values (".$quesID.", '".$optText."', ".$optIsCorrect.")";
+                 
+               mysqli_query($conn, $sqlComm);
+               
+               echo $sqlComm."<br/>";
+            }
+         }
+      }
+      // If Short Answer
+      elseif($qType == "3")
       {
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Short Answer', '$queText', $quePoints)";
-         
          mysqli_query($conn, $sqlComm);
-         
          $quesID = mysqli_insert_id($conn);
          
-         $optText = $_POST['Q'.$queNum.'A'];
+         echo $sqlComm."<br/><br/>";
+         
+         $optText = addslashes(isset($_POST['Q'.$queNum.'A']) ? $_POST['Q'.$queNum.'A'] : "");
          
          $sqlComm = "insert into answer (ques_id, ans_text, correct)".
               " values (".$quesID.", '".$optText."', 1)";
 
          mysqli_query($conn, $sqlComm);
-              
-         echo $queNum.". ".$queText."<br/>";
-         echo $optText."<br/>";
-         echo $sqlComm;
+         
+         echo $sqlComm."<br/>";
       }
-      // If Multiple Choice option #1 is filled in, current question must be multiple choice
-      else if(isset($_POST['Q'.$queNum.'O1T']))
-      {
-         $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
-                    " values ($testID, $queNum, 'Multiple Choice', '$queText', $quePoints)";
-         
-         mysqli_query($conn, $sqlComm);
-         
-         $quesID = mysqli_insert_id($conn);
-         
-         $optNum = 1;
-         while(isset($_POST['Q'.$queNum.'O'.$optNum.'T']))
-         {
-            $optText = $_POST['Q'.$queNum.'O'.$optNum.'T'];
-            $optIsCorrect = isset($_POST['Q'.$queNum.'O'.$optNum]) ? $_POST['Q'.$queNum.'O'.$optNum] : "0";
-            
-            $sqlComm = "insert into answer (ques_id, ans_text, correct)".
-              " values (".$quesID.", '".$optText."', ".$optIsCorrect.")";
-              
-            mysqli_query($conn, $sqlComm);
-            
-            echo "&nbsp;&nbsp;&nbsp;&nbsp; option # ".$optNum." : ".$optText;
-            echo " -Correct: ".$optIsCorrect."<br>";
-            echo "SQL Command:<br>";
-            echo $sqlComm;
-            echo "<br>";
-            
-            $optNum++;
-         }
-      }
-      // Else the current question must be an Essay
-      else
+      // If Essay
+      elseif($qType == "4")
       {
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
            " values ($testID, $queNum, 'Essay', '$queText', $quePoints)";
 
          mysqli_query($conn, $sqlComm);
-                    
-         echo $queNum.". ".$queText."<br/>";
-         echo $sqlComm;
+         
+         echo $sqlComm."<br/>";
       }
       
       $queNum++;
    }
-
-      
+   $queNum--;
+   
+   // Update number of questions
+   mysqli_query($conn, "update test set no_of_q = (select count(ques_id) from question where test_id = ".$testID.") where test_id = ".$testID);
    
     
    mysqli_close($conn);
    
-//   header("Location: teacherHomePage.php");
+   header("Location: teacherHomePage.php");
 ?>
