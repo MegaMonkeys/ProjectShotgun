@@ -31,16 +31,16 @@
    
    // Get test information. Format the timeLimit, startDate, and endDate to be compatible with the DB
 	$sectionId   = $row[0];
-	$testName    = strlen($_POST['testName']) != 0     ? $_POST['testName']  : "Test";
-   $published   = ($_POST['publish'] == "publish") ? "1"                 : "0";
+	$testName    = strlen($_POST['testName']) != 0     ? $_POST['testName']  : "Test ".date("F j, Y, g:i a");
+   $published   = ($_POST['publish'] == "publish") ? "1" : "0";
 	$hourLimit   = strlen($_POST['hours']) != 0        ? $_POST['hours']     : "1";
 	$minuteLimit = strlen($_POST['minutes']) != 0      ? $_POST['minutes']   : "0";
    $timeLimit   = ($hourLimit < 10 ? "0" : "") . $hourLimit . ":" . ($minuteLimit < 10 ? "0" : "") . $minuteLimit . ":00" ;
 	$startDate   = strlen($_POST['startDate']) != 0    ? $_POST['startDate'] : date("Y-m-d");
-	$startTime   = strlen($_POST['startTime']) != 0    ? $_POST['startTime'] : "07:30";
+	$startTime   = strlen($_POST['startTime']) != 0    ? $_POST['startTime'] : "00:00";
    $startDate   = $startDate . " " . $startTime;
 	$endDate     = strlen($_POST['endDate']) != 0      ? $_POST['endDate']   : date("y-m-d");
-	$endTime     = strlen($_POST['endTime']) != 0      ? $_POST['endTime']   : "22:00";
+	$endTime     = strlen($_POST['endTime']) != 0      ? $_POST['endTime']   : "23:59";
    $endDate     = $endDate . " " . $endTime;
    
    // Add the test to the database
@@ -74,8 +74,11 @@
       $quePoints = $_POST['Q'.$queNum.'P'];
 
       // If True/False answer is selected, current question must be true/false
-      if(isset($_POST['Q'.$queNum.'O']))
+      if( isset($_POST['Q'.$queNum.'O']) )
       {
+         // YC - Answer stored here
+         // $_POST['Q'.$queNum.'O']
+
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'True/False', '$queText', $quePoints)";
          
@@ -95,30 +98,12 @@
          echo $optText."<br/>";
          echo $sqlComm;
       }
-      // If "Short Answer" answer is filled in, current question must be short answer
-      else if(isset($_POST['Q'.$queNum.'A']))
-      {
-         $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
-                    " values ($testID, $queNum, 'Short Answer', '$queText', $quePoints)";
-         
-         mysqli_query($conn, $sqlComm);
-         
-         $quesID = mysqli_insert_id($conn);
-         
-         $optText = $_POST['Q'.$queNum.'A'];
-         
-         $sqlComm = "insert into answer (ques_id, ans_text, correct)".
-              " values (".$quesID.", '".$optText."', 1)";
-
-         mysqli_query($conn, $sqlComm);
-              
-         echo $queNum.". ".$queText."<br/>";
-         echo $optText."<br/>";
-         echo $sqlComm;
-      }
       // If Multiple Choice option #1 is filled in, current question must be multiple choice
-      else if(isset($_POST['Q'.$queNum.'O1T']))
+      else if( isset($_POST['Q'.$queNum.'C']) )
       {
+         // YC - Answer stored here
+         // $_POST['Q'.$queNum.'C']
+
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Multiple Choice', '$queText', $quePoints)";
          
@@ -145,6 +130,38 @@
             
             $optNum++;
          }
+      }
+      // Many Choices
+      else if( is_string(@$_POST['Q'.$queNum.'C1T'] ) )
+      {
+
+         // YC - Answer stored here
+         // @$_POST['Q'.$queNum.'C1'] . @$_POST['Q'.$queNum.'C2'] . @$_POST['Q'.$queNum.'C3'] . @$_POST['Q'.$queNum.'C4']
+
+      }
+      // If "Short Answer" answer is filled in, current question must be short answer
+      else if( isset($_POST['Q'.$queNum.'A']) )
+      {
+         // YC - Answer stored here
+         // $_POST['Q'.$queNum.'A']
+
+         $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
+            " values ($testID, $queNum, 'Short Answer', '$queText', $quePoints)";
+
+         mysqli_query($conn, $sqlComm);
+
+         $quesID = mysqli_insert_id($conn);
+
+         $optText = $_POST['Q'.$queNum.'A'];
+
+         $sqlComm = "insert into answer (ques_id, ans_text, correct)".
+            " values (".$quesID.", '".$optText."', 1)";
+
+         mysqli_query($conn, $sqlComm);
+
+         echo $queNum.". ".$queText."<br/>";
+         echo $optText."<br/>";
+         echo $sqlComm;
       }
       // Else the current question must be an Essay
       else
