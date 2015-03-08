@@ -74,10 +74,10 @@
       $quePoints = $_POST['Q'.$queNum.'P'];
 
       // If True/False answer is selected, current question must be true/false
-      if( isset($_POST['Q'.$qNum.'O']) )
+      if( isset($_POST['Q'.$queNum.'O']) )
       {
          // YC - Answer stored here
-         // $_POST['Q'.$qNum.'O']
+         // $_POST['Q'.$queNum.'O']
 
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'True/False', '$queText', $quePoints)";
@@ -99,10 +99,10 @@
          echo $sqlComm;
       }
       // If Multiple Choice option #1 is filled in, current question must be multiple choice
-      else if( isset($_POST['Q'.$qNum.'C']) )
+      else if( isset($_POST['Q'.$queNum.'C']) )
       {
          // YC - Answer stored here
-         // $_POST['Q'.$qNum.'C']
+         // $_POST['Q'.$queNum.'C']
 
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Multiple Choice', '$queText', $quePoints)";
@@ -132,18 +132,18 @@
          }
       }
       // Many Choices
-      else if( is_string(@$_POST['Q'.$qNum.'C1T'] ) )
+      else if( is_string(@$_POST['Q'.$queNum.'C1T'] ) )
       {
 
          // YC - Answer stored here
-         // @$_POST['Q'.$qNum.'C1'] . @$_POST['Q'.$qNum.'C2'] . @$_POST['Q'.$qNum.'C3'] . @$_POST['Q'.$qNum.'C4']
+         // @$_POST['Q'.$queNum.'C1'] . @$_POST['Q'.$queNum.'C2'] . @$_POST['Q'.$queNum.'C3'] . @$_POST['Q'.$queNum.'C4']
 
       }
       // If "Short Answer" answer is filled in, current question must be short answer
-      else if( isset($_POST['Q'.$qNum.'A']) )
+      else if( isset($_POST['Q'.$queNum.'A']) )
       {
          // YC - Answer stored here
-         // $_POST['Q'.$qNum.'A']
+         // $_POST['Q'.$queNum.'A']
 
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
             " values ($testID, $queNum, 'Short Answer', '$queText', $quePoints)";
