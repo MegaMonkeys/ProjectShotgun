@@ -131,12 +131,7 @@
                            <div>
                            PLEDGE:<br />
                            <textarea id="pledge_text" type="text" name="pledge" class="inputs"
-                                     style="width: 98%; height:100px;">
-                              This test is completely my own work.
-                              I have not had anyone or anything aid me in answering the questions,
-                              including Internet search engines, such as Google, Bing, ect.
-                              I have not received, nor will I give any information regarding this test.
-                              </textarea> <!-- width:600px; -->
+                                     rows="3" style="width: 98%; height: auto;"></textarea> <!-- width:600px; -->
                            </div>
                         </div>
                      </td>

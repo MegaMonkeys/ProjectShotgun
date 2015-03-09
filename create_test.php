@@ -32,16 +32,16 @@
    
    // Get test information, and format the timeLimit, startDate, and endDate to be compatible with the DB
 	$sectionId   = $row[0];
-	$testName    = addslashes(strlen($_POST['testName']) != 0 ? $_POST['testName'] : "Test");
+	$testName    = addslashes(strlen($_POST['testName']) != 0 ? $_POST['testName'] : "Test ".date("F j, Y, g:i a"));
    $published   = ($_POST['publish'] == "publish") ? "1" : "0";
 	$hourLimit   = strlen($_POST['hours']) != 0 ? $_POST['hours'] : "1";
 	$minuteLimit = strlen($_POST['minutes']) != 0 ? $_POST['minutes'] : "0";
    $timeLimit   = ($hourLimit < 10 ? "0" : "") . $hourLimit . ":" . ($minuteLimit < 10 ? "0" : "") . $minuteLimit . ":00" ;
 	$startDate   = strlen($_POST['startDate']) != 0 ? $_POST['startDate'] : date("Y-m-d");
-	$startTime   = strlen($_POST['startTime']) != 0 ? $_POST['startTime'] : "07:30";
+	$startTime   = strlen($_POST['startTime']) != 0 ? $_POST['startTime'] : "00:00";
    $startDate   = $startDate . " " . $startTime;
 	$endDate     = strlen($_POST['endDate']) != 0 ? $_POST['endDate'] : date("y-m-d");
-	$endTime     = strlen($_POST['endTime']) != 0 ? $_POST['endTime'] : "22:00";
+	$endTime     = strlen($_POST['endTime']) != 0 ? $_POST['endTime'] : "23:59";
    $endDate     = $endDate . " " . $endTime;
    $pledge      = addslashes(strlen($_POST['pledge']) != 0 ? $_POST['pledge'] : "");
    
@@ -75,14 +75,15 @@
 
       if($qType == "0")
       {
+         // YC - Answer stored here
+         // $_POST['Q'.$queNum.'O']
+
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'True/False', '$queText', $quePoints)";
          mysqli_query($conn, $sqlComm);
+         $quesID = mysqli_insert_id($conn);
          
          echo $sqlComm."<br/><br/>";
-         
-         // Get the question id to use with answer
-         $quesID = mysqli_insert_id($conn);
          
          $optText = isset($_POST['Q'.$queNum.'O']) ? $_POST['Q'.$queNum.'O'] : "";
          
@@ -104,11 +105,11 @@
          
          for($optNum = 1; $optNum <= 4; $optNum++)
          {
-            if(isset($_POST['Q'.$queNum.'O'.$optNum.'T']))
+            if(isset($_POST['Q'.$queNum.'C'.$optNum.'T']))
             {
-               $optText = addslashes($_POST['Q'.$queNum.'O'.$optNum.'T']);
-               if(isset($_POST['Q'.$queNum.'O']))
-                  $optIsCorrect = addslashes(($_POST['Q'.$queNum.'O'] == $optNum) ? "1" : "0");
+               $optText = addslashes($_POST['Q'.$queNum.'C'.$optNum.'T']);
+               if(isset($_POST['Q'.$queNum.'C']))
+                  $optIsCorrect = addslashes(($_POST['Q'.$queNum.'C'] == $optNum) ? "1" : "0");
                
                $sqlComm = "insert into answer (ques_id, ans_text, correct)".
                  " values (".$quesID.", '".$optText."', ".$optIsCorrect.")";
@@ -121,6 +122,9 @@
       // If Many Choice
       elseif($qType == "2")
       {
+         // YC - Answer stored here
+         // $_POST['Q'.$queNum.'C']
+
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Many Choice', '$queText', $quePoints)";
          mysqli_query($conn, $sqlComm);
@@ -130,14 +134,13 @@
          
          for($optNum = 1; $optNum <= 4; $optNum++)
          {
-            if(isset($_POST['Q'.$queNum.'O'.$optNum.'T']))
+            if(isset($_POST['Q'.$queNum.'C'.$optNum.'T']))
             {
-               $optText = addslashes($_POST['Q'.$queNum.'O'.$optNum.'T']);
-               $optIsCorrect = isset($_POST['Q'.$queNum.'O'.$optNum]) ? "1" : "0";
+               $optText = addslashes($_POST['Q'.$queNum.'C'.$optNum.'T']);
+               $optIsCorrect = isset($_POST['Q'.$queNum.'C'.$optNum]) ? "1" : "0";
                
                $sqlComm = "insert into answer (ques_id, ans_text, correct)".
                  " values (".$quesID.", '".$optText."', ".$optIsCorrect.")";
-                 
                mysqli_query($conn, $sqlComm);
                
                echo $sqlComm."<br/>";
@@ -184,5 +187,5 @@
     
    mysqli_close($conn);
    
-   header("Location: teacherHomePage.php");
+   //header("Location: teacherHomePage.php");
 ?>
