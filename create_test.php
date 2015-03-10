@@ -66,14 +66,12 @@
    {
       $queText = addslashes(isset($_POST['Q'.$queNum.'T']) ? $_POST['Q'.$queNum.'T'] : "");
       $quePoints = isset($_POST['Q'.$queNum.'P']) ? $_POST['Q'.$queNum.'P'] : "";
-      $qType = isset($_POST['qType'.$queNum]) ? $_POST['qType'.$queNum] : "";
       
       echo "<hr/>";
       echo "question ".$queNum."<br/>";
-      echo "question type: ".$qType."<br/>";
       echo "<hr/>";
 
-      if($qType == "0")
+      if( isset($_POST['Q'.$queNum.'O']) )
       {
          // YC - Answer stored here
          // $_POST['Q'.$queNum.'O']
@@ -94,7 +92,7 @@
          echo $sqlComm;
       }
       // If Multiple Choice
-      elseif($qType == "1")
+      elseif( isset($_POST['Q'.$queNum.'C']) )
       {
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Multiple Choice', '$queText', $quePoints)";
@@ -108,8 +106,11 @@
             if(isset($_POST['Q'.$queNum.'C'.$optNum.'T']))
             {
                $optText = addslashes($_POST['Q'.$queNum.'C'.$optNum.'T']);
-               if(isset($_POST['Q'.$queNum.'C']))
-                  $optIsCorrect = addslashes(($_POST['Q'.$queNum.'C'] == $optNum) ? "1" : "0");
+               if( isset($_POST['Q'.$queNum.'C']) )
+               {
+                  echo "   Q#C is set to ".$_POST['Q'.$queNum.'C']."<br>";
+                  $optIsCorrect = ($_POST['Q'.$queNum.'C'] == $optNum) ? "1" : "0";
+               }
                
                $sqlComm = "insert into answer (ques_id, ans_text, correct)".
                  " values (".$quesID.", '".$optText."', ".$optIsCorrect.")";
@@ -120,7 +121,7 @@
          }
       }
       // If Many Choice
-      elseif($qType == "2")
+      elseif( isset($_POST['Q'.$queNum.'C1T']) )
       {
          // YC - Answer stored here
          // $_POST['Q'.$queNum.'C']
@@ -148,7 +149,7 @@
          }
       }
       // If Short Answer
-      elseif($qType == "3")
+      elseif( isset($_POST['Q'.$queNum.'A']) )
       {
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Short Answer', '$queText', $quePoints)";
@@ -167,7 +168,7 @@
          echo $sqlComm."<br/>";
       }
       // If Essay
-      elseif($qType == "4")
+      else
       {
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
            " values ($testID, $queNum, 'Essay', '$queText', $quePoints)";
