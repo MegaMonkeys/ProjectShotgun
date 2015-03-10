@@ -7,32 +7,27 @@ var form_text_array =
 		//Index:0 - True/False Question
 		'<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="True/False Question"></textarea>' +
-      '<input type="text">' +
       '<input type="radio" checked style="margin-left: 23%;"> True' +
 		'<input type="radio" style="margin-left: 23%;"> False',
 
 		//Index:1 - Multiple Choice Question
       '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		//'<input type="button" value="Option" onclick="add_option(this);"><br>' +
-		'<textarea required rows="3" placeholder="Multiple Choice Question"></textarea>' +
-      '<input type="text">',
+		'<textarea required rows="3" placeholder="Multiple Choice Question"></textarea>',
 
 		//Index:2 - Many Choices
       '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		//'<input type="button" value="Option" onclick="add_option(this);"><br>' +
-		'<textarea required rows="3" placeholder="Many Choice Question"></textarea>' +
-      '<input type="text">',
+		'<textarea required rows="3" placeholder="Many Choice Question"></textarea>',
 
 		//Index:3 - Short Answer Question
       '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Short Answer Question"></textarea>' +
-      '<input type="text">' +
       'Answer: <input type="text"  maxlength="50" size="55">',
 
 		//Index:4 - Essay
       '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
-		'<textarea required rows="4" placeholder="Essay Question"></textarea><br>' +
-      '<input type="text">',
+		'<textarea required rows="4" placeholder="Essay Question"></textarea><br>',
 
 		//Disabled
 		'<hr align="left" width="100%" />' +
@@ -177,80 +172,68 @@ var default_pledge =
 
 			// True / False Question
 			if ( q_type == 0 ) {
-            current.children('input').eq(1).attr("name", "qType"+(index+1));
-            current.children('input').eq(1).attr("value", q_type);
 				//current.children('input').eq(1).attr("id", "Q"+(index+1)+"O1");
 				//current.children('input').eq(2).attr("id", "Q"+(index+1)+"O2");
 				//current.children('input').eq(1).attr("name", "Q"+(index+1)+"O");
 				//current.children('input').eq(2).attr("name", "Q"+(index+1)+"O");
+            current.children('input').eq(1).attr("name", "Q"+(index+1)+"O");
             current.children('input').eq(2).attr("name", "Q"+(index+1)+"O");
-            current.children('input').eq(3).attr("name", "Q"+(index+1)+"O");
-            current.children('input').eq(2).attr("value", "True");
-            current.children('input').eq(3).attr("value", "False");
+            current.children('input').eq(1).attr("value", "True");
+            current.children('input').eq(2).attr("value", "False");
 			}
          //Multiple Choice Question
          else if( q_type == 1 ) {
-            current.children('input').eq(1).attr("name", "qType"+(index+1));
-            current.children('input').eq(1).attr("value", q_type);
             var o_table = current.children('table').children('tbody');
             //Radio - Multiple Choice
             //ID is setted in the function
             //o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O1");
             o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"C1T");
             o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"C");
-            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "A");
+            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "1");
 
             //o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O2");
             o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"C2T");
             o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"C");
-            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "B");
+            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "2");
 
             //o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O3");
             o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"C3T");
             o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"C");
-            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "C");
+            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "3");
 
             //o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O4");
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"C4T");
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"C");
-            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "D");
+            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "4");
          }
          //Many Choice Question
          else if( q_type == 2) {
-            current.children('input').eq(1).attr("name", "qType"+(index+1));
-            current.children('input').eq(1).attr("value", q_type);
             var o_table = current.children('table').children('tbody');
             //Checkbox - Many Choice
             //ID is setted in the function
             //o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O1");
             o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"C1T");
             o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"C1");
-            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "A");
+            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "1");
 
             //o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O2");
             o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"C2T");
             o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"C2");
-            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "B");
+            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "1");
 
             //o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O3");
             o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"C3T");
             o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"C3");
-            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "C");
+            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "1");
 
             //o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O4");
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"C4T");
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"C4");
-            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "D");
+            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "1");
          }
 			else if( q_type == 3 ) {
-            current.children('input').eq(1).attr("name", "qType"+(index+1));
-            current.children('input').eq(1).attr("value", q_type);
-				current.children('input').eq(2).attr("name", "Q"+(index+1)+"A");
+				current.children('input').eq(1).attr("name", "Q"+(index+1)+"A");
 			}
-         else if( q_type == 4 ) {
-            current.children('input').eq(1).attr("name", "qType"+(index+1));
-            current.children('input').eq(1).attr("value", q_type);
-         }
 		}
 	}
 
