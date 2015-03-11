@@ -71,7 +71,7 @@ function check_account($u_id, $u_pw) {
     //Connect to the MySQL Server
     if (!@mysqli_real_connect($connection,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2')) {
         if (!@mysqli_real_connect($connection,'localost', 'team2', 'team2', 'cs414_team2')) {
-        	return("Connect Error : " . mysqli_connect_error()); //die->return}}
+        	return("Connect Error : " . mysqli_connect_error()); }}//die->return
     else
         echo "MySQL DB - Connected Successfully<br>";
 
