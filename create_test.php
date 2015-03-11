@@ -15,14 +15,11 @@
 	
 	//Connect to the MySQL Server
 	//Warning Disabled
-	if (!@mysqli_real_connect($conn,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2'))
-	{
-		die("<br>Connect Error : " . mysqli_connect_error());
-	}
-	else
-	{
-		echo "Connected successfully<br>";
-	}
+   if (!@mysqli_real_connect($connection,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2')) {
+      if (!@mysqli_real_connect($connection,'localost', 'team2', 'team2', 'cs414_team2')) {
+         die("<br>Connect Error : " . mysqli_connect_error()); }}
+      else
+         echo "MySQL DB - Connected Successfully<br>";
 	
    // Get the section id associated with the course and section numbers the user put in
 	$cNo = isset($_POST['courseNo']) == true ? $_POST['courseNo'] : '';
