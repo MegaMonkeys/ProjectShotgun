@@ -162,7 +162,7 @@ var default_pledge =
 			//Update Question Number
 			current.children('span').text('Q.' + (count) + ' ');
 
-		/* Reset ID Attribute */
+		 /* Reset ID Attribute */
 			//Set ID for Question
 			current.attr("name", "Q"+(index+1));
 			//Set ID for Question Text
