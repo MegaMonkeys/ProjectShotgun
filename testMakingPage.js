@@ -154,7 +154,7 @@ var default_pledge =
 			var q_type;
 
 			for(x=0; x<form_array.length; x++) {
-				if( current.text().search(form_array[x]) == 3 ) {
+				if( current.text().search(form_array[x]) != -1 ) {
 					q_type = x;
 				}
 			}
