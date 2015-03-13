@@ -301,6 +301,13 @@ var default_pledge =
 		$(item).children('input').attr('src', './images/recycle_close.jpeg');
 	}
 
+   function get_section() {
+      $('.section_op').hide();
+      var course = "."+($('#courseNo').val()).replace(/\s/g, "");
+      $(course).show();
+      $('#sectionNo').val( $("option"+course).first().val() );
+   }
+
 $(function() {
 	//Page Resize Elements
 	page_resize();
