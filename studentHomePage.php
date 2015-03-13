@@ -1,134 +1,108 @@
 <!DOCTYPE html>
 <HTML>
-   <link rel="stylesheet" type="text/css" href="templateStyle.css">
-   <script src="tabcontent.js" type="text/javascript"></script>
-   <link href="template2/templateStyle.css" rel="stylesheet" type="text/css" />
-   <HEAD>
+<HEAD>
+
+   <link rel="stylesheet" type="text/css" href="studentHomePage.css">
    <style>
-   div#load_screen{
-	background:#FFF;
-	opacity:0.7;
-	position:fixed;
-	z-index:10;
-	top: 0px;
-	width:100%;
-	height:100%;
-   }
+      div#load_screen{
+         background:#FFF;
+         opacity:0.7;
+         position:fixed;
+         z-index:10;
+         top: 0px;
+         width:100%;
+         height:100%;
+      }
    </style>
    <script>
-   window.addEventListener("load", function(){
-   
-	var load_screen = document.getElementById("load_screen");
-	document.body.removeChild(load_screen);
-   });
-      </script>
-      <TITLE>
-	  MegaTest - Online Testing Application
-      </TITLE>
-	  
-   </HEAD>
+      window.addEventListener("load", function(){
 
+         var load_screen = document.getElementById("load_screen");
+         document.body.removeChild(load_screen);
+      });
+   </script>
+   <?php
+      //Check MySQL initialisation check
+      $conn=mysqli_init();
+      if (!$conn)
+      {
+         die("mysqli_init failed");
+      }
+      
+      //Set connection time out
+      mysqli_options($conn,MYSQLI_OPT_CONNECT_TIMEOUT,"10");
+      
+      //Connect to the MySQL Server
+      //Warning Disabled
+   if (!@mysqli_real_connect($conn,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2')) {
+      if (!@mysqli_real_connect($conn,'localhost', 'team2', 'team2', 'cs414_team2')) {
+         die("<br>Connect Error : " . mysqli_connect_error()); }}
+      
+      
+   ?>
+   <TITLE>
+      MegaTest - Online Testing Application
+   </TITLE>
+</HEAD>
 
+<BODY>
 
-
-<BODY style="background:#F6F9FC; font-family:Arial;">
 <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
 <div class="header">
-	<img src="images/header.png" class="header"/>
-	<img src="images/logo.png" class="testLogo"/>
-	<div class="title">Student Home</div>
-    <form action="logout.php" method="post">
-        <input type="submit" value="Sign out" class="logout-button">
-    </form>
+   <img src="images/header.png" class="header"/>
+   <div class="title"><img src="images/logo.png" class="logo"/></div>
+   <form action="logout.php" method="post">
+      <input type="submit" value="Sign out" class="logout-button">
+   </form>
+</div>
+<div id='cssmenu'>
+   <ul>
+      <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
+      <li><a href='#'><span>About</span></a></li>
+      <li><a href='#'><span>Team</span></a></li>
+      <li class='last'><a href='#'><span>Contact</span></a></li>
+   </ul>
 </div>
 
-<script src="jquery-1.11.2.js"></script>
-<script>
-    $(document).ready(function() {
-        function close_accordion_section() {
-            $('.accordion .accordion-section-title').removeClass('active');
-            $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
-        }
+<div class="content">
 
-        $('.accordion-section-title').click(function(e) {
-            // Grab current anchor value
-            var currentAttrValue = $(this).attr('href');
+   <?php
+      $courses = mysqli_query($conn, "select course_no, section_id from section where instructor_id = 123456");
+      $numCourses = mysqli_num_rows($courses);
+      for($i = 1; $i <= $numCourses; $i++)
+      {
+         $courseRow = mysqli_fetch_assoc($courses);
+            
+         $tests = mysqli_query($conn, "select test_name, published, test_avg from test where section_id = ".$courseRow['section_id']);
+         $numTests = mysqli_num_rows($tests);
+         
+         echo '<p style="position:relative; left:5in;"><b>'.$courseRow['course_no'].'</b></p>';
+         echo '<table style="border:solid; position:relative; left:5in;">';
+         echo '<tr><th>Test</th><th>Average</th></tr>';
+         
+         // Loop creating table rows.
+         for($i = 1; $i <= $numTests; $i++)
+         {
+            $testRow = mysqli_fetch_assoc($tests);
+            echo '<tr>';
+            echo '<td>'.$testRow['test_name'].'</td>';
+            echo '<td>'.$testRow['test_avg'].'Sample</td>';
+            echo '</tr>';
+         }
+         echo '</table>';
+      }
+    ?>
 
-            if($(e.target).is('.active')) {
-                close_accordion_section();
-            }else {
-                close_accordion_section();
 
-                // Add active class to section title
-                $(this).addClass('active');
-                // Open up the hidden content panel
-                $('.accordion ' + currentAttrValue).slideDown(300).addClass('open');
-            }
 
-            e.preventDefault();
-        });
-    });
-</script>
-
-<div class="content"></div>
-
-    <div style="width: 500px;  margin: auto;">
-        <ul class="tabs" data-persist="true">
-            <li><a href="#view1">By Date</a></li>
-            <li><a href="#view2">By Course</a></li>
-        </ul>
-        <div class="tabcontents">
-            <div id="view1">
-                <p>CS 414 - Test 5 - DUE 02/23/15</p>
-                <p>CS 306 - Test 3 - DUE 02/25/15</p>
-                <p>CS 414 - Test 5 - DUE 02/23/15</p>
-                <p>CS 306 - Test 3 - DUE 02/25/15</p>
-                <p>CS 414 - Test 5 - DUE 02/23/15</p>
-                <p>CS 306 - Test 3 - DUE 02/25/15</p>
-
-            </div>
-            <div id="view2">
-                <div class="accordion">
-                    <div class="accordion-section">
-                        <a class="accordion-section-title" href="#accordion-1">CS 414</a>
-                        <div id="accordion-1" class="accordion-section-content">
-                            <p>Test 1</p>
-                            <p>Test 2</p>
-                            <p>Test 3</p>
-                        </div><!--end .accordion-section-content-->
-                    </div><!--end .accordion-section-->
-                    <div class="accordion-section">
-                        <a class="accordion-section-title" href="#accordion-2">CS 346</a>
-                        <div id="accordion-2" class="accordion-section-content">
-                            <p>Test 1</p>
-                            <p>Test 2</p>
-                        </div><!--end .accordion-section-content-->
-                    </div><!--end .accordion-section-->
-                    <div class="accordion-section">
-                        <a class="accordion-section-title" href="#accordion-3">CS 368</a>
-                        <div id="accordion-3" class="accordion-section-content">
-                            <p>Test 1</p>
-                            <p>Test 2</p>
-                        </div><!--end .accordion-section-content-->
-                    </div><!--end .accordion-section-->
-                    <div class="accordion-section">
-                        <a class="accordion-section-title" href="#accordion-4">CS 306</a>
-                        <div id="accordion-4" class="accordion-section-content">
-                            <p>Test 1</p>
-                            <p>Test 2</p>
-                            <p>Test 3</p>
-                            <p>Test 4</p>
-                        </div><!--end .accordion-section-content-->
-                    </div><!--end .accordion-section-->
-                </div><!--end .accordion-->
-            </div>
-        </div>
-    </div>
-
+</div>
 <div class="footer"></br>
-<img src="images/footerblue.png" class="footerblue"/>
-&copy; MegaMonkey Group - Pensacola Christian College 2015
-
+   <img src="images/footerblue.png" class="footerblue"/>
+   <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
 </div>
+
 </BODY>
+<?php
+    mysqli_close($conn);
+?>
 </HTML>
