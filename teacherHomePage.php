@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <HTML>
-<link rel="stylesheet" type="text/css" href="templateStyle.css">
+<link rel="stylesheet" type="text/css" href="teacherHomePage.css">
 <script src="tabcontent.js" type="text/javascript"></script>
 <HEAD>
     <style>
@@ -45,83 +45,51 @@
 </div>
 
 <script src="jquery-1.11.2.js"></script>
-<script>
-    $(document).ready(function() {
-        function close_accordion_section() {
-            $('.accordion .accordion-section-title').removeClass('active');
-            $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
-        }
-
-        $('.accordion-section-title').click(function(e) {
-            // Grab current anchor value
-            var currentAttrValue = $(this).attr('href');
-
-            if($(e.target).is('.active')) {
-                close_accordion_section();
-            }else {
-                close_accordion_section();
-
-                // Add active class to section title
-                $(this).addClass('active');
-                // Open up the hidden content panel
-                $('.accordion ' + currentAttrValue).slideDown(300).addClass('open');
-            }
-
-            e.preventDefault();
-        });
-    });
-</script>
 
 <div class="content">
-    <form action="testMakingPage.php"><input type="submit" value="Create Test" class="create-button"></form>
-</div>
+    <form action="testMakingPage.php"><input type="submit" value="+ Create Test" class="create-button"></form>
 
-<div style="width: 500px; margin: auto;">
-    <ul class="tabs" data-persist="true">
-        <li><a href="#view1">Courses</a></li>
-        <li><a href="#view2">Grades</a></li>
-    </ul>
-    <div class="tabcontents">
-        <div id="view1">
-            <div class="accordion">
-                <div class="accordion-section">
-                    <a class="accordion-section-title" href="#accordion-1">CS 414</a>
-                    <div id="accordion-1" class="accordion-section-content">
-                        <p>Test 1</p>
-                        <p>Test 2</p>
-                        <p>Test 3</p>
-                    </div><!--end .accordion-section-content-->
-                </div><!--end .accordion-section-->
-                <div class="accordion-section">
-                    <a class="accordion-section-title" href="#accordion-2">CS 346</a>
-                    <div id="accordion-2" class="accordion-section-content">
-                        <p>Test 1</p>
-                        <p>Test 2</p>
-                    </div><!--end .accordion-section-content-->
-                </div><!--end .accordion-section-->
-                <div class="accordion-section">
-                    <a class="accordion-section-title" href="#accordion-3">CS 368</a>
-                    <div id="accordion-3" class="accordion-section-content">
-                        <p>Test 1</p>
-                        <p>Test 2</p>
-                    </div><!--end .accordion-section-content-->
-                </div><!--end .accordion-section-->
-                <div class="accordion-section">
-                    <a class="accordion-section-title" href="#accordion-4">CS 306</a>
-                    <div id="accordion-4" class="accordion-section-content">
-                        <p>Test 1</p>
-                        <p>Test 2</p>
-                        <p>Test 3</p>
-                        <p>Test 4</p>
-                    </div><!--end .accordion-section-content-->
-                </div><!--end .accordion-section-->
-            </div><!--end .accordion-->
-        </div>
-        <div id="view2">
-            <p>Grades</p>
-        </div>
+    <div class="courses">
+    <?php
+    $numCourses = 5; // change the number 5 to the database total courses
+        echo 'Courses :'.' <br />';
+        echo '<table id="courseTable">';
+
+    for($i = 1; $i <= $numCourses; $i++)
+    {
+        echo '<tr>';
+        echo '<td id="courseTD">'."CS 404".'</td>';
+        echo '</tr>';
+    }
+
+    echo '</table>';
+    ?>
+    </div>
+    <?php
+    echo "<span id='classTitle'>Courses: CS 404</span><br />";
+    ?>
+    <div class="testEachCourse">
+        <?php
+        $numTests = 5; // change the number 5 to the database total tests
+        echo '<table id="testTable">';
+        for($i = 1; $i <= $numTests; $i++)
+        {
+            echo '<tr><td id="testTD">';
+            echo "<span id='testTitle'>Test #".$i.'</span>'.
+                 "<span id='button'>".
+                 "<button type='submit' value='Edit' id='editButton' name='editButton'></button>".
+                "<button type='submit' value='deleteButton' id='deleteButton' name='deleteButton'></button>".
+                "<button type='submit' value='gradeButton' id='gradeButton' name='gradeButton'></button>".'</span><br />';
+            echo 'Date Available: '.'2/13/15 at 8:00am - 3/15/15 at 10:00pm'.'<br />';// change the date
+            echo 'Status: '.'Publish'.'<br />'; // change the status
+            echo 'Class Average: '.'85%'; // change class average
+            echo '</td></tr>';
+        }
+        echo '</table>';
+        ?>
     </div>
 </div>
+
 
 <div class="footer"></br>
    <img src="images/footerblue.png" class="footerblue"/>
