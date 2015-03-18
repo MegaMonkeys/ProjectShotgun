@@ -4,7 +4,7 @@
 
 
 	//Check MySQL initialisation check
-	$conn=mysqli_init();
+	/*$conn=mysqli_init();
 	if (!$conn)
 	{
 		die("mysqli_init failed");
@@ -19,18 +19,25 @@
       if (!@mysqli_real_connect($conn,'localhost', 'team2', 'team2', 'cs414_team2')) {
          die("<br>Connect Error : " . mysqli_connect_error()); }}
 	else
-		echo "Connected successfully<br>";
+		echo "Connected successfully<br>";*/
+
+   include_once 'db_connection.php';
+
+   if( isset($_POST['save'] ) ) {
+      mysqli_query($connection, "CALL DELETE_TEST(". $_POST['save'] .")");
+   }
+
 	
    // Get the section id associated with the course and section numbers the user put in
 	$cNo = isset($_POST['courseNo']) == true ? $_POST['courseNo'] : '';
 	$sNo = isset($_POST['sectionNo']) == true ? $_POST['sectionNo'] : '';
-   $sqlComm = "select section_id from section where course_no = '".$cNo."' and section_no = ".$sNo;
-   $row = mysqli_fetch_row(mysqli_query($conn, $sqlComm));
+   //$sqlComm = "select section_id from section where course_no = '".$cNo."' and section_no = ".$sNo;
+   //$row = mysqli_fetch_row(mysqli_query($conn, $sqlComm));
    
    // Get test information, and format the timeLimit, startDate, and endDate to be compatible with the DB
-	$sectionId   = $_POST['sectionNo'];//$row[0];
+	$sectionId   = $_POST['sectionNo'];//$_POST['sectionNo'];//$row[0];
 	$testName    = addslashes(strlen($_POST['testName']) != 0 ? $_POST['testName'] : "Test ".date("F j, Y, g:i a"));
-   $published   = ($_POST['publish'] == "publish") ? "1" : "0";
+   $published   = (isset($_POST['publish'])) ? "1" : "0";
 	$hourLimit   = strlen($_POST['hours']) != 0 ? $_POST['hours'] : "1";
 	$minuteLimit = strlen($_POST['minutes']) != 0 ? $_POST['minutes'] : "0";
    $timeLimit   = ($hourLimit < 10 ? "0" : "") . $hourLimit . ":" . ($minuteLimit < 10 ? "0" : "") . $minuteLimit . ":00" ;
@@ -45,10 +52,10 @@
    // Add the test to the database
 	$sqlComm = "insert into test (section_id, test_name, published, time_limit, start_date, end_date, created_date, pledge)".
               " values (".$sectionId.", '".$testName."', ".$published.", '".$timeLimit."', '".$startDate."', '".$endDate."', '".date("Y-m-d")."', '".$pledge."')";
-   mysqli_query($conn, $sqlComm);
+   mysqli_query($connection, $sqlComm);
 
    // Get the test id for the test that was just created.
-   $testID = mysqli_insert_id($conn);
+   $testID = mysqli_insert_id($connection);
    
    echo "<hr/>";
    echo "<br/> <b>Success!</b>";
@@ -76,8 +83,8 @@
 
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'True/False', '$queText', $quePoints)";
-         mysqli_query($conn, $sqlComm);
-         $quesID = mysqli_insert_id($conn);
+         mysqli_query($connection, $sqlComm);
+         $quesID = mysqli_insert_id($connection);
          
          echo $sqlComm."<br/><br/>";
          
@@ -85,7 +92,7 @@
          
          $sqlComm = "insert into answer (ques_id, ans_text, correct)".
               " values (".$quesID.", '".$optText."', 1)";
-         mysqli_query($conn, $sqlComm);
+         mysqli_query($connection, $sqlComm);
          
          echo $sqlComm;
       }
@@ -94,8 +101,8 @@
       {
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Multiple Choice', '$queText', $quePoints)";
-         mysqli_query($conn, $sqlComm);
-         $quesID = mysqli_insert_id($conn);
+         mysqli_query($connection, $sqlComm);
+         $quesID = mysqli_insert_id($connection);
          
          echo $sqlComm."<br/><br/>";
          
@@ -111,7 +118,7 @@
                
                $sqlComm = "insert into answer (ques_id, ans_text, correct)".
                  " values (".$quesID.", '".$optText."', ".$optIsCorrect.")";
-               mysqli_query($conn, $sqlComm);
+               mysqli_query($connection, $sqlComm);
                
                echo $sqlComm."<br/>";
             }
@@ -125,8 +132,8 @@
 
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Many Choice', '$queText', $quePoints)";
-         mysqli_query($conn, $sqlComm);
-         $quesID = mysqli_insert_id($conn);
+         mysqli_query($connection, $sqlComm);
+         $quesID = mysqli_insert_id($connection);
          
          echo $sqlComm."<br/><br/>";
          
@@ -139,7 +146,7 @@
                
                $sqlComm = "insert into answer (ques_id, ans_text, correct)".
                  " values (".$quesID.", '".$optText."', ".$optIsCorrect.")";
-               mysqli_query($conn, $sqlComm);
+               mysqli_query($connection, $sqlComm);
                
                echo $sqlComm."<br/>";
             }
@@ -150,8 +157,8 @@
       {
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'Short Answer', '$queText', $quePoints)";
-         mysqli_query($conn, $sqlComm);
-         $quesID = mysqli_insert_id($conn);
+         mysqli_query($connection, $sqlComm);
+         $quesID = mysqli_insert_id($connection);
          
          echo $sqlComm."<br/><br/>";
          
@@ -160,7 +167,7 @@
          $sqlComm = "insert into answer (ques_id, ans_text, correct)".
               " values (".$quesID.", '".$optText."', 1)";
 
-         mysqli_query($conn, $sqlComm);
+         mysqli_query($connection, $sqlComm);
          
          echo $sqlComm."<br/>";
       }
@@ -170,7 +177,7 @@
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
            " values ($testID, $queNum, 'Essay', '$queText', $quePoints)";
 
-         mysqli_query($conn, $sqlComm);
+         mysqli_query($connection, $sqlComm);
          
          echo $sqlComm."<br/>";
       }
@@ -180,10 +187,10 @@
    $queNum--;
    
    // Update number of questions
-   mysqli_query($conn, "update test set no_of_q = (select count(ques_id) from question where test_id = ".$testID.") where test_id = ".$testID);
+   mysqli_query($connection, "update test set no_of_q = (select count(ques_id) from question where test_id = ".$testID.") where test_id = ".$testID);
    
     
-   mysqli_close($conn);
+   mysqli_close($connection);
    
    //header("Location: teacherHomePage.php");
 ?>

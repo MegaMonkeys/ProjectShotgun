@@ -11,6 +11,7 @@
       <!-- <script src="./keyblock.js"></script> -->
       <script src="./testMakingPage.js"></script>
       <link rel="stylesheet" type="text/css" href="testMakingPage.css">
+      <?php include_once 'testMakingPage_control.php'; ?>
 
       <style>
          div#load_screen{
@@ -26,14 +27,13 @@
 
       <script>
          window.addEventListener("load", function(){
-
             var load_screen = document.getElementById("load_screen");
                document.body.removeChild(load_screen);
             });
 
             $(document).ready(function(){
                $("button").click(function(){
-               $("p:first").replaceWith("Hello world!");
+               //$("p:first").replaceWith("Hello world!");
             });
          });
       </script>
@@ -46,9 +46,9 @@
    <BODY><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
       <div id="load_screen"><img src="images/megamonkeysloading.png" /> </div>
 
-      <div id="header">
-         <img src="images/header.png" class="header"/>
-         <img src="images/logo.png" class="testLogo"/>
+      <div id="header"> <!-- 100 -->
+         <img src="images/header.png" class="header"/> <!-- 100/26 -->
+         <img src="images/logo.png" class="testLogo"/> <!-- 50 -->
 
          <form action="logout.php" method="post">
             <input type="submit" value="Sign out" class="logout-button">
@@ -64,8 +64,9 @@
       </ul>
    </div>
    <div id="wrap">
+      <div class="loader" align="center"></div>
          <div id="content">
-            <form action="create_test.php" method="post">
+            <form method="post" action="javascript:void(0);">
                <table>
                   <tr>
                      <td id="left">
@@ -73,54 +74,48 @@
                         <div class="informationForm">
                            Class : &nbsp;
                            <select id="courseNo" name="courseNo" class="inputs" onchange="get_section()">
-                              <!--<option value="CS214">CS 214</option>
-                              <option value="CS306">CS 306</option>
-                              <option value="CS414">CS 414</option>
-                              <option value="BA303">BA 303</option>
-                              <option selected="selected" disabled="disabled">Course</option>-->
-                              <?php
-                                 include_once 'php_control.php';
-                                 get_course_section();
-                              ?>
+                              <?php get_course_list(); ?>
                            </select>
                            &nbsp;
-                           Section : <select id="sectionNo" name="sectionNo" class="inputs">
-                              <!--<option class="section_op" value="1">1</option>
-                              <option class="section_op" value="2">2</option>
-                              <option class="section_op" value="3">3</option>-->
-                              <?php
-                                 get_course_sections();
-                              ?>
+                           Section :
+                           <select id="sectionNo" name="sectionNo" class="inputs">
+                              <?php get_section_list(); ?>
                            </select><br />
-                           Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="startDate" class="inputs"> <input type="time" class="inputs" name="startTime"><br />
-                           End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="endDate" class="inputs"> <input type="time" class="inputs" name="endTime"><br />
-                           Time limit : &nbsp;<input type="number" name="hours" min="0" max="10" class="inputs" placeholder="0"> hr &nbsp;
+                           Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="startDate"  name="startDate" class="inputs"> <input type="time" class="inputs" id="startTime" name="startTime"><br />
+                           End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="endDate" name="endDate" class="inputs"> <input type="time" class="inputs" id="endTime" name="endTime"><br />
+                           Time limit : &nbsp;<input type="number" id="hours" name="hours" min="0" max="10" class="inputs" placeholder="0"> hr &nbsp;
                            &nbsp;&nbsp;&nbsp;
-                           <input type="number" name="minutes" min="0" max="60" class="inputs" placeholder="50"> min
+                           <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" placeholder="50"> min
 
-                        <div id="optionButton">
-                        <button type="submit" value="publish" id="publish" name="publish"></button>&nbsp;&nbsp;&nbsp;
-                        <button type="submit" value="save" id="save" name="save"></button>&nbsp;&nbsp;&nbsp;
-                        <button type="submit" value="preview" id="preview" name="preview"></button>&nbsp;&nbsp;&nbsp;
-                        <button type="submit" value="cancel" id="cancel" name="cancel"></button>
-                        </div>
-                        </div>
-                         <div id="optionName">Publish&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           Preview&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                           Cancel
+                           <div id="optionButton">
+                              <table>
+                                 <tr>
+                                    <td><button type="submit" value="publish" id="publish" name="publish" onclick="publish_test()"></button></td>
+                                    <td><button type="submit" value="save"    id="save"    name="save"    formaction="create_test.php"></button></td>
+                                    <td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>
+                                    <td><button type="submit" value="cancel"  id="cancel"  name="cancel"  onclick="cancel_test()"> </button></td>
+                                 </tr>
+                                 <tr>
+                                    <td>Publish</td>
+                                    <td>Save</td>
+                                    <td>Preview</td>
+                                    <td>Cancel</td>
+                                 </tr>
+                              </table>
+                           </div>
                         </div>
 
                         <form id="buttonArea" >
                            <div id="form_question"> <!-- Question Types (YC) -->
                               <ul id="sortable1" class="connectedSortable">
+
                               </ul>
                            </div>
                         </form>
                      </td>
                      <td id="middle">
                         <div class="scroll">
-                           Test Name:  &nbsp;<input type="text" name="testName" class="inputs" placeholder="Test #1">
+                           Test Name:  &nbsp;<input type="text" id="testName" name="testName" class="inputs" placeholder="Test #1" size="50">
 
                            <div>
                               <div id="text_instruc_heading">CS 414 Test Instruction</div>
@@ -153,5 +148,43 @@
       <img src="images/footerblue.png" class="footerblue"/>
       <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
    </div>
+
    </BODY>
 </HTML>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+      $.ajaxSetup({ cache: false });
+   });
+
+   function get_test(t_no)
+   {
+      $("#content").fadeOut(1);
+      $(".loader").fadeIn("slow");
+      var data = 'testMakingPage_control.php?action=load&test_no=' + t_no;
+      $('#sortable2').load(data);
+   }
+   $(document).ajaxComplete(function() {
+      $(".loader").fadeOut(1);
+      $("#content").fadeIn("slow");
+   });
+
+   function publish_test() {
+      alert("Not Yet !!");
+   }
+   function preview_test() {
+      alert("Under Construction");
+   }
+   function cancel_test() {
+      alert("Are You Sure ?");
+   }
+</script>
+
+<?php
+   if( isset( $_GET['test_no'] ) ) {
+      echo "<script type='text/javascript'>get_test(" . $_GET['test_no'] . ");</script>";
+      echo "<script type='text/javascript'>$('#save').attr('value'," . $_GET['test_no'] . ");</script>";
+   }
+   else
+      echo "<script type='text/javascript'>$('.loader').fadeOut(1);</script>";
+?>
