@@ -57,7 +57,7 @@
 
    <div id='cssmenu'>
       <ul>
-         <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
+         <li class='loginPage.html'><a href='./teacherHomePage.php'><span>Home</span></a></li>
          <li><a href='#'><span>About</span></a></li>
          <li><a href='#'><span>Team</span></a></li>
          <li class='last'><a href='#'><span>Contact</span></a></li>
@@ -72,17 +72,25 @@
                          
                         <div class="informationForm">
                            Class : &nbsp;
-                           <select name="courseNo" class="inputs">
-                              <option value="CS214">CS 214</option>
+                           <select id="courseNo" name="courseNo" class="inputs" onchange="get_section()">
+                              <!--<option value="CS214">CS 214</option>
                               <option value="CS306">CS 306</option>
                               <option value="CS414">CS 414</option>
                               <option value="BA303">BA 303</option>
+                              <option selected="selected" disabled="disabled">Course</option>-->
+                              <?php
+                                 include_once 'php_control.php';
+                                 get_course_section();
+                              ?>
                            </select>
                            &nbsp;
-                           Section : <select name="sectionNo" class="inputs">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
+                           Section : <select id="sectionNo" name="sectionNo" class="inputs">
+                              <!--<option class="section_op" value="1">1</option>
+                              <option class="section_op" value="2">2</option>
+                              <option class="section_op" value="3">3</option>-->
+                              <?php
+                                 get_course_sections();
+                              ?>
                            </select><br />
                            Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="startDate" class="inputs"> <input type="time" class="inputs" name="startTime"><br />
                            End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" name="endDate" class="inputs"> <input type="time" class="inputs" name="endTime"><br />

@@ -15,8 +15,9 @@
 	
 	//Connect to the MySQL Server
 	//Warning Disabled
-	if (!@mysqli_real_connect($conn,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2'))
-		die("<br>Connect Error : " . mysqli_connect_error());
+	if (!@mysqli_real_connect($conn,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2')) {
+      if (!@mysqli_real_connect($conn,'localhost', 'team2', 'team2', 'cs414_team2')) {
+         die("<br>Connect Error : " . mysqli_connect_error()); }}
 	else
 		echo "Connected successfully<br>";
 	
@@ -27,7 +28,7 @@
    $row = mysqli_fetch_row(mysqli_query($conn, $sqlComm));
    
    // Get test information, and format the timeLimit, startDate, and endDate to be compatible with the DB
-	$sectionId   = $row[0];
+	$sectionId   = $_POST['sectionNo'];//$row[0];
 	$testName    = addslashes(strlen($_POST['testName']) != 0 ? $_POST['testName'] : "Test ".date("F j, Y, g:i a"));
    $published   = ($_POST['publish'] == "publish") ? "1" : "0";
 	$hourLimit   = strlen($_POST['hours']) != 0 ? $_POST['hours'] : "1";
@@ -117,7 +118,7 @@
          }
       }
       // If Many Choice
-      elseif( is_string($_POST['Q'.$queNum.'C1T']) )
+      elseif( @is_string($_POST['Q'.$queNum.'C1T']) )
       {
          // YC - Answer stored here
          // $_POST['Q'.$queNum.'C']
