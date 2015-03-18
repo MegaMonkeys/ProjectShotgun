@@ -2,7 +2,7 @@
 <HTML>
 <HEAD>
 
-   <link rel="stylesheet" type="text/css" href="studentHomePage.css">
+   <link rel="stylesheet" type="text/css" href="studentHomePage2.css">
    <style>
       div#load_screen{
          background:#FFF;
@@ -66,34 +66,59 @@
 
 <div class="content">
 
-   <?php
-      $courses = mysqli_query($conn, "select course_no, section_id from section where instructor_id = 123456");
-      $numCourses = mysqli_num_rows($courses);
+   <div class="courses">
+      <?php
+      $numCourses = 5; // change the number 5 to the database total courses
+      echo 'Select a course below:';
+      echo '<table id="courseTable">';
+
       for($i = 1; $i <= $numCourses; $i++)
       {
-         $courseRow = mysqli_fetch_assoc($courses);
-            
-         $tests = mysqli_query($conn, "select test_name, published, test_avg from test where section_id = ".$courseRow['section_id']);
-         $numTests = mysqli_num_rows($tests);
-         
-         echo '<p style="position:relative; left:5in;"><b>'.$courseRow['course_no'].'</b></p>';
-         echo '<table style="border:solid; position:relative; left:5in;">';
-         echo '<tr><th>Test</th><th>Average</th></tr>';
-         
-         // Loop creating table rows.
-         for($i = 1; $i <= $numTests; $i++)
-         {
-            $testRow = mysqli_fetch_assoc($tests);
-            echo '<tr>';
-            echo '<td>'.$testRow['test_name'].'</td>';
-            echo '<td>'.$testRow['test_avg'].'Sample</td>';
-            echo '</tr>';
-         }
-         echo '</table>';
+         echo '<tr>';
+         echo '<td id="courseTD">'."CS 404".'</td>';
+         echo '</tr>';
       }
-    ?>
 
+      echo '</table>';
+      ?>
+   </div>
+   <?php
+   // Do we want to implement order by date?? we can remove the select statement
+   echo "<span id='classTitle'>Courses: CS 404</span>".
+       "<span id='orderBy'>Order by:
+       <select name='order' class='inputs'>
+       <option value='orderByClass'>class</option>
+       <option value='orderByDate'>date</option>
+       </select></span>"."<br />"; // Change this to the selected class type
+   ?>
+   <div class="testEachCourse">
+      <form action="testTakingPage.php">
+      <?php
+      $numTests = 7; // change the number 5 to the database total tests
+      echo '<table id="testTable">';
+      echo "<tr id='testTH'>";
+      echo "<td width='130px'>Test Name</td>";
+      echo "<td width='400px'>Date Available</td>";
+      echo "<td width='160px'>Status</td>";
+      echo "<td width='100px'></td>";
+      echo '</tr>';
+      for($i = 1; $i <= $numTests; $i++)
+      {
+         echo '<tr>';
+         echo '<td>Test #'.$i.'</td>';
+         echo '<td>3/13/2015 at 4:50am to 4/12/2015 at 8:00am</td>';
+         echo '<td>Available to take</td>'; // this status can be available, not available, or has been taken
 
+         // if the status is available it will show a START button,
+         // but if student took the test already, it will show their grade instead
+         // if the grade is not available yet, it will show nothing
+         echo "<td><button type='submit' id='takeTestButton' name='takeTestButton'>START</button></td>";
+         echo '</tr>';
+      }
+      echo '</table>';
+      ?>
+      </form>
+   </div>
 
 </div>
 <div class="footer"></br>
