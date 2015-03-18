@@ -1,7 +1,7 @@
 //Question Form Script - Caution !!
 
 //Question Form
-var form_array = ['True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question'];
+var form_array = ['True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question', 'Instruction'];
 var form_text_array =
 	[
 		//Index:0 - True/False Question
@@ -30,8 +30,8 @@ var form_text_array =
 		'<textarea required rows="4" placeholder="Essay Question"></textarea><br>',
 
 		//Disabled
-		'<hr align="left" width="100%" />' +
-		'<textarea required rows="4" placeholder="Type Instruction"></textarea>'
+		//'<hr align="left" width="100%" />' +
+		'<textarea required rows="2" placeholder="Type Instruction"></textarea>'
 
 		//'<textarea required name="ques_random" rows="4" placeholder="Nothing Nothing"></textarea>'
 	];
@@ -45,6 +45,10 @@ var default_pledge =
 		$(para).parent('li').remove();
 		resetQnum();
     }
+
+   function get_q_type() {
+      return form_text_array[0];
+   }
 
     function pop_option(current, qnum, qtype) { //Add Choice Option
 		var mul_op =
@@ -303,7 +307,7 @@ var default_pledge =
 
    function get_section() {
       $('.section_op').hide();
-      var course = "."+($('#courseNo').val()).replace(/\s/g, "");
+      var course = "."+$('#courseNo').val();
       $(course).show();
       $('#sectionNo').val( $("option"+course).first().val() );
    }
@@ -373,41 +377,11 @@ $(function() {
 	$("#sortable2").sortable({
 		update: function(event, ui) { //When Question Order Changed
 			resetQnum();
-			/*
-			if( $("#sortable2 li").length == 0 ) {
-				alert();
-				$('#sortable2').css('background-color', 'orange');
-			}
-			else {
-				$('#sortable2').css('background-image', 'none');
-
-				resetQnum();
-
-				/*
-				for(i=0,count=1; i<$("#sortable2 li").length; i++,count++) {
-					var current_element = jQuery('#sortable2 li').eq(i);
-
-					if( current_element.text().search(form_array[2]) == 3 ) {
-						current_element.children('span').text('Q.' + (count) + ' ');
-					}
-					else if( current_element.text().search(form_array[5]) == 3 ) {
-						--count;
-					}
-					else {
-						current_element.children('span').text('Q.' + (count) + ' ');
-					}
-				}
-			}*/
 		},
 		over: function(event, ui) {
 			$('#sortable2').css('background-image', 'none');
 		},
 		receive: function(event, ui) { //When Question Form is Dropped
-			/*
-			 if( $("#sortable2 li").length == ui.item.index()+1 ) {
-			 $("#field_question").scrollTop(5000);
-			 }
-			 */
 			$('#sortable2').css('background-image', 'none');
 
 			var index = ui.item.index();
@@ -452,26 +426,6 @@ $(function() {
 		}
 	});
 
-	//Destroy Question Form
-	$("#sortable4").sortable({
-		change: function(event, ui) { //Hover
-			$("#sortable4").css('background-image', 'url("./images/recycle_open.jpeg")');
-            $("#sortable4").css('width', 400);
-            $("#sortable4").css('height', 320);
-            $("#sortable4").css('bottom', 0);
-		},
-		out: function(event, ui) { //Moved Out
-			$("#sortable4").css('background-image', 'url("./images/recycle_close.jpeg")');
-            $("#sortable4").css('width', 200);
-            $("#sortable4").css('height', 160);
-		},
-		update: function(event, ui) { //When Dropped
-			if( $("#sortable4 li").length != 0 ) {
-				$( "#sortable4" ).empty();
-            }
-            $("#sortable4").css('background-image', 'url("./images/recycle_close.jpeg")');
-		}
-	});
 });
 
 
