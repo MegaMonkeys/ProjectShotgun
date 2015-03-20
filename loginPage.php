@@ -25,16 +25,21 @@
       </TITLE>
 	  <script type="text/javascript">
    
-   var image1 = new Image();
-   image1.src="images/verses/verse1.png";
+   /*var image1 = new Image();
+   image1.src="images/academic/womancomp2.jpg";
    var image2=new Image();
-   image2.src="images/verses/verse2.png";
+   image2.src="images/academic/excitedman1.jpg";
    var image3=new Image();
-   image3.src="images/verses/verse3.png";
+   image3.src="images/academic/weirdocomp1.jpg";*/
+
+   var image1 = new Image();
+   image1.src="images/academic/highschool1.jpg";
+   var image2=new Image();
+   image2.src="images/academic/computer1cropped.png";
+   var image3=new Image();
+   image3.src="images/academic/mancompcropped1.png";
    var image4=new Image();
-   image4.src="images/verses/verse4.png"
-   var image5=new Image();
-   image5.src="images/verses/verse5.png"
+   image4.src="images/academic/Testing.jpg";
    </script>
    </HEAD>
 <BODY>
@@ -142,7 +147,7 @@ if(@$_SESSION["session"] != ""){
 var step=1
 function slideit(){
 document.images.slide.src=eval("image"+step+".src");
-if(step<5)
+if(step<4)
 step++;
 else
 step=1;
