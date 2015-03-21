@@ -47,7 +47,7 @@ img.testLogo{
 }
 #courseTD:hover
 {
-    background-color: yellow;
+    background-color: #3399FF;
     cursor:pointer;
 }
 #testTD{
