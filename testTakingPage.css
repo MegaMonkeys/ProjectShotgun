@@ -1,0 +1,280 @@
+
+body {
+    background-image: #FFF;
+    background-size: cover;
+    margin:0px 0px;
+    font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+}img.header{
+     width:100%;
+     height:150px;
+ }
+
+img.testLogo{
+    width: 200px;
+    position:fixed;
+    top:0px;
+    left: 50px;
+    z-index:100;
+}
+.testQuestions{
+    position: absolute;
+    top: 170px;
+    left: 400px;
+    width: 900px;
+    height: 63%;
+    overflow-y: scroll;
+   border-spacing: 15px;
+   border: 5px solid lightblue;
+}
+.essayText{
+	width: 700px;
+	height: 100px;
+}
+#theQuestion{
+	padding-left:0px;
+}
+#button{
+    float: right;
+}
+
+#classTitle{
+    font-size: 40px;
+    position: fixed;
+    top: 120px;
+    left: 400px;
+    color:black;
+    z-index:100;
+}
+#testInformation{
+position: fixed;
+top: 300px;
+}
+.submit-button {
+    z-index: 26;
+    position: fixed;
+    top: 210px;
+    width: 200px;
+    height: 60px;
+    background-color: rgb(0,150,210);
+    border : 3px solid lightsteelblue;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:20px;
+    font-weight:bold;
+    padding:9px 20px 9px 20px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #8a3e3e;
+}
+.submit-button:hover {
+    background-color:rgb(0,200,250);
+}
+
+.logout-button {
+    z-index: 26;
+    position: fixed;
+    right: 50px;
+    top: 10px;
+    width: 150px;
+    box-shadow: 0px 10px 14px -7px #691632;
+    background-color: rgb(187,0,0);
+    border : 2px solid;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:20px;
+    font-weight:bold;
+    padding:9px 20px 9px 20px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #8a3e3e;
+}
+.logout-button:hover {
+    background-color:rgb(255,40,40);
+}
+
+
+div.content{
+    width:90%;
+    top: 70px;
+    height: auto;
+    padding-left:20px;
+    margin:0px auto;
+    text-align: left;
+    line-height:40px;
+    left:0px;
+    right:0px;
+    font-family: Rockwell;
+}
+.title{
+    top: 30px;
+    position: absolute;
+    left: 250px;
+    font-size: 50px;
+    font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
+    color: #ffffff;
+}
+
+.footer {
+   color: #666666;
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   text-align: center;
+}
+.footer ft {
+   position: relative;
+   bottom: 15px;
+   color: white;
+   z-index: 20;
+}
+img.footerblue {
+   width:100%;
+   height:100px;
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   z-index: 10;
+}
+
+
+/* this is the menu */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
+#cssmenu {
+    position: absolute;
+    background: rgba(0,0,0,0);
+    top: 30px;
+    right : 10%;
+    width: 500px;
+}
+#cssmenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    display: block;
+    zoom: 1;
+}
+#cssmenu ul:after {
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+#cssmenu ul li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+#cssmenu.align-right ul li {
+    float: right;
+}
+#cssmenu.align-center ul {
+    text-align: center;
+}
+#cssmenu ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 15px 25px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    position: relative;
+    -webkit-transition: color .25s;
+    -moz-transition: color .25s;
+    -ms-transition: color .25s;
+    -o-transition: color .25s;
+    transition: color .25s;
+}
+#cssmenu ul li a:hover {
+    color: #ffffff ;
+}
+#cssmenu ul li a:hover:before {
+    width: 100%;
+}
+#cssmenu ul li a:after {
+    content: "";
+    display: block;
+    position: absolute;
+    right: -3px;
+    top: 19px;
+    height: 6px;
+    width: 6px;
+    background: #fff;
+    opacity: .5;
+}
+#cssmenu ul li a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 0;
+    background: #fff;
+    -webkit-transition: width .25s;
+    -moz-transition: width .25s;
+    -ms-transition: width .25s;
+    -o-transition: width .25s;
+    transition: width .25s;
+}
+#cssmenu ul li.last > a:after,
+#cssmenu ul li:last-child > a:after {
+    display: none;
+}
+#cssmenu ul li.active a {
+    color: #fff;
+}
+#cssmenu ul li.active a:before {
+    width: 100%;
+}
+#cssmenu.align-right li.last > a:after,
+#cssmenu.align-right li:last-child > a:after {
+    display: block;
+}
+#cssmenu.align-right li:first-child a:after {
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    #cssmenu ul li {
+        float: none;
+        display: block;
+    }
+    #cssmenu ul li a {
+        width: 100%;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        border-bottom: 1px solid #fff;
+    }
+    #cssmenu ul li.last > a,
+    #cssmenu ul li:last-child > a {
+        border: 0;
+    }
+    #cssmenu ul li a:after {
+        display: none;
+    }
+    #cssmenu ul li a:before {
+        display: none;
+    }
+}
+
+.loader {
+   position: relative;
+   margin-left: auto;
+   margin-right: auto;
+   width: 100%;
+   height: 100%;
+   z-index: 9999;
+   background: url('./images/ajax-loader.gif') 50% 50% no-repeat rgb(249,249,249);
+}
+
