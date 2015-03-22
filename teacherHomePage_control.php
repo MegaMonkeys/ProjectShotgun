@@ -22,14 +22,14 @@
       include 'db_connection.php';
       $sql_command = "SELECT `course`.`COURSE_NO`, `section`.`SECTION_NO`, `section`.`SECTION_ID`, `course`.`DESCRIPTION`\n"
          . "FROM `section`\n"
-         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
-         . "\n"
+         . "LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
+         . "WHERE INSTRUCTOR_ID = " . $_SESSION['user_id']
          . "";
 
       $sql_result = mysqli_query($connection, $sql_command);
       mysqli_close($connection);
 
-      $class_list = [];
+      $class_list = array();
 
       for($i = 1; $i <= @mysqli_num_rows($sql_result); $i++)
       {  //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
@@ -159,7 +159,7 @@
 
    function load_question_form($data)
    {
-      $q_types = ['True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay'];
+      $q_types = array('True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay');
       $q_type = array_search($data[3], $q_types);
       echo '<li class="ui-state-default tess">';
       echo '<span>::</span> ';
@@ -180,9 +180,9 @@
          mysqli_close($connection);
       }
 
-      $form_array = ['True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question'];
+      $form_array = array('True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question');
       $form_text_array =
-         [
+         array(
             //Index:0 - True/False Question
             $form_array[$q_type] .
             '<input type="text" maxlength="3" size="4" style="float: right;" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
@@ -219,7 +219,7 @@
             '<textarea required rows="4" placeholder="Type Instruction"></textarea>'
 
             //'<textarea required name="ques_random" rows="4" placeholder="Nothing Nothing"></textarea>'
-         ];
+         );
       return $form_text_array[$q_type];
    }
 

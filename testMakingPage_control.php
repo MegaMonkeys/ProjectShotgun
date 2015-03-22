@@ -9,7 +9,8 @@
       include 'db_connection.php';
       $sql_command = "SELECT distinct(`course`.`COURSE_NO`)\n"
          . "FROM `section`\n"
-         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n";
+         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
+         . " WHERE INSTRUCTOR_ID = " . $_SESSION['user_id'];
 
       $sql_result = mysqli_query($connection, $sql_command);
                     mysqli_close($connection);
@@ -96,7 +97,7 @@
 
    function load_question_form($data)
    {
-      $q_types = ['True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay'];
+      $q_types = array('True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay');
       $q_type = array_search($data[3], $q_types);
       echo '<li class="ui-state-default tess">';
       echo '<span>::</span> ';
@@ -117,9 +118,9 @@
          mysqli_close($connection);
       }
 
-      $form_array = ['True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question', 'Instruction'];
+      $form_array = array('True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question', 'Instruction');
       $form_text_array =
-         [
+         array(
             //Index:0 - True/False Question
             $form_array[$q_type] .
             '<input type="text" maxlength="3" size="4" style="float: right;" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
@@ -156,7 +157,7 @@
             '<textarea required rows="4" placeholder="Type Instruction"></textarea>'
 
             //'<textarea required name="ques_random" rows="4" placeholder="Nothing Nothing"></textarea>'
-         ];
+         );
       return $form_text_array[$q_type];
    }
 
