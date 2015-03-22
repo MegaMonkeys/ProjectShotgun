@@ -1,6 +1,7 @@
 <?php
    if( isset( $_GET['action'] ) )
    {
+      session_start();
       if( $_GET['action'] == "delete" )
       {
          delete_test( $_GET['test_id'] );
@@ -8,6 +9,7 @@
       if( $_GET['action'] == "modify" )
       {
          modify_test( $_GET['test_id'] );
+         $_SESSION['section_id'] = $_GET['section_id'];
       }
    }
    if( isset( $_GET['section_id'] ) )
