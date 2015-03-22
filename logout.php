@@ -13,14 +13,3 @@
 		echo "Invalid Access";
 	}
 ?>
-
-<!DOCTYPE html>
-<HTML>
-	<link rel="stylesheet" type="text/css" href="loginStyle.css">
-	<HEAD>
-		<TITLE>MegaTest - Online Testing Application</TITLE>
-	</HEAD>
-	<BODY>
-	
-	</BODY>
-</HTML>

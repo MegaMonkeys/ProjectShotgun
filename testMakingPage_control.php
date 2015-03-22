@@ -9,7 +9,8 @@
       include 'db_connection.php';
       $sql_command = "SELECT distinct(`course`.`COURSE_NO`)\n"
          . "FROM `section`\n"
-         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n";
+         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
+         . " WHERE INSTRUCTOR_ID = " . $_SESSION['user_id'];
 
       $sql_result = mysqli_query($connection, $sql_command);
                     mysqli_close($connection);

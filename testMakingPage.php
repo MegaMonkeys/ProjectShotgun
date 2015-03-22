@@ -1,3 +1,8 @@
+<?php
+   session_start();
+   include_once 'sessionCheck.php';
+?>
+
 <!DOCTYPE html>
 <HTML>
    <HEAD>

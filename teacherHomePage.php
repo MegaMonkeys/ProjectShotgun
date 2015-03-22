@@ -1,3 +1,8 @@
+<?php
+   session_start();
+   include_once 'sessionCheck.php';
+?>
+
 <!DOCTYPE html>
 <HTML>
    <link rel="stylesheet" type="text/css" href="teacherHomePage.css">
@@ -75,9 +80,7 @@
 
 
 <script type="text/javascript">
-   $(document).ready(function() {
-      $.ajaxSetup({ cache: false });
-   });
+   $(document).ready(function() { $.ajaxSetup({ cache: false }); });
 
    var current;
    var class_list = <?php echo json_encode($class_list) ?>;
@@ -115,6 +118,4 @@
       $(".loader").fadeOut(1);
       $("#testTable").fadeIn("slow");
    });
-
-
 </script>
