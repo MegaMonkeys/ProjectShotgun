@@ -583,5 +583,5 @@ input[type=text]:focus, textarea:focus {
    width: 300px;
    height: 300px;
    z-index: 999;
-   background: url('./images/ajax-loader.gif') 50% 50% no-repeat;
+   background: url('./images/monkeyload.gif') 50% 50% no-repeat;
 }
