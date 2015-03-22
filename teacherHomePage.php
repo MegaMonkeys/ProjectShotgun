@@ -34,6 +34,7 @@
 </HEAD>
 
 <BODY style="background:#F6F9FC; font-family:Arial;">
+   <?php include_once 'reload_goback.php'; ?>
    <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
    <div class="header">
        <img src="images/header.png" class="header"/>
@@ -118,4 +119,20 @@
       $(".loader").fadeOut(1);
       $("#testTable").fadeIn("slow");
    });
+
+   //When Page Loads
+   $(function() {
+      page_resize();
+   });
+   //When Page Size Changes
+   $( window ).resize(function() {
+      page_resize();
+   });
+      function page_resize() {
+         //alert($(window).height() + " " + $(document).height());
+         $('#classTitle').css("left", 300 + ($(window).width() - 1100) / 2);
+         $('.courses').css("max-height", $(window).height() - 360);
+         $('.testEachCourse').css("left", 300 + ($(window).width() - 1100) / 2);
+         $('.testEachCourse').css("height", $(window).height() - 280 );
+      }
 </script>
