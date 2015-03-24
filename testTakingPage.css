@@ -20,105 +20,27 @@ img.testLogo{
     left: 50px;
     z-index:100;
 }
-.courses{
-    position: relative;
-    top: 140px;
-    width: 220px;
-    overflow-y: scroll;
-    z-index: 30;
-}
-.testEachCourse{
+.testQuestions{
     position: absolute;
     top: 170px;
     left: 400px;
-    width: 800px;
+    width: 900px;
     height: 63%;
     overflow-y: scroll;
    border-spacing: 15px;
    border: 5px solid lightblue;
 }
-#courseTable{
-    width: 200px;
+.essayText{
+	width: 700px;
+	height: 100px;
 }
-#courseTD
-{
-    text-align: center;
-    color: white;
-    background-color:#FF9900;
-}
-#courseTD:hover
-{
-    background-color: yellow;
-    cursor:pointer;
-}
-#testTD{
-    background-color: beige;
-    width: 800px;
-}
-#testTable{
-    /*border-spacing: 15px;
-    border: 1px solid lightblue;*/
-}
-#testTitle{
-    font-size: 30px;
-    color: darkblue;
-    float: left;
+#theQuestion{
+	padding-left:0px;
 }
 #button{
     float: right;
 }
-#editButton {
-    width: 40px;
-    height:40px;
-    display: inline-block;
-    background: url(images/buttons/edit.png);
-    background-size: contain;
-    border: 0px;
-    margin-right:20px;
-}
-#editButton:hover{
-    background: url(images/buttons/editHover.png);
-    background-size: contain;
-}
-/* -- tooltip doesn't work
-#editButton:hover:after{
-     background: #333;
-     background: rgba(0,0,0,.8);
-     color: #fff;
-     content: attr(value);
-     padding: 5px 15px;
-     position: relative;
-     top:-50px;
-    left:-10px;
-     z-index: 98;
-     width: 80px;
- }*/
-#deleteButton {
-    width: 40px;
-    height:40px;
-    display: inline-block;
-    background: url(images/buttons/delete.png);
-    background-size: contain;
-    border: 0px;
-    margin-right:20px;
-}
 
-#deleteButton:hover{
-    background: url(images/buttons/deleteHover.png);
-    background-size: contain;
-}
-#gradeButton {
-    width: 40px;
-    height:40px;
-    display: inline-block;
-    background: url(images/buttons/grade.png);
-    background-size: contain;
-    border: 0px;
-}
-#gradeButton:hover{
-    background: url(images/buttons/gradeHover.png);
-    background-size: contain;
-}
 #classTitle{
     font-size: 40px;
     position: fixed;
@@ -127,7 +49,11 @@ img.testLogo{
     color:black;
     z-index:100;
 }
-.create-button {
+#testInformation{
+position: fixed;
+top: 300px;
+}
+.submit-button {
     z-index: 26;
     position: fixed;
     top: 210px;
@@ -145,7 +71,7 @@ img.testLogo{
     text-decoration:none;
     text-shadow:0px 1px 0px #8a3e3e;
 }
-.create-button:hover {
+.submit-button:hover {
     background-color:rgb(0,200,250);
 }
 
@@ -176,7 +102,7 @@ img.testLogo{
 div.content{
     width:90%;
     top: 70px;
-    height: 100%;
+    height: auto;
     padding-left:20px;
     margin:0px auto;
     text-align: left;
@@ -349,17 +275,6 @@ img.footerblue {
    width: 100%;
    height: 100%;
    z-index: 9999;
-   background: url('./images/monkeyload.gif') 50% 50% no-repeat rgb(249,249,249);
+   background: url('./images/ajax-loader.gif') 50% 50% no-repeat rgb(249,249,249);
 }
-
-.welcome {
-   position: relative;
-   margin-left: auto;
-   margin-right: auto;
-   width: 100%;
-   height: 100%;
-   z-index: 9999;
-   background: url('./images/megamonkeyslogo.png') 50% 50% no-repeat rgb(249,249,249);
-}
-
 
