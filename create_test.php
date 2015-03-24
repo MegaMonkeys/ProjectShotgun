@@ -2,26 +2,8 @@
    // This page sends tests to the database on a click of the Publish button.
    // Cancel and Save buttons are not handled on this page.
 
-
-	//Check MySQL initialisation check
-	/*$conn=mysqli_init();
-	if (!$conn)
-	{
-		die("mysqli_init failed");
-	}
-	
-	//Set connection time out
-	mysqli_options($conn,MYSQLI_OPT_CONNECT_TIMEOUT,"10");
-	
-	//Connect to the MySQL Server
-	//Warning Disabled
-	if (!@mysqli_real_connect($conn,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2')) {
-      if (!@mysqli_real_connect($conn,'localhost', 'team2', 'team2', 'cs414_team2')) {
-         die("<br>Connect Error : " . mysqli_connect_error()); }}
-	else
-		echo "Connected successfully<br>";*/
-
-   include_once 'db_connection.php';
+   @session_start();
+	include_once 'db_connection.php';
 
    //Modifing Test
    if( is_numeric($_POST['save'] ) ) {
@@ -29,7 +11,6 @@
    }
    //Creating New Test - Set Flag to Which Class Test is Made
    else {
-      session_start();
       $_SESSION['section_id'] = $_POST['sectionNo'];
    }
 
@@ -44,15 +25,15 @@
 	$sectionId   = $_POST['sectionNo'];//$_POST['sectionNo'];//$row[0];
 	$testName    = addslashes(strlen($_POST['testName']) != 0 ? $_POST['testName'] : "Test ".date("F j, Y, g:i a"));
    $published   = (isset($_POST['publish'])) ? "1" : "0";
-	$hourLimit   = strlen($_POST['hours']) != 0 ? $_POST['hours'] : "1";
+	$hourLimit   = strlen($_POST['hours'])   != 0 ? $_POST['hours']   : "1";
 	$minuteLimit = strlen($_POST['minutes']) != 0 ? $_POST['minutes'] : "0";
    $timeLimit   = ($hourLimit < 10 ? "0" : "") . $hourLimit . ":" . ($minuteLimit < 10 ? "0" : "") . $minuteLimit . ":00" ;
 	$startDate   = strlen($_POST['startDate']) != 0 ? $_POST['startDate'] : date("Y-m-d");
 	$startTime   = strlen($_POST['startTime']) != 0 ? $_POST['startTime'] : "00:00";
    $startDate   = $startDate . " " . $startTime;
-	$endDate     = strlen($_POST['endDate']) != 0 ? $_POST['endDate'] : date("y-m-d");
-	$endTime     = strlen($_POST['endTime']) != 0 ? $_POST['endTime'] : "23:59";
-   $endDate     = $endDate . " " . $endTime;
+	$endDate     = strlen($_POST['endDate'])   != 0 ? $_POST['endDate']   : date("y-m-d");
+	$endTime     = strlen($_POST['endTime'])   != 0 ? $_POST['endTime']   : "23:59";
+   $endDate     = $endDate .   " " . $endTime;
    $pledge      = addslashes(strlen($_POST['pledge']) != 0 ? $_POST['pledge'] : "");
    
    // Add the test to the database
@@ -75,18 +56,16 @@
    while(isset($_POST['Q'.$queNum.'T']))
    {
       $queText = addslashes(isset($_POST['Q'.$queNum.'T']) ? $_POST['Q'.$queNum.'T'] : "");
-      $quePoints = isset($_POST['Q'.$queNum.'P']) ? $_POST['Q'.$queNum.'P'] : "";
+      //$quePoints = (isset($_POST['Q'.$queNum.'P']) ? $_POST['Q'.$queNum.'P'] : 1);
+      $quePoints = (strlen(@$_POST['Q'.$queNum.'P'] != 0) ? $_POST['Q'.$queNum.'P'] : 1);
       
       echo "<hr/>";
       echo "question ".$queNum."<br/>";
       echo "<hr/>";
 
-      // If 
+      // If True/False
       if( isset($_POST['Q'.$queNum.'O']) )
       {
-         // YC - Answer stored here
-         // $_POST['Q'.$queNum.'O']
-
          $sqlComm = "insert into question (test_id, ques_no, ques_type, ques_text, points)".
                     " values ($testID, $queNum, 'True/False', '$queText', $quePoints)";
          mysqli_query($connection, $sqlComm);
@@ -97,7 +76,7 @@
          $optText = isset($_POST['Q'.$queNum.'O']) ? $_POST['Q'.$queNum.'O'] : "";
          
          $sqlComm = "insert into answer (ques_id, ans_text, correct)".
-              " values (".$quesID.", '".$optText."', 1)";
+                    " values (".$quesID.", '".$optText."', 1)";
          mysqli_query($connection, $sqlComm);
          
          echo $sqlComm;
@@ -177,6 +156,15 @@
          
          echo $sqlComm."<br/>";
       }
+      // If Instruction
+      elseif( isset($_POST['Q'.$queNum.'I']) )
+      {
+         $sqlComm =
+            "insert into question (test_id, ques_no, ques_type, ques_text, points)".
+            " values ($testID, $queNum, 'Instruction', '$queText', 0)";
+         mysqli_query($connection, $sqlComm);
+         echo $sqlComm;
+      }
       // If Essay
       else
       {
@@ -198,5 +186,5 @@
     
    mysqli_close($connection);
 
-   header("Location: ./teacherHomePage.php");
+   //header("Location: ./teacherHomePage.php");
 ?>
