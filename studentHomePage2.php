@@ -1,3 +1,9 @@
+<?php
+   session_start();
+   include_once 'sessionCheck.php';
+   user_type_check('Student');
+?>
+
 <!DOCTYPE html>
 <HTML>
 <link rel="stylesheet" type="text/css" href="studentHomePage2.css">
@@ -77,10 +83,7 @@
 
 
 <script type="text/javascript">
-   $(document).ready(function() {
-
-      $.ajaxSetup({ cache: false });
-   });
+   $(document).ready(function() { $.ajaxSetup({ cache: false }); });
 
    var $class_list = <?php echo json_encode($class_list) ?>;
       //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
@@ -99,5 +102,21 @@
       $(".loader").fadeOut(1);
       $("#testTable").fadeIn("slow");
    });
+
+   //When Page Loads
+   $(function() {
+      page_resize();
+   });
+   //When Page Size Changes
+   $( window ).resize(function() {
+      page_resize();
+   });
+   function page_resize() {
+      //alert($(window).height() + " " + $(document).height());
+      $('#classTitle').css("left", 300 + ($(window).width() - 1100) / 2);
+      $('.courses').css("max-height", $(window).height() - 360);
+      $('.testEachCourse').css("left", 300 + ($(window).width() - 1100) / 2);
+      $('.testEachCourse').css("height", $(window).height() - 280 );
+   }
 
 </script>
