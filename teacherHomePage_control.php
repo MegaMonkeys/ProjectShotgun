@@ -1,6 +1,7 @@
 <?php
    if( isset( $_GET['action'] ) )
    {
+      session_start();
       if( $_GET['action'] == "delete" )
       {
          delete_test( $_GET['test_id'] );
@@ -8,6 +9,7 @@
       if( $_GET['action'] == "modify" )
       {
          modify_test( $_GET['test_id'] );
+         $_SESSION['section_id'] = $_GET['section_id'];
       }
    }
    if( isset( $_GET['section_id'] ) )
@@ -23,8 +25,8 @@
       $sql_command = "SELECT `course`.`COURSE_NO`, `section`.`SECTION_NO`, `section`.`SECTION_ID`, `course`.`DESCRIPTION`\n"
          . "FROM `section`\n"
          . "LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
-         . "WHERE INSTRUCTOR_ID = " . $_SESSION['user_id']
-         . "";
+         . "WHERE INSTRUCTOR_ID = " . $_SESSION['user_id'] . "\n"
+         . "ORDER BY `section`.`COURSE_NO`";
 
       $sql_result = mysqli_query($connection, $sql_command);
       mysqli_close($connection);
