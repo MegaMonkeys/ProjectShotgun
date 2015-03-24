@@ -1,111 +1,130 @@
 <!DOCTYPE html>
 <HTML>
+   <?php
+      session_start();
+      $u_id = $u_pw = $u_type = $result = $session_id = "";
+
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+         $u_id  = html_input($_POST["user"]);
+         $u_pw  = html_input($_POST["password"]);
+         $result = check_account($u_id, $u_pw);
+
+         if( !$result )
+            $_SESSION["session"] = "live";
+      }
+
+      //Redirect user based on their user type (teacher/instructor or student
+      if( isset($_SESSION["session"] )){
+         if($_SESSION["user_type"] == "Teacher"){
+            header('Location: ./teacherHomePage.php');
+         }
+         else if($_SESSION["user_type"] == "Student") {
+            header('Location: ./studentHomePage2.php');
+         }
+         else {
+            $result = '<p>I am so sorry, but an error occurred! :( </p>';
+         }
+      }
+   ?>
+
    <link rel="stylesheet" type="text/css" href="loginStyle.css">
    <HEAD>
-   <style>
-   div#load_screen{
-	background:#FFF;
-	opacity:0.7;
-	position:fixed;
-	z-index:10;
-	top: 0px;
-	width:100%;
-	height:100%;
-   }
-   </style>
-   <script>
-   window.addEventListener("load", function(){
-   
-	var load_screen = document.getElementById("load_screen");
-	document.body.removeChild(load_screen);
-   });
+      <style>
+         div#load_screen{
+            background:#FFF;
+            opacity:0.7;
+            position:fixed;
+            z-index:10;
+            top: 0px;
+            width:100%;
+            height:100%;
+         }
+      </style>
+      <script>
+         window.addEventListener("load", function(){
+            var load_screen = document.getElementById("load_screen");
+            document.body.removeChild(load_screen);
+         });
       </script>
       <TITLE>
-	  MegaTest - Online Testing Application
+         MegaTest - Online Testing Application
       </TITLE>
-	  <!--<script type="text/javascript">
-   
-   /*var image1 = new Image();
-   image1.src="images/academic/womancomp2.jpg";
-   var image2=new Image();
-   image2.src="images/academic/excitedman1.jpg";
-   var image3=new Image();
-   image3.src="images/academic/weirdocomp1.jpg";*/
-
-   /*var image1 = new Image();
-   image1.src="images/academic/students2cropped.jpg";
-   var image2=new Image();
-   image2.src="images/academic/computer1cropped.png";
-   var image3=new Image();
-   image3.src="images/academic/mancompcropped1.png";
-   var image4=new Image();
-   image4.src="images/academic/Testing.jpg";*/
-   </script>-->
    </HEAD>
 <BODY>
 
-<?php //Main PHP Functions
-$u_id = $u_pw = $u_type = $result = $session_id = "";
+   <div class="header">
+      <img src="images/header.png" class="header"/>
+      <div class="title"><img src="images/logo.png" class="logo"/></div>
+   </div>
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $u_id  = html_input($_POST["user"]);
-    $u_pw  = html_input($_POST["password"]);
-    $result = check_account($u_id, $u_pw);
+   <div id='cssmenu'>
+      <ul>
+         <li><a href='#'><span>About</span></a></li>
+         <li><a href='#'><span>Team</span></a></li>
+         <li class='last'><a href='#'><span>Contact</span></a></li>
+      </ul>
+   </div>
 
-    if($result != "INVALID LOGIN")
-        $_SESSION["session"] = "session_on";
-}
+   <div class="content">
+      <div class="login">
+         Log in below &#9660;
+         <form action="#" method="post">
+            <input type="text"     placeholder="username" name="user" required><br>
+            <input type="password" placeholder="password" name="password" required><br>
+            <input type="submit"   class="myButton"       value="Login">
+            <span>  <?php echo $result; ?>  </span>
+         </form>
+      </div>
+   </div>
 
-function html_input($data) {
-    //$data = trim($data);
-    //$data = intval($data); //In DB, ID & PW is stored as Integer
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+   <div class="footer"></br>
+      <img src="images/footerblue.png" class="footerblue"/>
+      <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
+   </div>
+</BODY>
+</HTML>
 
-function check_account($u_id, $u_pw) {
-    //Check MySQL initialisation check
-    $connection = mysqli_init();
-    if (!$connection)
-        die("mysqli_init failed");
 
-    //Set connection time out
-    mysqli_options($connection, MYSQLI_OPT_CONNECT_TIMEOUT, "10");
 
-    //Connect to the MySQL Server
-    if (!@mysqli_real_connect($connection,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2')) {
-        if (!@mysqli_real_connect($connection,'localhost', 'team2', 'team2', 'cs414_team2')) {
-        	return("Connect Error : " . mysqli_connect_error()); }}//die->return
-    else
-        echo "MySQL DB - Connected Successfully<br>";
+<!-- PHP FUNCTIONS FOR LOGIN PAGE -->
+<?php
+   function html_input($data) {
+      //$data = trim($data);
+      //$data = intval($data); //In DB, ID & PW is stored as Integer
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+   }
 
-    //Check ID and PW
-    $sql_command = "SELECT USER_TYPE, LENGTH(USER_ID), LENGTH(PASSWORD) FROM account WHERE USER_ID = " . $u_id . " and PASSWORD = " . $u_pw . ";";
-    $sql_result  = mysqli_query($connection, $sql_command);
-    $count       = @mysqli_num_rows($sql_result);
-    $row         = mysqli_fetch_row($sql_result);
+   function check_account($u_id, $u_pw) {
+      include_once 'db_connection.php';
 
-    if($count == 0) {
-        mysqli_close($connection);
-        return "INVALID LOGIN";
-    }
-    else if($count == 1) {
-        //$row = mysqli_fetch_row($sql_result);
+      //Check ID and PW
+      $sql_command = "SELECT USER_TYPE, LENGTH(USER_ID), LENGTH(PASSWORD) FROM account WHERE USER_ID = " . $u_id . " and PASSWORD = " . $u_pw . ";";
+      $sql_result  = mysqli_query($connection, $sql_command);
+      $count       = @mysqli_num_rows($sql_result);
+      $row         = mysqli_fetch_row($sql_result);
 
-        if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
+      if($count == 0) {
+         mysqli_close($connection);
+         return "INVALID LOGIN";
+      }
+      else if($count == 1) {
+         //$row = mysqli_fetch_row($sql_result);
+
+         if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
             $_SESSION["user_id"] = $u_id; //Store user id, but only if user id is valid
 
             if ($row[0] == "I") {//If Instructor
-                $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
-                $_SESSION["user_type"] = "Teacher"; //Store user type
+               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
+               $_SESSION["user_type"] = "Teacher"; //Store user type
             }
             elseif ($row[0] == "S") {//If Student
-                $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
-                $_SESSION["user_type"] = "Student"; //Store user type
+               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
+               $_SESSION["user_type"] = "Student"; //Store user type
             }
-        }
-        else { //If Length Check fails
+         }
+         else { //If Length Check fails
             mysqli_close($connection);
             return "INVALID LOGIN";
         }

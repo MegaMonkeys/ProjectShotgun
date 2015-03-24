@@ -1,3 +1,9 @@
+<?php
+   session_start();
+   include_once 'sessionCheck.php';
+   user_type_check('Teacher');
+?>
+
 <!DOCTYPE html>
 <HTML>
    <HEAD>
@@ -153,9 +159,7 @@
 </HTML>
 
 <script type="text/javascript">
-   $(document).ready(function() {
-      $.ajaxSetup({ cache: false });
-   });
+   $(document).ready(function() { $.ajaxSetup({ cache: false }); });
 
    function get_test(t_no)
    {
@@ -176,14 +180,23 @@
       alert("Under Construction");
    }
    function cancel_test() {
-      alert("Are You Sure ?");
+      if( confirm("Are You Sure ?") ) {
+         window.location.assign("./teacherHomePage.php");
+      }
+      else
+         alert("OK");
    }
 </script>
 
 <?php
    if( isset( $_GET['test_no'] ) ) {
-      echo "<script type='text/javascript'>get_test(" . $_GET['test_no'] . ");</script>";
-      echo "<script type='text/javascript'>$('#save').attr('value'," . $_GET['test_no'] . ");</script>";
+      if( test_no_check($_GET['test_no']) ) {
+         echo "<script type='text/javascript'>get_test(" . $_GET['test_no'] . ");</script>";
+         echo "<script type='text/javascript'>$('#save').attr('value'," . $_GET['test_no'] . ");</script>";
+      }
+      else {
+         echo "<script type='text/javascript'>window.location.assign('./teacherHomePage.php');</script>";
+      }
    }
    else
       echo "<script type='text/javascript'>$('.loader').fadeOut(1);</script>";

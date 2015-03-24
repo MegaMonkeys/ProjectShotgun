@@ -23,8 +23,14 @@
 
    include_once 'db_connection.php';
 
-   if( isset($_POST['save'] ) ) {
-      mysqli_query($connection, "CALL DELETE_TEST(". $_POST['save'] .")");
+   //Modifing Test
+   if( is_numeric($_POST['save'] ) ) {
+      mysqli_query($connection, "CALL delete_test(". $_POST['save'] .");");
+   }
+   //Creating New Test - Set Flag to Which Class Test is Made
+   else {
+      session_start();
+      $_SESSION['section_id'] = $_POST['sectionNo'];
    }
 
 	
@@ -191,6 +197,6 @@
    
     
    mysqli_close($connection);
-   
-   //header("Location: teacherHomePage.php");
+
+   header("Location: ./teacherHomePage.php");
 ?>

@@ -9,7 +9,8 @@
       include 'db_connection.php';
       $sql_command = "SELECT distinct(`course`.`COURSE_NO`)\n"
          . "FROM `section`\n"
-         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n";
+         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
+         . " WHERE INSTRUCTOR_ID = " . $_SESSION['user_id'];
 
       $sql_result = mysqli_query($connection, $sql_command);
                     mysqli_close($connection);
@@ -25,7 +26,8 @@
       include 'db_connection.php';
       $sql_command = "SELECT `course`.`COURSE_NO`, `section`.`SECTION_NO`, `section`.`SECTION_ID`\n"
          . "FROM `section`\n"
-         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n";
+         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
+         . " WHERE INSTRUCTOR_ID = " . $_SESSION['user_id'];
 
       $sql_result = mysqli_query($connection, $sql_command);
                     mysqli_close($connection);
@@ -35,6 +37,19 @@
          echo '<option class="section_op ' . preg_replace('/\s+/', '', $row[0]) . '" value="' . $row[2] . '">' . $row[1] . '</option>';
       }
       echo '<script type="text/javascript">'. 'get_section();' .  '</script>';
+   }
+
+   function test_no_check($test_no) {
+      include 'db_connection.php';
+      $sql_command = "select * from section join test\n"
+         . "on section.section_id = test.section_id\n"
+         . "where instructor_id = " . $_SESSION['user_id'] . "\n"
+         . "and test_id = " . $test_no;
+
+      $sql_result = mysqli_query($connection, $sql_command);
+      mysqli_close($connection);
+
+      return ((mysqli_num_rows($sql_result) == 1)? true : false);
    }
 
 
