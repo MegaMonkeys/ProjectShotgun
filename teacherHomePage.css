@@ -48,7 +48,7 @@ img.testLogo{
 }
 #courseTD:hover
 {
-    background-color: yellow;
+    background-color: #3399FF;
     cursor:pointer;
 }
 #testTD{
@@ -361,5 +361,3 @@ img.footerblue {
    z-index: 9999;
    background: url('./images/megamonkeyslogo.png') 50% 50% no-repeat rgb(249,249,249);
 }
-
-
