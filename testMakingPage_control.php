@@ -2,6 +2,9 @@
    if( isset( $_GET['test_no'] ) && isset( $_GET['action'] ) ) {
       load_test( $_GET['test_no'] );
    }
+   else if( isset( $_GET['course_no'] ) && isset( $_GET['action'] ) ) {
+      load_section( $_GET['course_no'], $_GET['action'] );
+   }
 
 
    //TestMakingPage.php
@@ -10,10 +13,11 @@
       $sql_command = "SELECT distinct(`course`.`COURSE_NO`)\n"
          . "FROM `section`\n"
          . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
-         . " WHERE INSTRUCTOR_ID = " . $_SESSION['user_id'];
+         . " WHERE INSTRUCTOR_ID = " . $_SESSION['user_id'] . "\n"
+         . " ORDER BY `section`.`COURSE_NO`";
 
       $sql_result = mysqli_query($connection, $sql_command);
-                    mysqli_close($connection);
+                    //mysqli_close($connection);
 
       for ($i = 0; $i < @mysqli_num_rows($sql_result); $i++) {
          $row = mysqli_fetch_row($sql_result);
@@ -32,11 +36,31 @@
       $sql_result = mysqli_query($connection, $sql_command);
                     mysqli_close($connection);
 
+      $GLOBALS['section_list'] = '';
       for ($i = 0; $i < @mysqli_num_rows($sql_result); $i++) {
          $row = mysqli_fetch_row($sql_result);
-         echo '<option class="section_op ' . preg_replace('/\s+/', '', $row[0]) . '" value="' . $row[2] . '">' . $row[1] . '</option>';
+         //echo '<option class="section_op ' . preg_replace('/\s+/', '', $row[0]) . '" value="' . $row[2] . '">' . $row[1] . '</option>';
+         $GLOBALS['section_list'] = $GLOBALS['section_list'] . '<option class="' . preg_replace('/\s+/', '', $row[0]) . '" value="' . $row[2] . '">' . $row[1] . '</option>';
       }
-      echo '<script type="text/javascript">'. 'get_section();' .  '</script>';
+      //echo '<script type="text/javascript">'. 'get_section();' .  '</script>';
+   }
+
+   function load_section($course_no, $user_id) {
+      $course_no = substr($course_no, 0, 2) . " " . substr($course_no, 2, 3);
+      include 'db_connection.php';
+      $sql_command = "SELECT `course`.`COURSE_NO`, `section`.`SECTION_NO`, `section`.`SECTION_ID`\n"
+         . "FROM `section`\n"
+         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
+         . " WHERE INSTRUCTOR_ID = " . $user_id . "\n"
+         . " AND section.COURSE_NO = '" . $course_no . "'";
+
+      $sql_result = mysqli_query($connection, $sql_command);
+      mysqli_close($connection);
+
+      for ($i = 0; $i < @mysqli_num_rows($sql_result); $i++) {
+         $row = mysqli_fetch_row($sql_result);
+         echo '<option value="' . $row[2] . '">' . $row[1] . '</option>';
+      }
    }
 
    function test_no_check($test_no) {
@@ -69,8 +93,7 @@
          . "AND TEST_ID = " . $test_no . ";";
 
       $sql_result = mysqli_query($connection, $sql_command);
-      $row = mysqli_fetch_row($sql_result);
-      echo  load_question_info($row);
+      $info = mysqli_fetch_row($sql_result);
 
 
 
@@ -88,6 +111,7 @@
             echo load_question_refresh();
          }
       }
+      echo  load_question_info($info);
       mysqli_close($connection);
    }
 
@@ -105,13 +129,14 @@
             '$("#hours").val("' . intval(substr($data[3], 0, 2)) . '");' .
             '$("#minutes").val("' . intval(substr($data[3], 3, 5)) . '");' .
             '$("#courseNo").val("' . preg_replace('/\s+/', '', $data[6]) . '");' .
-            '$("#sectionNo").val("' . $data[5] . '");' .
+            'get_sections(); $("#sectionNo").val("' . $data[5] . '");' .
          '</script>';
+      //echo '<option class="section_op ' . preg_replace('/\s+/', '', $row[0]) . '" value="' . $row[2] . '">' . $row[1] . '</option>';
    }
 
    function load_question_form($data)
    {
-      $q_types = array('True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay');
+      $q_types = array('True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay', 'Instruction');
       $q_type = array_search($data[3], $q_types);
       echo '<li class="ui-state-default tess">';
       echo '<span>::</span> ';
@@ -167,8 +192,11 @@
 
             //Disabled
             $form_array[$q_type] .
-            '<hr align="left" width="100%" />'.
-            '<textarea required rows="4" placeholder="Type Instruction"></textarea>'
+            '<button class="bin_button" type="button" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeQ(this);">' .
+            '<input type="image" width="100%" height="100%" src="./images/recycle_close.jpeg">' .
+            '</button><br>' .
+            '<textarea required rows="2" placeholder="Type Instruction">'.$q_text.'</textarea>' .
+            '<input type="hidden">'
 
             //'<textarea required name="ques_random" rows="4" placeholder="Nothing Nothing"></textarea>'
          );
