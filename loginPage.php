@@ -401,3 +401,59 @@ header("Location:http://localhost/login.php?msg=$msg");
 </div>
 </BODY>
 </HTML>
+
+<!-- PHP FUNCTIONS FOR LOGIN PAGE -->
+<?php
+   function html_input($data) {
+      //$data = trim($data);
+      //$data = intval($data); //In DB, ID & PW is stored as Integer
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+   }
+
+   function check_account($u_id, $u_pw) {
+      include_once 'db_connection.php';
+
+      //Check ID and PW
+      $sql_command = "SELECT USER_TYPE, LENGTH(USER_ID), LENGTH(PASSWORD) FROM account WHERE USER_ID = " . $u_id . " and PASSWORD = " . $u_pw . ";";
+      $sql_result  = mysqli_query($connection, $sql_command);
+      $count       = @mysqli_num_rows($sql_result);
+      $row         = mysqli_fetch_row($sql_result);
+
+      if($count == 0) {
+         mysqli_close($connection);
+         return "INVALID LOGIN";
+      }
+      else if($count == 1) {
+         //$row = mysqli_fetch_row($sql_result);
+
+         if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
+            $_SESSION["user_id"] = $u_id; //Store user id, but only if user id is valid
+
+            if ($row[0] == "I") {//If Instructor
+               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
+               $_SESSION["user_type"] = "Teacher"; //Store user type
+            }
+            elseif ($row[0] == "S") {//If Student
+               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
+               $_SESSION["user_type"] = "Student"; //Store user type
+            }
+         }
+         else { //If Length Check fails
+            mysqli_close($connection);
+            return "INVALID LOGIN";
+         }
+
+         $sql_result  = mysqli_query($connection, $sql_command);
+         $row         = mysqli_fetch_row($sql_result);
+         $_SESSION["user_name"] = $row; //Store the user name (FirstName LastName)
+         mysqli_close($connection);
+         return 0;
+      }
+      else {
+         mysqli_close($connection);
+         return "Error :- Duplicate Account Exist";
+      }
+   }
+?>
