@@ -1,3 +1,8 @@
+#slides{
+  position: fixed;
+  margin-top: 10px;
+  z-index: 1;
+}
 body {
   margin:0px 0px;
   font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
@@ -8,6 +13,7 @@ body {
 	line-height: 19.7999992370605px;
 }img.header{
 position:fixed;
+z-index: 2;
 top:0px;
 left:0px;
 width:100%;
@@ -15,6 +21,7 @@ height:150px;
 }
 img.logo{
 position:absolute;
+z-index: 2;
 left:100px;
 width:200px;
 }
@@ -37,6 +44,7 @@ div.content{
 .footer {
    color: #666666;
    position: fixed;
+   z-index: 1;
    bottom: 0;
    width: 100%;
    text-align: center;
@@ -148,6 +156,7 @@ background: #006699;
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
 #cssmenu {
 	position: absolute;
+  z-index: 2;
   background: rgba(0,0,0,0);
   top: 30px;
   right : 10%;
