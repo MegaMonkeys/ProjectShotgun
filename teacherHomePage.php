@@ -9,6 +9,7 @@
    <link rel="stylesheet" type="text/css" href="teacherHomePage.css">
    <script src="tabcontent.js" type="text/javascript"></script>
    <script src="jquery-1.11.2.js"></script>
+   <script src="jquery_api/jquery.min.js"></script>
    <?php include_once 'teacherHomePage_control.php'; ?>
 
 <HEAD>

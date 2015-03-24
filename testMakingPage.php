@@ -79,22 +79,58 @@
                          
                         <div class="informationForm">
                            Class : &nbsp;
-                           <select id="courseNo" name="courseNo" class="inputs" onchange="get_section()">
-                              <?php get_course_list(); ?>
+                           <select id="courseNo" name="courseNo" class="inputs" style="width:80px;" onchange="get_sections()">
+                              <?php get_course_list(); get_section_list(); ?>
                            </select>
-                           &nbsp;
                            Section :
-                           <select id="sectionNo" name="sectionNo" class="inputs">
-                              <?php get_section_list(); ?>
+                           <select id="sectionNo" name="sectionNo" class="inputs" style="width:50px;">
+
                            </select><br />
-                           Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="startDate"  name="startDate" class="inputs"> <input type="time" class="inputs" id="startTime" name="startTime"><br />
+                           <script>
+                              function get_sections() {
+                                 //reset section_list
+                                 document.getElementById('sectionNo').innerHTML = <?php echo json_encode($GLOBALS['section_list']); ?>;
+                                 //display only select course sections
+                                 var html_code = "";
+                                 for( i=0;i<document.getElementsByClassName($('#courseNo').val()).length;i++ )
+                                    html_code += document.getElementsByClassName($('#courseNo').val())[i].outerHTML;
+                                 document.getElementById('sectionNo').innerHTML = html_code;
+                                 var course = "."+$('#courseNo').val();
+                                 $('#sectionNo').val( $("option"+course).first().val() );
+                              }
+                           </script>
+                           <!--Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="startDate"  name="startDate" class="inputs"> <input type="time" class="inputs" id="startTime" name="startTime"><br />
                            End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="endDate" name="endDate" class="inputs"> <input type="time" class="inputs" id="endTime" name="endTime"><br />
-                           Time limit : &nbsp;<input type="number" id="hours" name="hours" min="0" max="10" class="inputs" placeholder="0"> hr &nbsp;
+                           Time limit : &nbsp;<input type="number" id="hours" name="hours" min="0" max="10" class="inputs" placeholder="0" size="2"> hr &nbsp;
                            &nbsp;&nbsp;&nbsp;
-                           <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" placeholder="50"> min
+                           <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" placeholder="50" size="2"> min-->
+                           <table>
+                              <tr>
+                                 <td style="width:110px">Start</td>
+                                 <td>
+                                    <input type="date" class="inputs" id="startDate" name="startDate" style="width:135px;">
+                                    <input type="time" class="inputs" id="startTime" name="startTime" style="width:90px;">
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>End</td>
+                                 <td>
+                                    <input type="date" class="inputs" id="endDate" name="endDate" style="width:135px;">
+                                    <input type="time" class="inputs" id="endTime" name="endTime" style="width:90px;">
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>Time limit</td>
+                                 <td>
+                                    <input type="number" id="hours" name="hours" min="0" max="10" class="inputs" placeholder="0" size="2"> hr
+                                    <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" placeholder="50" size="2"> min
+                                 </td>
+                              </tr>
+                           </table>
+
 
                            <div id="optionButton">
-                              <table>
+                              <table id="optionButtonTable">
                                  <tr>
                                     <td><button type="submit" value="publish" id="publish" name="publish" onclick="publish_test()"></button></td>
                                     <td><button type="submit" value="save"    id="save"    name="save"    formaction="create_test.php"></button></td>
@@ -111,7 +147,7 @@
                            </div>
                         </div>
 
-                        <form id="buttonArea" >
+                        <form id="buttonArea">
                            <div id="form_question"> <!-- Question Types (YC) -->
                               <ul id="sortable1" class="connectedSortable">
 
@@ -161,6 +197,8 @@
 <script type="text/javascript">
    $(document).ready(function() { $.ajaxSetup({ cache: false }); });
 
+   get_sections();
+
    function get_test(t_no)
    {
       $("#content").fadeOut(1);
@@ -186,6 +224,13 @@
       else
          alert("OK");
    }
+
+   /*function get_section() {
+    var data = 'testMakingPage_control.php?action=' + <?php //echo $_SESSION['user_id']; ?> + '&course_no=' + $('#courseNo').val();
+    $('#sectionNo').load(data);
+    }*/
+
+
 </script>
 
 <?php

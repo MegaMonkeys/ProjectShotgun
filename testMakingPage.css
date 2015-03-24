@@ -47,7 +47,7 @@ img.header{
 }
 .informationForm table{
    margin-top:0px;
-   width: 98%;
+   width: 100%;
 }
 .informationForm tr{
 
@@ -269,10 +269,10 @@ img.footerblue {
 
 #left {
    vertical-align: top;
-   min-width: 350px;
+   min-width: 400px;
    padding-top: 70px;
    position: fixed;
-   left: 5em;
+   left: 4em;
 }
 
 #destroy_question {
@@ -299,6 +299,8 @@ img.footerblue {
 }
 #optionButton{
    margin-top: 10px;
+   width: 350px;
+   text-align: center;
 }
 button[type=submit]
 {
@@ -329,7 +331,6 @@ button[type=submit]
 #preview {
    width: 55px;
    height:55px;
-
    display: inline-block;
    background: url(images/options/preview.png);
    background-size: contain;
@@ -341,7 +342,6 @@ button[type=submit]
 #cancel {
    width: 55px;
    height:55px;
-
    display: inline-block;
    background: url(images/options/cancel.png);
    background-size: contain;
