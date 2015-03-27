@@ -38,7 +38,7 @@
         include 'db_connection.php';
         $sqlComm = "insert into student_test (student_id, test_id, date_time)
                     values (".$studentID.", ".$testID.", '".$startTime."')";
-        // mysqli_query($connection, $sqlComm);
+        mysqli_query($connection, $sqlComm);
     ?>
 </HEAD>
 

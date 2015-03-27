@@ -13,7 +13,7 @@ submit_test.php <br /><br />
         {
             $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text)
                         values (112233, ".$qID.", '".$_POST['Q'.$x.'A']."')";
-            // mysqli_query($connection, $sqlComm);
+            mysqli_query($connection, $sqlComm);
             echo '<br />'.$sqlComm;
             
         }
@@ -25,7 +25,7 @@ submit_test.php <br /><br />
                 {
                     $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text)
                             values (112233, ".$qID.", '".$_POST['Q'.$x.'A'.$i]."')";
-                    // mysqli_query($connection, $sqlComm);
+                    mysqli_query($connection, $sqlComm);
                     echo '<br />'.$sqlComm;
                 }
             }
