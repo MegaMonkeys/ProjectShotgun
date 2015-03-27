@@ -48,7 +48,7 @@ img.testLogo{
 }
 #courseTD:hover
 {
-    background-color: yellow;
+    background-color: #3399FF;
     cursor:pointer;
 }
 #testTD{
@@ -349,7 +349,7 @@ img.footerblue {
    width: 100%;
    height: 100%;
    z-index: 9999;
-   background: url('./images/ajax-loader.gif') 50% 50% no-repeat rgb(249,249,249);
+   background: url('./images/monkeyload.gif') 50% 50% no-repeat rgb(249,249,249);
 }
 
 .welcome {

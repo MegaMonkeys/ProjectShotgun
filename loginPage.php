@@ -1,194 +1,359 @@
 <!DOCTYPE html>
 <HTML>
+   <?php
+      session_start();
+      $u_id = $u_pw = $u_type = $result = $session_id = "";
+
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+         $u_id  = html_input($_POST["user"]);
+         $u_pw  = html_input($_POST["password"]);
+         $result = check_account($u_id, $u_pw);
+
+         if( !$result )
+            $_SESSION["session"] = "live";
+      }
+
+      //Redirect user based on their user type (teacher/instructor or student
+      if( isset($_SESSION["session"] )){
+         if($_SESSION["user_type"] == "Teacher"){
+            header('Location: ./teacherHomePage.php');
+         }
+         else if($_SESSION["user_type"] == "Student") {
+            header('Location: ./studentHomePage2.php');
+         }
+         else {
+            $result = '<p>I am so sorry, but an error occurred! :( </p>';
+         }
+      }
+   ?>
+
    <link rel="stylesheet" type="text/css" href="loginStyle.css">
    <HEAD>
-   <style>
-   div#load_screen{
-	background:#FFF;
-	opacity:0.7;
-	position:fixed;
-	z-index:10;
-	top: 0px;
-	width:100%;
-	height:100%;
-   }
-   </style>
-   <script>
-   window.addEventListener("load", function(){
-   
-	var load_screen = document.getElementById("load_screen");
-	document.body.removeChild(load_screen);
-   });
+      <style>
+         div#load_screen{
+            background:#FFF;
+            opacity:0.7;
+            position:fixed;
+            z-index:10;
+            top: 0px;
+            width:100%;
+            height:100%;
+         }
+      </style>
+      <script>
+         window.addEventListener("load", function(){
+            var load_screen = document.getElementById("load_screen");
+            document.body.removeChild(load_screen);
+         });
+      </script>
+      <script type="text/javascript">
+         var image1 = new Image();
+         image1.src="images/verses/verse1.png";
+         var image2=new Image();
+         image2.src="images/verses/verse2.png";
+         var image3=new Image();
+         image3.src="images/verses/verse3.png";
+         var image4=new Image();
+         image4.src="images/verses/verse4.png"
+         var image5=new Image();
+         image5.src="images/verses/verse5.png"
       </script>
       <TITLE>
-	  MegaTest - Online Testing Application
+         MegaTest - Online Testing Application
       </TITLE>
-	  <script type="text/javascript">
-   
-   var image1 = new Image();
-   image1.src="images/verses/verse1.png";
-   var image2=new Image();
-   image2.src="images/verses/verse2.png";
-   var image3=new Image();
-   image3.src="images/verses/verse3.png";
-   var image4=new Image();
-   image4.src="images/verses/verse4.png"
-   var image5=new Image();
-   image5.src="images/verses/verse5.png"
-   </script>
    </HEAD>
 <BODY>
+   <div id="load_screen"><img src="images/megamonkeysloading.png" /></div>
+   <!--<img src="verses/verse5.png" name="slide"  height="600" class="slideshow">-->
+   <script type="text/javascript"> //Background Slideshow
+      /*var step=1
+      function slideit(){
+         document.images.slide.src=eval("image"+step+".src");
+         if(step<5)
+            step++;
+         else
+            step=1;
+         setTimeout("slideit()",5500);
+      }
+      slideit();*/
+   </script>
 
-<?php //Main PHP Functions
-$u_id = $u_pw = $u_type = $result = $session_id = "";
+   <div class="header">
+      <img src="images/header.png" class="header"/>
+      <div class="title"><img src="images/logo.png" class="logo"/></div>
+   </div>
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $u_id  = html_input($_POST["user"]);
-    $u_pw  = html_input($_POST["password"]);
-    $result = check_account($u_id, $u_pw);
+   <div id='cssmenu'>
+      <ul>
+         <li><a href='#'><span>About</span></a></li>
+         <li><a href='#'><span>Team</span></a></li>
+         <li class='last'><a href='#'><span>Contact</span></a></li>
+      </ul>
+   </div>
 
-    if($result != "INVALID LOGIN")
-        $_SESSION["session"] = "session_on";
-}
+   <!-- START SLIDER -->
 
-function html_input($data) {
-    //$data = trim($data);
-    //$data = intval($data); //In DB, ID & PW is stored as Integer
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+   <div id='slides'>
+    <!-- use jssor.slider.min.js for release -->
+    <!-- jssor.slider.min.js = (jssor.js + jssor.slider.js) -->
+    <script type="text/javascript" src="Jssor.Slider.FullPack/js/jssor.js"></script>
+    <script type="text/javascript" src="Jssor.Slider.FullPack/js/jssor.slider.js"></script>
+    <script>
+        jssor_slider1_starter = function (containerId) {
+            var _CaptionTransitions = [];
+            _CaptionTransitions["L"] = { $Duration: 900, x: 0.6, $Easing: { $Left: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+            _CaptionTransitions["R"] = { $Duration: 900, x: -0.6, $Easing: { $Left: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+            _CaptionTransitions["T"] = { $Duration: 900, y: 0.6, $Easing: { $Top: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+            _CaptionTransitions["B"] = { $Duration: 900, y: -0.6, $Easing: { $Top: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+            _CaptionTransitions["ZMF|10"] = { $Duration: 900, $Zoom: 11, $Easing: { $Zoom: $JssorEasing$.$EaseOutQuad, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 };
+            _CaptionTransitions["RTT|10"] = { $Duration: 900, $Zoom: 11, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseOutQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInExpo }, $Opacity: 2, $Round: { $Rotate: 0.8} };
+            _CaptionTransitions["RTT|2"] = { $Duration: 900, $Zoom: 3, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseInQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInQuad }, $Opacity: 2, $Round: { $Rotate: 0.5} };
+            _CaptionTransitions["RTTL|BR"] = { $Duration: 900, x: -0.6, y: -0.6, $Zoom: 11, $Rotate: 1, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Top: $JssorEasing$.$EaseInCubic, $Zoom: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInCubic }, $Opacity: 2, $Round: { $Rotate: 0.8} };
+            _CaptionTransitions["CLIP|LR"] = { $Duration: 900, $Clip: 15, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic }, $Opacity: 2 };
+            _CaptionTransitions["MCLIP|L"] = { $Duration: 900, $Clip: 1, $Move: true, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic} };
+            _CaptionTransitions["MCLIP|R"] = { $Duration: 900, $Clip: 2, $Move: true, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic} };
 
-function check_account($u_id, $u_pw) {
-    //Check MySQL initialisation check
-    $connection = mysqli_init();
-    if (!$connection)
-        die("mysqli_init failed");
+            var options = {
+                $FillMode: 2,                                       //[Optional] The way to fill image in slide, 0 stretch, 1 contain (keep aspect ratio and put all inside slide), 2 cover (keep aspect ratio and cover whole slide), 4 actual size, 5 contain for large image, actual size for small image, default value is 0
+                $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+                $AutoPlayInterval: 4000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+                $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
 
-    //Set connection time out
-    mysqli_options($connection, MYSQLI_OPT_CONNECT_TIMEOUT, "10");
+                $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+                $SlideEasing: $JssorEasing$.$EaseOutQuint,          //[Optional] Specifies easing for right to left animation, default value is $JssorEasing$.$EaseOutQuad
+                $SlideDuration: 800,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+                $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
+                //$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+                //$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+                $SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
+                $DisplayPieces: 1,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
+                $ParkingPosition: 0,                                //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
+                $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+                $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, 5 horizental reverse, 6 vertical reverse, default value is 1
+                $DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
 
-    //Connect to the MySQL Server
-    if (!@mysqli_real_connect($connection,'CSWEB.studentnet.int', 'team2_cs414', 't2CS414', 'cs414_team2')) {
-        if (!@mysqli_real_connect($connection,'localhost', 'team2', 'team2', 'cs414_team2')) {
-        	return("Connect Error : " . mysqli_connect_error()); }}//die->return
-    else
-        echo "MySQL DB - Connected Successfully<br>";
+                $CaptionSliderOptions: {                            //[Optional] Options which specifies how to animate caption
+                    $Class: $JssorCaptionSlider$,                   //[Required] Class to create instance to animate caption
+                    $CaptionTransitions: _CaptionTransitions,       //[Required] An array of caption transitions to play caption, see caption transition section at jssor slideshow transition builder
+                    $PlayInMode: 1,                                 //[Optional] 0 None (no play), 1 Chain (goes after main slide), 3 Chain Flatten (goes after main slide and flatten all caption animations), default value is 1
+                    $PlayOutMode: 3                                 //[Optional] 0 None (no play), 1 Chain (goes before main slide), 3 Chain Flatten (goes before main slide and flatten all caption animations), default value is 1
+                },
 
-    //Check ID and PW
-    $sql_command = "SELECT USER_TYPE, LENGTH(USER_ID), LENGTH(PASSWORD) FROM account WHERE USER_ID = " . $u_id . " and PASSWORD = " . $u_pw . ";";
-    $sql_result  = mysqli_query($connection, $sql_command);
-    $count       = @mysqli_num_rows($sql_result);
-    $row         = mysqli_fetch_row($sql_result);
+                $BulletNavigatorOptions: {                          //[Optional] Options to specify and enable navigator or not
+                    $Class: $JssorBulletNavigator$,                 //[Required] Class to create navigator instance
+                    $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                    $AutoCenter: 1,                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                    $Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+                    $Lanes: 1,                                      //[Optional] Specify lanes to arrange items, default value is 1
+                    $SpacingX: 8,                                   //[Optional] Horizontal space between each item in pixel, default value is 0
+                    $SpacingY: 8,                                   //[Optional] Vertical space between each item in pixel, default value is 0
+                    $Orientation: 1                                 //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+                },
 
-    if($count == 0) {
-        mysqli_close($connection);
-        return "INVALID LOGIN";
-    }
-    else if($count == 1) {
-        //$row = mysqli_fetch_row($sql_result);
+                $ArrowNavigatorOptions: {                       //[Optional] Options to specify and enable arrow navigator or not
+                    $Class: $JssorArrowNavigator$,              //[Requried] Class to create arrow navigator instance
+                    $ChanceToShow: 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                    $AutoCenter: 2,                                 //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                    $Steps: 1                                       //[Optional] Steps to go for each navigation request, default value is 1
+                }
+            };
 
-        if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
+            var jssor_slider1 = new $JssorSlider$(containerId, options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider() {
+                var bodyWidth = document.body.clientWidth;
+                if (bodyWidth)
+                    jssor_slider1.$ScaleWidth(Math.min(bodyWidth, 1920));
+                else
+                    $Jssor$.$Delay(ScaleSlider, 30);
+            }
+
+            ScaleSlider();
+            $Jssor$.$AddEvent(window, "load", ScaleSlider);
+
+            $Jssor$.$AddEvent(window, "resize", $Jssor$.$WindowResizeFilter(window, ScaleSlider));
+            $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
+            //responsive code end
+        };
+    </script>
+    <!-- Jssor Slider Begin -->
+    <!-- You can move inline styles to css file or css block. -->
+    <div id="slider1_container" style="position: relative; margin: 0 auto;
+        top: 0px; left: 0px; width: 1200px; height: 600px; overflow: hidden;">
+        <!-- Loading Screen -->
+        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
+                top: 0px; left: 0px; width: 100%; height: 100%;">
+            </div>
+            <div style="position: absolute; display: block; background: url(Jssor.Slider.FullPack/img/loading.gif) no-repeat center center;
+                top: 0px; left: 0px; width: 100%; height: 100%;">
+            </div>
+        </div>
+        <!-- Slides Container -->
+        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1300px; height: 500px;
+             overflow: hidden;">
+            <div>
+                <img u="image" src="images/academic/highschool1.jpg" />
+            </div>
+            <div>
+                <img u="image" src="images/academic/students1.jpg" />
+            </div>
+            <div>
+                <img u="image" src="images/academic/mancompcropped1.png" />
+            </div>
+            <div>
+                <img u="image" src="images/academic/Testing.jpg" />
+            </div>
+        </div>
+
+        <!-- Bullet Navigator Skin Begin -->
+        <style>
+            /* jssor slider bullet navigator skin 21 css */
+            /*
+            .jssorb21 div           (normal)
+            .jssorb21 div:hover     (normal mouseover)
+            .jssorb21 .av           (active)
+            .jssorb21 .av:hover     (active mouseover)
+            .jssorb21 .dn           (mousedown)
+            */
+            .jssorb21 div, .jssorb21 div:hover, .jssorb21 .av
+            {
+                background: url(Jssor.Slider.FullPack/img/b21.png) no-repeat;
+                overflow:hidden;
+                cursor: pointer;
+            }
+            .jssorb21 div { background-position: -5px -5px; }
+            .jssorb21 div:hover, .jssorb21 .av:hover { background-position: -35px -5px; }
+            .jssorb21 .av { background-position: -65px -5px; }
+            .jssorb21 .dn, .jssorb21 .dn:hover { background-position: -95px -5px; }
+        </style>
+        <!-- bullet navigator container -->
+        <div u="navigator" class="jssorb21" style="position: absolute; bottom: 26px; left: 6px;">
+            <!-- bullet navigator item prototype -->
+            <div u="prototype" style="POSITION: absolute; WIDTH: 19px; HEIGHT: 19px; text-align:center; line-height:19px; color:White; font-size:12px;"></div>
+        </div>
+        <!-- Bullet Navigator Skin End -->
+
+        <!-- Arrow Navigator Skin Begin -->
+        <style>
+            /* jssor slider arrow navigator skin 21 css */
+            /*
+            .jssora21l              (normal)
+            .jssora21r              (normal)
+            .jssora21l:hover        (normal mouseover)
+            .jssora21r:hover        (normal mouseover)
+            .jssora21ldn            (mousedown)
+            .jssora21rdn            (mousedown)
+            */
+            .jssora21l, .jssora21r, .jssora21ldn, .jssora21rdn
+            {
+                position: absolute;
+                cursor: pointer;
+                display: block;
+                background: url(Jssor.Slider.FullPack/img/a21.png) center center no-repeat;
+                overflow: hidden;
+            }
+            .jssora21l { background-position: -3px -33px; }
+            .jssora21r { background-position: -63px -33px; }
+            .jssora21l:hover { background-position: -123px -33px; }
+            .jssora21r:hover { background-position: -183px -33px; }
+            .jssora21ldn { background-position: -243px -33px; }
+            .jssora21rdn { background-position: -303px -33px; }
+        </style>
+        <!-- Arrow Left -->
+        <span u="arrowleft" class="jssora21l" style="width: 55px; height: 55px; top: 123px; left: 8px;">
+        </span>
+        <!-- Arrow Right -->
+        <span u="arrowright" class="jssora21r" style="width: 55px; height: 55px; top: 123px; right: 8px">
+        </span>
+        <!-- Arrow Navigator Skin End -->
+        <a style="display: none" href="http://www.jssor.com">jQuery Carousel</a>
+    </div>
+    <!-- Trigger -->
+    <script>
+        jssor_slider1_starter('slider1_container');
+    </script>
+    <!-- Jssor Slider End -->
+</div>
+
+   <!-- END SLIDER -->
+
+
+   <div class="content">
+      <div class="login">
+         Log in below &#9660;
+         <form action="#" method="post">
+            <input type="text"     placeholder="username" name="user" required><br>
+            <input type="password" placeholder="password" name="password" required><br>
+            <input type="submit"   class="myButton"       value="Login">
+            <span>  <?php echo $result; ?>  </span>
+         </form>
+      </div>
+   </div>
+
+   <div class="footer"></br>
+      <img src="images/footerblue.png" class="footerblue"/>
+      <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
+   </div>
+</BODY>
+</HTML>
+
+
+
+<!-- PHP FUNCTIONS FOR LOGIN PAGE -->
+<?php
+   function html_input($data) {
+      //$data = trim($data);
+      //$data = intval($data); //In DB, ID & PW is stored as Integer
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+   }
+
+   function check_account($u_id, $u_pw) {
+      include_once 'db_connection.php';
+
+      //Check ID and PW
+      $sql_command = "SELECT USER_TYPE, LENGTH(USER_ID), LENGTH(PASSWORD) FROM account WHERE USER_ID = " . $u_id . " and PASSWORD = " . $u_pw . ";";
+      $sql_result  = mysqli_query($connection, $sql_command);
+      $count       = @mysqli_num_rows($sql_result);
+      $row         = mysqli_fetch_row($sql_result);
+
+      if($count == 0) {
+         mysqli_close($connection);
+         return "INVALID LOGIN";
+      }
+      else if($count == 1) {
+         //$row = mysqli_fetch_row($sql_result);
+
+         if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
             $_SESSION["user_id"] = $u_id; //Store user id, but only if user id is valid
 
             if ($row[0] == "I") {//If Instructor
-                $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
-                $_SESSION["user_type"] = "Teacher"; //Store user type
+               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
+               $_SESSION["user_type"] = "Teacher"; //Store user type
             }
             elseif ($row[0] == "S") {//If Student
-                $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
-                $_SESSION["user_type"] = "Student"; //Store user type
+               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
+               $_SESSION["user_type"] = "Student"; //Store user type
             }
-        }
-        else { //If Length Check fails
+         }
+         else { //If Length Check fails
             mysqli_close($connection);
             return "INVALID LOGIN";
-        }
+         }
 
-        $sql_result  = mysqli_query($connection, $sql_command);
-        $_SESSION["user_name"] = $sql_result; //Store the user name (FirstName LastName)
-        $row         = mysqli_fetch_row($sql_result);
-        mysqli_close($connection);
-        return $row[0] . " " . $row[1];
-    }
-    else {
-        mysqli_close($connection);
-        return "Error :- Duplicate Account Exist";
-    }
-}
-//End of Main PHP Functions
+         $sql_result  = mysqli_query($connection, $sql_command);
+         $row         = mysqli_fetch_row($sql_result);
+         $_SESSION["user_name"] = $row; //Store the user name (FirstName LastName)
+         mysqli_close($connection);
+         return 0;
+      }
+      else {
+         mysqli_close($connection);
+         return "Error :- Duplicate Account Exist";
+      }
+   }
 ?>
-<?php //Body PHP
-//Redirect user based on their user type (teacher/instructor or student
-if(@$_SESSION["session"] != ""){
-    if(@$_SESSION["user_type"] == "Teacher"){
-        header('Location: ./teacherHomePage.php');
-    }
-    else if(@$_SESSION["user_type"] == "Student") {
-        header('Location: ./studentHomePageEthan.php');
-    }
-    else {
-        echo '<p>I am so sorry, but an error occurred! :( </p>';
-    }
-}
-
-//End of Body PHP
-?>
-
-<div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
-<img src="verses/verse5.png" name="slide"  height="600" class="slideshow">
-	  <script type="text/javascript">
-<!--
-var step=1
-function slideit(){
-document.images.slide.src=eval("image"+step+".src");
-if(step<5)
-step++;
-else
-step=1;
-setTimeout("slideit()",5500);
-}
-slideit();
--->
-</script>
-<div class="header">
-<img src="images/header.png" class="header"/>
-<div class="title"><img src="images/logo.png" class="logo"/></div>
-</div>
-<div id='cssmenu'>
-<ul>
-   <li><a href='#'><span>About</span></a></li>
-   <li><a href='#'><span>Team</span></a></li>
-   <li class='last'><a href='#'><span>Contact</span></a></li>
-</ul>
-</div>
-
-<div class="content">
-<div class="login">
-Log in below &#9660;
-<form action="#" method="post">
-	<input type="text" placeholder="username" name="user" required><br>
-	<input type="password" placeholder="password" name="password" required><br>
-	<input type="submit" class="myButton" value="Login">
-<span>
- <?php if(isset($_GET['msg']))
-			echo $_GET['msg'];
-  ?>
-</span> 
-<!--
-the php
-if(!$_POST["username"] || !$_POST["password"])
-{
-$msg = "You left one or more of the required fields.";
-header("Location:http://localhost/login.php?msg=$msg");
-}
--->
-</form>
-</div>
-</div>
-<div class="footer"></br>
-   <img src="images/footerblue.png" class="footerblue"/>
-   <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
-</div>
-</BODY>
-</HTML>
