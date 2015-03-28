@@ -46,11 +46,37 @@
             document.body.removeChild(load_screen);
          });
       </script>
+      <script type="text/javascript">
+         var image1 = new Image();
+         image1.src="images/verses/verse1.png";
+         var image2=new Image();
+         image2.src="images/verses/verse2.png";
+         var image3=new Image();
+         image3.src="images/verses/verse3.png";
+         var image4=new Image();
+         image4.src="images/verses/verse4.png"
+         var image5=new Image();
+         image5.src="images/verses/verse5.png"
+      </script>
       <TITLE>
          MegaTest - Online Testing Application
       </TITLE>
    </HEAD>
 <BODY>
+   <div id="load_screen"><img src="images/megamonkeysloading.png" /></div>
+   <!--<img src="verses/verse5.png" name="slide"  height="600" class="slideshow">-->
+   <script type="text/javascript"> //Background Slideshow
+      /*var step=1
+      function slideit(){
+         document.images.slide.src=eval("image"+step+".src");
+         if(step<5)
+            step++;
+         else
+            step=1;
+         setTimeout("slideit()",5500);
+      }
+      slideit();*/
+   </script>
 
    <div class="header">
       <img src="images/header.png" class="header"/>
@@ -65,129 +91,9 @@
       </ul>
    </div>
 
-   <div class="content">
-      <div class="login">
-         Log in below &#9660;
-         <form action="#" method="post">
-            <input type="text"     placeholder="username" name="user" required><br>
-            <input type="password" placeholder="password" name="password" required><br>
-            <input type="submit"   class="myButton"       value="Login">
-            <span>  <?php echo $result; ?>  </span>
-         </form>
-      </div>
-   </div>
+   <!-- START SLIDER -->
 
-   <div class="footer"></br>
-      <img src="images/footerblue.png" class="footerblue"/>
-      <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
-   </div>
-</BODY>
-</HTML>
-
-
-
-<!-- PHP FUNCTIONS FOR LOGIN PAGE -->
-<?php
-   function html_input($data) {
-      //$data = trim($data);
-      //$data = intval($data); //In DB, ID & PW is stored as Integer
-      $data = stripslashes($data);
-      $data = htmlspecialchars($data);
-      return $data;
-   }
-
-   function check_account($u_id, $u_pw) {
-      include_once 'db_connection.php';
-
-      //Check ID and PW
-      $sql_command = "SELECT USER_TYPE, LENGTH(USER_ID), LENGTH(PASSWORD) FROM account WHERE USER_ID = " . $u_id . " and PASSWORD = " . $u_pw . ";";
-      $sql_result  = mysqli_query($connection, $sql_command);
-      $count       = @mysqli_num_rows($sql_result);
-      $row         = mysqli_fetch_row($sql_result);
-
-      if($count == 0) {
-         mysqli_close($connection);
-         return "INVALID LOGIN";
-      }
-      else if($count == 1) {
-         //$row = mysqli_fetch_row($sql_result);
-
-         if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
-            $_SESSION["user_id"] = $u_id; //Store user id, but only if user id is valid
-
-            if ($row[0] == "I") {//If Instructor
-               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
-               $_SESSION["user_type"] = "Teacher"; //Store user type
-            }
-            elseif ($row[0] == "S") {//If Student
-               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
-               $_SESSION["user_type"] = "Student"; //Store user type
-            }
-         }
-         else { //If Length Check fails
-            mysqli_close($connection);
-            return "INVALID LOGIN";
-        }
-
-        $sql_result  = mysqli_query($connection, $sql_command);
-        $_SESSION["user_name"] = $sql_result; //Store the user name (FirstName LastName)
-        $row         = mysqli_fetch_row($sql_result);
-        mysqli_close($connection);
-        return $row[0] . " " . $row[1];
-    }
-    else {
-        mysqli_close($connection);
-        return "Error :- Duplicate Account Exist";
-    }
-}
-//End of Main PHP Functions
-?>
-<?php //Body PHP
-//Redirect user based on their user type (teacher/instructor or student
-if(@$_SESSION["session"] != ""){
-    if(@$_SESSION["user_type"] == "Teacher"){
-        header('Location: ./teacherHomePage.php');
-    }
-    else if(@$_SESSION["user_type"] == "Student") {
-        header('Location: ./studentHomePageEthan.php');
-    }
-    else {
-        echo '<p>I am so sorry, but an error occurred! :( </p>';
-    }
-}
-
-//End of Body PHP
-?>
-
-<div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
-<img src="verses/verse5.png" name="slide"  height="600" class="slideshow">
-<!--	  <script type="text/javascript">
-
-/*var step=1
-function slideit(){
-document.images.slide.src=eval("image"+step+".src");
-if(step<4)
-step++;
-else
-step=1;
-setTimeout("slideit()",5500);
-}
-slideit();*/
-
-</script>-->
-<div class="header">
-<img src="images/header.png" class="header"/>
-<div class="title"><img src="images/logo.png" class="logo"/></div>
-</div>
-<div id='cssmenu'>
-<ul>
-   <li><a href='#'><span>About</span></a></li>
-   <li><a href='#'><span>Team</span></a></li>
-   <li class='last'><a href='#'><span>Contact</span></a></li>
-</ul>
-</div>
-
-<div id='slides'>
+   <div id='slides'>
     <!-- use jssor.slider.min.js for release -->
     <!-- jssor.slider.min.js = (jssor.js + jssor.slider.js) -->
     <script type="text/javascript" src="Jssor.Slider.FullPack/js/jssor.js"></script>
@@ -275,7 +181,7 @@ slideit();*/
     <!-- Jssor Slider Begin -->
     <!-- You can move inline styles to css file or css block. -->
     <div id="slider1_container" style="position: relative; margin: 0 auto;
-        top: 0px; left: 0px; width: 1200px; height: 500px; overflow: hidden;">
+        top: 0px; left: 0px; width: 1200px; height: 600px; overflow: hidden;">
         <!-- Loading Screen -->
         <div u="loading" style="position: absolute; top: 0px; left: 0px;">
             <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
@@ -286,8 +192,8 @@ slideit();*/
             </div>
         </div>
         <!-- Slides Container -->
-        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1300px;
-            height: 500px; overflow: hidden;">
+        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1300px; height: 500px;
+             overflow: hidden;">
             <div>
                 <img u="image" src="images/academic/highschool1.jpg" />
             </div>
@@ -372,32 +278,82 @@ slideit();*/
     <!-- Jssor Slider End -->
 </div>
 
-<div class="content">
-<div class="login">
-Log in below &#9660;
-<form action="#" method="post">
-	<input type="text" placeholder="username" name="user" required><br>
-	<input type="password" placeholder="password" name="password" required><br>
-	<input type="submit" class="myButton" value="Login">
-<span>
- <?php if(isset($_GET['msg']))
-			echo $_GET['msg'];
-  ?>
-</span> 
-<!--
-the php
-if(!$_POST["username"] || !$_POST["password"])
-{
-$msg = "You left one or more of the required fields.";
-header("Location:http://localhost/login.php?msg=$msg");
-}
--->
-</form>
-</div>
-</div>
-<div class="footer"></br>
-   <img src="images/footerblue.png" class="footerblue"/>
-   <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
-</div>
+   <!-- END SLIDER -->
+
+
+   <div class="content">
+      <div class="login">
+         Log in below &#9660;
+         <form action="#" method="post">
+            <input type="text"     placeholder="username" name="user" required><br>
+            <input type="password" placeholder="password" name="password" required><br>
+            <input type="submit"   class="myButton"       value="Login">
+            <span>  <?php echo $result; ?>  </span>
+         </form>
+      </div>
+   </div>
+
+   <div class="footer"></br>
+      <img src="images/footerblue.png" class="footerblue"/>
+      <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
+   </div>
 </BODY>
 </HTML>
+
+
+
+<!-- PHP FUNCTIONS FOR LOGIN PAGE -->
+<?php
+   function html_input($data) {
+      //$data = trim($data);
+      //$data = intval($data); //In DB, ID & PW is stored as Integer
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+   }
+
+   function check_account($u_id, $u_pw) {
+      include_once 'db_connection.php';
+
+      //Check ID and PW
+      $sql_command = "SELECT USER_TYPE, LENGTH(USER_ID), LENGTH(PASSWORD) FROM account WHERE USER_ID = " . $u_id . " and PASSWORD = " . $u_pw . ";";
+      $sql_result  = mysqli_query($connection, $sql_command);
+      $count       = @mysqli_num_rows($sql_result);
+      $row         = mysqli_fetch_row($sql_result);
+
+      if($count == 0) {
+         mysqli_close($connection);
+         return "INVALID LOGIN";
+      }
+      else if($count == 1) {
+         //$row = mysqli_fetch_row($sql_result);
+
+         if($row[1] == strlen($u_id) && $row[2] == strlen($u_pw)) { //Length Check for ID & Password
+            $_SESSION["user_id"] = $u_id; //Store user id, but only if user id is valid
+
+            if ($row[0] == "I") {//If Instructor
+               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM INSTRUCTOR WHERE INSTRUCTOR_ID = " . $u_id . ";";
+               $_SESSION["user_type"] = "Teacher"; //Store user type
+            }
+            elseif ($row[0] == "S") {//If Student
+               $sql_command = "SELECT FIRST_NAME, LAST_NAME FROM STUDENT WHERE STUDENT_ID = " . $u_id . ";";
+               $_SESSION["user_type"] = "Student"; //Store user type
+            }
+         }
+         else { //If Length Check fails
+            mysqli_close($connection);
+            return "INVALID LOGIN";
+         }
+
+         $sql_result  = mysqli_query($connection, $sql_command);
+         $row         = mysqli_fetch_row($sql_result);
+         $_SESSION["user_name"] = $row; //Store the user name (FirstName LastName)
+         mysqli_close($connection);
+         return 0;
+      }
+      else {
+         mysqli_close($connection);
+         return "Error :- Duplicate Account Exist";
+      }
+   }
+?>
