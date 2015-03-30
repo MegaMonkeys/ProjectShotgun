@@ -18,6 +18,24 @@ top: 100px;
 margin-bottom: 0px;
 z-index:30;
 }
+#test_info {
+   position: absolute;
+   top: 10px;
+   left: 400px;
+}
+#test_info td{
+   text-align: center;
+   border: 1px solid lightblue;
+}
+#f_t_name {
+   min-width: 200px;
+}
+#f_s_name {
+   min-width: 300px;
+}
+#f_percent {
+   min-width: 60px;
+}
 img.header{
    position: fixed;
    width:100%;
@@ -30,7 +48,7 @@ img.header{
 #studentTD
 {
   text-align: left;
-  padding-left: 20px;
+  padding-left: 10px;
   color: white;
   background-color:#FF9900 ;
 }
@@ -50,7 +68,7 @@ img.testLogo{
 .testQuestions{
     position: relative;
     top: 30px;
-    left: 400px;
+    left: 300px;
     width: 900px;
    min-height: 300px;
 /*    overflow-y: scroll;*/
@@ -59,15 +77,15 @@ img.testLogo{
    z-index:50;
 }
 .essayText{
-	width: 500px;
+	width: 95%;
 	height: 100px;
 }
-#points{
+.points{
 	width: 30px;
 	height: 30px;
 	font-size:20px;
 }
-#pointBox{
+.pointBox{
 	width:100px;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -98,6 +116,7 @@ position: fixed;
 height:450px;
 top: 240px;
 overflow-y:scroll;
+   z-index:30;
 }
 .submit-button {
     z-index: 26;
@@ -321,9 +340,9 @@ img.footerblue {
    margin-left: auto;
    margin-right: auto;
    width: 100%;
-   height: 100%;
+   height: 500px;
    z-index: 9999;
-   background: url('./images/ajax-loader.gif') 50% 50% no-repeat rgb(249,249,249);
+   background: url('./images/monkeyload.gif') 50% 50% no-repeat rgb(249,249,249);
 }
 .table_border_style table{
 	border:1px solid #66CCFF;
