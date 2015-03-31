@@ -29,7 +29,7 @@
 		});
 		function page_resize() {
 			//alert( $(window).height() + " " + $(document).height());
-			$("#studentInformation").css("height", $(window).height() - 300);
+			$("#studentInformation").css("max-height", $(window).height() - 300);
          $(".testQuestions").css("min-height", $(window).height() - 300);
 		}
     </script>
@@ -110,13 +110,16 @@
 <script type="text/javascript">
    $(document).ready(function() { $.ajaxSetup({ cache: false }); });
    $(".loader").fadeOut(1);
-   var test_info = <?php echo json_encode(get_test_info(4)) ?>; //!!!!!! TEST NO CAUTION
+   var test_info = <?php echo json_encode(get_test_info($_POST['gradeButton'])) ?>;
    f_t_name.innerHTML = test_info[0];
    s_id = "";
+   
+   get_student_test(<?php echo $_POST['gradeButton']; ?>,<?php echo ($f_id) ?>,<?php echo json_encode($f_name); ?>);
+   
 
    function get_student_test(test_id, student_id, s_name) {
       //alert(test_id + " " + student_id);
-      var data = 'testGradingPage_control.php?action=get&test_id=4&student_id=' + student_id;
+      var data = 'testGradingPage_control.php?action=get&test_id='+test_id+'&student_id='+student_id;
 
       $("#test_table").fadeOut(1);
       $(".loader").fadeIn("slow");
