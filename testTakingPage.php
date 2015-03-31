@@ -1,3 +1,9 @@
+<?php
+   session_start();
+   include_once 'sessionCheck.php';
+   user_type_check('Student');
+?>
+
 <!DOCTYPE html>
 <HTML>
 <link rel="stylesheet" type="text/css" href="testTakingPage.css">

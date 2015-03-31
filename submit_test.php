@@ -1,3 +1,8 @@
+<?php
+   session_start();
+   include_once 'sessionCheck.php';
+   user_type_check('Student');
+?>
 submit_test.php <br /><br />
 <?php
     include 'db_connection.php';
