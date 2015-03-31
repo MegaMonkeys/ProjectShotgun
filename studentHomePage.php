@@ -75,7 +75,6 @@
             
          $tests = mysqli_query($conn, "select test_name, published, test_avg from test where section_id = ".$courseRow['section_id']);
          $numTests = mysqli_num_rows($tests);
-         
          echo '<p style="position:relative; left:5in;"><b>'.$courseRow['course_no'].'</b></p>';
          echo '<table style="border:solid; position:relative; left:5in;">';
          echo '<tr><th>Test</th><th>Average</th></tr>';
