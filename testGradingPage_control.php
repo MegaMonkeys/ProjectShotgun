@@ -1,4 +1,5 @@
 <?php
+	//$_POST['gradeButton'] => TEST_ID
    if( isset( $_GET['action'] ) ) {
       if( $_GET['action'] == 'get' )
          get_test($_GET['test_id'], $_GET['student_id']);
@@ -47,11 +48,19 @@
 
    function get_student_list() {
       include 'db_connection.php';
-      $sql_command = "SELECT s.student_id, first_name, last_name\n"
+      $sql_command = "SELECT s.student_id, first_name, last_name from test t\n"
+				. "join enrollment e\n"
+				. "join student s\n"
+				. "on t.section_id = e.section_id\n"
+				. "and e.student_id = s.student_id\n"
+				. "where test_id = " . $_POST['gradeButton'];
+	  
+	  
+	  $test = "SELECT s.student_id, first_name, last_name\n"
          . "FROM student s\n"
          . "LEFT OUTER JOIN student_test t\n"
          . "ON s.student_id = t.student_id\n"
-         . "WHERE test_id = 4\n"
+         . "WHERE test_id = " . $_POST['gradeButton'] . "\n"
          . "OR test_id IS NULL\n"
          . "ORDER BY LAST_NAME";
       $sql_result = mysqli_query($connection, $sql_command);
@@ -62,10 +71,15 @@
          $row = mysqli_fetch_row($sql_result);
          $s_name = $row[1] . ', ' . $row[2];
          echo '<tr>';
-            echo '<td id="studentTD" type="submit" onclick="get_student_test(4,'.$row[0].','."'".$s_name."'".' )">';
+            echo '<td id="studentTD" type="submit" onclick="get_student_test('.$_POST['gradeButton'].','.$row[0].','."'".$s_name."'".' )">';
                   echo($s_name);
             echo '</td>';
          echo '</tr>';
+		 if($i == 1) {
+			global $f_id, $f_name;
+			$f_id = $row[0];
+			$f_name = $s_name;
+		 }
       }
    }
 
@@ -79,7 +93,13 @@
 
    function get_test($test_id, $student_id) {
       include 'db_connection.php';
-      $sql_command = "SELECT s.ques_id, ans_id, ques_no, ques_type, ques_text, ans_text, stu_ans_text, points, stu_points\n"
+      $sql_command = "SELECT test_id, q.ques_id, ques_type, ques_text, points, ans_id, ans_text, correct\n"
+         . "FROM question q\n"
+         . "LEFT OUTER JOIN answer a\n"
+         . "ON q.ques_id = a.ques_id\n"
+         . "WHERE test_id = " . $test_id . "\n"
+         . "ORDER BY q.ques_id";
+         /*"SELECT s.ques_id, ans_id, ques_no, ques_type, ques_text, ans_text, stu_ans_text, points, stu_points\n"
          . "FROM\n"
          . "(SELECT q.ques_id, q.ques_no, ques_type, ques_text, stu_ans_text, points, stu_points\n"
          . "FROM question q\n"
@@ -92,25 +112,38 @@
          . "on s.ques_id = a.ques_id\n"
          . "WHERE correct IS NULL\n"
          . "OR correct = 1\n"
-         . "ORDER BY ques_no";
+         . "ORDER BY ques_no";*/
       $sql_result = mysqli_query($connection, $sql_command);
       mysqli_close($connection);
 
       $ques_id = "";
+
       for($i = 1, $q=0; $i <= @mysqli_num_rows($sql_result); $i++) {
          $row = mysqli_fetch_row($sql_result);
-         if( $row[0] != $ques_id ) {
-            echo get_test_type($row, (($row[3] != "Instruction") ? ++$q : $q));
-            $ques_id = $row[0];
-         }
-         else {
-
+         if( $row[1] != $ques_id ) {
+            echo get_test_type($row, (($row[2] != "Instruction") ? ++$q : $q), $student_id);
+            $ques_id = $row[1];
          }
       }
    }
 
-   function get_test_type($row, $q) {
-      if( $row[3] == "True/False" ) {
+   function get_test_type($row, $q, $student_id) {
+      include 'db_connection.php';
+      $sql_command_ex = "SELECT q.ques_id, stu_ans_text, stu_points\n"
+         . "FROM question q\n"
+         . "LEFT OUTER JOIN student_answer a\n"
+         . "ON q.ques_id = a.ques_id\n"
+         . "WHERE test_id = ".$row[0]."\n"
+         . "AND student_id = ".$student_id."\n"
+         . "AND q.ques_id = ".$row[1]."\n"
+         . "ORDER BY q.ques_id";
+      $sql_result_ex = mysqli_query($connection, $sql_command_ex);
+      //mysqli_close($connection);
+
+
+      if( $row[2] == "True/False" ) {
+         $ex = mysqli_fetch_row($sql_result_ex);
+         mysqli_close($connection);
          $data =
             '<tr><td id="trueFalse">'.
             '<table>'.
@@ -119,34 +152,34 @@
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[4].'</span> ('.$row[7].') - Ans: '.$row[5].
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($row[6]=="True")? 'checked':'') . '>True'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($ex[1]=="True")? 'checked':'') . '>True'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($row[6]=="False")? 'checked':'') . '>False'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($ex[1]=="False")? 'checked':'') . '>False'.
             '</td>'.
             '</tr>'.
             '</table>'.
             '</td>'.
             '<td class="pointBox" id="pointBox'.$q.'">'.
-            '<input type="text" value="'.((is_null($row[8]))?0:$row[8]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[7].
+            '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
             '</td>'.
             '</tr>';
          return $data;
       }
-      else if( $row[3] == "Multiple Choice" ) {
-         include 'db_connection.php';
+      else if( $row[2] == "Multiple Choice" ) {
+         $ex = mysqli_fetch_row($sql_result_ex);
          $sql_command = "SELECT ans_text, correct\n"
             . "FROM answer\n"
-            . "WHERE ques_id = " . $row[0];
+            . "WHERE ques_id = " . $row[1];
          $sql_result = mysqli_query($connection, $sql_command);
 
-            $t_ans_array = array();
+         $t_ans_array = array();
             for($i = 1; $i <= @mysqli_num_rows($sql_result); $i++) {
                $data = mysqli_fetch_row($sql_result);
                array_push($t_ans_array, $data[0]);
@@ -161,40 +194,39 @@
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[4].'</span> ('.$row[7].') - Ans: '.$row[5].
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($row[6]==$t_ans_array[0])?'checked':'').' value="a">'.$t_ans_array[0].
-            //'<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($q_info[1]=="1")?0checked':'').' value="a">'.$q_info[0].
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.$t_ans_array[0].
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($row[6]==$t_ans_array[1])?'checked':'').' value="c">'.$t_ans_array[1].
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.$t_ans_array[1].
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($row[6]==$t_ans_array[2])?'checked':'').' value="b">'.$t_ans_array[2].
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.$t_ans_array[2].
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($row[6]==$t_ans_array[3])?'checked':'').' value="d">'.$t_ans_array[3].
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.$t_ans_array[3].
             '</td>'.
             '</tr>'.
             '</table>'.
             '</td>'.
             '<td class="pointBox" id="pointBox'.$q.'">'.
-            '<input type="text" value="'.((is_null($row[8]))?0:$row[8]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[7].
+            '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
             '</td>'.
             '</tr>';
          return $data;
       }
-      else if( $row[3] == "Many Choice" ) {
-         include 'db_connection.php';
+      else if( $row[2] == "Many Choice" ) {
+
             $sql_command = "SELECT ans_text, correct\n"
                . "FROM answer\n"
-               . "WHERE ques_id = " . $row[0];
+               . "WHERE ques_id = " . $row[1];
             $sql_result = mysqli_query($connection, $sql_command);
 
             $ans_text = "";
@@ -206,15 +238,10 @@
                array_push($t_ans_array, $data[0]);
             }
 
-            $sql_command = "SELECT stu_ans_text\n"
-               . "FROM student_answer\n"
-               . "WHERE ques_id = " . $row[0];
-            $sql_result = mysqli_query($connection, $sql_command);
-
             $s_ans_array = array();
-            for($i = 1; $i <= @mysqli_num_rows($sql_result); $i++) {
-               $data = mysqli_fetch_row($sql_result);
-               array_push($s_ans_array, $data[0]);
+            for($i = 1; $i <= @mysqli_num_rows($sql_result_ex); $i++) {
+               $ex = mysqli_fetch_row($sql_result_ex);
+               array_push($s_ans_array, $ex[1]);
             }
 
          mysqli_close($connection);
@@ -227,7 +254,7 @@
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[4].'</span> ('.$row[7].') - Ans: '.$ans_text.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$ans_text.
             '</td>'.
             '</tr>'.
             '<tr>'.
@@ -250,12 +277,14 @@
             '</table>'.
             '</td>'.
             '<td class="pointBox" id="pointBox'.$q.'">'.
-            '<input type="text" value="'.((is_null($row[8]))?0:$row[8]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[7].
+            '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
             '</td>'.
             '</tr>';
          return $data;
       }
-      else if( $row[3] == "Short Answer" ) {
+      else if( $row[2] == "Short Answer" ) {
+         $ex = mysqli_fetch_row($sql_result_ex);
+         mysqli_close($connection);
          $data =
             '<tr><td id="shortAnswer">'.
             '<table>'.
@@ -264,24 +293,26 @@
             $q.'.'.
             '</td>'.
             '<td width="750px">'.
-            '<span id="theQuestion">'.$row[4].'</span> ('.$row[7].') - Ans: '.$row[5].
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="text" name="shortAns" style="width:95%; height:25px;" value="'.$row[6].'">'.
+            '<input disabled type="text" name="shortAns" style="width:95%; height:25px;" value="'.$ex[1].'">'.
             '</td>'.
             '</tr>'.
             '</table>'.
             '</td>'.
             '<td class="pointBox" id="pointBox'.$q.'">'.
-            '<input type="text" value="'.((is_null($row[8]))?0:$row[8]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[7].
+            '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
             '</td>'.
             '</tr>';
          return $data;
       }
-      else if( $row[3] == "Essay" ) {
+      else if( $row[2] == "Essay" ) {
+         $ex = mysqli_fetch_row($sql_result_ex);
+         mysqli_close($connection);
          $data =
             '<tr><td id="essay">'.
             '<table>'.
@@ -290,22 +321,23 @@
             $q.'.'.
             '</td>'.
             '<td width="750px">'.
-            '<span id="theQuestion">'.$row[4].'</span> ('.$row[7].')'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].')'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<textarea disabled type="text" name="essayAns" value="" class="essayText"></textarea>'.
+            '<textarea disabled type="text" name="essayAns" value="" class="essayText">'.$ex[1].'</textarea>'.
             '</td>'.
             '</tr>'.
             '</table>'.
             '</td>'.
             '<td class="pointBox" id="pointBox'.$q.'">'.
-            '<input type="text" value="'.((is_null($row[8]))?0:$row[8]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[7].
+            '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
             '</td>'.
             '</tr>';
          return $data;
       }
+      mysqli_close($connection);
    }
 ?>

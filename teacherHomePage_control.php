@@ -67,9 +67,11 @@
             echo '<tr><td id="testTD">';
             echo     "<span id='testTitle'>" . $row[1] . "</span>";
             echo     "<span id='button'>";
+			echo     "<form method='post' action='javascript:void(0);'>";
             echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
             echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
-            echo        "<button type='submit' value=$row[5] id='gradeButton' name='gradeButton' onclick='grade_test()'></button>";
+            echo        "<button type='submit' value=$row[5] id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
+			echo     "</form>";
             echo     "</span><br />";
             echo     "Date Available: ";
             echo        $row[3] . " ~ " . $row[4] . "<br />";

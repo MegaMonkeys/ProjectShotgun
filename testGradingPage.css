@@ -22,6 +22,7 @@ z-index:30;
    position: absolute;
    top: 10px;
    left: 400px;
+   min-width: 850px;
 }
 #test_info td{
    text-align: center;
@@ -29,12 +30,15 @@ z-index:30;
 }
 #f_t_name {
    min-width: 200px;
+   max-width: 200px;
 }
 #f_s_name {
    min-width: 300px;
+   max-width: 300px;
 }
 #f_percent {
    min-width: 60px;
+   max-width: 60px;
 }
 img.header{
    position: fixed;
@@ -113,7 +117,7 @@ top: 200px;
 }
 #studentInformation{
 position: fixed;
-height:450px;
+height:auto;
 top: 240px;
 overflow-y:scroll;
    z-index:30;
