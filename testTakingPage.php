@@ -33,12 +33,18 @@
     </TITLE>
     <?php
         $testID = isset($_POST['takeTestButton']) ? $_POST['takeTestButton'] : '-1';
-        $studentID = 112233;
+        $studentID = $_SESSION['user_id'];
         $startTime = date("Y-m-d H:i:s");
+		
         include 'db_connection.php';
-        $sqlComm = "insert into student_test (student_id, test_id, date_time)
-                    values (".$studentID.", ".$testID.", '".$startTime."')";
-        mysqli_query($connection, $sqlComm);
+        if($testID != '-1')
+        {
+            $sqlComm = "insert into student_test (student_id, test_id, date_time)
+                        values (".$studentID.", ".$testID.", '".$startTime."')";
+            mysqli_query($connection, $sqlComm);
+        }
+        else
+            echo "Test ID = -1";
     ?>
 </HEAD>
 
@@ -87,7 +93,7 @@
     <div class="testQuestions">
         <form name="testForm" action="submit_test.php" method="post">
             <?php
-                if($testID != -1)
+                if($testID != '-1')
                 {
                     $sqlComm = 'select ques_id, ques_no, ques_type, ques_text, points from question
                                     where test_id = '.$testID.' order by ques_no;';
@@ -101,12 +107,12 @@
                     {
                         $row = mysqli_fetch_row($result);
                         
-                        if($row[2] == 'True/False')
+                        if($row[2] === 'True/False')
                         {
                             echo '<tr><td id="trueFalse">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].'" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',True/False" style="display:none;"/></td>';
                             echo    '<td colspan="2" width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo     '<td></td>';
@@ -116,7 +122,7 @@
                             echo '</table>';
                             echo '</td></tr>';
                         }
-                        else if($row[2] == 'Multiple Choice')
+                        else if($row[2] === 'Multiple Choice')
                         {
                             $sqlComm = 'select ans_text from answer where ques_id = '.$row[0];
                             $answers = mysqli_query($connection, $sqlComm);
@@ -124,7 +130,7 @@
                             echo '<tr><td id="multipleChoice">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].'" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Multiple Choice" style="display:none;"/></td>';
                             echo    '<td colspan="2" width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo    '<td></td>';
@@ -142,7 +148,7 @@
                             echo '</table>';
                             echo '</td></tr>';
                         }
-                        else if($row[2] == 'Many Choice')
+                        else if($row[2] === 'Many Choice')
                         {
                             $sqlComm = 'select ans_text from answer where ques_id = '.$row[0];
                             $answers = mysqli_query($connection, $sqlComm);
@@ -150,7 +156,7 @@
                             echo '<tr><td id="manyChoice">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].'" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Many Choice" style="display:none;"/></td>';
                             echo    '<td colspan="2" width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo    '<td></td>';
@@ -168,12 +174,12 @@
                             echo '</table>';
                             echo '</td></tr>';
                         }
-                        else if($row[2] == 'Short Answer')
+                        else if($row[2] === 'Short Answer')
                         {
                             echo '<tr><td id="shortAnswer">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].'" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Short Answer" style="display:none;"/></td>';
                             echo    '<td width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo    '<td></td>';
@@ -182,12 +188,12 @@
                             echo '</table>';
                             echo '</tr></td>';
                         }
-                        else if($row[2] == 'Essay')
+                        else if($row[2] === 'Essay')
                         {
                             echo '<tr><td id="essay">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].'" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Essay" style="display:none;"/></td>';
                             echo    '<td width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr>';
                             echo '<tr>';
@@ -197,12 +203,12 @@
                             echo '</table>';
                             echo '</td></tr>';
                         }
-                        else if($row[2] == "Instruction")
+                        else if($row[2] === "Instruction")
                         {
                             echo '<tr><td id="instruction">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].'" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Instruction" style="display:none;"/></td>';
                             echo    '<td width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr>';
                             echo '</table>';
