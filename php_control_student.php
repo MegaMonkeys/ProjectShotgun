@@ -8,14 +8,17 @@
    function get_class_list()
    {
       include 'db_connection.php';
-      $sql_command = "SELECT `course`.`COURSE_NO`, `section`.`SECTION_NO`, `section`.`SECTION_ID`, `course`.`DESCRIPTION`\n"
-         . "FROM `section`\n"
-         . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
-         . "\n"
-         . "";
+      $sql_command = "SELECT c.course_no, s.section_no, s.section_id, c.description\n"
+			. "FROM enrollment e\n"
+			. "JOIN section s\n"
+			. "JOIN course c\n"
+			. "ON e.section_id = s.section_id\n"
+			. "AND c.course_no = s.course_no\n"
+			. "WHERE student_id = " . $_SESSION['user_id'];
 
       $sql_result = mysqli_query($connection, $sql_command);
       mysqli_close($connection);
+	  
 
       $class_list = array();
 
@@ -100,7 +103,4 @@
 
       mysqli_close($connection);
    }
-
-
-
 ?>
