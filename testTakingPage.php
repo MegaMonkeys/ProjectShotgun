@@ -99,6 +99,7 @@
     <div class="testQuestions">
         <form name="testForm" action="submit_test.php" method="post">
             <?php
+                echo '<input type="text" name="testID" value="'.$testID.'" style="display:none;"/>';
                 if($testID != '-1')
                 {
                     $sqlComm = 'select ques_id, ques_no, ques_type, ques_text, points from question
@@ -109,6 +110,7 @@
                     echo '<input type="text" name="numEntries" value="'.$numEntries.'" style="display:none" />';
                     echo '<table>';
                     
+                    $qNum = 1;
                     for($x = 1; $x <= $numEntries; $x++)
                     {
                         $row = mysqli_fetch_row($result);
@@ -118,7 +120,7 @@
                             echo '<tr><td id="trueFalse">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',True/False" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',True/False" style="display:none;"/></td>';
                             echo    '<td colspan="2" width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo     '<td></td>';
@@ -127,6 +129,8 @@
                             echo '</tr>';
                             echo '</table>';
                             echo '</td></tr>';
+                            
+                            $qNum++;
                         }
                         else if($row[2] === 'Multiple Choice')
                         {
@@ -136,7 +140,7 @@
                             echo '<tr><td id="multipleChoice">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Multiple Choice" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Multiple Choice" style="display:none;"/></td>';
                             echo    '<td colspan="2" width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo    '<td></td>';
@@ -153,6 +157,8 @@
                             echo '</tr>';
                             echo '</table>';
                             echo '</td></tr>';
+                            
+                            $qNum++;
                         }
                         else if($row[2] === 'Many Choice')
                         {
@@ -162,7 +168,7 @@
                             echo '<tr><td id="manyChoice">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Many Choice" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Many Choice" style="display:none;"/></td>';
                             echo    '<td colspan="2" width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo    '<td></td>';
@@ -179,13 +185,15 @@
                             echo '</tr>';
                             echo '</table>';
                             echo '</td></tr>';
+                            
+                            $qNum++;
                         }
                         else if($row[2] === 'Short Answer')
                         {
                             echo '<tr><td id="shortAnswer">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Short Answer" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Short Answer" style="display:none;"/></td>';
                             echo    '<td width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo    '<td></td>';
@@ -193,13 +201,15 @@
                             echo '</tr>';
                             echo '</table>';
                             echo '</tr></td>';
+                            
+                            $qNum++;
                         }
                         else if($row[2] === 'Essay')
                         {
                             echo '<tr><td id="essay">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Essay" style="display:none;"/></td>';
+                            echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Essay" style="display:none;"/></td>';
                             echo    '<td width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr>';
                             echo '<tr>';
@@ -208,14 +218,16 @@
                             echo '</tr>';
                             echo '</table>';
                             echo '</td></tr>';
+                            
+                            $qNum++;
                         }
                         else if($row[2] === "Instruction")
                         {
                             echo '<tr><td id="instruction">';
                             echo '<table>';
                             echo '<tr>';
-                            echo    '<td width="50px">'.$row[1].'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Instruction" style="display:none;"/></td>';
-                            echo    '<td width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
+                            echo    '<td width="50px"><input type="text" name="Q'.$x.'ID" value="'.$row[0].',Instruction" style="display:none;"/></td>';
+                            echo    '<td width="850"><span id="theQuestion"><b>'.$row[3].'</b></span></td>';
                             echo '</tr>';
                             echo '</table>';
                             echo '</td></tr>';
