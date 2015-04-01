@@ -56,7 +56,6 @@
 
 
 <div class="content">
-
    <div class="courses">
       <table id="courseTable">
          <?php $class_list = get_class_list(); ?>
