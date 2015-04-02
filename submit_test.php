@@ -1,14 +1,19 @@
 <?php
-   session_start();
-   include_once 'sessionCheck.php';
-   user_type_check('Student');
-?>
-submit_test.php <br /><br />
-<?php
+    session_start();
+    include_once 'sessionCheck.php';
+    user_type_check('Student');
+
+
+
+   
+    echo 'submit_test.php <br /><br />';
+
     include 'db_connection.php';
     $student_id = $_SESSION['user_id'];
-    
+    $testID = $_POST['testID'];
     $numEntries = $_POST['numEntries'];
+    $hasEssay = false;
+    $objPoints = 0;
     for($x = 1; $x <= $numEntries; $x++)
     {
         echo '<br />Question ';
@@ -35,8 +40,16 @@ submit_test.php <br /><br />
                             values (".$student_id.", ".$qID.", '".$_POST['Q'.$x.'A']."', ".$ptsEarned.")";
                 mysqli_query($connection, $sqlComm);
                 echo '<br />'.$sqlComm;
+                $objPoints += $ptsEarned;
                 
-            }   
+            }
+            else
+            {
+                $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)
+                            values (".$student_id.", ".$qID.", '', 0)";
+                mysqli_query($connection, $sqlComm);
+                echo '<br />'.$sqlComm;
+            }
         }
         else if($qType === 'Multiple Choice')
         {
@@ -49,11 +62,19 @@ submit_test.php <br /><br />
                 if($_POST['Q'.$x.'A'] === $row[0])
                     $ptsEarned = $row[1];
                 
-                $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)
-                            values (".$student_id.", ".$qID.", '".$_POST['Q'.$x.'A']."', ".$ptsEarned.")";
+                $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)"
+                         . "values (".$student_id.", ".$qID.", '".$_POST['Q'.$x.'A']."', ".$ptsEarned.")";
                 mysqli_query($connection, $sqlComm);
                 echo '<br />'.$sqlComm;
+                $objPoints += $ptsEarned;
                 
+            }
+            else
+            {
+                $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)"
+                         . "values (".$student_id.", ".$qID.", '', 0)";
+                mysqli_query($connection, $sqlComm);
+                echo '<br />'.$sqlComm;
             }
         }
         else if($qType === 'Many Choice')
@@ -67,10 +88,8 @@ submit_test.php <br /><br />
                 echo "<br />".$c." new option";
                 if(isset($corAns[$c][0]))
                 {
-                    echo "<br /> corAns is set";
                     if($corAns[$c][2] == true)
                     {
-                        echo "<br /> Correct answer";
                         $correct = false;
                         $i = 1;
                         while($i <= 4 && !$correct)
@@ -93,10 +112,14 @@ submit_test.php <br /><br />
             }
             echo "<br />Correct: ".$correct;
             if($correct)
+            {
                 $ptsEarned = $corAns[0][1];
+                $objPoints += $ptsEarned;
+            }
             else
                 $ptsEarned = 0;
             
+            $firstAnswer = true;
             for($i = 1; $i <= 4; $i++)
             {
                 if(isset($_POST['Q'.$x.'A'.$i]))
@@ -105,23 +128,37 @@ submit_test.php <br /><br />
                                 values (".$student_id.", ".$qID.", '".$_POST['Q'.$x.'A'.$i]."', ".$ptsEarned.")";
                     mysqli_query($connection, $sqlComm);
                     echo '<br />'.$sqlComm;
+                    
+                    if($firstAnswer)
+                    {
+                        $ptsEarned = 0;
+                        $firstAnswer = false;
+                    }
                 }
+            }
+            if($firstAnswer) // If student didn't select any answers.
+            {
+                $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)
+                                values (".$student_id.", ".$qID.", '', 0)";
+                mysqli_query($connection, $sqlComm);
+                echo '<br />'.$sqlComm;
             }
         }
         else if($qType === 'Short Answer')
         {
-            if(!empty($_POST['Q'.$x.'A']))
+            $hasEssay = true;
+            if(isset($_POST['Q'.$x.'A']))
             {
                 $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text)
                             values (".$student_id.", ".$qID.", '".$_POST['Q'.$x.'A']."')";
                 mysqli_query($connection, $sqlComm);
                 echo '<br />'.$sqlComm;
-                
             }   
         }
         else if($qType === 'Essay')
         {
-            if(!empty($_POST['Q'.$x.'A']))
+            $hasEssay = true;
+            if(isset($_POST['Q'.$x.'A']))
             {
                 $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text)
                             values (".$student_id.", ".$qID.", '".$_POST['Q'.$x.'A']."')";
@@ -131,9 +168,30 @@ submit_test.php <br /><br />
         }
         echo '<br />';
     }
+    
+    // Update grade in student_test table
+    if($hasEssay)
+    {
+        $essayPoints = "null";
+        $grade = "null";
+    }
+    else
+    {
+        $essayPoints = "0";
+        
+        $sql = "select sum(points) from question where test_id = " . $testID;
+        $result = mysqli_query($connection, $sql);
+        $row = mysqli_fetch_row($result);
+        $grade = (float)$objPoints / (float)$row[0] * 100.0;
+    }
 
-    
-    
+    $sqlComm = "update student_test set objective_grade = " . $objPoints . ","
+                                      . " essay_grade = " . $essayPoints . ","
+                                      . " final_grade = " . $grade
+                 . " where test_id = " . $testID . " and student_id = " . $student_id;
+    mysqli_query($connection, $sqlComm);
+    echo '<br /><br />'.$sqlComm;
+
     
     mysqli_close($connection);
     
