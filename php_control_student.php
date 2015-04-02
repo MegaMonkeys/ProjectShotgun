@@ -48,7 +48,7 @@
       $sql_command = "SELECT SECTION_ID, TEST_NAME, PUBLISHED, START_DATE, END_DATE, FINAL_GRADE, TEST_ID, objective_grade
                         FROM enrollment e join test using (section_id)
 						 left outer join student_test using (test_id, student_id)
-						where e.student_id = " . $student_id . " and section_id = " . $section_no;
+						where e.student_id = " . $student_id . " and section_id = " . $section_no . " and published = 1";
 
       $sql_result = mysqli_query($connection, $sql_command);
       $numRows = $counter = mysqli_num_rows($sql_result);
