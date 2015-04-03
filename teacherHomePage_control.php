@@ -57,31 +57,55 @@
       $sql_result = mysqli_query($connection, $sql_command);
 
       $sql_now = "SELECT NOW()";
-      $current_datetime = mysqli_fetch_row(mysqli_query($connection, $sql_now))[0];
+      $current_datetime = mysqli_fetch_row(mysqli_query($connection, $sql_now));
+	  $current_datetime = $current_datetime[0];
 
       $sql_enroll = "select count(*) from enrollment where section_id = ".$section_no;
-      $enroll_count = mysqli_fetch_row(mysqli_query($connection, $sql_enroll))[0];
-
-      if( @mysqli_num_rows($sql_result) != 0)
+      $enroll_count = mysqli_fetch_row(mysqli_query($connection, $sql_enroll));
+	  $enroll_count = $enroll_count[0];
+	  
+	  if( @mysqli_num_rows($sql_result) != 0)
       {
          for($i=1; $i<=mysqli_num_rows($sql_result); $i++)
          {
-            $row = mysqli_fetch_row($sql_result);
+		    $row = mysqli_fetch_row($sql_result);
+			
+		    $sql_test   = "select count(*) from student_test where test_id = ".$row[5];
+			$test_count = mysqli_fetch_row(mysqli_query($connection, $sql_test));
+			$test_count = $test_count[0];
+		 
+			//(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
+			$test_status = $row[2];
+			if( $test_status == 1 ) {
+				if($row[3] > $current_datetime) {
+					$test_status = 2;
+				}
+				else if($row[3] < $current_datetime) {
+					$test_status = 3;
+				}
+				
+				if($row[4] < $current_datetime) {
+					$test_status = 4;
+				}
+				if($test_count == $enroll_count)
+					$test_status = 4;
+			}
+			
+			
             //echo '<tr><td id="testTD"><form action="" method="post">';
             echo '<tr><td id="testTD">';
-            echo     "<span id='testTitle'>" . $row[1] . "</span>";
+            echo     "<span id='testTitle'>" . $row[1] ."</span>";
             echo     "<span id='button'>";
 			echo     "<form method='post' action='javascript:void(0);'>";
             echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
             echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
             //echo        "<button type='submit' value=$row[5] id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
-            echo        generate_grade_button($current_datetime, $row[4], $row[5]);
+            echo        generate_grade_button($test_status, $row[5]);
 			echo     "</form>";
             echo     "</span><br />";
-            echo     "Date Available: ";
-            echo        $row[3] . " ~ " . $row[4] . "<br />";
+            echo     "Date Available: " . $row[3] . " ~ " . $row[4] . "<br />";
             //echo     'Status: ' . (($row[2] == 1)? 'Published' : 'Not Published') . "<br />";
-            echo        get_test_status($row[2], $row[5], $enroll_count);
+            echo        get_test_status($test_status);
             //echo     'Class Average: ' . "not set yet";
             //echo '</form></td></tr>';
             echo '</td></tr>';
@@ -93,31 +117,29 @@
       mysqli_close($connection);
    }
 
-   function generate_grade_button($current_datetime, $end_date, $test_id)
+   function generate_grade_button($test_status, $test_id)
    {
-      if($current_datetime > $end_date)
+      if($test_status == 4)
          return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
       else
-         return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' onclick='grade_test($test_id)'></button>";
+         //return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' onclick='grade_test($test_id)'></button>";
+		 return "";
    }
 
-   function get_test_status($published, $test_id, $enroll_count)
+   function get_test_status($test_status)
    {
-      include 'db_connection.php';
-      $sql_test   = "select count(*) from student_test where test_id = ".$test_id;
-      $test_count = mysqli_fetch_row(mysqli_query($connection, $sql_test))[0];
-      mysqli_close($connection);
-
-      if($enroll_count == $test_count)
-         return 'Status: Ready to Grade<br />Class Average: not set yet';
-      else
-      {
-         if($published)
-            return 'Status: Published - Test in Progress . . .<br />';
-         else
-            return 'Status: Not Published';
-      }
-
+      //(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
+	  
+	  if($test_status == 0)
+		 return 'Status: Test Saved. Ready to Publish';
+	  else if($test_status == 2)
+         return 'Status: Published (Not Available)';
+	  else if($test_status == 3)
+		 return 'Status: Published (Test in Progress)';
+	  else if($test_status == 4)
+	     return 'Status: Ready to Grade';
+	  else if($test_status == 5)
+	     return 'Class Average: ';
    }
 
    //TeacherHomePage.php
