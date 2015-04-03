@@ -16,7 +16,8 @@
 			. "JOIN course c\n"
 			. "ON e.section_id = s.section_id\n"
 			. "AND c.course_no = s.course_no\n"
-			. "WHERE student_id = " . $_SESSION['user_id'];
+			. "WHERE student_id = " . $_SESSION['user_id'] . "\n"
+         . "ORDER BY c.course_no, s.section_no";
 
       $sql_result = mysqli_query($connection, $sql_command);
       mysqli_close($connection);
@@ -50,7 +51,12 @@
 						where e.student_id = " . $student_id . " and section_id = " . $section_no;
 
       $sql_result = mysqli_query($connection, $sql_command);
-      $numRows = mysqli_num_rows($sql_result);
+      $numRows = $counter = mysqli_num_rows($sql_result);
+
+      //Gets DB Current Time
+      $sql_now = "SELECT NOW()";
+      $sql_now_result = mysqli_query($connection, $sql_now);
+      $current_datetime = mysqli_fetch_row($sql_now_result)[0];
 
 
       if( @mysqli_num_rows($sql_result) != 0)
@@ -61,15 +67,15 @@
             $startDateTime = date_create($row[3]);
             $endDateTime = date_create($row[4]);
             
-            if(date("Y-m-d H:i:s") >= date_format($startDateTime, "Y-m-d H:i:s"))
+            if($current_datetime >= date_format($startDateTime, "Y-m-d H:i:s"))
             {
                if(empty($row[5]))
                {
-                  if(date("Y-m-d H:i:s") <= date_format($endDateTime, "Y-m-d H:i:s"))
+                  if($current_datetime <= date_format($endDateTime, "Y-m-d H:i:s"))
                   {
                      if(empty($row[7]))
                      {
-                        $status = "Available to Take";
+                        $status = "Available to Take".$current_datetime;
                         $gradeStatus = '';
                         $takeTestButton = "<span id='button'>".
                                           "<input type='submit' id='takeTestButton' name='takeTestButton' value='".$row[6]."'/>".
@@ -111,7 +117,10 @@
             echo     'Status: '.$status.'<br />';
             echo     'Grade: ' . $gradeStatus;
             echo '</td></tr>';
+            $counter--;
          }
+         if($counter == $numRows)
+            echo "Umm... looks like there aren't any tests for this course. Check back later.";
       }
       else
          echo "Umm... looks like there aren't any tests for this course. Check back later.";

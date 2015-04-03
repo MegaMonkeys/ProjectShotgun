@@ -51,7 +51,7 @@
 
    <div id='cssmenu'>
       <ul>
-         <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
+         <li class='loginPage.html'><a href='./teacherHomePage.php'><span>Home</span></a></li>
          <li><a href='#'><span>About</span></a></li>
          <li><a href='#'><span>Team</span></a></li>
          <li class='last'><a href='#'><span>Contact</span></a></li>

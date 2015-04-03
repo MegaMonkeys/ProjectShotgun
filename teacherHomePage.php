@@ -177,7 +177,7 @@
    }
 
    function grade_test(test_id) {
-      alert('under construction');
+      alert("Test End Time Not Met Yet");
    }
 
    $(document).ajaxComplete(function() {
