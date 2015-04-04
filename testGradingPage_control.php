@@ -10,11 +10,23 @@
    function save_test() {
       //echo $_GET['count'];
       include 'db_connection.php';
-      $sql_command = "SELECT ques_id\n"
+      $sql_command = "SELECT stu_ans_id\n"
+         . "FROM student_answer\n"
+         . "WHERE student_id = " . $_GET['s_id'] . "\n"
+         . "AND ques_id\n"
+         . "IN (\n"
+         . "SELECT ques_id\n"
+         . "FROM question\n"
+         . "WHERE test_id = " . $_GET['t_id'] . "\n"
+         . "AND ques_type != \"Instruction\"\n"
+         . "ORDER BY ques_no)\n"
+         . "GROUP BY ques_id";
+
+         /*"SELECT ques_id\n"
          . "FROM question\n"
          . "WHERE test_id = 4\n"
          . "AND ques_type != \"Instruction\"\n"
-         . "ORDER BY ques_no";
+         . "ORDER BY ques_no";*/
       $sql_result = mysqli_query($connection, $sql_command);
 
       $q_id_array = array();
@@ -23,12 +35,13 @@
          array_push($q_id_array, $data[0]);
       }
 
+
       for($i = 0; $i < sizeof($q_id_array); $i++) {
          $sql_command = "UPDATE student_answer\n"
-         ."SET stu_points = ".$_GET['n'.($i+1)]."\n"
-         ."WHERE ques_id = ".$q_id_array[$i]."\n"
-         ."AND student_id = ".$_GET['s_id']."\n";
-         $sql_result = mysqli_query($connection, $sql_command);
+         ."SET stu_points   = ".$_GET['n'.($i+1)]."\n"
+         ."WHERE stu_ans_id = ".$q_id_array[$i]."\n"
+         ."AND student_id   = ".$_GET['s_id']."\n";
+         mysqli_query($connection, $sql_command);
       }
       mysqli_close($connection);
    }
@@ -238,10 +251,14 @@
                array_push($t_ans_array, $data[0]);
             }
 
+            $s_point = 0;
             $s_ans_array = array();
             for($i = 1; $i <= @mysqli_num_rows($sql_result_ex); $i++) {
                $ex = mysqli_fetch_row($sql_result_ex);
                array_push($s_ans_array, $ex[1]);
+               if( $i == 1) {
+                  $s_point = $ex[2];
+               }
             }
 
          mysqli_close($connection);
@@ -277,7 +294,7 @@
             '</table>'.
             '</td>'.
             '<td class="pointBox" id="pointBox'.$q.'">'.
-            '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
+            '<input type="text" value="'.((is_null($s_point))?0:$s_point).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
             '</td>'.
             '</tr>';
          return $data;
