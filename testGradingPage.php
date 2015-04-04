@@ -112,6 +112,7 @@
    $(".loader").fadeOut(1);
    var test_info = <?php echo json_encode(get_test_info($_POST['gradeButton'])) ?>;
    f_t_name.innerHTML = test_info[0];
+   t_id = <?php echo $_POST['gradeButton']; ?>;
    s_id = "";
    
    get_student_test(<?php echo $_POST['gradeButton']; ?>,<?php echo ($f_id) ?>,<?php echo json_encode($f_name); ?>);
@@ -166,7 +167,7 @@
       if( q_num != 0) {
          //TEST NO CAUTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          // NEED TO SET STUDENT ID
-         var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_no='+4+'&count='+q_num;
+         var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_id='+t_id+'&count='+q_num;
          for (i = 1; i <= q_num; i++) {
             data += "&n"+i+"=" + document.getElementById("p"+i).value;
          }
@@ -180,6 +181,9 @@
                // oh noes!
             }
          });
+      }
+      else {
+
       }
    }
 
