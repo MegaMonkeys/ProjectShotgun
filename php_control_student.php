@@ -6,7 +6,7 @@
    $first_user = 0;
    
 
-   //StudentHomePage.php
+
    function get_class_list()
    {
       include 'db_connection.php';
@@ -41,7 +41,7 @@
       return $class_list;
    }
 
-   //StudentHomePage.php
+
    function get_test_list($section_no, $student_id)
    {
       include 'db_connection.php';
