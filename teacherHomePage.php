@@ -161,7 +161,14 @@
       $(".loader").fadeIn("slow");
       document.getElementById("classTitle").innerHTML = class_list[section_id];
       var data = 'teacherHomePage_control.php?section_id=' + section_id;
-      $('#testTable').load(data);
+      $('#testTable').load(data, function (responseText, textStatus, XMLHttpRequest) {
+         if (textStatus == "success") {
+            //alert("donw");
+         }
+         if (textStatus == "error") {
+            //alert(responseText);
+         }
+      });
    }
 
    function delete_test(test_id) {
