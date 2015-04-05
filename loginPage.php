@@ -195,16 +195,20 @@
         <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1300px; height: 500px;
              overflow: hidden;">
             <div>
-                <img u="image" src="images/academic/highschool1.jpg" />
+                <!--<img u="image" src="images/academic/highschool1.jpg" />-->
+               <img u="image" src="images/academic/slide1.png" />
             </div>
             <div>
-                <img u="image" src="images/academic/students1.jpg" />
+                <!--<img u="image" src="images/academic/students1.jpg" />-->
+               <img u="image" src="images/academic/slide2.png" />
             </div>
             <div>
-                <img u="image" src="images/academic/mancompcropped1.png" />
+                <!--<img u="image" src="images/academic/mancompcropped1.png" />-->
+               <img u="image" src="images/academic/slide3.png" />
             </div>
             <div>
-                <img u="image" src="images/academic/Testing.jpg" />
+                <!--<img u="image" src="images/academic/Testing.jpg" />-->
+               <img u="image" src="images/academic/slide4.png" />
             </div>
         </div>
 
