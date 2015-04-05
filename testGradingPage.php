@@ -120,6 +120,10 @@
 
    function get_student_test(test_id, student_id, s_name) {
       //alert(test_id + " " + student_id);
+	  f_s_name.innerHTML = s_name;
+      s_id = student_id;
+	  f_s_point.innerHTML = f_t_point.innerHTML = f_percent.innerHTML = "";
+	  
       var data = 'testGradingPage_control.php?action=get&test_id='+test_id+'&student_id='+student_id;
 
       $("#test_table").fadeOut(1);
@@ -133,10 +137,9 @@
          }
          if (textStatus == "error") {
             // oh noes!
+			
          }
       });
-      f_s_name.innerHTML = s_name;
-      s_id = student_id;
    }
 
    $(document).ajaxComplete(function() {
@@ -172,13 +175,18 @@
             data += "&n"+i+"=" + document.getElementById("p"+i).value;
          }
          //#f_save
+		 $("#test_table").fadeOut(1);
+		 $(".loader").fadeIn("slow");
          $(this).load(data, function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "success") {
                alert("saved");
                document.getElementById("t_save").disabled = true;
+			   $(".loader").fadeOut(1);
+               $("#test_table").fadeIn("slow");
             }
             if (textStatus == "error") {
                // oh noes!
+			   alert(responseText);
             }
          });
       }
