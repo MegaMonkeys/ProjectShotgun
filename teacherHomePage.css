@@ -64,7 +64,8 @@ img.testLogo{
     float: left;
 }
 #button{
-    float: right;
+   position:absolute;
+   right: 10px;
 }
 #editButton {
     width: 40px;

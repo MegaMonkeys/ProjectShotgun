@@ -6,8 +6,11 @@
 	include_once 'db_connection.php';
 
    //Modifing Test
-   if( is_numeric($_POST['save'] ) ) {
+   if( is_numeric(@$_POST['save'] ) ) {
       mysqli_query($connection, "CALL delete_test(". $_POST['save'] .");");
+   }
+   else if( is_numeric(@$_POST['publish'] ) ) {
+      mysqli_query($connection, "CALL delete_test(". $_POST['publish'] .");");
    }
    //Creating New Test - Set Flag to Which Class Test is Made
    else {
