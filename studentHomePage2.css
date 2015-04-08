@@ -74,6 +74,7 @@ img.testLogo{
     background-size: contain;
     border: 0px;
     margin-right:20px;
+    color: rgba(0,0,0,0);
 }
 #takeTestButton:hover{
     background: url(images/buttons/editHover.png);
