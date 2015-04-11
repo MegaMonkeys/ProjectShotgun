@@ -315,10 +315,32 @@
       $(".loader").fadeOut(1);
       $("#testTable").fadeIn("slow");
    });
-
+   
+   
    //When Page Loads
    $(function() {
       page_resize();
+	  
+	  $( "#openDialog").on("click", function(){
+	  alert(current);
+	    var data = 'teacherStatistics.php?section=' + current;
+		$("#dialog-modal").load(data, function (responseText, textStatus, XMLHttpRequest) {
+		   if (textStatus == "success") {
+			  //alert("donw");
+			  //$( "#dialog-modal" ).show();
+$( "#dialog-modal" ).dialog({
+height:'auto',
+width:'auto',
+modal: true
+});
+		   }
+		   if (textStatus == "error") {
+			  alert(responseText);
+		   }
+		});
+	  
+		
+	});
    });
    //When Page Size Changes
    $( window ).resize(function() {

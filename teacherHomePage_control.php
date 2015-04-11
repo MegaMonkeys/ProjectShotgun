@@ -108,6 +108,7 @@
             echo        get_test_status($test_status);
             //echo     'Class Average: ' . "not set yet";
             //echo '</form></td></tr>';
+            echo     "</div>";
             echo '</td></tr>';
          }
       }
