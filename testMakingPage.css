@@ -1,3 +1,47 @@
+/************** Show/Hide Menu Button Styles *********************************/
+
+@import url(http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css);
+body{
+   background: #ECECEC;
+   margin:0px ;
+   color:#333;
+}
+.button{
+   top: -85px;
+   right: -80px;
+   position: absolute;
+   padding: 10px 20px;
+   display: block;
+   font-family: arial;
+   font-weight: bold;
+   color: #0a3247;
+   text-decoration: none;
+   text-shadow:0px 1px 0px #fff;
+   margin:0px auto;
+   margin-top:100px;
+   -webkit-transition:box-shadow 0.5s;
+}
+.button i{
+   float: right;
+   margin-top: 2px;
+}
+.button:hover{
+   background-color:#0096d2;
+   color: #fff;
+   text-shadow:0px 1px 0px #0096d2;
+   border:1px solid #0096d2;
+}
+.button:active{
+   background-color:rgb(0,200,250);
+   color: #fff;
+}
+.menuImage{
+   height: 20px;
+   width: 20px;
+}
+
+/**************************************************************************************/
+
 body {
    background-image: #FFF;
    background-size: cover;
@@ -174,7 +218,10 @@ img.footerblue {
    left: 0;
    z-index: 10;
 }
-
+.monkeyheadfooter{
+   height: 10px;
+   width: 10px;
+}
 .title{
    top: 10px;
    position:fixed;
@@ -584,4 +631,122 @@ input[type=text]:focus, textarea:focus {
    height: 300px;
    z-index: 999;
    background: url('./images/monkeyload.gif') 50% 50% no-repeat;
+}
+
+/**************************************************************************************/
+
+.buttonset {
+   position: absolute;
+   right: 100px;
+   top:
+}
+
+/* General styles for all menus */
+
+.cbp-spmenu {
+   background: #0a3044;
+   position: fixed;
+}
+
+.cbp-spmenu .last:hover {
+   background: #bb0d07;
+}
+
+.cbp-spmenu .last:active {
+   background: #e6110a;
+}
+
+.cbp-spmenu h3 {
+   color: #afdefa;
+   font-size: 1.9em;
+   padding: 20px;
+   margin: 0;
+   font-weight: 300;
+   background: #0d77b6;
+}
+
+.cbp-spmenu a {
+   display: block;
+   text-decoration: none;
+   text-align: center;
+   color: #fff;
+   font-size: 1.1em;
+   font-weight: 300;
+}
+
+.cbp-spmenu a:hover {
+   background: #0096d2;
+}
+
+.cbp-spmenu a:active {
+   background-color:rgb(0,200,250);
+   color: #fff;
+}
+
+/* Orientation-dependent styles for the content of the menu */
+
+.cbp-spmenu-vertical {
+   width: 240px;
+   height: 100%;
+   top: 0;
+   z-index: 1000;
+}
+
+.cbp-spmenu-vertical a {
+   border-bottom: 1px solid #0a3044;
+   padding: 1em;
+}
+
+/* Vertical menu that slides from the left or right */
+
+.cbp-spmenu-right {
+   right: -240px;
+}
+
+.cbp-spmenu-right.cbp-spmenu-open {
+   right: 0px;
+}
+
+/* Push classes applied to the body */
+
+.cbp-spmenu-push {
+   overflow-x: hidden;
+   position: relative;
+   left: 0;
+}
+
+.cbp-spmenu-push-toleft {
+   left: -240px;
+}
+
+/* Transitions */
+
+.cbp-spmenu,
+.cbp-spmenu-push {
+   -webkit-transition: all 0.3s ease;
+   -moz-transition: all 0.3s ease;
+   transition: all 0.3s ease;
+}
+
+/* Example media queries */
+
+@media screen and (max-height: 26.375em){
+
+   .cbp-spmenu-vertical {
+      font-size: 90%;
+      width: 190px;
+   }
+
+   .cbp-spmenu-left,
+   .cbp-spmenu-push-toleft {
+      left: -190px;
+   }
+
+   .cbp-spmenu-right {
+      right: -190px;
+   }
+
+   .cbp-spmenu-push-toright {
+      left: 190px;
+   }
 }

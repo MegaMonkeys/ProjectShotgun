@@ -75,7 +75,7 @@
                   {
                      if(empty($row[7]))
                      {
-                        $status = "Available to Take ".$current_datetime;
+                        $status = "Will be available ". date_format($startDateTime, "F j, Y") . " at " . date_format($startDateTime, "g:ia");
                         $gradeStatus = '';
                         $takeTestButton = "<span id='button'>".
                                           "<input type='submit' id='takeTestButton' name='takeTestButton' value='".$row[6]."'/>".

@@ -96,16 +96,14 @@
             echo '<tr><td id="testTD">';
             echo     "<span id='testTitle'>" . $row[1] ."</span>";
             echo     "<span id='button'>";
-			   echo     "<form method='post' action='javascript:void(0);'>";
-            //echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
-            //echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
+			echo     "<form method='post' action='javascript:void(0);'>";
+            echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
+            echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
             //echo        "<button type='submit' value=$row[5] id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
             echo        generate_grade_button($test_status, $row[5]);
-			   echo     "</form>";
+			echo     "</form>";
             echo     "</span><br />";
-            echo     "<div>";
-            //echo     "Date Available: " . $row[3] . " ~ " . $row[4] . "<br />";
-            echo        get_test_time_range($row[3],$row[4]);
+            echo     "Date Available: " . $row[3] . " ~ " . $row[4] . "<br />";
             //echo     'Status: ' . (($row[2] == 1)? 'Published' : 'Not Published') . "<br />";
             echo        get_test_status($test_status);
             //echo     'Class Average: ' . "not set yet";
@@ -120,28 +118,13 @@
       mysqli_close($connection);
    }
 
-   function get_test_time_range($start_date, $end_date)
-   {
-      $new_start = date('F d, y (l) h:i A', strtotime($start_date));
-      $new_end = date('F d, y (l) h:i A', strtotime($end_date));
-      return "Date Available: " . $new_start . " ~ " . $new_end . "<br />";
-   }
-
    function generate_grade_button($test_status, $test_id)
    {
-      //(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
-	  $return_string = "";
-	  
-	  if($test_status == 2 || $test_status == 0)
-	     $return_string =
-            "<button type='submit' value=test_id id='editButton' name='editButton' onclick='modify_test(test_id)'></button>" .
-            "<button type='submit' value=test_id id='deleteButton' name='deleteButton' onclick='delete_test(test_id)'></button>";
-      else if($test_status == 4)
-         $return_string = "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
+      if($test_status == 4)
+         return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
       else
          //return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' onclick='grade_test($test_id)'></button>";
-		 $return_string = "";
-      return $return_string;
+		 return "";
    }
 
    function get_test_status($test_status)
