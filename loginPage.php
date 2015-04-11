@@ -27,7 +27,7 @@
       }
    ?>
 
-   <link rel="stylesheet" type="text/css" href="loginStyle.css">
+	<link rel="stylesheet" type="text/css" href="loginStyle.css">
    <HEAD>
       <style>
          div#load_screen{
@@ -46,51 +46,23 @@
             document.body.removeChild(load_screen);
          });
       </script>
-      <script type="text/javascript">
-         var image1 = new Image();
-         image1.src="images/verses/verse1.png";
-         var image2=new Image();
-         image2.src="images/verses/verse2.png";
-         var image3=new Image();
-         image3.src="images/verses/verse3.png";
-         var image4=new Image();
-         image4.src="images/verses/verse4.png"
-         var image5=new Image();
-         image5.src="images/verses/verse5.png"
-      </script>
+      
       <TITLE>
-         MegaTest - Online Testing Application
+          INGENIOUS - Online Testing Center
       </TITLE>
+       <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
    </HEAD>
 <BODY>
-   <div id="load_screen"><img src="images/megamonkeysloading.png" /></div>
-   <!--<img src="verses/verse5.png" name="slide"  height="600" class="slideshow">-->
-   <script type="text/javascript"> //Background Slideshow
-      /*var step=1
-      function slideit(){
-         document.images.slide.src=eval("image"+step+".src");
-         if(step<5)
-            step++;
-         else
-            step=1;
-         setTimeout("slideit()",5500);
-      }
-      slideit();*/
-   </script>
-
-   <div class="header">
-      <img src="images/header.png" class="header"/>
-      <div class="title"><img src="images/logo.png" class="logo"/></div>
-   </div>
-
-   <div id='cssmenu'>
-      <ul>
-         <li><a href='#'><span>About</span></a></li>
-         <li><a href='#'><span>Team</span></a></li>
-         <li class='last'><a href='#'><span>Contact</span></a></li>
-      </ul>
-   </div>
-
+   <div id="load_screen"><img src="images/monkeyload.gif" /></div>
+   
+    <div class="container">
+        <div class="header">
+            <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+        </div>
+        <div class="sticky-navigation">
+        </div>
+        <div class="contents">
+		
    <!-- START SLIDER -->
 
    <div id='slides'>
@@ -119,7 +91,7 @@
                 $AutoPlayInterval: 4000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
                 $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
 
-                $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+                $ArrowKeyNavigation: false,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
                 $SlideEasing: $JssorEasing$.$EaseOutQuint,          //[Optional] Specifies easing for right to left animation, default value is $JssorEasing$.$EaseOutQuad
                 $SlideDuration: 800,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
                 $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
@@ -187,7 +159,7 @@
             <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
                 top: 0px; left: 0px; width: 100%; height: 100%;">
             </div>
-            <div style="position: absolute; display: block; background: url(Jssor.Slider.FullPack/img/loading.gif) no-repeat center center;
+            <div style="position: absolute; display: block; background: url(images/monkeyload.gif) no-repeat center center;
                 top: 0px; left: 0px; width: 100%; height: 100%;">
             </div>
         </div>
@@ -195,16 +167,20 @@
         <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1300px; height: 500px;
              overflow: hidden;">
             <div>
-                <img u="image" src="images/academic/highschool1.jpg" />
+                <img u="image" src="images/academic/slide1.png" />
+                <!-- Image from: www.huffingtonpost.com/2013/09/20/paying-for-college-prep_n_3963035.html -->
             </div>
             <div>
-                <img u="image" src="images/academic/students1.jpg" />
+                <img u="image" src="images/academic/slide2.png" />
+                <!-- Image from: http://www.supportingeducation.org/2013/06/17/high-speed-internet-for-schools/ -->
             </div>
             <div>
-                <img u="image" src="images/academic/mancompcropped1.png" />
+                <img u="image" src="images/academic/slide3.png" />
+				<!-- Image from: eluniversitario.net -->
             </div>
             <div>
-                <img u="image" src="images/academic/Testing.jpg" />
+                <img u="image" src="images/academic/slide4.png" />
+                <!-- Image from: https://www.thebureauinvestigates.com/2010/09/20/top-10-teacher-salaries/ -->
             </div>
         </div>
 
@@ -283,7 +259,7 @@
 
    <div class="content">
       <div class="login">
-         Log in below &#9660;
+         Log In
          <form action="#" method="post">
             <input type="text"     placeholder="username" name="user" required><br>
             <input type="password" placeholder="password" name="password" required><br>
@@ -292,11 +268,13 @@
          </form>
       </div>
    </div>
-
-   <div class="footer"></br>
-      <img src="images/footerblue.png" class="footerblue"/>
-      <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
-   </div>
+   
+   
+ </div>
+        <div class="footer">
+            &copy; MegaMonkeys, Inc.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/monkeyhead2.png" class="monkeyheadfooter"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pensacola Christian College 2015
+        </div>
+</div>
 </BODY>
 </HTML>
 
