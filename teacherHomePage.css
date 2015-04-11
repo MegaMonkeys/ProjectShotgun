@@ -1,4 +1,3 @@
-
 body {
     background-image: #FFF;
     background-size: cover;
@@ -65,7 +64,8 @@ img.testLogo{
     float: left;
 }
 #button{
-    float: right;
+   position:absolute;
+   right: 10px;
 }
 #editButton {
     width: 40px;
@@ -348,7 +348,7 @@ img.footerblue {
    margin-right: auto;
    width: 100%;
    height: 100%;
-   z-index: 9999;
+   z-index: 100;
    background: url('./images/monkeyload.gif') 50% 50% no-repeat rgb(249,249,249);
 }
 
@@ -358,7 +358,7 @@ img.footerblue {
    margin-right: auto;
    width: 100%;
    height: 100%;
-   z-index: 9999;
+   z-index: 100;
    background: url('./images/megamonkeyslogo.png') 50% 50% no-repeat rgb(249,249,249);
 }
 

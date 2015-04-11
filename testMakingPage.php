@@ -132,7 +132,7 @@
                            <div id="optionButton">
                               <table id="optionButtonTable">
                                  <tr>
-                                    <td><button type="submit" value="publish" id="publish" name="publish" onclick="publish_test()"></button></td>
+                                    <td><button type="submit" value="publish" id="publish" name="publish" formaction="create_test.php"></button></td> <!--onclick="publish_test()"-->
                                     <td><button type="submit" value="save"    id="save"    name="save"    formaction="create_test.php"></button></td>
                                     <td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>
                                     <td><button type="submit" value="cancel"  id="cancel"  name="cancel"  onclick="cancel_test()"> </button></td>
@@ -238,6 +238,7 @@
       if( test_no_check($_GET['test_no']) ) {
          echo "<script type='text/javascript'>get_test(" . $_GET['test_no'] . ");</script>";
          echo "<script type='text/javascript'>$('#save').attr('value'," . $_GET['test_no'] . ");</script>";
+         echo "<script type='text/javascript'>$('#publish').attr('value'," . $_GET['test_no'] . ");</script>";
       }
       else {
          echo "<script type='text/javascript'>window.location.assign('./teacherHomePage.php');</script>";

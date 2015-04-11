@@ -7,9 +7,11 @@
 <!DOCTYPE html>
 <HTML>
    <link rel="stylesheet" type="text/css" href="teacherHomePage.css">
+   <!--Ethan--><link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
    <script src="tabcontent.js" type="text/javascript"></script>
    <script src="jquery-1.11.2.js"></script>
    <script src="jquery_api/jquery.min.js"></script>
+   <!--Ethan--><script src="jquery-ui-1.11.4.custom/jquery-ui.js"></script>
    <?php include_once 'teacherHomePage_control.php'; ?>
 
 <HEAD>
@@ -35,6 +37,13 @@
     </TITLE>
 </HEAD>
 
+   <!--Ethan begin-->
+   <a href="#" id="openDialog">Class Statistics</a>
+   <div id="dialog-modal" title="Class Statistics" style="display:none">
+   
+   </div>
+   <!--Ethan end-->
+
 <BODY style="background:#F6F9FC; font-family:Arial;">
    <?php include_once 'reload_goback.php'; ?>
    <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
@@ -55,7 +64,6 @@
 
    <div class="content">
       <form action="testMakingPage.php"><input type="submit" value="+ Create Test" class="create-button"></form>
-
       <div class="courses">
          <table id="courseTable">
             <?php $class_list = get_class_list(); ?>
@@ -63,7 +71,6 @@
       </div>
 
       <span id='classTitle'></span><br />
-
       <div class="testEachCourse">
          <div class="loader"></div>
          <div class="welcome"></div>
@@ -98,7 +105,14 @@
       $(".loader").fadeIn("slow");
       document.getElementById("classTitle").innerHTML = class_list[section_id];
       var data = 'teacherHomePage_control.php?section_id=' + section_id;
-      $('#testTable').load(data);
+      $('#testTable').load(data, function (responseText, textStatus, XMLHttpRequest) {
+         if (textStatus == "success") {
+            //alert("donw");
+         }
+         if (textStatus == "error") {
+            alert(responseText);
+         }
+      });
    }
 
    function delete_test(test_id) {
@@ -114,17 +128,39 @@
    }
 
    function grade_test(test_id) {
-      alert('under construction');
+      alert("Test End Time Not Met Yet");
    }
 
    $(document).ajaxComplete(function() {
       $(".loader").fadeOut(1);
       $("#testTable").fadeIn("slow");
    });
-
+   
+   
    //When Page Loads
    $(function() {
       page_resize();
+	  
+	  $( "#openDialog").on("click", function(){
+	  alert(current);
+	    var data = 'teacherStatistics.php?section=' + current;
+		$("#dialog-modal").load(data, function (responseText, textStatus, XMLHttpRequest) {
+		   if (textStatus == "success") {
+			  //alert("donw");
+			  //$( "#dialog-modal" ).show();
+$( "#dialog-modal" ).dialog({
+height:'auto',
+width:'auto',
+modal: true
+});
+		   }
+		   if (textStatus == "error") {
+			  alert(responseText);
+		   }
+		});
+	  
+		
+	});
    });
    //When Page Size Changes
    $( window ).resize(function() {

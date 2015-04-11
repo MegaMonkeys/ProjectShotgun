@@ -56,7 +56,6 @@
 
 
 <div class="content">
-
    <div class="courses">
       <table id="courseTable">
          <?php $class_list = get_class_list(); ?>
@@ -89,14 +88,15 @@
 
    var $class_list = <?php echo json_encode($class_list) ?>;
       //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
-   get_class_test(Object.keys($class_list)[0]);
+   get_class_test(Object.keys($class_list)[0], <?php echo $first_user; ?>);
+   
 
-   function get_class_test(section_no) {
+   function get_class_test(section_no, student_id) {
       //$("#testTable").attr("display", "none");
       $("#testTable").fadeOut(1);
       $(".loader").fadeIn("slow");
       document.getElementById("classTitle").innerHTML = $class_list[section_no];
-      var data = 'php_control_student.php?section_no=' + section_no;
+      var data = 'php_control_student.php?section_no=' + section_no + '&student_id=' + student_id;
       $('#testTable').load(data);
 
    }
