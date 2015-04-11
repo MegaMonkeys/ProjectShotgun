@@ -217,19 +217,26 @@
 <script type="text/javascript">
    $(document).ready(function() { $.ajaxSetup({ cache: false }); });
 
-   var $class_list = <?php echo json_encode($class_list) ?>;
+   var class_list = <?php echo json_encode($class_list) ?>;
       //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
-   get_class_test(Object.keys($class_list)[0], <?php echo $first_user; ?>);
+   //get_class_test(Object.keys(class_list)[0], <?php //echo $first_user; ?>);
+   get_class_test(<?php echo key($class_list); ?>, <?php echo $first_user; ?>);
    
 
    function get_class_test(section_no, student_id) {
       //$("#testTable").attr("display", "none");
       $("#testTable").fadeOut(1);
       $(".loader").fadeIn("slow");
-      document.getElementById("classTitle").innerHTML = $class_list[section_no];
+      document.getElementById("classTitle").innerHTML = class_list[section_no];
       var data = 'php_control_student.php?section_no=' + section_no + '&student_id=' + student_id;
-      $('#testTable').load(data);
-
+      $('#testTable').load(data, function (responseText, textStatus, XMLHttpRequest) {
+         if (textStatus == "success") {
+            //alert("donw");
+         }
+         if (textStatus == "error") {
+            //alert(responseText);
+         }
+      });
    }
    $(document).ajaxComplete(function() {
       $(".loader").fadeOut(1);
@@ -247,7 +254,7 @@
    function page_resize() {
       //alert($(window).height() + " " + $(document).height());
       $('#classTitle').css("left", 180 + ($(window).width() - 1100) / 2);
-      $('.courses').css("max-height", $(window).height() - 360);
+      $('.courses').css("max-height", $(window).height() - 250);
       $('.testEachCourse').css("left", 180 + ($(window).width() - 1100) / 2);
       $('.testEachCourse').css("min-height", $(window).height() - 280 );
 	  $('.contents').css("min-height", $(window).height() - 150 );
