@@ -112,7 +112,6 @@
    $(".loader").fadeOut(1);
    var test_info = <?php echo json_encode(get_test_info($_POST['gradeButton'])) ?>;
    f_t_name.innerHTML = test_info[0];
-   t_id = <?php echo $_POST['gradeButton']; ?>;
    s_id = "";
    
    get_student_test(<?php echo $_POST['gradeButton']; ?>,<?php echo ($f_id) ?>,<?php echo json_encode($f_name); ?>);
@@ -120,10 +119,6 @@
 
    function get_student_test(test_id, student_id, s_name) {
       //alert(test_id + " " + student_id);
-	  f_s_name.innerHTML = s_name;
-      s_id = student_id;
-	  f_s_point.innerHTML = f_t_point.innerHTML = f_percent.innerHTML = "";
-	  
       var data = 'testGradingPage_control.php?action=get&test_id='+test_id+'&student_id='+student_id;
 
       $("#test_table").fadeOut(1);
@@ -137,9 +132,10 @@
          }
          if (textStatus == "error") {
             // oh noes!
-			
          }
       });
+      f_s_name.innerHTML = s_name;
+      s_id = student_id;
    }
 
    $(document).ajaxComplete(function() {
@@ -170,28 +166,20 @@
       if( q_num != 0) {
          //TEST NO CAUTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          // NEED TO SET STUDENT ID
-         var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_id='+t_id+'&count='+q_num;
+         var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_no='+4+'&count='+q_num;
          for (i = 1; i <= q_num; i++) {
             data += "&n"+i+"=" + document.getElementById("p"+i).value;
          }
          //#f_save
-		 $("#test_table").fadeOut(1);
-		 $(".loader").fadeIn("slow");
          $(this).load(data, function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "success") {
                alert("saved");
                document.getElementById("t_save").disabled = true;
-			   $(".loader").fadeOut(1);
-               $("#test_table").fadeIn("slow");
             }
             if (textStatus == "error") {
                // oh noes!
-			   alert(responseText);
             }
          });
-      }
-      else {
-
       }
    }
 
