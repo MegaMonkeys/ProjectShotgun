@@ -17,6 +17,7 @@
       <!-- <script src="./keyblock.js"></script> -->
       <script src="./testMakingPage.js"></script>
       <link rel="stylesheet" type="text/css" href="testMakingPage.css">
+      <link rel="stylesheet" type="text/css" href="stylesheet.css">
       <?php include_once 'testMakingPage_control.php'; ?>
 
       <style>
@@ -45,30 +46,138 @@
       </script>
 
       <TITLE>
-         MegaTest - Online Testing Application
+         INGENIOUS - Online Testing Center
       </TITLE>
-
+      <link rel="icon" type="logo/png" href="images/monkeyhead.png">
    </HEAD>
-   <BODY><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
-      <div id="load_screen"><img src="images/megamonkeysloading.png" /> </div>
 
-      <div id="header"> <!-- 100 -->
-         <img src="images/header.png" class="header"/> <!-- 100/26 -->
-         <img src="images/logo.png" class="testLogo"/> <!-- 50 -->
+   <BODY style="background:#F6F9FC; font-family:Arial;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
+   <div class="container">
+        <div class="header">
+            <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+			<div class="main">
+			 <section class="buttonset">
+				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
+				<a href="#" id="showRightPush" class="button"><img src="images/menu.png" class="menuImage" /></a>
+			 </section>
+			</div>
+        </div>
+        <div class="sticky-navigation">
+        </div>
+        <div class="contents">
+   <!-- body has the class "cbp-spmenu-push" -->
+   <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+      <a href='teacherHomePage.php'><span>Home</span></a>
+      <a href='#'><span>About</span></a>
+      <a href='teampage.php'><span>Developers</span></a>
+      <a href='#'><span>Help</span></a>
+      <a href='logout.php' class="last"><span>Sign Out</span></a>
+      <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
+   </nav>
 
-         <form action="logout.php" method="post">
-            <input type="submit" value="Sign out" class="logout-button">
-         </form>
-      </div>
+   <!-- START of JavaScript to make Hidden Side Menu Work -->
+   <script>
+      /*!
+       * classie v1.0.1
+       * class helper functions
+       * from bonzo https://github.com/ded/bonzo
+       * MIT license
+       *
+       * classie.has( elem, 'my-class' ) -> true/false
+       * classie.add( elem, 'my-new-class' )
+       * classie.remove( elem, 'my-unwanted-class' )
+       * classie.toggle( elem, 'my-class' )
+       */
 
-   <div id='cssmenu'>
-      <ul>
-         <li class='loginPage.html'><a href='./teacherHomePage.php'><span>Home</span></a></li>
-         <li><a href='#'><span>About</span></a></li>
-         <li><a href='#'><span>Team</span></a></li>
-         <li class='last'><a href='#'><span>Contact</span></a></li>
-      </ul>
-   </div>
+      /*jshint browser: true, strict: true, undef: true, unused: true */
+      /*global define: false, module: false */
+
+      ( function( window ) {
+
+         'use strict';
+
+// class helper functions from bonzo https://github.com/ded/bonzo
+
+         function classReg( className ) {
+            return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
+         }
+
+// classList support for class management
+// altho to be fair, the api sucks because it won't accept multiple classes at once
+         var hasClass, addClass, removeClass;
+
+         if ( 'classList' in document.documentElement ) {
+            hasClass = function( elem, c ) {
+               return elem.classList.contains( c );
+            };
+            addClass = function( elem, c ) {
+               elem.classList.add( c );
+            };
+            removeClass = function( elem, c ) {
+               elem.classList.remove( c );
+            };
+         }
+         else {
+            hasClass = function( elem, c ) {
+               return classReg( c ).test( elem.className );
+            };
+            addClass = function( elem, c ) {
+               if ( !hasClass( elem, c ) ) {
+                  elem.className = elem.className + ' ' + c;
+               }
+            };
+            removeClass = function( elem, c ) {
+               elem.className = elem.className.replace( classReg( c ), ' ' );
+            };
+         }
+
+         function toggleClass( elem, c ) {
+            var fn = hasClass( elem, c ) ? removeClass : addClass;
+            fn( elem, c );
+         }
+
+         var classie = {
+            // full names
+            hasClass: hasClass,
+            addClass: addClass,
+            removeClass: removeClass,
+            toggleClass: toggleClass,
+            // short names
+            has: hasClass,
+            add: addClass,
+            remove: removeClass,
+            toggle: toggleClass
+         };
+
+// transport
+         if ( typeof define === 'function' && define.amd ) {
+            // AMD
+            define( classie );
+         } else if ( typeof exports === 'object' ) {
+            // CommonJS
+            module.exports = classie;
+         } else {
+            // browser global
+            window.classie = classie;
+         }
+
+      })( window );
+
+
+      var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+          showRightPush = document.getElementById( 'showRightPush' ),
+          body = document.body;
+
+      showRightPush.onclick = function() {
+         classie.toggle( this, 'active' );
+         classie.toggle( body, 'cbp-spmenu-push-toleft' );
+         classie.toggle( menuRight, 'cbp-spmenu-open' );
+      };
+   </script>
+   <!-- END of JavaScript to make Hidden Side Menu Work -->
+
+      <div id="load_screen"><img src="images/monkeyload.gif" /> </div>
+
    <div id="wrap">
       <div class="loader" align="center"></div>
          <div id="content">
@@ -186,10 +295,11 @@
          </div>
    </div>
 
-   <div class="footer"></br>
-      <img src="images/footerblue.png" class="footerblue"/>
-      <ft>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</ft>
-   </div>
+    </div>
+        <div class="footer">
+            &copy; MegaMonkeys, Inc. <img src="images/monkeyhead.png" class="monkeyheadfooter"/> Pensacola Christian College 2015
+        </div>
+	</div>
 
    </BODY>
 </HTML>

@@ -2,7 +2,8 @@
 <HTML>
 <link rel="stylesheet" type="text/css" href="testGradingPage.css">
 <script src="tabcontent.js" type="text/javascript"></script>
-<script src="./ProjectShotgun/jquery-1.11.2.js"></script>
+<script src="./jquery-1.11.2.js"></script>
+<?php include_once 'testGradingPage_control.php'; ?>
 <HEAD>
     <style>
         div#load_screen{
@@ -17,7 +18,6 @@
     </style>
     <script>
         window.addEventListener("load", function(){
-
             var load_screen = document.getElementById("load_screen");
             document.body.removeChild(load_screen);
         });
@@ -29,7 +29,8 @@
 		});
 		function page_resize() {
 			//alert( $(window).height() + " " + $(document).height());
-			$("#studentInformation").css("height", $(window).height() - 300);
+			$("#studentInformation").css("max-height", $(window).height() - 300);
+         $(".testQuestions").css("min-height", $(window).height() - 300);
 		}
     </script>
     <TITLE>
@@ -39,205 +40,147 @@
 </HEAD>
 
 <BODY style="background:#F6F9FC; font-family:Arial;">
-<div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
+   <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
 
 
-	<div class="header">
-		<img src="images/header.png" class="header"/>
-		<img src="images/logo.png" class="testLogo"/>
-		<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>
-	</div>
-<div id='cssmenu'>
-    <ul>
-        <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
-        <li><a href='#'><span>About</span></a></li>
-        <li><a href='#'><span>Team</span></a></li>
-        <li class='last'><a href='#'><span>Contact</span></a></li>
-    </ul>
-</div>
-<div id="wrapper">
-	<div class="content">
-		<div id="studentList">Student List:</div>
-	   <div id="studentInformation">
-	   <table id="studentTable">
-	   <tr><td id="studentTD">Jordan Brown</td></tr>
-	   <tr><td id="studentTD">Glenn Stegal</td></tr>
-	   <tr><td id="studentTD">Youngchan Youn</td></tr>
-	   <tr><td id="studentTD">Jon Massie</td></tr>
-	   <tr><td id="studentTD">Ethan McGuire</td></tr>
-	   <tr><td id="studentTD">Bernike T</td></tr>
-	   	   <tr><td id="studentTD">Jordan Brown</td></tr>
-	   <tr><td id="studentTD">Glenn Stegal</td></tr>
-	   <tr><td id="studentTD">Youngchan Youn</td></tr>
-	   <tr><td id="studentTD">Jon Massie</td></tr>
-	   <tr><td id="studentTD">Ethan McGuire</td></tr>
-	   <tr><td id="studentTD">Bernike T</td></tr>
-	   	   <tr><td id="studentTD">Jordan Brown</td></tr>
-	   <tr><td id="studentTD">Glenn Stegal</td></tr>
-	   <tr><td id="studentTD">Youngchan Youn</td></tr>
-	   <tr><td id="studentTD">Jon Massie</td></tr>
-	   <tr><td id="studentTD">Ethan McGuire</td></tr>
-	   <tr><td id="studentTD">Bernike T</td></tr>
-	   </table>
-	   </div>
+   <div class="header">
+      <img src="images/header.png" class="header"/>
+      <img src="images/logo.png" class="testLogo"/>
+      <form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>
+   </div>
 
-	   <span id='classTitle'></span><br />
+   <div id='cssmenu'>
+      <ul>
+         <li class='loginPage.html'><a href='./teacherHomePage.php'><span>Home</span></a></li>
+         <li><a href='#'><span>About</span></a></li>
+         <li><a href='#'><span>Team</span></a></li>
+         <li class='last'><a href='#'><span>Contact</span></a></li>
+      </ul>
+   </div>
 
-	   <div class="testQuestions"><!--style="border:1px solid #66CCFF"-->
-	   <table class="table_border_style">
-		<tr><td id="trueFalse">
-			<table>
-			<tr>
-				<td width="50px">
-					1.
-				</td>
-				<td colspan="2" width="750px">
-					<span id="theQuestion">Dr. Geary teaches .NET programming class</span> (5)
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="radio" name="trueFalseAns" value="true">True
-				</td>
-				<td>
-					<input type="radio" name="trueFalseAns" value="false">False
-				</td>
-			</tr>
-			</table>
-		</td>
-		<td id="pointBox">
-		<input type="text" value="" id="points">/10
-		</td>
-		</tr>
-			
-		<tr><td id="multipleChoice">
-			<table>
-			<tr>
-				<td width="50px">
-					2.
-				</td>
-				<td colspan="2" width="750px">
-					<span id="theQuestion">What is the first letter of an alphabet</span>(5)
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="radio" name="multipleChoiceAns" value="a">a
-				</td>
-				<td>
-					<input type="radio" name="multipleChoiceAns" value="c">c
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="radio" name="multipleChoiceAns" value="b">b
-				</td>
-				<td>
-					<input type="radio" name="multipleChoiceAns" value="d">d
-				</td>
-			</tr>
-			</table>
-			</td>
-		<td id="pointBox">
-		<input type="text" value="" id="points">/10
-		</td>
-		</tr>
-		  
-		<tr><td id="manyChoice">
-			<table>
-			<tr>
-				<td width="50px">
-					3.
-				</td>
-				<td colspan="2" width="750px">
-					<span id="theQuestion">Choose all that apply</span>(5)
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="checkbox" name="manyChoiceAns" value="house"> I have a house
-				</td>
-				<td>
-					<input type="checkbox" name="manyChoiceAns" value="phone"> I have a phone
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="checkbox" name="manyChoiceAns" value="Bike"> I have a bike
-				</td>
-				<td>
-					<input type="checkbox" name="manyChoiceAns" value="Car"> I have a car
-				</td>
-			</tr>
-			</table>
-		</td>
-		<td id="pointBox">
-		<input type="text" value="" id="points">/10
-		</td>
-		</tr>
-			
-		<tr><td id="shortAnswer">
-			<table>
-			<tr>
-				<td width="50px">
-					4.
-				</td>
-				<td width="750px">
-					<span id="theQuestion">Who invented facebook?</span>(5)
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="text" name="shortAns" value="">
-				</td>
-			</tr>
-			</table>
-			</td>
-			<td id="pointBox">
-				<input type="text" value="" id="points">/10
-			</td>
-		</tr>	
-		
-		<tr><td id="essay">
-			<table>
-			<tr>
-				<td width="50px">
-					5.
-				</td>
-				<td width="750px">
-					<span id="theQuestion">What is DBMS(explain)?</span>(5)
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="text" name="essayAns" value="" class="essayText">
-				</td>
-			</tr>
-			</table>
-		</td>
-		<td id="pointBox">
-		<input type="text" value="" id="points">/10
-		</td>
-		</tr>
-		
-			 <!-- Table Elements Generated By AJAX Script -->
-	   </table>
-	   </div>
-	</div>
+   <div id="wrapper">
+      <div id="test_info">
+         <table>
+            <tr>
+               <td>Test Name</td>
+               <td>Student Name</td>
+               <td>Student Point</td>
+               <td>Total Point</td>
+               <td>%</td>
+               <td>Save</td>
+            </tr>
+            <tr>
+               <td id="f_t_name"></td>
+               <td id="f_s_name"></td>
+               <td id="f_s_point"></td>
+               <td id="f_t_point"></td>
+               <td id="f_percent"></td>
+               <td id="f_save"><button id="t_save" type="button" onclick="testing()">Save</button></td>
+            </tr>
+         </table>
+      </div>
 
+      <div class="content">
+         <div id="studentList">Student List:</div>
+         <div id="studentInformation">
+            <table id="studentTable">
+               <?php get_student_list(); ?>
+            </table>
+         </div>
 
-	<div class="footer"></br>
-	   <img src="images/footerblue.png" class="footerblue"/>
-	   <div>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</div>
-	</div>
-</div>
+         <span id='classTitle'></span><br />
+
+         <div class="testQuestions">
+            <div class="loader"></div>
+            <table id="test_table" class="table_border_style">
+                <!-- Table Elements Generated By AJAX Script -->
+            </table>
+         </div>
+      </div>
+
+      <div class="footer"></br>
+         <img src="images/footerblue.png" class="footerblue"/>
+         <div>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</div>
+      </div>
+   </div>
 
 </BODY>
 </HTML>
+
+<script type="text/javascript">
+   $(document).ready(function() { $.ajaxSetup({ cache: false }); });
+   $(".loader").fadeOut(1);
+   var test_info = <?php echo json_encode(get_test_info($_POST['gradeButton'])) ?>;
+   f_t_name.innerHTML = test_info[0];
+   s_id = "";
+   
+   get_student_test(<?php echo $_POST['gradeButton']; ?>,<?php echo ($f_id) ?>,<?php echo json_encode($f_name); ?>);
+   
+
+   function get_student_test(test_id, student_id, s_name) {
+      //alert(test_id + " " + student_id);
+      var data = 'testGradingPage_control.php?action=get&test_id='+test_id+'&student_id='+student_id;
+
+      $("#test_table").fadeOut(1);
+      $(".loader").fadeIn("slow");
+      $('#test_table').load(data, function (responseText, textStatus, XMLHttpRequest) {
+         if (textStatus == "success") {
+            calculate_total();
+            document.getElementById("t_save").disabled = true;
+            $(".loader").fadeOut(1);
+            $("#test_table").fadeIn("slow");
+         }
+         if (textStatus == "error") {
+            // oh noes!
+         }
+      });
+      f_s_name.innerHTML = s_name;
+      s_id = student_id;
+   }
+
+   $(document).ajaxComplete(function() {
+
+   });
+
+   function calculate_total() {
+      var s_total = 0;
+      var t_total = 0;
+      for (i = 1; i <= document.getElementById("test_table").rows.length; i++) {
+         //var current = parseInt(document.getElementById("p"+i).value);
+         var current = document.getElementById("p"+i);
+         if( ! $.isNumeric(current.value) )
+            current.value = 0;
+         s_total += parseInt(document.getElementById("p"+i).value);
+         t_total += parseInt((document.getElementById("pointBox"+i).innerText).replace( /^\D+/g, ''));
+         //t_total += parseInt((document.getElementById("pointBox1").innerText).substring(1));
+      }
+      f_s_point.innerHTML = s_total;
+      f_t_point.innerHTML = t_total;
+      var percent = parseFloat(s_total/t_total*100).toFixed(2);
+      f_percent.innerHTML = ((!$.isNumeric(percent))?parseFloat(0).toFixed(2):percent);
+      document.getElementById("t_save").disabled = false;
+   }
+
+   function testing() {
+      var q_num = document.getElementById("test_table").rows.length;
+      if( q_num != 0) {
+         //TEST NO CAUTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         // NEED TO SET STUDENT ID
+         var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_no='+4+'&count='+q_num;
+         for (i = 1; i <= q_num; i++) {
+            data += "&n"+i+"=" + document.getElementById("p"+i).value;
+         }
+         //#f_save
+         $(this).load(data, function (responseText, textStatus, XMLHttpRequest) {
+            if (textStatus == "success") {
+               alert("saved");
+               document.getElementById("t_save").disabled = true;
+            }
+            if (textStatus == "error") {
+               // oh noes!
+            }
+         });
+      }
+   }
+
+</script>
