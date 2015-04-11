@@ -10,75 +10,26 @@
    function save_test() {
       //echo $_GET['count'];
       include 'db_connection.php';
-      $sql_command = "SELECT stu_ans_id, ques_type, points\n"
-            . "FROM student_answer s\n"
-            . "JOIN question q \n"
-            . "ON s.ques_id = q.ques_id\n"
-            . "WHERE student_id = " . $_GET['s_id'] . "\n"
-            . "AND test_id = " . $_GET['t_id'] . "\n";
-
-         /*"SELECT stu_ans_id, ques_type\n"
-         . "FROM student_answer\n"
-         . "WHERE student_id = " . $_GET['s_id'] . "\n"
-         . "AND ques_id\n"
-         . "IN (\n"
-         . "SELECT ques_id\n"
-         . "FROM question\n"
-         . "WHERE test_id = " . $_GET['t_id'] . "\n"
-         . "AND ques_type != \"Instruction\"\n"
-         . "ORDER BY ques_no)\n"
-         . "GROUP BY ques_id";*/
-
-         /*"SELECT ques_id\n"
+      $sql_command = "SELECT ques_id\n"
          . "FROM question\n"
          . "WHERE test_id = 4\n"
          . "AND ques_type != \"Instruction\"\n"
-         . "ORDER BY ques_no";*/
+         . "ORDER BY ques_no";
       $sql_result = mysqli_query($connection, $sql_command);
 
-      if( $_GET['count'] != 0 && mysqli_num_rows($sql_result) == 0 )
-	  {
-		  $q_id_array = array();
-		  $q_type_array = array();
-		  $q_total_p     = 0;
-		  $q_objective_p = 0;
-		  $q_essay_p     = 0;
-		  $q_total_s     = 0;
-		  for($i = 0; $i < @mysqli_num_rows($sql_result); $i++) {
-			 $data = mysqli_fetch_row($sql_result);
-			 array_push($q_id_array,   $data[0]);
-			 array_push($q_type_array, $data[1]);
-			 $q_total_p += $data[2];
-		  }
+      $q_id_array = array();
+      for($i = 0; $i < @mysqli_num_rows($sql_result); $i++) {
+         $data = mysqli_fetch_row($sql_result);
+         array_push($q_id_array, $data[0]);
+      }
 
-		  for($i = 0; $i < sizeof($q_id_array); $i++) {
-			 $sql_command = "UPDATE student_answer\n"
-			 ."SET stu_points   = ".$_GET['n'.($i+1)]."\n"
-			 ."WHERE stu_ans_id = ".$q_id_array[$i]."\n"
-			 ."AND student_id   = ".$_GET['s_id']."\n";
-			 mysqli_query($connection, $sql_command);
-			 echo $q_type_array[$i];
-			 
-			 if( $q_type_array[$i] != "Instruction" )
-				$q_objective_p += $_GET['n'.($i+1)];
-			 else
-				$q_essay_p += $_GET['n'.($i+1)];
-		  }
-		  
-		  $q_total_s = ($q_objective_p+$q_essay_p)*100/(($q_total_p!=0)?$q_total_p:1);
-		  
-		  $sql_command = "UPDATE student_test\n"
-			 . "SET objective_grade = " . $q_objective_p . "\n"
-			 . ", essay_grade = " . $q_essay_p . "\n"
-			 . ", final_grade = " . $q_total_s . "\n"
-			 . "WHERE student_id   = ".$_GET['s_id']."\n"
-			 . "AND test_id = " . $_GET['t_id'];
-		  mysqli_query($connection, $sql_command);
+      for($i = 0; $i < sizeof($q_id_array); $i++) {
+         $sql_command = "UPDATE student_answer\n"
+         ."SET stu_points = ".$_GET['n'.($i+1)]."\n"
+         ."WHERE ques_id = ".$q_id_array[$i]."\n"
+         ."AND student_id = ".$_GET['s_id']."\n";
+         $sql_result = mysqli_query($connection, $sql_command);
       }
-	  else {
-	     
-      }
-	  
       mysqli_close($connection);
    }
 
@@ -142,14 +93,6 @@
 
    function get_test($test_id, $student_id) {
       include 'db_connection.php';
-	  $sql_command = "SELECT * FROM student_test WHERE student_id = ".$student_id." AND test_id = ".$test_id;
-	  $sql_result = mysqli_query($connection, $sql_command);
-	  
-	  if(mysqli_num_rows($sql_result) == 0)
-	  {
-         echo '<script type="text/javascript">alert("This Student did not take the tset.");</script>';
-	  }
-	  else {
       $sql_command = "SELECT test_id, q.ques_id, ques_type, ques_text, points, ans_id, ans_text, correct\n"
          . "FROM question q\n"
          . "LEFT OUTER JOIN answer a\n"
@@ -182,7 +125,6 @@
             $ques_id = $row[1];
          }
       }
-	  }
    }
 
    function get_test_type($row, $q, $student_id) {
@@ -296,14 +238,10 @@
                array_push($t_ans_array, $data[0]);
             }
 
-            $s_point = 0;
             $s_ans_array = array();
             for($i = 1; $i <= @mysqli_num_rows($sql_result_ex); $i++) {
                $ex = mysqli_fetch_row($sql_result_ex);
                array_push($s_ans_array, $ex[1]);
-               if( $i == 1) {
-                  $s_point = $ex[2];
-               }
             }
 
          mysqli_close($connection);
@@ -339,7 +277,7 @@
             '</table>'.
             '</td>'.
             '<td class="pointBox" id="pointBox'.$q.'">'.
-            '<input type="text" value="'.((is_null($s_point))?0:$s_point).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
+            '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
             '</td>'.
             '</tr>';
          return $data;
