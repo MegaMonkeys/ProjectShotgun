@@ -10,7 +10,7 @@ img.header{
 .stats{
     position: absolute;
     top: 110px;
-    left: 1400px;
+    left: 1000px;
     background-color: #FF9900;
     display:inline-block;
     cursor:pointer;
@@ -29,13 +29,13 @@ img.header{
     background-color:rgb(0,200,250);
 }
 .courses{
-    position: absolute;
-    top: 300px;
-	left: 400px;
-    width: 220px;
+   position: absolute;
+   top: 250px;
+   left: 400px;
+   width: 220px;
 }
 .testEachCourse{
-background-image: url('images/bg-body.jpg');
+   background-image: url('images/bg-body.jpg');
    position: relative;
    left: 400px;
    width: 800px;
@@ -137,18 +137,19 @@ background-image: url('images/bg-body.jpg');
     background-size: contain;
 }
 #classTitle{
-    font-size: 40px;
-	margin-top: 50px;
-    position: relative;
-    left: 400px;
-	top: 15px;
-    color:black;
-    z-index:100;
+   font-size: 40px;
+   margin-top: 50px;
+   position: relative;
+   left: 400px;
+   top: 15px;
+   color:black;
+   z-index:100;
+   min-width: 700px;
 }
 .create-button {
     z-index: 26;
     position: absolute;
-	left: 200px;
+	 left: 200px;
     top: 170px;
     width: 200px;
     height: 60px;
@@ -190,7 +191,7 @@ div.content{
    background: url('images/monkeyload.gif') 50% 50% no-repeat;
 }
 #form_table{
-position: relative;
+   position: relative;
 }
 /********************************************************/
 
@@ -200,6 +201,15 @@ position: relative;
 		left: 200px;
 		width: 220px;
 	}
+   .create-button {
+      left: 200px;
+   }
+   .testEachCourse, #classTitle {
+      left: 400px;
+   }
+   .stats {
+      left: 1150px;
+   }
 }
 @media screen and (max-width: 1400px) {
 	.courses{
@@ -207,11 +217,20 @@ position: relative;
 		left: 30px;
 		width: 220px;
 	}
+   .create-button {
+      left: 30px;
+   }
+   .testEachCourse, #classTitle {
+      left: 250px;
+   }
 }
 @media screen and (max-width: 1100px) {
-	.courses{
+	.courses, .create-button{
 		position: static;
 	}
+   .testEachCourse, #classTitle {
+      left: 30px;
+   }
 	#testTD{
 		width: 600px;
 	}
