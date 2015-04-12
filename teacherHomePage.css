@@ -208,6 +208,7 @@ div.content{
       left: 400px;
    }
    .stats {
+      top: 110px;
       left: 1150px;
    }
 }
@@ -223,6 +224,10 @@ div.content{
    .testEachCourse, #classTitle {
       left: 250px;
    }
+   .stats {
+      top: 110px;
+      left: 1000px;
+   }
 }
 @media screen and (max-width: 1100px) {
 	.courses, .create-button{
@@ -234,4 +239,8 @@ div.content{
 	#testTD{
 		width: 600px;
 	}
+   .stats {
+      top: 390px;
+      left: 600px;
+   }
 }

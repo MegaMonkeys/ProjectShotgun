@@ -261,3 +261,10 @@
    }
 
 </script>
+
+<?php
+if( isset( $_SESSION['section_id'] ) ) {
+   echo '<script type="text/javascript"> get_class_test('.$_SESSION['section_id'].','.$first_user.'); </script>';
+   unset($_SESSION['section_id']);
+}
+?>
