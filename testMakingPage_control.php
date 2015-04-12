@@ -5,6 +5,9 @@
    else if( isset( $_GET['course_no'] ) && isset( $_GET['action'] ) ) {
       load_section( $_GET['course_no'], $_GET['action'] );
    }
+   else if( isset( $_GET['test_no'] ) && isset( $_GET['load'] ) ) {
+      load_info( $_GET['test_no'] );
+   }
 
 
    //TestMakingPage.php
@@ -111,9 +114,25 @@
             echo load_question_refresh();
          }
       }
-      echo  load_question_info($info);
+      //echo  load_question_info($info);
       mysqli_close($connection);
    }
+
+      function load_info($test_no)
+      {
+         include 'db_connection.php';
+         $sql_command =
+            "SELECT TEST_NAME, START_DATE, END_DATE, TIME_LIMIT, PLEDGE, SECTION.SECTION_ID, COURSE_NO, SECTION_NO\n"
+            . "FROM TEST, SECTION\n"
+            . "WHERE TEST.SECTION_ID = SECTION.SECTION_ID\n"
+            . "AND TEST_ID = " . $test_no . ";";
+
+         $sql_result = mysqli_query($connection, $sql_command);
+         $info = mysqli_fetch_row($sql_result);
+
+         echo  load_question_info($info);
+         mysqli_close($connection);
+      }
 
    function load_question_info($data)
    {
@@ -162,32 +181,32 @@
          array(
             //Index:0 - True/False Question
             $form_array[$q_type] .
-            '<input type="text" maxlength="3" size="4" style="float: right;" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
             '<textarea required rows="3" placeholder="True/False Question">'.$q_text.'</textarea>'.
             '<input type="radio" style="margin-left: 23%;"' . ($q_type==1||@$row[2]? 'checked': '') . '> True'.
             '<input type="radio" style="margin-left: 23%;"' . ($q_type==1||@!$row[2]? 'checked': '') . '> False',
 
             //Index:1 - Multiple Choice Question
             $form_array[$q_type] .
-            '<input type="text" maxlength="3" size="4" style="float: right;" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
             //'<input type="button" value="Option" onclick="add_option(this);"><br>'.
             '<textarea required rows="3" placeholder="Multiple Choice Question">'.$q_text.'</textarea>' ,
 
             //Index:2 - Many Choices
             $form_array[$q_type] .
-            '<input type="text" maxlength="3" size="4" style="float: right;" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
             //'<input type="button" value="Option" onclick="add_option(this);"><br>'.
             '<textarea required rows="3" placeholder="Many Choice Question">'.$q_text.'</textarea>',
 
             //Index:3 - Short Answer Question
             $form_array[$q_type] .
-            '<input type="text" maxlength="3" size="4" style="float: right;" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
             '<textarea required rows="3" placeholder="Short Answer Question">'.$q_text.'</textarea>'.
             'Answer: <input type="text"  maxlength="50" size="55" value="' . @$row[2] . '">',
 
             //Index:4 - Essay
             $form_array[$q_type] .
-            '<input type="text" maxlength="3" size="4" style="float: right;" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
             '<textarea required rows="4" placeholder="Essay Question">'.$q_text.'</textarea><br>',
 
             //Disabled

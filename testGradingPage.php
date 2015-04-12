@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <HTML>
 <link rel="stylesheet" type="text/css" href="testGradingPage.css">
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
 <script src="tabcontent.js" type="text/javascript"></script>
 <script src="./jquery-1.11.2.js"></script>
 <?php include_once 'testGradingPage_control.php'; ?>
@@ -30,7 +31,7 @@
 		function page_resize() {
 			//alert( $(window).height() + " " + $(document).height());
 			$("#studentInformation").css("max-height", $(window).height() - 300);
-         $(".testQuestions").css("min-height", $(window).height() - 300);
+         $(".testQuestions").css("min-height", $(window).height() - 210);
 		}
     </script>
     <TITLE>
@@ -44,19 +45,19 @@
 
 
    <div class="header">
-      <img src="images/header.png" class="header"/>
+      <!--<img src="images/header.png" class="header"/>-->
       <img src="images/logo.png" class="testLogo"/>
       <form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>
    </div>
 
-   <div id='cssmenu'>
+   <!--<div id='cssmenu'>
       <ul>
          <li class='loginPage.html'><a href='./teacherHomePage.php'><span>Home</span></a></li>
          <li><a href='#'><span>About</span></a></li>
          <li><a href='#'><span>Team</span></a></li>
          <li class='last'><a href='#'><span>Contact</span></a></li>
       </ul>
-   </div>
+   </div>-->
 
    <div id="wrapper">
       <div id="test_info">
@@ -97,10 +98,8 @@
             </table>
          </div>
       </div>
-
-      <div class="footer"></br>
-         <img src="images/footerblue.png" class="footerblue"/>
-         <div>&copy; MegaMonkeys, Inc. - Pensacola Christian College 2015</div>
+      <div class="footer">
+         &copy; MegaMonkeys, Inc.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/monkeyhead2.png" class="monkeyheadfooter"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pensacola Christian College 2015
       </div>
    </div>
 
@@ -112,9 +111,11 @@
    $(".loader").fadeOut(1);
    var test_info = <?php echo json_encode(get_test_info($_POST['gradeButton'])) ?>;
    f_t_name.innerHTML = test_info[0];
-   s_id = "";
+   s_id = <?php echo ($st_id) ?>;
+   t_id = <?php echo $_POST['gradeButton']; ?>;
+
    
-   get_student_test(<?php echo $_POST['gradeButton']; ?>,<?php echo ($f_id) ?>,<?php echo json_encode($f_name); ?>);
+   get_student_test(t_id,s_id,<?php echo json_encode($st_name); ?>);
    
 
    function get_student_test(test_id, student_id, s_name) {
@@ -132,6 +133,7 @@
          }
          if (textStatus == "error") {
             // oh noes!
+            alert();
          }
       });
       f_s_name.innerHTML = s_name;
@@ -166,7 +168,7 @@
       if( q_num != 0) {
          //TEST NO CAUTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          // NEED TO SET STUDENT ID
-         var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_no='+4+'&count='+q_num;
+         var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_id='+t_id+'&count='+q_num;
          for (i = 1; i <= q_num; i++) {
             data += "&n"+i+"=" + document.getElementById("p"+i).value;
          }

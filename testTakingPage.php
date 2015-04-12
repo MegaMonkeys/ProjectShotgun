@@ -288,6 +288,7 @@
                               $x++;
                               $qNum++;
                            }
+                           $x--;
                            echo '</table>';
                            echo '</td></tr>';
                         }

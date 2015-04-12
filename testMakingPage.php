@@ -231,8 +231,8 @@
                               <tr>
                                  <td>Time limit</td>
                                  <td>
-                                    <input type="number" id="hours" name="hours" min="0" max="10" class="inputs" placeholder="0" size="2"> hr
-                                    <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" placeholder="50" size="2"> min
+                                    <input type="number" id="hours" name="hours" min="0" max="10" class="inputs" onkeydown="return isNumberKey(event)" placeholder="0" value="1" size="2"> hr
+                                    <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" onkeydown="return isNumberKey(event)" placeholder="50" value="0" size="2"> min
                                  </td>
                               </tr>
                            </table>
@@ -294,6 +294,7 @@
             </form>
          </div>
    </div>
+     <div id="info_loading"></div>
 
     </div>
         <div class="footer">
@@ -307,12 +308,41 @@
 <script type="text/javascript">
    $(document).ready(function() { $.ajaxSetup({ cache: false }); });
 
+   $(document).ready(function(){
+      var now = new Date();
+      var day = ("0" + now.getDate()).slice(-2);
+      var month = ("0" + (now.getMonth() + 1)).slice(-2);
+      var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+      $("#startDate").val(today);
+      $("#endDate").val(today);
+
+      $("#startTime").val('00:00:00');
+      $("#endTime").val('23:59:00');
+
+
+      if( <?php echo $_POST['creat_section']; ?> != -1 ) {
+         //DEFAULT COURSE_SECTION SELECTION
+         document.getElementById('sectionNo').innerHTML = <?php echo json_encode($GLOBALS['section_list']) ?>;
+         document.getElementById("sectionNo").value = <?php echo $_POST['creat_section']; ?>;
+
+         var e = document.getElementById("sectionNo");
+         var strUser = e.options[e.selectedIndex].className;
+
+         document.getElementById("courseNo").value = strUser;
+         get_sections();
+         document.getElementById("sectionNo").value = <?php echo $_POST['creat_section']; ?>;
+      }
+   });
+
    get_sections();
 
    function get_test(t_no)
    {
       $("#content").fadeOut(1);
       $(".loader").fadeIn("slow");
+      var data = 'testMakingPage_control.php?load=1&test_no=' + t_no;
+      $('#info_loading').load(data);
       var data = 'testMakingPage_control.php?action=load&test_no=' + t_no;
       $('#sortable2').load(data);
    }
@@ -339,8 +369,6 @@
     var data = 'testMakingPage_control.php?action=' + <?php //echo $_SESSION['user_id']; ?> + '&course_no=' + $('#courseNo').val();
     $('#sectionNo').load(data);
     }*/
-
-
 </script>
 
 <?php

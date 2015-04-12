@@ -185,7 +185,10 @@
       <div class="sticky-navigation"></div>
       <div class="contents" >
          <div class="content" >
-            <form action="testMakingPage.php"><input type="submit" value="+ Create Test" class="create-button"></form>
+            <form method="post" action="testMakingPage.php">
+               <input type="submit" value="+ Create Test" class="create-button"/>
+               <input type="number" id="creat_section" name="creat_section" value="-1" style="display:none;">
+            </form>
             <div class="courses">
                <table id="courseTable">
                   <?php $class_list = get_class_list(); ?>
@@ -232,6 +235,7 @@
       $('#testTable').load(data, function (responseText, textStatus, XMLHttpRequest) {
          if (textStatus == "success") {
             //alert("donw");
+            $('#creat_section').val(section_id);
          }
          if (textStatus == "error") {
             //alert(responseText);
