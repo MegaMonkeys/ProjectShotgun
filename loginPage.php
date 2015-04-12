@@ -297,7 +297,7 @@
       $sql_command = "SELECT USER_TYPE, LENGTH(USER_ID), LENGTH(PASSWORD) FROM account WHERE USER_ID = " . $u_id . " and PASSWORD = " . $u_pw . ";";
       $sql_result  = mysqli_query($connection, $sql_command);
       $count       = @mysqli_num_rows($sql_result);
-      $row         = mysqli_fetch_row($sql_result);
+      $row         = @mysqli_fetch_row($sql_result);
 
       if($count == 0) {
          mysqli_close($connection);

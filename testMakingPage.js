@@ -14,26 +14,26 @@ var form_array =
 var form_text_array =
 	[
    //Index:0 - True/False Question
-		'<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+		'<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="True/False Question"></textarea>' +
       '<input type="radio" checked style="margin-left: 23%;"> True' +
 		'<input type="radio"         style="margin-left: 23%;"> False',
 
    //Index:1 - Multiple Choice Question
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Multiple Choice Question"></textarea>',
 
    //Index:2 - Many Choices
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Many Choice Question"></textarea>',
 
    //Index:3 - Short Answer Question
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Short Answer Question"></textarea>' +
       'Answer: <input type="text"  maxlength="50" size="55">',
 
    //Index:4 - Essay
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="5"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="4" placeholder="Essay Question"></textarea><br>',
 
    //Index:5 - Instruction
@@ -44,7 +44,7 @@ var form_text_array =
       '<input type="hidden">',
 
    //Index:6 - Matching
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp><br />'
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp><br />'
 	];
    var default_pledge =
       'This test is completely my own work.' +
@@ -77,6 +77,13 @@ var matching_field =
       '<input type="text"  maxlength="50" style="width:45%; margin-left: 3%;">' +
       '</div>';
 //--------------------------------------------------------------------------------------------------------------------//
+   function isNumberKey(evt) {
+      var charCode = (evt.which) ? evt.which : event.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+         return false;
+      return true;
+   }
+
 
     function removeQ (para) {
 		$(para).parent('li').remove();

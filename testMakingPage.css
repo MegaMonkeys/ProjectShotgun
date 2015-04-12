@@ -317,9 +317,9 @@ img.footerblue {
 #left {
    vertical-align: top;
    min-width: 400px;
-   padding-top: 70px;
+   padding-top: 00px;
    position: fixed;
-   left: 4em;
+   left: 3.5em;
 }
 
 #destroy_question {
