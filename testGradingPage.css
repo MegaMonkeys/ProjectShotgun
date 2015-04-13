@@ -1,22 +1,11 @@
 
-body {
-    background-image: #FFF;
-    background-size: cover;
-    margin:0px 0px;
-    font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
-    font-size: 18px;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 500;
-}
 #wrapper{
-width : 100%;
-height: auto;
-background-color:white;
-position:absolute;
-top: 100px;
-margin-bottom: 0px;
-z-index:30;
+   width : 100%;
+   height: auto;
+   position:absolute;
+   top: 100px;
+   z-index:30;
+   background-image: url('images/bg-body.jpg');
 }
 #test_info {
    position: absolute;
@@ -39,12 +28,6 @@ z-index:30;
 #f_percent {
    min-width: 60px;
    max-width: 60px;
-}
-img.header{
-   position: fixed;
-   width:100%;
-   height:150px;
-   z-index: 40;
 }
 #studentTable{
   width: 200px;
@@ -189,28 +172,7 @@ div.content{
     color: #ffffff;
 }
 
-.footer {
-   color: #666666;
-   position: relative;
-   height: 150px;
-   width: 100%;
-   text-align: center;
-}
-.footer div {
-   position: absolute;
-   width: 100%;
-   bottom: 15px;
-   color: white;
-   z-index: 20;
-}
-img.footerblue {
-   width:100%;
-   height:100px;
-   position: absolute;
-   bottom: 0px;
-   left: 0;
-   z-index: 10;
-}
+
 
 
 /* this is the menu */
@@ -346,7 +308,7 @@ img.footerblue {
    width: 100%;
    height: 500px;
    z-index: 9999;
-   background: url('./images/monkeyload.gif') 50% 50% no-repeat rgb(249,249,249);
+   background: url('./images/monkeyload.gif') 50% 50% no-repeat;
 }
 .table_border_style table{
 	border:1px solid #66CCFF;

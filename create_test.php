@@ -168,6 +168,49 @@
          mysqli_query($connection, $sqlComm);
          echo $sqlComm;
       }
+      // matching
+      elseif( isset($_POST['Q'.$queNum.'M1']) )
+      {
+         $baseQ  = $queNum;
+         $optNum = 1;
+         
+         $sqlComm =
+            "insert into question (test_id, ques_no, ques_type, ques_text, points)".
+            " values ($testID, $queNum, 'Matching', '$queText', $quePoints)";
+         mysqli_query($connection, $sqlComm);
+         echo '<br /><br />'.$sqlComm;
+         
+         $quesID = mysqli_insert_id($connection);
+         
+         while(isset($_POST['Q'.$queNum.'M'.$optNum])) {
+            $optIsCorrect = ($_POST['Q'.$queNum.'MA'] == $optNum) ? "1" : "0";
+            $sqlComm = "insert into answer (ques_id, ans_text, correct)".
+              " values (".$quesID.", '".$_POST['Q'.$queNum.'M'.$optNum]."', ".$optIsCorrect.")";
+            mysqli_query($connection, $sqlComm);
+            echo '<br /><br />'.$sqlComm;
+            $optNum++;
+         }
+         $optNum -= 1;
+         
+         for($i=1; $i<$optNum; $i++) {
+            ++$queNum;
+            $qText = addslashes(isset($_POST['Q'.$queNum.'T']) ? $_POST['Q'.$queNum.'T'] : "");
+            $sqlComm =
+               "insert into question (test_id, ques_no, ques_type, ques_text, points)".
+               " values ($testID, $queNum, 'Matching', '$qText', $quePoints)";
+            mysqli_query($connection, $sqlComm);
+            echo '<br /><br />'.$sqlComm;
+            $quesID = mysqli_insert_id($connection);
+            
+            for($x=1; $x<=$optNum; $x++) {
+               $optIsCorrect = ($_POST['Q'.$queNum.'MA'] == $x) ? "1" : "0";
+               $sqlComm = "insert into answer (ques_id, ans_text, correct)".
+                 " values (".$quesID.", '".$_POST['Q'.$baseQ.'M'.$x]."', ".$optIsCorrect.")";
+               mysqli_query($connection, $sqlComm);
+               echo '<br /><br />'.$sqlComm;
+            }
+         }
+      }
       // If Essay
       else
       {
@@ -189,5 +232,5 @@
     
    mysqli_close($connection);
 
-   //header("Location: ./teacherHomePage.php");
+   header("Location: ./teacherHomePage.php");
 ?>

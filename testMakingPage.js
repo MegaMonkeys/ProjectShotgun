@@ -8,31 +8,32 @@ var form_array =
       'Many Choice Question',
       'Short Answer Question',
       'Essay Question',
-      'Instruction'
+      'Instruction',
+      'Matching'
    ];
 var form_text_array =
 	[
    //Index:0 - True/False Question
-		'<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+		'<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="True/False Question"></textarea>' +
       '<input type="radio" checked style="margin-left: 23%;"> True' +
 		'<input type="radio"         style="margin-left: 23%;"> False',
 
    //Index:1 - Multiple Choice Question
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Multiple Choice Question"></textarea>',
 
    //Index:2 - Many Choices
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Many Choice Question"></textarea>',
 
    //Index:3 - Short Answer Question
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="3" placeholder="Short Answer Question"></textarea>' +
       'Answer: <input type="text"  maxlength="50" size="55">',
 
    //Index:4 - Essay
-      '<input type="text" maxlength="3" size="4" style="float: right;"><qp style="float:right;"> Point-&nbsp;</qp>' +
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="5"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required rows="4" placeholder="Essay Question"></textarea><br>',
 
    //Index:5 - Instruction
@@ -40,14 +41,48 @@ var form_text_array =
       '<input type="image" width="100%" height="100%" src="./images/recycle_close.jpeg">' +
       '</button><br>' +
 		'<textarea required rows="2" placeholder="Type Instruction"></textarea>' +
-      '<input type="hidden">'
+      '<input type="hidden">',
+
+   //Index:6 - Matching
+      '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="2"><qp style="float:right;"> Point-&nbsp;</qp><br />'
 	];
    var default_pledge =
       'This test is completely my own work.' +
       'I have not had anyone or anything aid me in answering the questions, ' +
       'including Internet search engines, such as Google, Bing, ect. ' +
       'I have not received, nor will I give any information regarding this test.';
+
+var matching_remove_button =
+'<button class="bin_button" type="button" style="margin-right: 5px;" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeMachingQ(this);">'+
+'<input type="image" width="100%" height="100%" src="./images/recycle_close.jpeg">' +
+'</button><br/>';
+
+var matching_field =
+'<div>' +
+'<span>::</span>' + matching_remove_button +
+'<input type="text"  maxlength="50" style="width:90%">' +
+'</div>';
+
+   var matching_question_list = //NEED TO SET ID & NAME
+      '<select>' +
+      '<option value="1">A</option>' +
+      '</select>'
+
+   var matching_question =
+      '<div>' +
+      '<span style="margin-right: 2%;">::</span>(Match: ' + matching_question_list + ')' +
+      '<label style="position:absolute; left: 50%;">Choice:</label>' +
+      '<button type="button" style="float:right; margin-right: 5px;" onclick="removeMatchQ(this);">Remove Option</button><br/>' +
+      '<input type="text"  maxlength="50" style="width:45%; margin-left: 3%;">' +
+      '<input type="text"  maxlength="50" style="width:45%; margin-left: 3%;">' +
+      '</div>';
 //--------------------------------------------------------------------------------------------------------------------//
+   function isNumberKey(evt) {
+      var charCode = (evt.which) ? evt.which : event.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+         return false;
+      return true;
+   }
 
 
     function removeQ (para) {
@@ -91,9 +126,7 @@ var form_text_array =
         $(current).append(mul_op);
     }
 
-
-
-	function resetQnum() {
+   function resetQnum() {
       //Remove Background(Guide Line) When Question Exist
 		if( $("#sortable2 li").length == 0 ) {
 			$('#sortable2').css('background-image', 'url("./images/q_background.png")');
@@ -111,22 +144,48 @@ var form_text_array =
 					q_type = x;
 
 			//Update Question Number
-         if( q_type != 5)
+         if( q_type != 5 && q_type != 6)
 			   current.children('span').text('Q.' + (++q_count) + ' ');
 
-		 /* Reset ID Attribute */
-			//Set ID for Question
-			   current.attr("name", "Q"+(index+1));
-			//Set ID for Question Text
-			   current.children('textarea').eq(0).attr("name", "Q"+(index+1)+"T");
-			//Set ID for Question Point
-            if( q_type != 5)
-               current.children('input').eq(0).attr("name", "Q"+(index+1)+"P");
+         if( q_type == 0 || q_type == 1 ||q_type == 2 ||q_type == 3 ||q_type == 4 || q_type == 5 ) {
+         /* Reset ID Attribute */
+            //Set ID for Question
+            current.attr("name", "Q" + (index + 1));
+            //Set ID for Question Text
+            current.children('textarea').eq(0).attr("name", "Q" + (index + 1) + "T");
+            //Set ID for Question Point
+            if (q_type != 5)
+               current.children('input').eq(0).attr("name", "Q" + (index + 1) + "P");
             else {
                current.children('input').eq(0).attr("name", "Q" + (index + 1) + "I");
                current.children('input').eq(0).attr("value", "0");
             }
+         }
 
+         //MATCHING !!!!
+         if( q_type == 6 ) {
+            //alert("Matching Q");
+            var q_curr = current.children('table').eq(0).children('tbody').eq(0).children('tr').eq(0).children('td').eq(0);
+            //alert(q_curr.html());
+            var q_cc = q_curr.children('div').length;
+            //alert(q_cc);
+			var baseQ = q_count + 1;
+
+            for(i=0,ascii_code=65; i<q_cc;i++,ascii_code++) {
+               q_curr.children('div').eq(i).children('span').text('Q.' + (++q_count)); //&#65;
+               q_curr.children('div').eq(i).children('label').html('Choice &#'+ascii_code+';');
+			   
+			   q_curr.children('div').eq(i).children('select').attr('name', 'Q'+q_count+'MA');
+			   q_curr.children('div').eq(i).children('input').eq(0).attr('name', 'Q'+q_count+'T');
+			   
+			   q_curr.children('div').eq(i).children('input').eq(1).attr('name', 'Q'+baseQ+'M'+(i+1));
+            }
+			//alert(q_curr.html());
+			
+			
+			
+
+         }
 
 			// True / False Question
 			if ( q_type == 0 ) {
@@ -196,6 +255,77 @@ var form_text_array =
          }
 		}
 	}
+
+   function addMatchQ(current) {
+      var parent = current.parentNode;
+
+      current = current.parentNode.childNodes[5].firstChild.firstChild.firstChild;
+      $(current).append(matching_question);
+      resetQnum(); //alert(current.innerHTML);
+
+      var element_count = $(current).children('div').length;
+      var select_options = "";
+      for(i=0,ascii_code=65;i<element_count;i++,ascii_code++)
+         select_options += '<option value="'+(i+1)+'">&#'+ascii_code+';</option>';
+      for(i=0;i<element_count;i++) {
+         $(current).children('div').eq(i).children('select').eq(0).html(select_options);
+         $(current).children('div').eq(i).children('select').eq(0).children('option').eq(i).attr("selected", "selected");
+      }
+
+      //alert($(current).children('div').eq(1).children('select').eq(0).html());
+      //'<option value="A">A</option>'
+   }
+
+   function removeMatchQ(current) {
+      var parent = current.parentNode.parentNode;
+      current = current.parentNode;
+      $(current).remove();
+
+      //Question Check - if 0, remove Matching Form
+      var child_count = $(parent).children('div').length; //alert(child_count);
+      if(child_count == 0)
+         removeQ(parent.parentNode.parentNode.parentNode);
+
+      resetQnum();
+
+      var element_count = $(parent).children('div').length;
+      var select_options = "";
+      for(i=0,ascii_code=65;i<element_count;i++,ascii_code++)
+         select_options += '<option value="'+(i+1)+'">&#'+ascii_code+';</option>';
+      for(i=0;i<element_count;i++) {
+         $(parent).children('div').eq(i).children('select').eq(0).html(select_options);
+         $(parent).children('div').eq(i).children('select').eq(0).children('option').eq(i).attr("selected", "selected");
+      }
+   }
+
+// --------------- UP : NEW  -------- DOWN : OLD ---------------- //
+
+   function addQue(current) {
+      var position = current.parentNode.parentNode.parentNode.lastChild.firstChild;
+      //alert(q_count);
+      //alert( $(position).children('div').text() );
+
+      current = current.parentNode.parentNode.parentNode.lastChild.firstChild;
+      $(current).append(matching_field);
+      resetQnum();
+      //alert(current.innerHTML);
+
+      //var q_count =  $(position).children('div').length;
+      //for(index=0; index<q_count;index++)
+      //   $(position).children('div').eq(index).children('span').text('Q.'+(index+1));
+   }
+
+   function addOpt(current) {
+      current = current.parentNode.parentNode.parentNode.lastChild.lastChild;
+      $(current).append(matching_field);
+      //alert(current.innerHTML);
+   }
+
+   function removeMachingQ(current) {
+      current = current.parentNode;
+      $(current).remove();
+      //alert(current.innerHTML);
+   }
 
 
 //Pre-run JavaScript Codes
@@ -281,7 +411,32 @@ $(function() {
 						pop_option(current, index, ((x==1) ? "radio" : "checkbox") );
 					}
 
-					if( x==0 || x== 3 || x==4) {
+               if( x==6 ) {
+                  var data1 = '<div style="border:1px solid #ccc; width: 45%;">Questions:<br/><input type="text"  maxlength="50" size="55"></div>';
+                  var data2 = '<div style="border:1px solid #ccc; width: 45%;">Answers:</div>';
+                  var datas =
+                     '<table style="border:1px solid #ccc; width: 100%; position:relative;">' +
+                        /*'<tr>' +
+                           '<td style="width: 50%;">Questions:' +
+                              '<button onclick="addQue(this);" style="float:right; margin-right:20px;">Add Question</button></td>' +
+                           '<td style="width: 50%;">Answers:' +
+                              '<button onclick="addOpt(this);" style="float:right; margin-right:20px;">Add Answer</button></td>' +
+                        '</tr>' +*/
+                        '<tr>' +
+                           /*'<td>'+matching_field+'</div>' +
+                           '<td>'+matching_field+'</div>' +*/
+                           '<td>'+matching_question+'</td>' +
+                        '</tr>' +
+                     '</table>' +
+                     '<button type="button" style="margin-right: 5px;" onclick="addMatchQ(this);">Add New Option</button>';
+
+
+
+                  //<input type="text"  maxlength="50" size="55">
+                  current.append(datas);
+               }
+
+					if( x==0 || x== 3 || x==4 || x==6) {
 						//var del_button = '<input type="button" value="Delete" style="float:right" onclick="sizes(this);"><br>';
 						var del_button =
 							'<button class="bin_button" type="button" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeQ(this);">'+

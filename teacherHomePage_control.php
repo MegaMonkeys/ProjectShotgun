@@ -62,17 +62,22 @@
 
       $sql_enroll = "select count(*) from enrollment where section_id = ".$section_no;
       $enroll_count = mysqli_fetch_row(mysqli_query($connection, $sql_enroll));
-	  $enroll_count = $enroll_count[0];
+	   $enroll_count = $enroll_count[0];
 	  
 	  if( @mysqli_num_rows($sql_result) != 0)
       {
          for($i=1; $i<=mysqli_num_rows($sql_result); $i++)
          {
-		    $row = mysqli_fetch_row($sql_result);
+		      $row = mysqli_fetch_row($sql_result);
 			
-		    $sql_test   = "select count(*) from student_test where test_id = ".$row[5];
-			$test_count = mysqli_fetch_row(mysqli_query($connection, $sql_test));
-			$test_count = $test_count[0];
+            $sql_test   = "select count(*) from student_test where test_id = ".$row[5];
+            $test_count = mysqli_fetch_row(mysqli_query($connection, $sql_test));
+            $test_count = $test_count[0];
+
+            $avg_grade = 0;
+            $sql_grade = "select COUNT(FINAL_GRADE) from student_test where test_id = ".$row[5];
+            $grade_count = mysqli_fetch_row(mysqli_query($connection, $sql_grade));
+            $grade_count = $grade_count[0];
 		 
 			//(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
 			$test_status = $row[2];
@@ -87,8 +92,15 @@
 				if($row[4] < $current_datetime) {
 					$test_status = 4;
 				}
-				if($test_count == $enroll_count)
-					$test_status = 4;
+				if($test_count == $enroll_count) {
+               $test_status = 4;
+            }
+            if($test_status == 4 && $enroll_count == $grade_count) {
+               $test_status = 5;
+               $sql_avg_grade = "select SUM(FINAL_GRADE)/COUNT(FINAL_GRADE) from student_test where test_id = ".$row[5];
+               $avg_grade = mysqli_fetch_row(mysqli_query($connection, $sql_avg_grade));
+               $avg_grade = $avg_grade[0];
+            }
 			}
 			
 			
@@ -97,17 +109,17 @@
             echo     "<span id='testTitle'>" . $row[1] ."</span>";
             echo     "<span id='button'>";
 			   echo     "<form method='post' action='javascript:void(0);'>";
-            //echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
-            //echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
+            if($test_status==0 || $test_status==2)
+            echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
+            echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
             //echo        "<button type='submit' value=$row[5] id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
             echo        generate_grade_button($test_status, $row[5]);
 			   echo     "</form>";
             echo     "</span><br />";
-            echo     "<div>";
+            echo     display_date($row[3],$row[4]);
             //echo     "Date Available: " . $row[3] . " ~ " . $row[4] . "<br />";
-            echo        get_test_time_range($row[3],$row[4]);
             //echo     'Status: ' . (($row[2] == 1)? 'Published' : 'Not Published') . "<br />";
-            echo        get_test_status($test_status);
+            echo        get_test_status($test_status); if($test_status==5) echo round($avg_grade,2)."%";
             //echo     'Class Average: ' . "not set yet";
             //echo '</form></td></tr>';
             echo     "</div>";
@@ -115,33 +127,30 @@
          }
       }
       else
-         echo "no data";
+         echo "Looks like there aren't any tests for this course";
 
       mysqli_close($connection);
    }
 
-   function get_test_time_range($start_date, $end_date)
+   function display_date($start, $end)
    {
-      $new_start = date('F d, y (l) h:i A', strtotime($start_date));
-      $new_end = date('F d, y (l) h:i A', strtotime($end_date));
-      return "Date Available: " . $new_start . " ~ " . $new_end . "<br />";
+      $start = date_create($start);
+      $end   = date_create($end);
+
+      $date_display =
+         "<b>Available Starting:</b> " . date_format($start, "F j, Y") . " <b>at</b> " . date_format($start, "g:ia") . "<br />" .
+         "<b>Available Until:</b> " . date_format($end, "F j, Y") . " <b>at</b> " . date_format($end, "g:ia") . "<br />";
+
+      return $date_display;
    }
 
    function generate_grade_button($test_status, $test_id)
    {
-      //(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
-	  $return_string = "";
-	  
-	  if($test_status == 2 || $test_status == 0)
-	     $return_string =
-            "<button type='submit' value=test_id id='editButton' name='editButton' onclick='modify_test(test_id)'></button>" .
-            "<button type='submit' value=test_id id='deleteButton' name='deleteButton' onclick='delete_test(test_id)'></button>";
-      else if($test_status == 4)
-         $return_string = "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
+      if($test_status == 4 || $test_status == 5)
+         return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
       else
          //return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' onclick='grade_test($test_id)'></button>";
-		 $return_string = "";
-      return $return_string;
+		 return "";
    }
 
    function get_test_status($test_status)
@@ -149,15 +158,15 @@
       //(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
 	  
 	  if($test_status == 0)
-		 return 'Status: Test Saved. Ready to Publish';
+		 return '<b>Status:</b> Test Saved. Ready to Publish';
 	  else if($test_status == 2)
-         return 'Status: Published (Not Available)';
+         return '<b>Status:</b> Published (Not Available)';
 	  else if($test_status == 3)
-		 return 'Status: Published (Test in Progress)';
+		 return '<b>Status:</b> Published (Test in Progress)';
 	  else if($test_status == 4)
-	     return 'Status: Ready to Grade';
+	     return '<b>Status:</b> Ready to Grade';
 	  else if($test_status == 5)
-	     return 'Class Average: ';
+	     return '<b>Class Average:</b> ';
    }
 
    //TeacherHomePage.php
