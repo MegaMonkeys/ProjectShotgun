@@ -53,7 +53,7 @@
    </div>
 
 <BODY style="background:#F6F9FC; font-family:Calabri;" class="cbp-spmenu-push">
- <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
+<div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
@@ -299,7 +299,7 @@ modal: true
          //$('#classTitle').css("left", 300 + ($(window).width() - 1100) / 2);
          $('.courses').css("max-height", $(window).height() - 350);
          //$('.testEachCourse').css("left", 300 + ($(window).width() - 1100) / 2);
-         $('.testEachCourse').css("min-height", $(window).height() - 195 );
+         $('.testEachCourse').css("min-height", $(window).height() - 198 );
       }
 </script>
 

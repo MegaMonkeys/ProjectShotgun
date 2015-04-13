@@ -307,12 +307,16 @@
 
 <script type="text/javascript">
    $(document).ready(function() { $.ajaxSetup({ cache: false }); });
-
-   $(document).ready(function(){
+   function get_today() {
       var now = new Date();
       var day = ("0" + now.getDate()).slice(-2);
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
       var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+      return today;
+   }
+
+   $(document).ready(function(){
+      var today = get_today();
 
       $("#startDate").val(today);
       $("#endDate").val(today);
@@ -358,11 +362,20 @@
       alert("Under Construction");
    }
    function cancel_test() {
+      publish_check();
       if( confirm("Are You Sure ?") ) {
          window.location.assign("./teacherHomePage.php");
       }
       else
          alert("OK");
+   }
+   /////////////////////////////////////
+   function publish_check() {
+      var today = get_today();
+      if($('#startDate').val() > $('#endDate').val())
+         alert('NO');
+      if($('#startDate').val() < today)
+         alert('NO PAST');
    }
 
    /*function get_section() {

@@ -464,8 +464,8 @@ $(function() {
 
    function page_resize() {
       //alert( $(window).height() + " " + $(document).height());
-      if( $(window).width() >= 1050 ) {
-         $("#left").css("left", ($(window).width() - 1050) / 2);
+      if( $(window).width() >= 1150 ) {
+         $("#left").css("left", ($(window).width() - 1150) / 2);
          $("#middle").css("left", ($(window).width() - 300) / 2);
          $(".logout-button").css("right", 10);
       }

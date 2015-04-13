@@ -44,20 +44,12 @@
   background-color: #3399FF;
   cursor:pointer;
 }
-img.testLogo{
-    width: 200px;
-    position:fixed;
-    top:0px;
-    left: 50px;
-    z-index:100;
-}
 
 .testQuestions{
     position: relative;
     top: 30px;
     left: 300px;
     width: 900px;
-   min-height: 300px;
 /*    overflow-y: scroll;*/
    border-spacing: 15px;
    border: 5px solid lightblue;
@@ -153,10 +145,10 @@ overflow-y:scroll;
 
 div.content{
     width:90%;
-    top: 70px;
-    height: auto;
+    top: 10px;
     padding-left:20px;
     margin:0px auto;
+   margin-bottom: 50px;
     text-align: left;
     line-height:40px;
     left:0px;
