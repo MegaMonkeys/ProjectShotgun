@@ -8,20 +8,39 @@
 <HTML>
 <link rel="stylesheet" type="text/css" href="studentHomePage2.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
 <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
+<script src="jquery_api/jquery.min.js"></script>
 <script src="tabcontent.js" type="text/javascript"></script>
 <script src="jquery-1.11.2.js"></script>
-<script src="jquery.min.js"></script>
-    <script src="waypoints.js"></script>
-    <script src="waypoints-sticky.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.sticky-navigation').waypoint('sticky');
-        });
-    </script>
+<script src="jquery_api/jquery.min.js"></script>
+<script src="jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+<!--<script src="jquery.min.js"></script>-->
+<!--The above script is commented out because it somehow disables Ethan's stats dialog-->
+<script src="waypoints.js"></script>
+<script src="waypoints-sticky.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.sticky-navigation').waypoint('sticky');
+    });
+</script>
+<?php include_once 'php_control_student.php'; ?>
+
 <?php include_once 'php_control_student.php'; ?>
 
 <HEAD>
+    <script>
+        $(function() {
+            $( "#openDialog").on("click", function(){
+                $( "#dialog-modal" ).dialog({
+                    height:'auto',
+                    width:'auto',
+                    modal: true
+                });
+                $( "#dialog-modal" ).show();
+            });
+        });
+    </script>
     <style>
         div#load_screen{
             background:#FFF;
@@ -46,7 +65,53 @@
 	<link rel="icon" type="logo/png" href="images/monkeyhead.png">
 </HEAD>
 
+<a href="#" id="openDialog" class="stats" style="...">Statistics</a>
+<div id="dialog-modal" title="Student Statistics" style="display:none">
+    <html>
+    <div>
+        <?php
+        include_once 'db_connection.php';
+
+        $student_id = $_SESSION["user_id"];
+
+        $overall_grade = mysqli_fetch_array(mysqli_query($connection, "select FORMAT(AVG(final_grade), 2) from student join enrollment using(student_id) join student_test using(student_id) join test using (section_id) where student_test.test_id = test.test_id AND student_id = ".$student_id));
+
+        echo "<p>OVERALL GRADE: $overall_grade[0]";
+        if (!is_numeric($overall_grade[0]))
+        	echo "No Grade Yet";
+        echo "<br></p>";
+
+		$classAndInstructorResult = mysqli_query($connection, "select course_no, '-', section_no, description, instructor_title, first_name, last_name, section_id from section join course using(course_no) join instructor using(instructor_id) join enrollment using(section_id) where student_id = ".$student_id." order by course_no, section_no");
+
+        echo "<table style='border: solid 1px black' id='statsTable'>";
+        echo "<tr><th>CLASS</th><th>INSTRUCTOR</th><th>YOUR CLASS GRADE</th></tr>";
+        
+        while ($row1 = mysqli_fetch_array($classAndInstructorResult)){
+	        echo "<tr>";
+	        echo "<td>$row1[0]$row1[1]$row1[2] ".$row1[3]."</td>";
+	        echo "<td>$row1[4] $row1[5] $row1[6]</td>";
+	        
+	        $section_id = $row1[7];
+	        $classGradeResult = mysqli_fetch_array(mysqli_query($connection, "select FORMAT(AVG(final_grade), 2) from student join enrollment using(student_id) join student_test using(student_id) join test using (section_id) where student_test.test_id = test.test_id AND section_id = ".$section_id." AND student_id = ".$student_id));
+	        if (is_numeric($classGradeResult[0]))
+	        	echo "<td>$classGradeResult[0]%</td>";
+	        if (!is_numeric($classGradeResult[0]))
+	        	echo "<td>No Grade Yet</td>";
+	        
+	        echo "</tr>";
+        }
+        
+        echo "</table>";
+        ?>
+        <?php
+        mysqli_close($connection);
+        ?>
+    </div>
+    </html>
+</div>
+
 <BODY style="background:#F6F9FC; font-family:Calabri;" class="cbp-spmenu-push">
+
 <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 
 
@@ -261,3 +326,10 @@
    }
 
 </script>
+
+<?php
+if( isset( $_SESSION['section_id'] ) ) {
+   echo '<script type="text/javascript"> get_class_test('.$_SESSION['section_id'].','.$first_user.'); </script>';
+   unset($_SESSION['section_id']);
+}
+?>

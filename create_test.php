@@ -232,5 +232,5 @@
     
    mysqli_close($connection);
 
-   //header("Location: ./teacherHomePage.php");
+   header("Location: ./teacherHomePage.php");
 ?>
