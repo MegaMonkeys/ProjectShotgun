@@ -263,7 +263,6 @@
          }
          if (textStatus == "error") {
             // oh noes!
-            alert();
          }
       });
       f_s_name.innerHTML = s_name;
@@ -303,6 +302,8 @@
    function testing() {
       var q_num = document.getElementById("test_table").rows.length;
       if( q_num != 0) {
+         $("#test_table").fadeOut(1);
+         $(".loader").fadeIn("slow");
          //TEST NO CAUTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          // NEED TO SET STUDENT ID
          var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_id='+t_id+'&count='+q_num;
@@ -315,7 +316,9 @@
          //#f_save
          $(this).load(data, function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "success") {
-               alert("saved");
+               //alert("saved");
+               $(".loader").fadeOut(10);
+               $("#test_table").fadeIn("slow");
                document.getElementById("t_save").disabled = true;
             }
             if (textStatus == "error") {
