@@ -58,7 +58,7 @@
 			<div class="main">
 			 <section class="buttonset">
 				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-				<a href="#" id="showRightPush" class="button"><img src="images/menu.png" class="menuImage" /></a>
+				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><img src="images/menu.png" class="menuImage" /></a>
 			 </section>
 			</div>
         </div>
@@ -324,19 +324,21 @@
       $("#startTime").val('00:00:00');
       $("#endTime").val('23:59:00');
 
-
-      if( <?php echo $_POST['creat_section']; ?> != -1 ) {
+		var post_section = <?php echo (isset($_POST['creat_section'])? $_POST['creat_section']: -1); ?>;
+		//alert(post_section);
+      if( post_section != -1 ) {
          //DEFAULT COURSE_SECTION SELECTION
          document.getElementById('sectionNo').innerHTML = <?php echo json_encode($GLOBALS['section_list']) ?>;
-         document.getElementById("sectionNo").value = <?php echo $_POST['creat_section']; ?>;
+         document.getElementById("sectionNo").value = post_section;
 
          var e = document.getElementById("sectionNo");
          var strUser = e.options[e.selectedIndex].className;
 
          document.getElementById("courseNo").value = strUser;
          get_sections();
-         document.getElementById("sectionNo").value = <?php echo $_POST['creat_section']; ?>;
+         document.getElementById("sectionNo").value = post_section;
       }
+	  
    });
 
    get_sections();
