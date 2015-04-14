@@ -32,11 +32,32 @@
         $sql_now = "SELECT NOW()";
         $sql_now_result = mysqli_query($connection, $sql_now);
         $row = mysqli_fetch_row($sql_now_result);
-        $current_datetime = $row[0];
+        $current_datetime = date_create($row[0]);
+        
+        // Delete old test if this test is a retake
+        $existingTest = mysqli_query($connection, 'select test_id from student_test where test_id = '.$testID.' and student_id = '.$studentID);
+        if($testID != '-1' && mysqli_num_rows($existingTest) == 0)
+        {
+            $sqlComm = "insert into student_test (student_id, test_id, date_time) values (".$studentID.", ".$testID.", NOW())";
+            mysqli_query($connection, $sqlComm);
+        }
 
-        $sqlComm = 'select course_no, section_no, test_name, time_limit from test join section using (section_id) where test_id = '.$testID;
+        // Get the test information
+        $sqlComm = 'select course_no, section_no, test_name, time_limit, date_time
+                    from test join section using (section_id) left outer join student_test using (test_id) where test_id = '.$testID.' and student_id = '.$studentID;
         $testInfo = mysqli_query($connection, $sqlComm);
         $infoRow = mysqli_fetch_row($testInfo);
+        
+        // Add time limit to start time, to determine if there is still time left in the test.
+        $timeStarted = date_create($infoRow[4]);
+        $timeLimit = date_create($infoRow[3]);
+        $hoursLeft = date_format($timeLimit, "G"). " hours";
+        $minutesLeft = date_format($timeLimit, "i"). " minutes";
+        $studentEndTime = date_add(date_create($infoRow[4]), date_interval_create_from_date_string($hoursLeft));
+        $studentEndTime = date_add($studentEndTime, date_interval_create_from_date_string($minutesLeft));
+        
+        $timeLeft = date_diff($current_datetime, $studentEndTime);
+        $strTimeLeft = date_interval_format($timeLeft, "%H:%I:%S:%r");
     ?>
     <script>
         window.addEventListener("load", function(){
@@ -54,11 +75,14 @@
         // Countdown timer
         var interval;
         
-        var duration = "00:01:04<?php // echo $infoRow[3]; ?>";
+        var duration = "<?php echo $strTimeLeft; ?>";
         var time = duration.split(":");
         var hours = parseInt(time[0]);
         var minutes = parseInt(time[1]);
         var seconds = parseInt(time[2]);
+        
+        if(time[3] == "-")
+            hours = minutes = seconds = 0;
         
 		function timer()
 		{
@@ -79,6 +103,7 @@
                 else
                 {
                     seconds = 0;
+                    // Display pop-up here
                     alert("time up");
                     clearInterval(interval);
                 }
@@ -94,7 +119,7 @@
 
 </HEAD>
 
-<BODY  onload="interval = setInterval('timer()', 1000)">
+<BODY onload="interval = setInterval('timer()', 1000)" >
 <div id="load_screen"><img src="images/megamonkeysloading.png" /></div>
 	<div class="header">
 		<img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
@@ -122,7 +147,7 @@
 			</tr>
 			<tr>
 				<td>Time:</td>
-				<td id="timer" name="timer">--:--:--</td>
+				<td id="timer" name="timer">-- : -- : --</td>
 			</tr>
 		</table>
     </div>
@@ -130,7 +155,6 @@
     <div class="testQuestions">
         <form name="testForm" action="submit_test.php" method="post">
             <?php
-                echo '<input type="text" name="startTime" value="'.$current_datetime.'" style="display:none;"/>';
                 echo '<input type="text" name="testID" value="'.$testID.'" style="display:none;"/>';
                 if($testID != '-1')
                 {
@@ -308,7 +332,6 @@
                             echo '<tr><td>A question didn\'t display correctly.</td></tr>';
                         }
                     }
-                    mysqli_close($connection);
                 }
                 else
                 {
@@ -328,7 +351,13 @@
 </BODY>
 </HTML>
 
+<?php
+    $result = mysqli_query($connection, 'SELECT section_id FROM test WHERE test_id = '.$testID);
+    $row = mysqli_fetch_row($result);
+    $_SESSION['section_id'] = $row[0];
 
+    mysqli_close($connection);
+?>
 
 <script type="text/javascript">
 	//When Page Loads
