@@ -9,11 +9,11 @@
    <link rel="stylesheet" type="text/css" href="teacherHomePage.css">
    <link rel="stylesheet" type="text/css" href="stylesheet.css">
    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
-   <!--Ethan--><link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
+   <link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
    <script src="tabcontent.js" type="text/javascript"></script>
    <script src="jquery-1.11.2.js"></script>
    <script src="jquery_api/jquery.min.js"></script>
-   <!--Ethan--><script src="jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+   <script src="jquery-ui-1.11.4.custom/jquery-ui.js"></script>
 	<script src="waypoints.js"></script>
     <script src="waypoints-sticky.js"></script>
     <script type="text/javascript">
@@ -24,20 +24,6 @@
    <?php include_once 'teacherHomePage_control.php'; ?>
 
 <HEAD>
-    <!--Ethan begin-->
-    <script>
-        $(function() {
-            $( "#openDialog").on("click", function(){
-                $( "#dialog-modal" ).dialog({
-                    height:'auto',
-                    width:'auto',
-                    modal: true
-                });
-                $( "#dialog-modal" ).show();
-            });
-        });
-    </script>
-    <!--Ethan end-->
     <style>
         div#load_screen{
             background:#FFF;
@@ -61,57 +47,13 @@
     <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 </HEAD>
 
-   <!--Ethan begin-->
    <a href="#" id="openDialog" class="stats" style="display: none;">Statistics</a>
    <div id="dialog-modal" title="Class Statistics" style="display:none">
-       <html>
-       <div>
-
-           <?php
-           include_once 'db_connection.php';
-
-           $section_id = 1;
-           $class = 'CS 130-1';
-
-           $result1 = mysqli_query($connection, "select test_name from test where section_id = $section_id");
-           $result2 = mysqli_query($connection, "select distinct student_id, first_name, last_name from student join enrollment using(student_id) join student_test using (student_id) join test using (section_id) where student_test.test_id = test.test_id AND section_id = $section_id;");
-           $result4 = mysqli_query($connection, "select FORMAT(((test_avg/total_points)*100), 2) from test where section_id = $section_id");
-
-           echo "<p>$class</p>";
-
-           echo "<table style='border: solid 1px black' id='statsTable'>";
-
-           echo "<tr><th>STUDENTS</th>";
-           while ($row1 = mysqli_fetch_array($result1)) {
-               echo "<th>$row1[0]</th>";
-           }
-           echo "</tr>";
-           echo "<tr>";
-           while ($row2 = mysqli_fetch_array($result2)) {
-               echo "<td>$row2[1]"." "."$row2[2]</td>";
-               $student_id = $row2[0];
-               $result3 = mysqli_query($connection, "select FORMAT(((final_grade/total_points)*100), 2) from student join enrollment using(student_id) join student_test using(student_id) join test using (section_id) where student_test.test_id = test.test_id AND section_id = $section_id AND student_id = $student_id;");
-               while ($row3 = mysqli_fetch_array($result3)) {
-                   echo "<td>$row3[0]"."%"."</td>";
-               }
-           }
-           echo "<tr><th>AVG</th>";
-           while ($row4 = mysqli_fetch_array($result4)) {
-               echo "<th>$row4[0]%</th>";
-           }
-           echo "</tr>";
-           echo "</table>";
-           ?>
-           <?php
-           mysqli_close($connection);
-           ?>
-       </div>
-       </html>
+   
    </div>
-   <!--Ethan end-->
 
 <BODY style="background:#F6F9FC; font-family:Calabri;" class="cbp-spmenu-push">
- <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
+<div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
@@ -326,19 +268,19 @@
    //When Page Loads
    $(function() {
       page_resize();
-	  
+      
 	  $( "#openDialog").on("click", function(){
-	  alert(current);
+	    //alert(current);
 	    var data = 'teacherStatistics.php?section=' + current;
 		$("#dialog-modal").load(data, function (responseText, textStatus, XMLHttpRequest) {
 		   if (textStatus == "success") {
 			  //alert("donw");
 			  //$( "#dialog-modal" ).show();
-         $( "#dialog-modal" ).dialog({
-            height:'auto',
-            width:'auto',
-            modal: true
-         });
+$( "#dialog-modal" ).dialog({
+height:'auto',
+width:'auto',
+modal: true
+});
 		   }
 		   if (textStatus == "error") {
 			  alert(responseText);
@@ -357,7 +299,7 @@
          //$('#classTitle').css("left", 300 + ($(window).width() - 1100) / 2);
          $('.courses').css("max-height", $(window).height() - 350);
          //$('.testEachCourse').css("left", 300 + ($(window).width() - 1100) / 2);
-         $('.testEachCourse').css("min-height", $(window).height() - 195 );
+         $('.testEachCourse').css("min-height", $(window).height() - 198 );
       }
 </script>
 
