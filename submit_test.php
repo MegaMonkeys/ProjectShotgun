@@ -10,18 +10,13 @@
     $student_id = $_SESSION['user_id'];
     $testID = $_POST['testID'];
     $numEntries = $_POST['numEntries'];
-    $startTime = $_POST['startTime'];
     $hasEssay = false;
     $objPoints = 0;
     
-    if($testID != '-1')
-    {
-        $sqlComm = "insert into student_test (student_id, test_id, date_time)
-                    values (".$student_id.", ".$testID.", '".$startTime."')";
-        mysqli_query($connection, $sqlComm);
-    }
-    else
-        echo "Test ID = -1";
+
+  
+  // Delete the old answers if this test is a retake
+  mysqli_query($connection, 'delete from student_answer where student = ' . $student_id . ' and ques_id in (select ques_id from question where test_id = ' . $testID . ')');
     
 
     for($x = 1; $x <= $numEntries; $x++)
@@ -40,7 +35,7 @@
             if(!empty($_POST['Q'.$x.'A']))
             {
                 $ptsEarned = 0;
-                $sqlSelectAns = 'select ans_text, points from question join answer using (ques_id) where correct = 1 and ques_id = '.$qID;
+                $sqlSelectAns = 'select ans_text, points from answer join question using (ques_id) where correct = 1 and ques_id = '.$qID;
                 $correctAnswers = mysqli_query($connection, $sqlSelectAns);
                 $row = mysqli_fetch_row($correctAnswers);
                 if($_POST['Q'.$x.'A'] === $row[0])
@@ -66,7 +61,7 @@
             if(!empty($_POST['Q'.$x.'A']))
             {
                 $ptsEarned = 0;
-                $sqlSelectAns = 'select ans_text, points from question join answer using (ques_id) where correct = 1 and ques_id = '.$qID;
+                $sqlSelectAns = 'select ans_text, points from answer join question using (ques_id) where correct = 1 and ques_id = '.$qID;
                 $correctAnswers = mysqli_query($connection, $sqlSelectAns);
                 $row = mysqli_fetch_row($correctAnswers);
                 if($_POST['Q'.$x.'A'] === $row[0])
@@ -89,7 +84,7 @@
         }
         else if($qType === 'Many Choice')
         {
-            $sqlSelectAns = 'select ans_text, points, correct from question join answer using (ques_id) where ques_id = '.$qID;
+            $sqlSelectAns = 'select ans_text, points, correct from answer join question using (ques_id) where ques_id = '.$qID;
             $correctAnswers = mysqli_query($connection, $sqlSelectAns);
             $corAns = mysqli_fetch_all($correctAnswers, MYSQLI_NUM);
             $correct = false;
@@ -178,8 +173,6 @@
         }
         else if($qType === 'Matching')
         {
-          //  if(!empty($_POST['Q'.$x.'A']) )
-          //  {
                 $ptsEarned = 0;
                 $sqlSelectAns = 'select ans_text, points from answer join question using (ques_id) where correct = 1 and ques_id = '.$qID;
                 $correctAnswers = mysqli_query($connection, $sqlSelectAns);
@@ -192,15 +185,6 @@
                 mysqli_query($connection, $sqlComm);
                 echo '<br />'.$sqlComm;
                 $objPoints += $ptsEarned;
-                
-          //  }
-          //  else
-          //  {
-          //      $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)"
-          //               . "values (".$student_id.", ".$qID.", '', 0)";
-          //      mysqli_query($connection, $sqlComm);
-          //      echo '<br />'.$sqlComm;
-          //  }
         }
         echo '<br />';
     }
@@ -228,11 +212,10 @@
     mysqli_query($connection, $sqlComm);
     echo '<br /><br />'.$sqlComm;
 
-
-   $result = mysqli_query($connection, 'SELECT section_id FROM test WHERE test_id = '.$_POST['testID']);
-   $row = mysqli_fetch_row($result);
-   $_SESSION['section_id'] = $row[0];
-
+    $result = mysqli_query($connection, 'SELECT section_id FROM test WHERE test_id = '.$_POST['testID']);
+    $row = mysqli_fetch_row($result);
+    $_SESSION['section_id'] = $row[0];
+    
     mysqli_close($connection);
     
     header("Location: studentHomePage2.php");

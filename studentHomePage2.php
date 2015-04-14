@@ -31,10 +31,14 @@
 <HEAD>
     <script>
         $(function() {
+	        var winWidth = $(window).width();
+	        var winHeight = $(window).height();
+	        var dialogWidth = winWidth * 0.9;
+	        var dialogHeight = winHeight * 0.9;
             $( "#openDialog").on("click", function(){
                 $( "#dialog-modal" ).dialog({
-                    height:'auto',
-                    width:'auto',
+	                height: dialogHeight,
+                    width: dialogWidth,
                     modal: true
                 });
                 $( "#dialog-modal" ).show();
@@ -76,7 +80,9 @@
 
         $overall_grade = mysqli_fetch_array(mysqli_query($connection, "select FORMAT(AVG(final_grade), 2) from student join enrollment using(student_id) join student_test using(student_id) join test using (section_id) where student_test.test_id = test.test_id AND student_id = ".$student_id));
 
-        echo "<p>OVERALL GRADE: $overall_grade[0]";
+        echo "<p>OVERALL GRADE: ";
+        if (is_numeric($overall_grade[0]))
+        	echo "$overall_grade[0]%";
         if (!is_numeric($overall_grade[0]))
         	echo "No Grade Yet";
         echo "<br></p>";
