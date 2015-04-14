@@ -268,7 +268,10 @@
    //When Page Loads
    $(function() {
       page_resize();
-      
+      var winWidth = $(window).width();
+	  var winHeight = $(window).height();
+	  var dialogWidth = winWidth * 0.9;
+	  var dialogHeight = winHeight * 0.9;
 	  $( "#openDialog").on("click", function(){
 	    //alert(current);
 	    var data = 'teacherStatistics.php?section=' + current;
@@ -277,8 +280,8 @@
 			  //alert("donw");
 			  //$( "#dialog-modal" ).show();
 $( "#dialog-modal" ).dialog({
-height:'auto',
-width:'auto',
+height: dialogHeight,
+width: dialogWidth,
 modal: true
 });
 		   }
