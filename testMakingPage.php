@@ -72,7 +72,6 @@
       <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
    </HEAD>
 
-<<<<<<< HEAD
    <BODY style="background:#F6F9FC; font-family:Arial;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
    <div class="container">
         <div class="header">
