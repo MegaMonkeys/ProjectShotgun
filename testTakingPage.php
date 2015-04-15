@@ -89,16 +89,16 @@
 		}
     </script>
     <TITLE>
-        MegaTest - Online Testing Application
+        INGENIOUS
     </TITLE>
+    <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 
 </HEAD>
 
-<BODY  onload="interval = setInterval('timer()', 1000)">
+<BODY style="font-family:Calibri;" class="cbp-spmenu-push" onload="interval = setInterval('timer()', 1000)">
 <div id="load_screen"><img src="images/megamonkeysloading.png" /></div>
 	<div class="header">
 		<img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
-		<span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>
 	</div>
 		
 		<div class="container">
@@ -322,8 +322,8 @@
 
 </div>
         <div class="footer">
-            &copy; MegaMonkeys, Inc. - Pensacola Christian College 2015
-        </div>
+			&copy; MegaMonkeys, Inc.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/monkeyhead2.png" class="monkeyheadfooter"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pensacola Christian College 2015
+		</div>
 </div>
 </BODY>
 </HTML>
