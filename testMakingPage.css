@@ -1,77 +1,13 @@
-/************** Show/Hide Menu Button Styles *********************************/
-
-@import url(http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css);
-body{
-   background: #ECECEC;
-   margin:0px ;
-   color:#333;
-}
-.button{
-   top: -85px;
-   right: -80px;
-   position: absolute;
-   padding: 10px 20px;
-   display: block;
-   font-family: arial;
-   font-weight: bold;
-   color: #0a3247;
-   text-decoration: none;
-   text-shadow:0px 1px 0px #fff;
-   margin:0px auto;
-   margin-top:100px;
-   -webkit-transition:box-shadow 0.5s;
-}
-.button i{
-   float: right;
-   margin-top: 2px;
-}
-.button:hover{
-   background-color:#0096d2;
-   color: #fff;
-   text-shadow:0px 1px 0px #0096d2;
-   border:1px solid #0096d2;
-}
-.button:active{
-   background-color:rgb(0,200,250);
-   color: #fff;
-}
-.menuImage{
-   height: 20px;
-   width: 20px;
+.logo{
+	margin-left: auto;
+	margin-right: auto;
 }
 
-/**************************************************************************************/
-
-body {
-   background-image: #FFF;
-   background-size: cover;
-   margin:0px 0px;
-   font-family: Rockwell, 'Courier Bold', Courier, Georgia, Times, 'Times New Roman', serif;
-   font-size: 18px;
-   font-style: normal;
-   font-variant: normal;
-   font-weight: 500;
-}
-div.scroll{
-}
 #pledge_text{
    height: 50px;
 }
 #test_inst_text{
    height: 30px;
-}
-img.testLogo{
-   width: 200px;
-   position:fixed;
-   top:0px;
-   left: 50px;
-   z-index:50;
-}
-img.header{
-   position: fixed;
-   width:100%;
-   height:150px;
-   z-index: 26;
 }
 
 .inputs {
@@ -175,48 +111,12 @@ img.header{
    border-width:0px 0px 1px 1px;
 }
 
-.header{
-   height: 80px;
-   width: 100%;
-   font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
-   font-size: 24px;
-   top: 0px;
-   left:0px;
-   position: absolute;
-   z-index: 26;
-}
-div.content{
-   width:100%;
-   height:100%;
-   position: absolute;
-   text-align: left;
-   line-height:40px;
-   left:0px;
-   right:0px;
-}
 .mainTable{
 }
-
-.footer {
-   color: #666666;
-   position: fixed;
-   bottom: 0;
-   width: 100%;
-   text-align: center;
-}
-.footer ft {
-   position: relative;
-   bottom: 15px;
-   color: white;
-   z-index: 20;
-}
-img.footerblue {
-   width:100%;
-   height:100px;
-   position: absolute;
-   bottom: 0;
-   left: 0;
-   z-index: 10;
+.footer
+{
+bottom: 0;
+width: 100%;
 }
 .monkeyheadfooter{
    height: 10px;
@@ -297,37 +197,25 @@ img.footerblue {
 }
 
 /* By YoungChan Youn */
-#wrap {
-   position: relative;
-   padding-top: 130px;
-   min-width: 1000px;
-   margin-bottom: 100px;
-   z-index: 25;
-   background-color: white;
-}
+
 
 #middle {
-   vertical-align: top;
+position: relative;
    min-width: 650px;
    max-width: 650px;
-   position: relative;
-   left: 55%;
+   min-height: 550px;
+   padding-top: 30px;
+   padding-bottom: 50px;
 }
 
 #left {
-   vertical-align: top;
+position: fixed;
    min-width: 400px;
-   padding-top: 00px;
-   position: fixed;
-   left: 3.5em;
+   padding-left: 0px;
+   padding-top: 30px;
+   padding-bottom: 30px;
 }
 
-#destroy_question {
-   position: fixed;
-   bottom: 0px;
-   right: 0px;
-   z-index: 20;
-}
 
 /*
    #sortable1      -> Question Form Type
@@ -353,10 +241,16 @@ button[type=submit]
 {
    border:0;
 }
+#undo{
+position: absolute;
+padding-top: 130px;
+padding-left: 40px;
+font-size: 50px;
+color: red;
+}
 #publish {
    width: 55px;
    height:55px;
-   display: inline-block;
    background: url(images/options/publish.png);
    background-size: contain;
 }
@@ -369,7 +263,6 @@ button[type=submit]
    height:55px;
    background: url(images/options/save.png);
    background-size: contain;
-   display: inline-block;
 }
 #save:hover{
    background: url(images/options/saveHover.png);
@@ -378,7 +271,6 @@ button[type=submit]
 #preview {
    width: 55px;
    height:55px;
-   display: inline-block;
    background: url(images/options/preview.png);
    background-size: contain;
 }
@@ -389,7 +281,6 @@ button[type=submit]
 #cancel {
    width: 55px;
    height:55px;
-   display: inline-block;
    background: url(images/options/cancel.png);
    background-size: contain;
 }
@@ -496,257 +387,15 @@ input[type=text]:focus, textarea:focus {
    float: right;
 }
 
-/* this is the menu */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
-#cssmenu {
-   position: fixed;
-   background: rgba(0,0,0,0);
-   top: 30px;
-   right : 10%;
-   width: 500px;
-   z-index: 100;
-}
-#cssmenu ul {
-   list-style: none;
-   margin: 0;
-   padding: 0;
-   line-height: 1;
-   display: block;
-   zoom: 1;
-}
-#cssmenu ul:after {
-   content: " ";
-   display: block;
-   font-size: 0;
-   height: 0;
-   clear: both;
-   visibility: hidden;
-}
-#cssmenu ul li {
-   display: inline-block;
-   padding: 0;
-   margin: 0;
-}
-#cssmenu.align-right ul li {
-   float: right;
-}
-#cssmenu.align-center ul {
-   text-align: center;
-}
-#cssmenu ul li a {
-   color: #fff;
-   text-decoration: none;
-   display: block;
-   padding: 15px 25px;
-   font-family: 'Open Sans', sans-serif;
-   font-weight: 700;
-   text-transform: uppercase;
-   font-size: 14px;
-   position: relative;
-   -webkit-transition: color .25s;
-   -moz-transition: color .25s;
-   -ms-transition: color .25s;
-   -o-transition: color .25s;
-   transition: color .25s;
-}
-#cssmenu ul li a:hover {
-   color: #ffffff ;
-}
-#cssmenu ul li a:hover:before {
-   width: 100%;
-}
-#cssmenu ul li a:after {
-   content: "";
-   display: block;
-   position: absolute;
-   right: -3px;
-   top: 19px;
-   height: 6px;
-   width: 6px;
-   background: #fff;
-   opacity: .5;
-}
-#cssmenu ul li a:before {
-   content: "";
-   display: block;
-   position: absolute;
-   left: 0;
-   bottom: 0;
-   height: 3px;
-   width: 0;
-   background: #fff;
-   -webkit-transition: width .25s;
-   -moz-transition: width .25s;
-   -ms-transition: width .25s;
-   -o-transition: width .25s;
-   transition: width .25s;
-}
-#cssmenu ul li.last > a:after,
-#cssmenu ul li:last-child > a:after {
-   display: none;
-}
-#cssmenu ul li.active a {
-   color: #fff;
-}
-#cssmenu ul li.active a:before {
-   width: 100%;
-}
-#cssmenu.align-right li.last > a:after,
-#cssmenu.align-right li:last-child > a:after {
-   display: block;
-}
-#cssmenu.align-right li:first-child a:after {
-   display: none;
-}
-@media screen and (max-width: 768px) {
-   #cssmenu ul li {
-      float: none;
-      display: block;
-   }
-   #cssmenu ul li a {
-      width: 100%;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      border-bottom: 1px solid #fff;
-   }
-   #cssmenu ul li.last > a,
-   #cssmenu ul li:last-child > a {
-      border: 0;
-   }
-   #cssmenu ul li a:after {
-      display: none;
-   }
-   #cssmenu ul li a:before {
-      display: none;
-   }
-}
 
 .loader {
    position: relative;
    top: 50%;
    margin-left: auto ;
    margin-right: auto ;
-   width: 300px;
-   height: 300px;
+   width: 100%;
+   height: 100%;
    z-index: 999;
    background: url('./images/monkeyload.gif') 50% 50% no-repeat;
 }
 
-/**************************************************************************************/
-
-.buttonset {
-   position: absolute;
-   right: 100px;
-   top:
-}
-
-/* General styles for all menus */
-
-.cbp-spmenu {
-   background: #0a3044;
-   position: fixed;
-}
-
-.cbp-spmenu .last:hover {
-   background: #bb0d07;
-}
-
-.cbp-spmenu .last:active {
-   background: #e6110a;
-}
-
-.cbp-spmenu h3 {
-   color: #afdefa;
-   font-size: 1.9em;
-   padding: 20px;
-   margin: 0;
-   font-weight: 300;
-   background: #0d77b6;
-}
-
-.cbp-spmenu a {
-   display: block;
-   text-decoration: none;
-   text-align: center;
-   color: #fff;
-   font-size: 1.1em;
-   font-weight: 300;
-}
-
-.cbp-spmenu a:hover {
-   background: #0096d2;
-}
-
-.cbp-spmenu a:active {
-   background-color:rgb(0,200,250);
-   color: #fff;
-}
-
-/* Orientation-dependent styles for the content of the menu */
-
-.cbp-spmenu-vertical {
-   width: 240px;
-   height: 100%;
-   top: 0;
-   z-index: 1000;
-}
-
-.cbp-spmenu-vertical a {
-   border-bottom: 1px solid #0a3044;
-   padding: 1em;
-}
-
-/* Vertical menu that slides from the left or right */
-
-.cbp-spmenu-right {
-   right: -240px;
-}
-
-.cbp-spmenu-right.cbp-spmenu-open {
-   right: 0px;
-}
-
-/* Push classes applied to the body */
-
-.cbp-spmenu-push {
-   overflow-x: hidden;
-   position: relative;
-   left: 0;
-}
-
-.cbp-spmenu-push-toleft {
-   left: -240px;
-}
-
-/* Transitions */
-
-.cbp-spmenu,
-.cbp-spmenu-push {
-   -webkit-transition: all 0.3s ease;
-   -moz-transition: all 0.3s ease;
-   transition: all 0.3s ease;
-}
-
-/* Example media queries */
-
-@media screen and (max-height: 26.375em){
-
-   .cbp-spmenu-vertical {
-      font-size: 90%;
-      width: 190px;
-   }
-
-   .cbp-spmenu-left,
-   .cbp-spmenu-push-toleft {
-      left: -190px;
-   }
-
-   .cbp-spmenu-right {
-      right: -190px;
-   }
-
-   .cbp-spmenu-push-toright {
-      left: 190px;
-   }
-}

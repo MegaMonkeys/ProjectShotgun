@@ -1,7 +1,35 @@
 <!DOCTYPE html>
 <HTML>
-   <link rel="stylesheet" type="text/css" href="templateStyle.css">
+
+  
    <HEAD>
+   
+       <!-- jQuery API JavaScript & CSS Do Not Remove (YC)-->
+    <script src="./jquery_api/jquery-1.10.2.js"></script>
+    <script src="./jquery_api/jquery.min.js"></script> 
+    <script src="./jquery_api/jquery-ui.js"></script>
+    <link   rel="stylesheet" href="./jquery_api/jquery-ui.css">
+		
+	<!-- for icon -->
+	<link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
+	<script src="jquery-1.11.2.js"></script>
+    <script src="jquery_api/jquery.min.js"></script>
+    <script src="jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+	<script src="waypoints.js"></script>
+    <script src="waypoints-sticky.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.sticky-navigation').waypoint('sticky');
+        });
+    </script>
+      <!-- Custom JavaScript & CSS -->
+      <!-- <script src="./keyblock.js"></script> -->
+      <script src="./testMakingPage.js"></script>
+      <link rel="stylesheet" type="text/css" href="testGradingPage.css">
+      <link rel="stylesheet" type="text/css" href="stylesheet.css">
+   
+   
    <style>
    div#load_screen{
 	background:#FFF;
