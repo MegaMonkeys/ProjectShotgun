@@ -142,11 +142,12 @@ var matching_field =
 
          //Check Question Form Type
 			for(x=0; x<form_array.length; x++)
-				if( current.text().search(form_array[x]) != -1 )
-					q_type = x;
+				if( current.text().search(form_array[x]) != -1 ) {
+               q_type = x;
+            };
 
 			//Update Question Number
-         if( q_type != 5 && q_type != 6)
+         if( q_type != 5 && q_type != 6 )
 			   current.children('span').text('Q.' + (++q_count) + ' ');
 
          if( q_type == 0 || q_type == 1 ||q_type == 2 ||q_type == 3 ||q_type == 4 || q_type == 5 ) {
@@ -164,31 +165,8 @@ var matching_field =
             }
          }
 
-         //MATCHING !!!!
-         if( q_type == 6 ) {
-            //alert("Matching Q");
-            var q_curr = current.children('table').eq(0).children('tbody').eq(0).children('tr').eq(0).children('td').eq(0);
-            current.children('input').eq(0).attr('name', "Q" + (id_count + 1) + "P");
-            //alert(q_curr.html());
-            var q_cc = q_curr.children('div').length;
-            //alert(q_cc);
-			   var baseQ = id_count + 1;
-			
-            for(i=0,ascii_code=65; i<q_cc; i++, ascii_code++) {
-               q_curr.children('div').eq(i).children('span').text('Q.' + (++q_count)); //&#65;
-               q_curr.children('div').eq(i).children('label').html('Choice &#'+ascii_code+';');
-			   
-               q_curr.children('div').eq(i).children('select').attr('name', 'Q'+(id_count+1)+'MA');
-               q_curr.children('div').eq(i).children('input').eq(0).attr('name', 'Q'+(id_count+1)+'T');
-               q_curr.children('div').eq(i).children('input').eq(1).attr('name', 'Q'+baseQ+'M'+(i+1));
-               loop_limit++;
-               id_count++;
-            }
-            loop_limit--;
-            id_count--;
-         }
-
-			// True / False Question
+         //matching (TF)
+         // True / False Question
 			if ( q_type == 0 ) {
 				current.children('input').eq(1).attr("name", "Q"+(id_count+1)+"O");
             current.children('input').eq(2).attr("name", "Q"+(id_count+1)+"O");
@@ -252,7 +230,29 @@ var matching_field =
          //Instruction
          else if( q_type == 5) {
             current.children('input').eq(0).attr("value", "0");
+         }
+         //MATCHING !!!!
+         else if( q_type == 6 ) {
+            //alert("Matching Q");
+            var q_curr = current.children('table').eq(0).children('tbody').eq(0).children('tr').eq(0).children('td').eq(0);
+            current.children('input').eq(0).attr('name', "Q" + (id_count + 1) + "P");
+            //alert(q_curr.html());
+            var q_cc = q_curr.children('div').length;
+            //alert(q_cc);
+            var baseQ = id_count + 1;
 
+            for(i=0,ascii_code=65; i<q_cc; i++, ascii_code++) {
+               q_curr.children('div').eq(i).children('span').text('Q.' + (++q_count)); //&#65;
+               q_curr.children('div').eq(i).children('label').html('Choice &#'+ascii_code+';');
+
+               q_curr.children('div').eq(i).children('select').attr('name', 'Q'+(id_count+1)+'MA');
+               q_curr.children('div').eq(i).children('input').eq(0).attr('name', 'Q'+(id_count+1)+'T');
+               q_curr.children('div').eq(i).children('input').eq(1).attr('name', 'Q'+baseQ+'M'+(i+1));
+               loop_limit++;
+               id_count++;
+            }
+            loop_limit--;
+            id_count--;
          }
 		}
 	}

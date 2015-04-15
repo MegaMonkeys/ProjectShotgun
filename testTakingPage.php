@@ -8,8 +8,12 @@
 <HTML>
 <link rel="stylesheet" type="text/css" href="testTakingPage.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<link rel="stylesheet" href="./jquery_api/jquery-ui.css">
 <script src="tabcontent.js" type="text/javascript"></script>
 <script src="jquery-1.11.2.js"></script>
+<script src="./jquery_api/jquery-1.10.2.js"></script>
+<script src="./jquery_api/jquery.min.js"></script>
+<script src="./jquery_api/jquery-ui.js"></script>
 <HEAD>
     <style>
         div#load_screen{
@@ -67,10 +71,47 @@
         });
     </script>
     <script type="text/javascript">
+	
         function submitTest()
         {
             document.forms['testForm'].submit();
         }
+		
+		<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->		
+	$(function() {
+		$( "#dialog-confirm-submit" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Submit!!!": function() {
+			$( this ).dialog( "close" );
+				submitTest();
+				//document.form.submit();
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+
+    $( "#submit" ).click(function() {
+      $( "#dialog-confirm-submit" ).dialog( "open" );
+    });
+  });  
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+		
         
         // Countdown timer
         var interval;
@@ -104,7 +145,29 @@
                 {
                     seconds = 0;
                     // Display pop-up here
-                    alert("time up");
+                   // alert("time up");
+	$( "#dialog-confirm-submit" ).dialog({
+		autoOpen: true,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Submit!!!": function() {
+			$( this ).dialog( "close" );
+				submitTest();
+			}
+		}
+	});
+
                     clearInterval(interval);
                 }
             }
@@ -114,16 +177,23 @@
 		}
     </script>
     <TITLE>
-        MegaTest - Online Testing Application
+       INGENIOUS
     </TITLE>
 
 </HEAD>
 
-<BODY onload="interval = setInterval('timer()', 1000)" >
+<BODY style="font-family:Calibri;" class="cbp-spmenu-push" onload="interval = setInterval('timer()', 1000)">
 <div id="load_screen"><img src="images/megamonkeysloading.png" /></div>
+	<div id="dialog-confirm-submit" title="Pledge" style="background-color: #ADD6FF; ">
+		<p>
+			<div style="font-size: 20px;">Please
+			</div>
+			<input type="textbox" value="My Name" onclick="this.select()" style="width:350px;">
+		</p>
+	</div>
 	<div class="header">
 		<img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
-		<span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>
+      <!--<span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>-->
 	</div>
 		
 		<div class="container">
@@ -134,7 +204,7 @@
 
 
 <div class="content">
-	<button type="submit" class="submit-button" onclick="submitTest()">Submit</button>
+	<button type="submit" id="submit" name="submit" class="submit-button" value="submit">Submit</button>
     <div id="testInformation">
 		<table class="informationTable">
 			<tr>
@@ -344,9 +414,9 @@
 </div>
 
 </div>
-        <div class="footer">
-            &copy; MegaMonkeys, Inc. - Pensacola Christian College 2015
-        </div>
+      <div class="footer">
+         &copy; MegaMonkeys, Inc.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/monkeyhead2.png" class="monkeyheadfooter"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pensacola Christian College 2015
+      </div>
 </div>
 </BODY>
 </HTML>

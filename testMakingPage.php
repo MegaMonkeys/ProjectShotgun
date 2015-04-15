@@ -43,15 +43,116 @@
                //$("p:first").replaceWith("Hello world!");
             });
          });
+		 
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->		
+// Publish Dialog Box 
+	$(function() {
+		$( "#dialog-confirm-publish" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Publish!!!": function() {
+			$( this ).dialog( "close" );
+				document.form.action="create_test.php";
+				if (publish_check()){
+					document.form.submit();
+				}
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+
+    $( "#publish" ).click(function() {
+      $( "#dialog-confirm-publish" ).dialog( "open" );
+    });
+  });  
+// Save Dialog Box
+	$(function() {
+		$( "#dialog-confirm-save" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Save for Later...": function() {
+			$( this ).dialog( "close" );
+				document.form.action="create_test.php";
+				document.form.submit();
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+	
+    $( "#save" ).click(function() {
+      $( "#dialog-confirm-save" ).dialog( "open" );
+    });
+  });
+// Cancel Dialog Box
+	$(function() {
+		$( "#dialog-confirm-cancel" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Return to Test Creation": function() {
+			$( this ).dialog( "close" );
+				$( this ).dialog( "close" );
+			},
+			"Leave And Return to Home Page": function() {
+				window.location.assign("./teacherHomePage.php");
+			}
+		}
+	});
+	
+    $( "#cancel" ).click(function() {
+      $( "#dialog-confirm-cancel" ).dialog( "open" );
+    });
+  });
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
       </script>
 
       <TITLE>
-         INGENIOUS - Online Testing Center
+         INGENIOUS
       </TITLE>
       <link rel="icon" type="logo/png" href="images/monkeyhead.png">
    </HEAD>
 
-   <BODY style="background:#F6F9FC; font-family:Arial;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
+   <BODY  style="font-family:Calibri;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
    <div class="container">
         <div class="header">
             <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
@@ -67,11 +168,11 @@
         <div class="contents">
    <!-- body has the class "cbp-spmenu-push" -->
    <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
-      <a href='teacherHomePage.php'><span>Home</span></a>
-      <a href='#'><span>About</span></a>
-      <a href='teampage.php'><span>Developers</span></a>
-      <a href='#'><span>Help</span></a>
-      <a href='logout.php' class="last"><span>Sign Out</span></a>
+      <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
+      <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
+      <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
+      <a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
+      <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
       <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
    </nav>
 
@@ -181,7 +282,27 @@
    <div id="wrap">
       <div class="loader" align="center"></div>
          <div id="content">
-            <form method="post" action="javascript:void(0);">
+            <form name="form" method="post" action="javascript:void(0);">
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+				<div id="dialog-confirm-publish" title="Are you sure about this?" style="background-color: #ADD6FF; ">
+					<p>
+						<div style="font-size: 20px;">Are you sure you wish to publish this test? Not only will it be saved, students will then be able to view and take this test.
+						</div>
+					</p>
+				</div>
+				<div id="dialog-confirm-save" title="Is this your intended action?" style="background-color: #ADD6FF; ">
+					<p>
+						<div style="font-size: 20px;">Are you sure you wish to save this test? Students will NOT be able to view or take it; however, you will be able to edit it later.
+						</div>
+					</p>
+				</div>
+				<div id="dialog-confirm-cancel" title="Did you mean to do this?" style="background-color: #ADD6FF; ">
+					<p>
+						<div style="font-size: 20px;">Are you sure you want to stop creating this test? Keep in mind that this test is not saved unless you explicitly save it, and any progress made on the creation of this test WILL BE LOST!!!
+						</div>
+					</p>
+				</div>
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
                <table>
                   <tr>
                      <td id="left">
@@ -241,10 +362,10 @@
                            <div id="optionButton">
                               <table id="optionButtonTable">
                                  <tr>
-                                    <td><button type="submit" value="publish" id="publish" name="publish" formaction="create_test.php"></button></td> <!--onclick="publish_test()"-->
-                                    <td><button type="submit" value="save"    id="save"    name="save"    formaction="create_test.php"></button></td>
+                                    <td><button type="submit" id="publish" name="publish" value ="publish" ></button></td> <!--onclick="publish_test()"-->
+                                    <td><button type="submit" id="save"    name="save"    value="save" ></button></td>
                                     <td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>
-                                    <td><button type="submit" value="cancel"  id="cancel"  name="cancel"  onclick="cancel_test()"> </button></td>
+                                    <td><button type="submit" id="cancel"  name="cancel"  value="cancel" > </button></td>
                                  </tr>
                                  <tr>
                                     <td>Publish</td>
@@ -363,21 +484,23 @@
    function preview_test() {
       alert("Under Construction");
    }
-   function cancel_test() {
-      publish_check();
-      if( confirm("Are You Sure ?") ) {
-         window.location.assign("./teacherHomePage.php");
-      }
-      else
-         alert("OK");
-   }
+// Commented out by G3!!!!!!!!!!!!!!!!!! This code's function is now handled by a popup!!!!!
+//   function cancel_test() {
+//      publish_check();
+//      if( confirm("Are You Sure ?") ) {
+//         window.location.assign("./teacherHomePage.php");
+//      }
+//      else
+//         alert("OK");
+//   }
    /////////////////////////////////////
    function publish_check() {
       var today = get_today();
-      if($('#startDate').val() > $('#endDate').val())
+      if($('#startDate').val() > $('#endDate').val()) {
          alert('NO');
-      if($('#startDate').val() < today)
-         alert('NO PAST');
+		   return false;
+		 }
+		 return true;
    }
 
    /*function get_section() {
