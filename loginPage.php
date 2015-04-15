@@ -48,11 +48,11 @@
       </script>
       
       <TITLE>
-          INGENIOUS - Online Testing Center
+          INGENIOUS
       </TITLE>
        <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
    </HEAD>
-<BODY>
+<BODY  style="font-family:Calibri;">
    <div id="load_screen"><img src="images/monkeyload.gif" /></div>
    
     <div class="container">

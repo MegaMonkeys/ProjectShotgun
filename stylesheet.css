@@ -66,18 +66,25 @@ float: right;
 @import url(http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css);
 
 .button{
-    top: -95px;
-    right: -80px;
+    top: -90px;
+    right: -100px;
     position: absolute;
     padding: 10px 20px;
     margin-top:100px;
+	background: url(images/menu.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 60px;
+	height: 60px;
 }
 .button i{
     float: right;
     margin-top: 2px;
 }
-.button:hover{
-    text-shadow:0px 1px 0px #0096d2;
+.button:active{
+    background: url(images/newMenuClick.png);
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 .menuImage{
     height: 70px;
@@ -90,7 +97,6 @@ float: right;
 .buttonset {
     position: absolute;
     right: 100px;
-    top:
 }
 
 /* General styles for all menus */

@@ -108,7 +108,31 @@
          if (@mysqli_num_rows($sql_result) != 0) {
             for ($i = 1; $i <= mysqli_num_rows($sql_result); $i++) {
                $row = mysqli_fetch_row($sql_result);
-               load_question_form($row);
+               if( $row[3] == "Matching" ) {
+                  $array_matching = array();
+
+                  $sql_command_1 = 'SELECT * FROM answer WHERE ques_id = ' . $row[0];
+                  $sql_result_1  = mysqli_query($connection, $sql_command_1);
+                  $matching_size = mysqli_num_rows($sql_result_1);
+
+                  $sql_command_2 = 'SELECT * FROM question join answer on question.ques_id = answer.ques_id WHERE question.ques_id = '.$row[0];
+                  $sql_result_2  = mysqli_query($connection, $sql_command_2);
+                  for($b=0;$b<$matching_size;$b++) {
+                     array_push($array_matching, mysqli_fetch_row($sql_result_2));
+                  }
+
+                  for($a=1;$a<$matching_size;$a++, $i++) {
+                     $row = mysqli_fetch_row($sql_result);
+                     $sql_command_2 = 'SELECT * FROM question join answer on question.ques_id = answer.ques_id WHERE question.ques_id = '.$row[0];
+                     $sql_result_2  = mysqli_query($connection, $sql_command_2);
+                     for($b=0;$b<$matching_size;$b++) {
+                        array_push($array_matching, mysqli_fetch_row($sql_result_2));
+                     }
+                  }
+                  load_question_matching($matching_size, $array_matching);
+               }
+               else
+                  load_question_form($row);
                $question_data += array($row[0], $row[4], $row[5]); //Q_ID, Que, Pt
             }
             echo load_question_refresh();
@@ -116,6 +140,41 @@
       }
       //echo  load_question_info($info);
       mysqli_close($connection);
+   }
+
+   function load_question_matching($matching_size, $array_matching) {
+
+      echo '<li class="ui-state-default tess">';
+      echo '<span>::</span>Matching';
+      echo '<table style="border:1px solid #ccc; width: 100%; position:relative;">';
+      echo '<tr><td>';
+
+      for($i=0; $i<$matching_size; $i++) {
+         echo '<div>';
+         echo '<span style="margin-right: 2%;">::</span>(Match: ';
+               echo '<select>';
+            for($y=0,$ascii_code=65; $y<$matching_size; $y++,$ascii_code++) {
+               //(($array_matching[$i*$matching_size+$y][9]==1)? 'selected':'')
+               echo '<option value="'.($y+1).'"'.(($array_matching[$i*$matching_size+$y][9]==1)? 'selected':'').'>&#'.$ascii_code.';</option>';
+            }
+               echo '</select>';
+         echo ')';
+         echo '<label style="position:absolute; left: 50%;">Choice:</label>';
+         echo '<button type="button" style="float:right; margin-right: 5px;" onclick="removeMatchQ(this);">Remove Option</button><br/>';
+         echo '<input type="text"  maxlength="50" style="width:45%; margin-left: 3%;" value="'.$array_matching[$i*$matching_size][4].'">';
+         echo '<input type="text"  maxlength="50" style="width:45%; margin-left: 3%;" value="'.$array_matching[$i][8].'">';
+         echo '</div>';
+      }
+
+      echo '</td></tr></table>';
+      echo '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="'.$array_matching[0][5].'"><qp style="float:right;"> Point-&nbsp;</qp><br />';
+      echo '<button type="button" style="margin-right: 5px;" onclick="addMatchQ(this);">Add New Option</button>';
+      echo '<button class="bin_button" type="button" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeQ(this);">';
+      echo '<input type="image" width="100%" height="100%" src="./images/recycle_close.jpeg">';
+      echo '</button><br>';
+      echo '</li>';
+
+
    }
 
       function load_info($test_no)
@@ -209,7 +268,7 @@
             '<input type="text" maxlength="3" size="4" style="float: right;" onkeydown="return isNumberKey(event)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
             '<textarea required rows="4" placeholder="Essay Question">'.$q_text.'</textarea><br>',
 
-            //Disabled
+            //Index:5 - Instruction
             $form_array[$q_type] .
             '<button class="bin_button" type="button" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeQ(this);">' .
             '<input type="image" width="100%" height="100%" src="./images/recycle_close.jpeg">' .
