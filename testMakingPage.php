@@ -67,34 +67,31 @@
       </script>
 
       <TITLE>
-         INGENIOUS - Online Testing Center
+         INGENIOUS
       </TITLE>
       <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
    </HEAD>
-
-   <BODY style="background:#F6F9FC; font-family:Arial;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
-   <div class="container">
-        <div class="header">
-            <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
-			<div class="main">
-			 <section class="buttonset">
-				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><img src="images/menu.png" class="menuImage" /></a>
-			 </section>
-			</div>
-        </div>
-        <div class="sticky-navigation">
-        </div>
-        <div class="contents">
-   <!-- body has the class "cbp-spmenu-push" -->
-   <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
-      <a href='teacherHomePage.php'><span>Home</span></a>
-      <a href='#'><span>About</span></a>
-      <a href='teampage.php'><span>Developers</span></a>
-      <a href='#'><span>Help</span></a>
-      <a href='logout.php' class="last"><span>Sign Out</span></a>
-      <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
-   </nav>
+   
+   <BODY  style="font-family:Calibri;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
+   <div id="load_screen"><img src="images/monkeyload.gif" id="loadingImage" /></div>
+   
+   <div id="undo"><a href='teacherHomePage.php'><span><i class="fa fa-hand-o-left"></i></span></a></div>
+<!-- body has the class "cbp-spmenu-push" -->
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+<a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
+<a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
+<a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
+<a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
+<a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
+</nav>
+<div class="container">
+    <div class="main">
+        <section class="buttonset">
+            <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
+            <a href="#" id="showRightPush" class="button"></a>
+        </section>
+    </div>
+</div>
    <!-- START of JavaScript to make Hidden Side Menu Work -->
    <script>
       /*!
