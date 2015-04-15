@@ -1,4 +1,5 @@
 <?php
+   $matching_count = 0;
 	//$_POST['gradeButton'] => TEST_ID
    if( isset( $_GET['action'] ) ) {
       if( $_GET['action'] == 'get' )
@@ -10,26 +11,39 @@
    function save_test() {
       //echo $_GET['count'];
       include 'db_connection.php';
-      $sql_command = "SELECT ques_id\n"
+      $sql_command = "SELECT ques_id, points\n"
          . "FROM question\n"
-         . "WHERE test_id = 4\n"
+         . "WHERE test_id = " . $_GET['t_id'] . "\n"
          . "AND ques_type != \"Instruction\"\n"
          . "ORDER BY ques_no";
       $sql_result = mysqli_query($connection, $sql_command);
 
+      $test_total = 0;
       $q_id_array = array();
       for($i = 0; $i < @mysqli_num_rows($sql_result); $i++) {
          $data = mysqli_fetch_row($sql_result);
          array_push($q_id_array, $data[0]);
+         $test_total = $test_total + $data[1];
       }
 
+      $student_total = 0;
       for($i = 0; $i < sizeof($q_id_array); $i++) {
          $sql_command = "UPDATE student_answer\n"
          ."SET stu_points = ".$_GET['n'.($i+1)]."\n"
          ."WHERE ques_id = ".$q_id_array[$i]."\n"
          ."AND student_id = ".$_GET['s_id']."\n";
-         $sql_result = mysqli_query($connection, $sql_command);
+         mysqli_query($connection, $sql_command);
+         $student_total = $student_total + $_GET['n'.($i+1)];
       }
+
+      $sql_command = "UPDATE student_test\n"
+         . "SET final_grade = " . round($student_total/$test_total,2)*100 . "\n"
+         . "WHERE student_id = " . $_GET['s_id'] . "\n"
+         . "AND test_id = " . $_GET['t_id'];
+      mysqli_query($connection, $sql_command);
+
+
+
       mysqli_close($connection);
    }
 
@@ -76,9 +90,9 @@
             echo '</td>';
          echo '</tr>';
 		 if($i == 1) {
-			global $f_id, $f_name;
-			$f_id = $row[0];
-			$f_name = $s_name;
+			global $st_id, $st_name;
+			$st_id = $row[0];
+			$st_name = $s_name;
 		 }
       }
    }
@@ -114,20 +128,129 @@
          . "OR correct = 1\n"
          . "ORDER BY ques_no";*/
       $sql_result = mysqli_query($connection, $sql_command);
-      mysqli_close($connection);
+
 
       $ques_id = "";
+      $count_matching = 0;
+      $array_matching = array();
 
       for($i = 1, $q=0; $i <= @mysqli_num_rows($sql_result); $i++) {
          $row = mysqli_fetch_row($sql_result);
          if( $row[1] != $ques_id ) {
-            echo get_test_type($row, (($row[2] != "Instruction") ? ++$q : $q), $student_id);
-            $ques_id = $row[1];
+
+            if( $row[2] == "Matching" ) {
+               $count_matching = get_matching_count($connection, $row, $student_id);
+               array_push($array_matching, $row);
+               for($z=1; $z<$count_matching*$count_matching; $z++, $i++) {
+                  $row = mysqli_fetch_row($sql_result);
+                  array_push($array_matching, $row);
+               }
+               echo get_test_type_matching($array_matching, ++$q, $student_id, $count_matching, $connection, $row[4]);
+               $q = $q + $count_matching - 1;
+               $ques_id = $row[1];
+            }
+            else {
+               echo get_test_type($row, (($row[2] != "Instruction") ? ++$q : $q), $student_id, $sql_result);
+               $ques_id = $row[1];
+            }
          }
       }
+      mysqli_close($connection);
    }
 
-   function get_test_type($row, $q, $student_id) {
+   function get_matching_count($temp_connection, $row, $student_id) {
+      $sql_command_ex = "SELECT q.ques_id, stu_ans_text, stu_points\n"
+         . "FROM question q\n"
+         . "LEFT OUTER JOIN student_answer a\n"
+         . "ON q.ques_id = a.ques_id\n"
+         . "WHERE test_id = ".$row[0]."\n"
+         . "AND student_id = ".$student_id."\n"
+         . "AND q.ques_id = ".$row[1]."\n"
+         . "ORDER BY q.ques_id";
+      $sql_result_ex = mysqli_query($temp_connection, $sql_command_ex);
+      $ex = mysqli_fetch_row($sql_result_ex);
+
+      $sql_command_m = "SELECT COUNT(*) FROM student_answer WHERE ques_id = " . $ex[0];
+      $sql_result_m = mysqli_query($temp_connection, $sql_command_m);
+      $matching_form_count = mysqli_fetch_row($sql_result_m);
+      $matching_form_count = $matching_form_count[0];
+      return $matching_form_count;
+   }
+
+   function get_test_type_matching($row, $q, $student_id, $count_matching, $connection, $point) {
+      $array_students_ans = array();
+      $array_students_points = array();
+      for($i=0; $i<$count_matching; $i++) {
+         $sql_command = "SELECT * FROM student_answer WHERE ques_id = ".$row[$i*$count_matching][1]." AND student_id = ".$student_id;
+         $sql_result = mysqli_query($connection, $sql_command);
+         $result_data = mysqli_fetch_row($sql_result);
+         array_push($array_students_ans, $result_data[2]);
+         array_push($array_students_points, $result_data[3]);
+      }
+
+      $array_ans_list_form = array();
+      $array_ans_list = array();
+      $sql_result = mysqli_query($connection, 'SELECT ans_text, correct FROM answer WHERE ques_id = '.$row[0][1]);
+      for($i=1,$ascii=65;$i<=$count_matching;$i++,$ascii++) {
+         $tep = mysqli_fetch_row($sql_result);
+         $array_ans_list_form += array($tep[0] => $ascii);
+         array_push($array_ans_list, $tep[0]);
+      }
+
+      $array_test_ans = array();
+      for($i=0;$i<$count_matching;$i++) {
+         $sql_result = mysqli_query($connection, 'SELECT ans_text FROM answer WHERE ques_id = ' . $row[$i*$count_matching][1]. ' AND correct = 1');
+         $tep = mysqli_fetch_row($sql_result);
+         array_push($array_test_ans, $tep[0]);
+      }
+
+      $data =
+         '<tr>'.
+            '<td id="Matching">'.
+               '<table>'.
+                  '<tr>'.
+                     '<td width="50%">Matching</td>'.
+                     '<td colspan="1" width="750px">'.
+                        //'<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
+                     '</td>'.
+                     '<td width="50px">'.'Stu.'.'</td>'.
+                     '<td width="50px">'.'Ans.'.'</td>'.
+                  '</tr>';
+
+      for($i=0,$ascii=65;$i<$count_matching; $i++, $ascii++, $q++) {
+         $temp =
+                  '<tr>' .
+                     '<td><span style="padding-left:10px;">Q.' . $q . " " . $row[$i*$count_matching][3] . '</span></td>' .
+                     '<td>&#'.$ascii.';. '.$array_ans_list[$i] .'</td>' .
+                     '<td>&#' . $array_ans_list_form[$array_students_ans[$i]] . ';</td>' .
+                     '<td>&#' . $array_ans_list_form[$array_test_ans[$i]] . ';</td>' .
+                  '</tr>';
+         $data = $data . $temp;
+      }
+
+      $data = $data .
+               '</table>'.
+            '</td>'.
+            '<td class="pointBox">'.
+               '<table id="test_table2" style="border-color:transparent;">'.
+                  '<tr><td>&nbsp;</td></tr>';
+
+      $q = $q - $count_matching;
+      for($i=0;$i<$count_matching; $i++, $q++) {
+         $temp =
+               '<tr><td id="pointBox'.$q .'"><input type="text" value="'.$array_students_points[$i].'" onkeydown="return isNumberKey(event)" onkeyup="calculate_total()" maxlength="3" style="width:40px;" class="points" id="p' . $q . '">/' .$point.'</tr></td>';
+         $data = $data . $temp;
+      }
+
+      $data = $data .
+               '</table>'.
+            '</td>' .
+         '</tr>';
+
+      return $data;
+   }
+
+   function get_test_type($row, $q, $student_id, $main_result) {
       include 'db_connection.php';
       $sql_command_ex = "SELECT q.ques_id, stu_ans_text, stu_points\n"
          . "FROM question q\n"
@@ -139,6 +262,72 @@
          . "ORDER BY q.ques_id";
       $sql_result_ex = mysqli_query($connection, $sql_command_ex);
       //mysqli_close($connection);
+
+      /*if( $row[2] == "Matching" ) {
+         $ex = mysqli_fetch_row($sql_result_ex);
+
+         $sql_command_m = "SELECT COUNT(*) FROM student_answer WHERE ques_id = " . $ex[0];
+         $sql_result_m = mysqli_query($connection, $sql_command_m);
+         $matching_form_count = mysqli_fetch_row($sql_result_m);
+         $matching_form_count = $matching_form_count[0];
+         $GLOBALS['matching_count'] = $matching_form_count;
+
+         $sql_command = "SELECT ans_text, correct\n"
+            . "FROM answer\n"
+            . "WHERE ques_id = " . $row[1];
+         $sql_result = mysqli_query($connection, $sql_command);
+         $ans_data = array();
+         for($i=1;$i<=$matching_form_count;$i++) {
+            $tep = mysqli_fetch_row($sql_result);
+            $ans_data += array($tep[0] => 65);
+         }
+         $sql_result = mysqli_query($connection, $sql_command);
+
+         $data =
+            '<tr>'.
+               '<td id="Matching">'.
+                  '<table>'.
+                     '<tr>'.
+                        '<td width="50px">'.
+                           'Ans.'. //$q.'.'.
+                        '</td>'.
+                        '<td colspan="2" width="750px">'.
+                           //'<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
+                        '</td>'.
+                     '</tr>';
+
+
+
+
+for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
+   $ans_datas = mysqli_fetch_row($sql_result);
+   $temp =
+      '<tr>' .
+         '<td>&#' . $ans_data[$ex[1]] . ';</td>' .
+         '<td>' .
+            '<span>Q.' . $q . " " . $row[3] . '</span>'.
+         '</td>' .
+         '<td>' .
+            '&#'.$ascii.';. '.$ans_datas[0] .
+         '</td>' .
+      '</tr>';
+   $data = $data . $temp;
+
+   for($z=0;$z<$matching_form_count;$z++)
+      $row = mysqli_fetch_row($main_result);
+}
+
+         $data = $data .
+                  '</table>'.
+               '</td>'.
+               '<td class="pointBox" id="pointBox'.$q.'">'.
+                  '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onchange="calculate_total()" class="points" id="p'.$q.'">/'.$row[4].
+               '</td>'.
+            '</tr>';
+
+
+         return $data;
+      }*/
 
 
       if( $row[2] == "True/False" ) {

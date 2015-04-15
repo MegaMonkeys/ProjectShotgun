@@ -253,6 +253,45 @@
                             
                             $qNum++;
                         }
+                        else if($row[2] === "Matching")
+                        {
+                           $sqlComm = 'select ans_text from answer where ques_id = '.$row[0];
+                           $answers = mysqli_query($connection, $sqlComm);
+                           $numAns = mysqli_num_rows($answers);
+
+                           $ansArray = array();
+                           for($index = 0; $index < $numAns; $index++)
+                           {
+                              $ansRow = mysqli_fetch_row($answers);
+                              $ansArray[$index] = $ansRow[0];
+                           }
+
+                           echo '<tr><td id="matching">';
+                           echo '<table>';
+                           for($i = 1; $i <= $numAns; $i++)
+                           {
+                              if($i != 1)
+                              {
+                                 $row = mysqli_fetch_row($result);
+                              }
+                              echo '<tr>';
+                              echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Matching" style="display:none;"/></td>';
+                              echo    '<td width="400"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
+                              echo    '<td width="400"><select name="Q'.$x.'A">';
+                              for($theAns = 0; $theAns < sizeof($ansArray); $theAns++)
+                              {
+                                 echo '<option value="'.$ansArray[$theAns].'">'.$ansArray[$theAns].'</option>';
+                              }
+                              echo    '</select></td>';
+                              echo '</tr>';
+
+                              $x++;
+                              $qNum++;
+                           }
+                           $x--;
+                           echo '</table>';
+                           echo '</td></tr>';
+                        }
                         else if($row[2] === "Instruction")
                         {
                             echo '<tr><td id="instruction">';
