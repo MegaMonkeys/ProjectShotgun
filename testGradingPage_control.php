@@ -169,16 +169,14 @@
          . "ORDER BY q.ques_id";
       $sql_result_ex = mysqli_query($temp_connection, $sql_command_ex);
       $ex = mysqli_fetch_row($sql_result_ex);
-
-      $sql_command_m = "SELECT COUNT(*) FROM answer WHERE ques_id = " . $ex[0];
+      $sql_command_m = "SELECT COUNT(*) FROM student_answer WHERE ques_id = " . $ex[0];
       $sql_result_m = mysqli_query($temp_connection, $sql_command_m);
       $matching_form_count = mysqli_fetch_row($sql_result_m);
       $matching_form_count = $matching_form_count[0];
       return $matching_form_count;
    }
 
-   function get_test_type_matching($row, $q, $student_id, $count_matching, $connections, $point) {
-		include 'db_connection.php';
+   function get_test_type_matching($row, $q, $student_id, $count_matching, $connection, $point) {
       $array_students_ans = array();
       $array_students_points = array();
       for($i=0; $i<$count_matching; $i++) {

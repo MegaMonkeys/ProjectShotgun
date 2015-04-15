@@ -34,7 +34,7 @@ body{
 .testEachCourse{
    background-image: url('images/bg-body.jpg');
    position: relative;
-   left: 400px;
+   left: 500px;
    width: 800px;
    height: 63%;
    border-spacing: 15px;
@@ -72,7 +72,9 @@ body{
     float: left;
 }
 #button{
-    float: right;
+    position:absolute;
+    right: 10px;
+    padding-right: 15px;
 }
 #takeTestButton {
     width: 40px;
@@ -191,13 +193,20 @@ div.content{
 
 /********************************************************/
 
-@media screen and (max-width: 1800px) {
+@media screen and (max-width: 1700px) {
 	.courses{
 		position: absolute;
 		top: 150px;
 		left: 150px;
 		width: 220px;
 	}
+   .testEachCourse, #classTitle {
+      left: 450px;
+   }
+   .stats {
+      top: 113px;
+      left: 1202px;
+   }
 }
 @media screen and (max-width: 1400px) {
 	.courses{
@@ -206,10 +215,18 @@ div.content{
 		left: 30px;
 		width: 220px;
 	}
+   .testEachCourse, #classTitle {
+      left: 250px;
+   }
+   .stats {
+      top: 113px;
+      left: 985px;
+   }
 }
 @media screen and (max-width: 1100px) {
 	.courses{
 		position: static;
+		margin-top: 15px;
 	}
 	#testTD{
 		width: 600px;
