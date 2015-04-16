@@ -17,6 +17,7 @@
 		  mysqli_query($connection, "CALL delete_test(". $_POST['button_id'] .");");
 		  echo '2';
 	   }
+      $_SESSION['section_id'] = $_POST['sectionNo'];
    }
    //Creating New Test - Set Flag to Which Class Test is Made
    else {
