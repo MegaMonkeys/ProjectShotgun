@@ -26,8 +26,6 @@
 </script>
 <?php include_once 'php_control_student.php'; ?>
 
-<?php include_once 'php_control_student.php'; ?>
-
 <HEAD>
     <script>
         $(function() {
@@ -120,6 +118,7 @@
 
 <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 
+
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
 <a href='studentHomePage2.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
@@ -127,13 +126,19 @@
 <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
 <a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
 <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
-<!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
+
+    
+    
+    
+    
+   
+    <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
 </nav>
 <div class="container">
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <a href="#" id="showRightPush" class="button"></a>
+            <a href="#" id="showRightPush" class="button"><class="menuImage" /></a>
         </section>
     </div>
 </div>

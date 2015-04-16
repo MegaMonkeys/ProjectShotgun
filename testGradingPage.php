@@ -55,9 +55,8 @@
 		}
     </script>
     <TITLE>
-        INGENIOUS
+       INGENIOUS
     </TITLE>
-    <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 
 </HEAD>
 
@@ -76,7 +75,7 @@
    <div class="main">
       <section class="buttonset">
          <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-         <a href="#" id="showRightPush" class="button"></a>
+         <a href="#" id="showRightPush" class="button"><img src="images/menu.png" class="menuImage" /></a>
       </section>
    </div>
 </div>
@@ -189,25 +188,6 @@
    </div>
    <div class="sticky-navigation"></div>
 
-
-   var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
-      showRightPush = document.getElementById( 'showRightPush' ),
-      body = document.body;
-
-   showRightPush.onclick = function() {
-      classie.toggle( this, 'active' );
-      classie.toggle( body, 'cbp-spmenu-push-toleft' );
-      classie.toggle( menuRight, 'cbp-spmenu-open' );
-   };
-</script>
-<!-- END of JavaScript to make Hidden Side Menu Work -->
-
-<div class="container" >
-   <div class="header">
-      <!--<img src="images/header.png" class="header"/>-->
-      <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
-   </div>
-   <div class="sticky-navigation"></div>
    <div id="wrapper">
       <div id="test_info">
          <table>
@@ -283,7 +263,6 @@
          }
          if (textStatus == "error") {
             // oh noes!
-            alert();
          }
       });
       f_s_name.innerHTML = s_name;

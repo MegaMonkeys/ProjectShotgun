@@ -1,3 +1,4 @@
+
 #wrapper{
    width : 100%;
    height: auto;
@@ -9,16 +10,16 @@
 #test_info {
    position: absolute;
    top: 10px;
-   left: 390px;
-   min-width: 920px;
+   left: 400px;
+   min-width: 850px;
 }
 #test_info td{
    text-align: center;
    border: 1px solid lightblue;
 }
 #f_t_name {
-   min-width: 270px;
-   max-width: 270px;
+   min-width: 200px;
+   max-width: 200px;
 }
 #f_s_name {
    min-width: 300px;

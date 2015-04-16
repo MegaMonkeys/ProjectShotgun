@@ -173,8 +173,6 @@
         }
         else if($qType === 'Matching')
         {
-          //  if(!empty($_POST['Q'.$x.'A']) )
-          //  {
                 $ptsEarned = 0;
                 $sqlSelectAns = 'select ans_text, points from answer join question using (ques_id) where correct = 1 and ques_id = '.$qID;
                 $correctAnswers = mysqli_query($connection, $sqlSelectAns);
@@ -187,14 +185,6 @@
                 mysqli_query($connection, $sqlComm);
                 echo '<br />'.$sqlComm;
                 $objPoints += $ptsEarned;
-          //  }
-          //  else
-          //  {
-          //      $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)"
-          //               . "values (".$student_id.", ".$qID.", '', 0)";
-          //      mysqli_query($connection, $sqlComm);
-          //      echo '<br />'.$sqlComm;
-          //  }
         }
         echo '<br />';
     }
@@ -222,10 +212,10 @@
     mysqli_query($connection, $sqlComm);
     echo '<br /><br />'.$sqlComm;
 
-   $result = mysqli_query($connection, 'SELECT section_id FROM test WHERE test_id = '.$_POST['testID']);
-   $row = mysqli_fetch_row($result);
-   $_SESSION['section_id'] = $row[0];
-
+    $result = mysqli_query($connection, 'SELECT section_id FROM test WHERE test_id = '.$_POST['testID']);
+    $row = mysqli_fetch_row($result);
+    $_SESSION['section_id'] = $row[0];
+    
     mysqli_close($connection);
     
     header("Location: studentHomePage2.php");
