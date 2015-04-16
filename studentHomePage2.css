@@ -12,7 +12,7 @@ body{
     display:inline-block;
     cursor:pointer;
     color:#ffffff;
-    font-family:Calabri;
+    font-family:Calibri;
     font-size:20px;
     font-weight:bold;
     padding:9px 20px 9px 20px;
@@ -191,27 +191,44 @@ div.content{
 
 /********************************************************/
 
-@media screen and (max-width: 1800px) {
-	.courses{
-		position: absolute;
-		top: 150px;
-		left: 150px;
-		width: 220px;
-	}
+@media screen and (max-width: 1700px) {
+   .courses{
+      position: absolute;
+      left: 300px;
+      width: 220px;
+   }
+   .testEachCourse, #classTitle {
+      left: 450px;
+   }
+   .stats {
+      top: 110px;
+      left: 1202px;
+   }
 }
 @media screen and (max-width: 1400px) {
-	.courses{
-		position: absolute;
-		top: 150px;
-		left: 30px;
-		width: 220px;
-	}
+   .courses{
+      position: absolute;
+      left: 80px;
+      width: 220px;
+   }
+   .testEachCourse, #classTitle {
+      left: 250px;
+   }
+   .stats {
+      top: 110px;
+      left: 985px;
+   }
 }
 @media screen and (max-width: 1100px) {
-	.courses{
-		position: static;
-	}
-	#testTD{
-		width: 600px;
-	}
+   .courses{
+      position: static;
+      margin-top: 15px;
+   }
+   .testEachCourse, #classTitle {
+      left: 0px;
+   }
+   .stats {
+      top: 410px;
+      left: 720px;
+   }
 }

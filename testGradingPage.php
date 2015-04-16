@@ -55,20 +55,20 @@
 		}
     </script>
     <TITLE>
-        MegaTest - Online Testing Application
+       INGENIOUS
     </TITLE>
 
 </HEAD>
 
-<BODY style="background:#F6F9FC; font-family:Arial;">
+<BODY style="font-family:Calibri;" class="cbp-spmenu-push">
 <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
    <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
-   <a href='#'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About</span></a>
+   <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
    <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
-   <a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Help</span></a>
+   <a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
    <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
 </nav>
 <div class="container">
@@ -263,7 +263,6 @@
          }
          if (textStatus == "error") {
             // oh noes!
-            alert();
          }
       });
       f_s_name.innerHTML = s_name;
@@ -303,6 +302,8 @@
    function testing() {
       var q_num = document.getElementById("test_table").rows.length;
       if( q_num != 0) {
+         $("#test_table").fadeOut(1);
+         $(".loader").fadeIn("slow");
          //TEST NO CAUTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          // NEED TO SET STUDENT ID
          var data = 'testGradingPage_control.php?s_id='+s_id+'&action=save&t_id='+t_id+'&count='+q_num;
@@ -315,7 +316,9 @@
          //#f_save
          $(this).load(data, function (responseText, textStatus, XMLHttpRequest) {
             if (textStatus == "success") {
-               alert("saved");
+               //alert("saved");
+               $(".loader").fadeOut(10);
+               $("#test_table").fadeIn("slow");
                document.getElementById("t_save").disabled = true;
             }
             if (textStatus == "error") {

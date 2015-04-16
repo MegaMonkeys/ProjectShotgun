@@ -134,63 +134,42 @@ var matching_field =
 
 
       //Loop Through All Question Form Types
-		for(index=0,q_count=0; index<$("#sortable2 li").length; index++) {
+	  var loop_limit = $("#sortable2 li").length;
+		for(index=0,id_count=0,q_count=0; id_count<loop_limit; index++,id_count++) {
+		
 			var current = jQuery('#sortable2 li').eq(index);
 			var q_type;
 
          //Check Question Form Type
 			for(x=0; x<form_array.length; x++)
-				if( current.text().search(form_array[x]) != -1 )
-					q_type = x;
+				if( current.text().search(form_array[x]) != -1 ) {
+               q_type = x;
+            };
 
 			//Update Question Number
-         if( q_type != 5 && q_type != 6)
+         if( q_type != 5 && q_type != 6 )
 			   current.children('span').text('Q.' + (++q_count) + ' ');
 
          if( q_type == 0 || q_type == 1 ||q_type == 2 ||q_type == 3 ||q_type == 4 || q_type == 5 ) {
          /* Reset ID Attribute */
             //Set ID for Question
-            current.attr("name", "Q" + (index + 1));
+            current.attr("name", "Q" + (id_count + 1));
             //Set ID for Question Text
-            current.children('textarea').eq(0).attr("name", "Q" + (index + 1) + "T");
+            current.children('textarea').eq(0).attr("name", "Q" + (id_count + 1) + "T");
             //Set ID for Question Point
             if (q_type != 5)
-               current.children('input').eq(0).attr("name", "Q" + (index + 1) + "P");
+               current.children('input').eq(0).attr("name", "Q" + (id_count + 1) + "P");
             else {
-               current.children('input').eq(0).attr("name", "Q" + (index + 1) + "I");
+               current.children('input').eq(0).attr("name", "Q" + (id_count + 1) + "I");
                current.children('input').eq(0).attr("value", "0");
             }
          }
 
-         //MATCHING !!!!
-         if( q_type == 6 ) {
-            //alert("Matching Q");
-            var q_curr = current.children('table').eq(0).children('tbody').eq(0).children('tr').eq(0).children('td').eq(0);
-            //alert(q_curr.html());
-            var q_cc = q_curr.children('div').length;
-            //alert(q_cc);
-			var baseQ = q_count + 1;
-
-            for(i=0,ascii_code=65; i<q_cc;i++,ascii_code++) {
-               q_curr.children('div').eq(i).children('span').text('Q.' + (++q_count)); //&#65;
-               q_curr.children('div').eq(i).children('label').html('Choice &#'+ascii_code+';');
-			   
-			   q_curr.children('div').eq(i).children('select').attr('name', 'Q'+q_count+'MA');
-			   q_curr.children('div').eq(i).children('input').eq(0).attr('name', 'Q'+q_count+'T');
-			   
-			   q_curr.children('div').eq(i).children('input').eq(1).attr('name', 'Q'+baseQ+'M'+(i+1));
-            }
-			//alert(q_curr.html());
-			
-			
-			
-
-         }
-
-			// True / False Question
+         //matching (TF)
+         // True / False Question
 			if ( q_type == 0 ) {
-				current.children('input').eq(1).attr("name", "Q"+(index+1)+"O");
-            current.children('input').eq(2).attr("name", "Q"+(index+1)+"O");
+				current.children('input').eq(1).attr("name", "Q"+(id_count+1)+"O");
+            current.children('input').eq(2).attr("name", "Q"+(id_count+1)+"O");
             current.children('input').eq(1).attr("value", "True");
             current.children('input').eq(2).attr("value", "False");
 			}
@@ -199,20 +178,20 @@ var matching_field =
             var o_table = current.children('table').children('tbody');
             //Radio - Multiple Choice
             //ID is setted in the function
-            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"C1T");
-            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"C");
+            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(id_count+1)+"C1T");
+            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(id_count+1)+"C");
             o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "1");
 
-            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"C2T");
-            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"C");
+            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(id_count+1)+"C2T");
+            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(id_count+1)+"C");
             o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "2");
 
-            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"C3T");
-            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"C");
+            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(id_count+1)+"C3T");
+            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(id_count+1)+"C");
             o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "3");
 
-            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"C4T");
-            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"C");
+            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(id_count+1)+"C4T");
+            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(id_count+1)+"C");
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "4");
          }
          //Many Choice Question
@@ -221,28 +200,28 @@ var matching_field =
             //Checkbox - Many Choice
             //ID is setted in the function
             //o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O1");
-            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"C1T");
-            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"C1");
+            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(id_count+1)+"C1T");
+            o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(id_count+1)+"C1");
             o_table.children('tr').eq(0).children('td').eq(0).children('input').eq(0).attr("value", "1");
 
             //o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O2");
-            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"C2T");
-            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"C2");
+            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(id_count+1)+"C2T");
+            o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(id_count+1)+"C2");
             o_table.children('tr').eq(0).children('td').eq(1).children('input').eq(0).attr("value", "1");
 
             //o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("id", "Q"+(index+1)+"O3");
-            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(index+1)+"C3T");
-            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(index+1)+"C3");
+            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(1).attr("name", "Q"+(id_count+1)+"C3T");
+            o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("name", "Q"+(id_count+1)+"C3");
             o_table.children('tr').eq(1).children('td').eq(0).children('input').eq(0).attr("value", "1");
 
             //o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("id", "Q"+(index+1)+"O4");
-            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(index+1)+"C4T");
-            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(index+1)+"C4");
+            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(1).attr("name", "Q"+(id_count+1)+"C4T");
+            o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("name", "Q"+(id_count+1)+"C4");
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "1");
          }
          //Short Answer Question
 			else if( q_type == 3 ) {
-				current.children('input').eq(1).attr("name", "Q"+(index+1)+"A");
+				current.children('input').eq(1).attr("name", "Q"+(id_count+1)+"A");
 			}
          //Essay Question
          else if( q_type == 4) {
@@ -251,7 +230,29 @@ var matching_field =
          //Instruction
          else if( q_type == 5) {
             current.children('input').eq(0).attr("value", "0");
+         }
+         //MATCHING !!!!
+         else if( q_type == 6 ) {
+            //alert("Matching Q");
+            var q_curr = current.children('table').eq(0).children('tbody').eq(0).children('tr').eq(0).children('td').eq(0);
+            current.children('input').eq(0).attr('name', "Q" + (id_count + 1) + "P");
+            //alert(q_curr.html());
+            var q_cc = q_curr.children('div').length;
+            //alert(q_cc);
+            var baseQ = id_count + 1;
 
+            for(i=0,ascii_code=65; i<q_cc; i++, ascii_code++) {
+               q_curr.children('div').eq(i).children('span').text('Q.' + (++q_count)); //&#65;
+               q_curr.children('div').eq(i).children('label').html('Choice &#'+ascii_code+';');
+
+               q_curr.children('div').eq(i).children('select').attr('name', 'Q'+(id_count+1)+'MA');
+               q_curr.children('div').eq(i).children('input').eq(0).attr('name', 'Q'+(id_count+1)+'T');
+               q_curr.children('div').eq(i).children('input').eq(1).attr('name', 'Q'+baseQ+'M'+(i+1));
+               loop_limit++;
+               id_count++;
+            }
+            loop_limit--;
+            id_count--;
          }
 		}
 	}

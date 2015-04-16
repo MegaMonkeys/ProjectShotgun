@@ -42,25 +42,31 @@
         });
     </script>
     <TITLE>
-        INGENIOUS - Online Testing Center
+        INGENIOUS
     </TITLE>
     <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 </HEAD>
 
    <a href="#" id="openDialog" class="stats" style="display: none;">Statistics</a>
+   <div id="dialog-confirm-delete-test" title="Are you sure about this?" style="background-color: #ADD6FF; ">
+		<p>
+			<div style="font-size: 20px;">Are you sure you delete this test? After it is deleted, the test can no longer be recovered, and students can no longer take this test.
+			</div>
+		</p>
+	</div>
    <div id="dialog-modal" title="Class Statistics" style="display:none">
    
    </div>
 
-<BODY style="background:#F6F9FC; font-family:Calabri;" class="cbp-spmenu-push">
+<BODY style="background:#F6F9FC; font-family:Calibri;" class="cbp-spmenu-push">
 <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
 <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
-<a href='#'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About</span></a>
+<a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
 <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
-<a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Help</span></a>
+<a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
 <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
 </nav>
 <div class="container">
@@ -174,8 +180,8 @@
 <!-- END of JavaScript to make Hidden Side Menu Work -->
 
    <?php include_once 'reload_goback.php'; ?>
-  
-   
+
+
    <div class="container" >
       <div class="header">
          <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
@@ -263,6 +269,78 @@
       $(".loader").fadeOut(1);
       $("#testTable").fadeIn("slow");
    });
+   
+      $(function (){
+		$( "#dialog-confirm-delete-test" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Delete": function() {
+			$( this ).dialog( "close" );
+				 $("#testTable").fadeOut(1);
+				 $(".loader").fadeIn("slow");
+                 var data = 'teacherHomePage_control.php?action=delete&section_id=' + current + '&test_id=' + test_id;
+				 $('#testTable').load(data);
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+
+
+  });
+   
+   <!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+   function delete_test(test_id) {
+   $(function (){
+		$( "#dialog-confirm-delete-test" ).dialog({
+		autoOpen: true,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Delete": function() {
+			$( this ).dialog( "close" );
+				 $("#testTable").fadeOut(1);
+				 $(".loader").fadeIn("slow");
+                 var data = 'teacherHomePage_control.php?action=delete&section_id=' + current + '&test_id=' + test_id;
+				 $('#testTable').load(data);
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+
+    $( "#deleteButton" ).click(function() {
+      $( "#dialog-confirm-delete-test" ).dialog( "open" );
+    });
+  });
+}
+<!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+   
+   
    
    
    //When Page Loads
