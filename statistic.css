@@ -1,0 +1,36 @@
+.statisticTable {
+    font-family: Verdana, Verdana, Geneva, sans-serif;
+    font-size: 30px;
+    text-align: center;
+
+}
+
+.statisticTable tr:nth-child(odd){
+    background-color: #fdfdf9;
+    color: #696967;
+}
+.statisticTable tr:nth-child(even)
+{
+    background-color: #d5d7d3;
+    color: #696967;
+}
+.statisticTable td{
+    width: 300px;
+}
+.statisticTable tr:hover{
+    background-color: #cbdbf7;
+}
+.statisticTable tr:first-child
+{
+
+    background-color: #6874e8;
+    color: whitesmoke;
+    height: 100px;
+}
+.statisticTable tr:last-child{
+    background-color: #f7b32d;
+    color: #2d2f37;
+}
+.firstColTitle{
+    background-color: red;
+}
