@@ -79,7 +79,7 @@
             $grade_count = mysqli_fetch_row(mysqli_query($connection, $sql_grade));
             $grade_count = $grade_count[0];
 		 
-			//(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
+			//(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done (6) No Student
 			$test_status = $row[2];
 			if( $test_status == 1 ) {
 				if($row[3] > $current_datetime) {
@@ -93,14 +93,17 @@
 					$test_status = 4;
 				}
 				if($test_count == $enroll_count) {
-               $test_status = 4;
-            }
-            if($test_status == 4 && $enroll_count == $grade_count) {
-               $test_status = 5;
-               $sql_avg_grade = "select SUM(FINAL_GRADE)/COUNT(FINAL_GRADE) from student_test where test_id = ".$row[5];
-               $avg_grade = mysqli_fetch_row(mysqli_query($connection, $sql_avg_grade));
-               $avg_grade = $avg_grade[0];
-            }
+					$test_status = 4;
+				}
+				if($test_status == 4 && $enroll_count == 0) {
+					$test_status = 6;
+				}
+				if($test_status == 4 && $enroll_count == $grade_count && enroll_count != 0) {
+				   $test_status = 5;
+				   $sql_avg_grade = "select SUM(FINAL_GRADE)/COUNT(FINAL_GRADE) from student_test where test_id = ".$row[5];
+				   $avg_grade = mysqli_fetch_row(mysqli_query($connection, $sql_avg_grade));
+				   $avg_grade = $avg_grade[0];
+				}
 			}
 			
 			
@@ -109,7 +112,7 @@
             echo     "<span id='testTitle'>" . $row[1] ."</span>";
             echo     "<span id='button'>";
 			   echo     "<form method='post' action='javascript:void(0);'>";
-            if($test_status==0 || $test_status==2)
+            if($test_status==0 || $test_status==2 || $test_status==6)
             echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
             echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
             //echo        "<button type='submit' value=$row[5] id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
@@ -167,6 +170,8 @@
 	     return '<b>Status:</b> Ready to Grade';
 	  else if($test_status == 5)
 	     return '<b>Class Average:</b> ';
+	  else if($test_status == 6)
+	     return '<b>Status: Published. But there is no student enrolled in this class.</b> ';
    }
 
    //TeacherHomePage.php
