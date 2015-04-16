@@ -6,15 +6,22 @@
 	include_once 'db_connection.php';
 
    //Modifing Test
-   if( is_numeric(@$_POST['save'] ) ) {
-      mysqli_query($connection, "CALL delete_test(". $_POST['save'] .");");
-   }
-   else if( is_numeric(@$_POST['publish'] ) ) {
-      mysqli_query($connection, "CALL delete_test(". $_POST['publish'] .");");
+   echo $_POST['button_type'];
+   echo $_POST['button_id'];
+   if( isset($_POST['button_type']) ) {
+	   if( $_POST['button_type'] == 'save' ) {
+		  mysqli_query($connection, "CALL delete_test(". $_POST['button_id'] .");");
+		  echo '1';
+	   }
+	   else if( $_POST['button_type'] == 'publish' ) {
+		  mysqli_query($connection, "CALL delete_test(". $_POST['button_id'] .");");
+		  echo '2';
+	   }
    }
    //Creating New Test - Set Flag to Which Class Test is Made
    else {
       $_SESSION['section_id'] = $_POST['sectionNo'];
+	  echo '3';
    }
 
 	
@@ -27,7 +34,7 @@
    // Get test information, and format the timeLimit, startDate, and endDate to be compatible with the DB
 	$sectionId   = $_POST['sectionNo'];//$_POST['sectionNo'];//$row[0];
 	$testName    = addslashes(strlen($_POST['testName']) != 0 ? $_POST['testName'] : "Test ".date("F j, Y, g:i a"));
-   $published   = (isset($_POST['publish'])) ? "1" : "0";
+   $published   = ($_POST['button_type'] == 'publish') ? "1" : "0";
 	$hourLimit   = strlen($_POST['hours'])   != 0 ? $_POST['hours']   : "1";
 	$minuteLimit = strlen($_POST['minutes']) != 0 ? $_POST['minutes'] : "0";
    $timeLimit   = ($hourLimit < 10 ? "0" : "") . $hourLimit . ":" . ($minuteLimit < 10 ? "0" : "") . $minuteLimit . ":00" ;
@@ -232,5 +239,5 @@
     
    mysqli_close($connection);
 
-   header("Location: ./teacherHomePage.php");
+   //header("Location: ./teacherHomePage.php");
 ?>
