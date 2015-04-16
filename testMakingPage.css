@@ -321,7 +321,7 @@ color: red;
    padding: 5px 0 0 0;
    float: left;
    margin-right: 0px;
-   min-height: 300px;
+   /*min-height: 300px;*/
    background-image: url("./images/q_background.png");
    background-repeat: no-repeat;
    background-position: center;
@@ -399,3 +399,6 @@ input[type=text]:focus, textarea:focus {
    background: url('./images/monkeyload.gif') 50% 50% no-repeat;
 }
 
+.required_field {
+   font-size:18px;
+}
