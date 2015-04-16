@@ -8,8 +8,12 @@
 <HTML>
 <link rel="stylesheet" type="text/css" href="testTakingPage.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<link rel="stylesheet" href="./jquery_api/jquery-ui.css">
 <script src="tabcontent.js" type="text/javascript"></script>
 <script src="jquery-1.11.2.js"></script>
+<script src="./jquery_api/jquery-1.10.2.js"></script>
+<script src="./jquery_api/jquery.min.js"></script>
+<script src="./jquery_api/jquery-ui.js"></script>
 <HEAD>
     <style>
         div#load_screen{
@@ -67,10 +71,47 @@
         });
     </script>
     <script type="text/javascript">
+	
         function submitTest()
         {
             document.forms['testForm'].submit();
         }
+		
+		<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->		
+	$(function() {
+		$( "#dialog-confirm-submit" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Submit!!!": function() {
+			$( this ).dialog( "close" );
+				submitTest();
+				//document.form.submit();
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+
+    $( "#submit" ).click(function() {
+      $( "#dialog-confirm-submit" ).dialog( "open" );
+    });
+  });  
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+		
         
         // Countdown timer
         var interval;
@@ -104,7 +145,29 @@
                 {
                     seconds = 0;
                     // Display pop-up here
-                    alert("time up");
+                   // alert("time up");
+	$( "#dialog-confirm-submit" ).dialog({
+		autoOpen: true,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Submit!!!": function() {
+			$( this ).dialog( "close" );
+				submitTest();
+			}
+		}
+	});
+
                     clearInterval(interval);
                 }
             }
@@ -114,16 +177,23 @@
 		}
     </script>
     <TITLE>
-        MegaTest - Online Testing Application
+       INGENIOUS
     </TITLE>
 
 </HEAD>
 
-<BODY onload="interval = setInterval('timer()', 1000)" >
+<BODY style="font-family:Calibri;" class="cbp-spmenu-push" onload="interval = setInterval('timer()', 1000)">
 <div id="load_screen"><img src="images/megamonkeysloading.png" /></div>
+	<div id="dialog-confirm-submit" title="Pledge" style="background-color: #ADD6FF; ">
+		<p>
+			<div style="font-size: 20px;">Please
+			</div>
+			<input type="textbox" value="My Name" onclick="this.select()" style="width:350px;">
+		</p>
+	</div>
 	<div class="header">
 		<img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
-		<span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>
+      <!--<span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>-->
 	</div>
 		
 		<div class="container">
@@ -134,7 +204,7 @@
 
 
 <div class="content">
-	<button type="submit" class="submit-button" onclick="submitTest()">Submit</button>
+	<button type="submit" id="submit" name="submit" class="submit-button" value="submit">Submit</button>
     <div id="testInformation">
 		<table class="informationTable">
 			<tr>
@@ -142,15 +212,13 @@
 				<td><?php echo $infoRow[0].' - '.$infoRow[1]; ?></td>
 			</tr>
 			<tr>
-				<td>Test:</td>
-				<td><?php echo $infoRow[2]; ?></td>
-			</tr>
-			<tr>
 				<td>Time:</td>
 				<td id="timer" name="timer">-- : -- : --</td>
 			</tr>
 		</table>
     </div>
+    
+    <span id='testTitle'><?php echo $infoRow[2]; ?></span><br />
 
     <div class="testQuestions">
         <form name="testForm" action="submit_test.php" method="post">
@@ -164,7 +232,7 @@
                     $numEntries = mysqli_num_rows($result);
                     
                     echo '<input type="text" name="numEntries" value="'.$numEntries.'" style="display:none" />';
-                    echo '<table>';
+                    echo '<table id="testTable">';
                     
                     $qNum = 1;
                     for($x = 1; $x <= $numEntries; $x++)
@@ -173,7 +241,7 @@
                         
                         if($row[2] === 'True/False')
                         {
-                            echo '<tr><td id="trueFalse">';
+                            echo '<tr><td id="trueFalse" class="questionTD">';
                             echo '<table>';
                             echo '<tr>';
                             echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',True/False" style="display:none;"/></td>';
@@ -193,7 +261,7 @@
                             $sqlComm = 'select ans_text from answer where ques_id = '.$row[0];
                             $answers = mysqli_query($connection, $sqlComm);
                             
-                            echo '<tr><td id="multipleChoice">';
+                            echo '<tr><td id="multipleChoice" class="questionTD">';
                             echo '<table>';
                             echo '<tr>';
                             echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Multiple Choice" style="display:none;"/></td>';
@@ -221,7 +289,7 @@
                             $sqlComm = 'select ans_text from answer where ques_id = '.$row[0];
                             $answers = mysqli_query($connection, $sqlComm);
                             
-                            echo '<tr><td id="manyChoice">';
+                            echo '<tr><td id="manyChoice" class="questionTD">';
                             echo '<table>';
                             echo '<tr>';
                             echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Many Choice" style="display:none;"/></td>';
@@ -246,7 +314,7 @@
                         }
                         else if($row[2] === 'Short Answer')
                         {
-                            echo '<tr><td id="shortAnswer">';
+                            echo '<tr><td id="shortAnswer" class="questionTD">';
                             echo '<table>';
                             echo '<tr>';
                             echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Short Answer" style="display:none;"/></td>';
@@ -262,7 +330,7 @@
                         }
                         else if($row[2] === 'Essay')
                         {
-                            echo '<tr><td id="essay">';
+                            echo '<tr><td id="essay" class="questionTD">';
                             echo '<table>';
                             echo '<tr>';
                             echo    '<td width="50px">'.$qNum.'.<input type="text" name="Q'.$x.'ID" value="'.$row[0].',Essay" style="display:none;"/></td>';
@@ -270,7 +338,7 @@
                             echo '</tr>';
                             echo '<tr>';
                             echo 	'<td></td>';
-                            echo 	'<td><input type="text" name="Q'.$x.'A" value="" class="essayText"></td>';
+                            echo 	'<td><textarea name="Q'.$x.'A" class="essayText"></textarea></td>';
                             echo '</tr>';
                             echo '</table>';
                             echo '</td></tr>';
@@ -290,7 +358,7 @@
                               $ansArray[$index] = $ansRow[0];
                            }
 
-                           echo '<tr><td id="matching">';
+                           echo '<tr><td id="matching" class="questionTD">';
                            echo '<table>';
                            for($i = 1; $i <= $numAns; $i++)
                            {
@@ -318,7 +386,7 @@
                         }
                         else if($row[2] === "Instruction")
                         {
-                            echo '<tr><td id="instruction">';
+                            echo '<tr><td id="instruction" class="questionTD">';
                             echo '<table>';
                             echo '<tr>';
                             echo    '<td width="50px"><input type="text" name="Q'.$x.'ID" value="'.$row[0].',Instruction" style="display:none;"/></td>';
@@ -344,9 +412,9 @@
 </div>
 
 </div>
-        <div class="footer">
-            &copy; MegaMonkeys, Inc. - Pensacola Christian College 2015
-        </div>
+      <div class="footer">
+         &copy; MegaMonkeys, Inc.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/monkeyhead2.png" class="monkeyheadfooter"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pensacola Christian College 2015
+      </div>
 </div>
 </BODY>
 </HTML>
