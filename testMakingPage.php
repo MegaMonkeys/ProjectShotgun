@@ -62,14 +62,11 @@
                   alert('Start Date cannot be set after End Date');
                   return false;
                }
-<<<<<<< HEAD
-=======
 			   // YC 2015-4-16 1:27 PM
 			   if($('#startDate').val() < today ) {
                   alert('Start Date is already past');
                   return false;
                }
->>>>>>> upstream/development
                return true;
             }
          }
@@ -359,11 +356,8 @@
       <!--<div class="loader" align="center"></div>-->
          <div id="content">
             <form name="form" method="post" action="javascript:void(0);">
-<<<<<<< HEAD
-=======
 				<input type="text" class="button_type" id="button_type" name="button_type" style="display:none;">
 				<input type="text" class="button_id" id="button_id" name="button_id" style="display:none;">
->>>>>>> upstream/development
 <!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 				<div id="dialog-confirm-publish" title="Are you sure about this?" style="background-color: #ADD6FF; ">
 					<p>
@@ -443,13 +437,8 @@
                            <div id="optionButton">
                               <table id="optionButtonTable">
                                  <tr>
-<<<<<<< HEAD
-                                    <td><button type="submit" id="publish" name="publish" value ="publish" ></button></td> <!--onclick="publish_test()"-->
-                                    <td><button type="submit" id="save"    name="save"    value="save" ></button></td>
-=======
                                     <td><button type="submit" id="publish" name="publish" value ="publish" onclick="$('#button_type').attr('value','publish');" ></button></td> <!--onclick="publish_test()"-->
                                     <td><button type="submit" id="save"    name="save"    value="save"     onclick="$('#button_type').attr('value','save');"></button></td>
->>>>>>> upstream/development
                                     <td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>
                                     <td><button type="submit" id="cancel"  name="cancel"  value="cancel" > </button></td>
                                  </tr>
