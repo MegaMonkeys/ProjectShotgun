@@ -10,7 +10,7 @@ img.header{
 .stats{
     position: absolute;
     top: 110px;
-    left: 1000px;
+    left: 1270px;
     background-color: #FF9900;
     display:inline-block;
     cursor:pointer;
@@ -31,13 +31,13 @@ img.header{
 .courses{
    position: absolute;
    top: 250px;
-   left: 400px;
+   left: 350px;
    width: 220px;
 }
 .testEachCourse{
    background-image: url('images/bg-body.jpg');
    position: relative;
-   left: 400px;
+   left: 500px;
    width: 800px;
    height: 63%;
    border-spacing: 15px;
@@ -131,6 +131,7 @@ img.header{
     background: url(images/buttons/grade.png);
     background-size: contain;
     border: 0px;
+	margin-right: 15px;
 }
 #gradeButton:hover{
     background: url(images/buttons/gradeHover.png);
@@ -140,7 +141,7 @@ img.header{
    font-size: 40px;
    margin-top: 50px;
    position: relative;
-   left: 400px;
+   left: 500px;
    top: 15px;
    color:black;
    z-index:100;
@@ -149,7 +150,7 @@ img.header{
 .create-button {
     z-index: 26;
     position: absolute;
-	 left: 200px;
+	 left: 350px;
     top: 170px;
     width: 200px;
     height: 60px;
@@ -193,54 +194,88 @@ div.content{
 #form_table{
    position: relative;
 }
+
 /********************************************************/
 
-@media screen and (max-width: 1800px) {
-	.courses{
-		position: absolute;
-		left: 200px;
-		width: 220px;
-	}
-   .create-button {
-      left: 200px;
+@media screen and (max-width: 1770px) {
+   .courses, .create-button{
+      position: absolute;
+      left: 300px;
+   }
+   .testEachCourse, #classTitle {
+      left: 450px;
+   }
+   .stats {
+      left: 1200px;
+   }
+}
+@media screen and (max-width: 1600px) {
+   .courses, .create-button{
+      position: absolute;
+      left: 250px;
    }
    .testEachCourse, #classTitle {
       left: 400px;
    }
    .stats {
-      top: 110px;
       left: 1150px;
    }
 }
-@media screen and (max-width: 1400px) {
-	.courses{
-		position: absolute;
-		left: 30px;
-		width: 220px;
-	}
-   .create-button {
-      left: 30px;
+@media screen and (max-width: 1550px) {
+   .courses, .create-button{
+      left: 200px;
+   }
+   .testEachCourse, #classTitle {
+      left: 350px;
+   }
+   .stats {
+      left: 1100px;
+   }
+}
+@media screen and (max-width: 1500px) {
+   .courses, .create-button{
+      left: 150px;
+   }
+   .testEachCourse, #classTitle {
+      left: 300px;
+   }
+   .stats {
+      left: 1050px;
+   }
+}
+@media screen and (max-width: 1450px) {
+   .courses, .create-button{
+      left: 100px;
    }
    .testEachCourse, #classTitle {
       left: 250px;
    }
    .stats {
-      top: 110px;
       left: 1000px;
    }
 }
-@media screen and (max-width: 1100px) {
-	.courses, .create-button{
-		position: static;
-	}
-   .testEachCourse, #classTitle {
-      left: 30px;
+@media screen and (max-width: 1400px) {
+   .courses, .create-button{
+      left: 50px;
    }
-	#testTD{
-		width: 782px;
-	}
+   .testEachCourse, #classTitle {
+      left: 200px;
+   }
    .stats {
-      top: 380px;
-      left: 780px;
+      left: 950px;
+   }
+}
+@media screen and (max-width: 1200px) {
+   .courses, .create-button{
+      position: static;
+      margin-top: 15px;
+	  margin-bottom: 10px;
+   }
+   .testEachCourse, #classTitle {
+	  position: static;
+   }
+   .stats {
+      top: 110px;
+      left: 730px;
    }
 }

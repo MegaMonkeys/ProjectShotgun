@@ -58,6 +58,7 @@
 	   <div id="load_screen"><img src="images/monkeyload.gif" id="imageLoad"/></div>
    </HEAD>
 <BODY  style="font-family:Calibri;">
+
     <div class="container">
         <div class="header">
             <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
