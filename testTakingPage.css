@@ -62,7 +62,7 @@ width: 120px;
     width: 270px;
     height: 60px;
     background-color: rgb(0,150,210);
-    border : 3px solid lightsteelblue;
+    border-color: rgb(0,150,210);
     display:inline-block;
     cursor:pointer;
     color:#ffffff;
