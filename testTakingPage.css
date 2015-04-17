@@ -1,4 +1,13 @@
-
+#testTitle{
+   font-size: 40px;
+   margin-top: 50px;
+   position: relative;
+   left: 400px;
+   top: 15px;
+   color:black;
+   z-index:100;
+   min-width: 700px;
+}
 
 .testQuestions{
     position: relative;
@@ -8,12 +17,22 @@
     left: 400px;
     width: 900px;
    border-spacing: 15px;
-   border: 1px solid lightblue;
    
 }
 .essayText{
 	width: 700px;
 	height: 100px;
+    overflow: auto;
+    border: 1px solid lightsteelblue;
+}
+.questionTD{
+    background-color: #fff;
+    width: 900px;
+	padding: 10px;
+}
+#testTable{
+    border-spacing: 15px;
+	margin-left: -12px;
 }
 #theQuestion{
 	padding-left:0px;
@@ -24,9 +43,14 @@
 
 
 #testInformation{
+font-weight: bold;
 position: fixed;
 top: 300px;
-border: 1px solid lightblue;
+color:#ffffff;
+background-color: #ff9900;
+border : 3px solid #ff9900;
+padding: 10px;
+text-shadow:0px 1px 0px #8a3e3e;
 }
 .informationTable td{
 width: 120px;
@@ -35,10 +59,10 @@ width: 120px;
     z-index: 26;
     position: fixed;
     top: 210px;
-    width: 200px;
+    width: 270px;
     height: 60px;
     background-color: rgb(0,150,210);
-    border : 3px solid lightsteelblue;
+    border : 3px solid rgb(0,150,210);
     display:inline-block;
     cursor:pointer;
     color:#ffffff;

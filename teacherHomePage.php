@@ -195,7 +195,8 @@
                <input type="submit" value="+ Create Test" class="create-button"/>
                <input type="number" id="creat_section" name="creat_section" value="-1" style="display:none;">
             </form>
-            <div class="courses">
+			
+            <div class="courses"> <h2>Courses</h2>
                <table id="courseTable">
                   <?php $class_list = get_class_list(); ?>
                </table>
