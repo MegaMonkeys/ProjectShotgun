@@ -29,7 +29,7 @@
       {  //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
          $row = mysqli_fetch_row($sql_result);
          echo '<tr>';
-            echo '<td id="courseTD"type="submit" onclick="get_class_test(' . $row[2] . ', ' . $row[4] . ')">';
+            echo '<td id="courseTD" type="submit" value="'.$row[2].'" onclick="get_class_test(' . $row[2] . ', ' . $row[4] . ')">';
                echo ($row[0] . ' - ' . $row[1]);
             echo '</td>';
          echo '</tr>';
@@ -45,7 +45,7 @@
    function get_test_list($section_no, $student_id)
    {
       include 'db_connection.php';
-      $sql_command = "SELECT SECTION_ID, TEST_NAME, PUBLISHED, START_DATE, END_DATE, FINAL_GRADE, TEST_ID, objective_grade
+      $sql_command = "SELECT SECTION_ID, TEST_NAME, PUBLISHED, START_DATE, END_DATE, FINAL_GRADE, TEST_ID, objective_grade, time_limit, date_time
                         FROM enrollment e join test using (section_id)
 						 left outer join student_test using (test_id, student_id)
 						where e.student_id = " . $student_id . " and section_id = " . $section_no . " and published = 1";
@@ -67,6 +67,18 @@
             $startDateTime = date_create($row[3]);
             $endDateTime = date_create($row[4]);
             
+            // add time limit to start time to determine if there is still time left in the test.
+            if(isset($row[9]))
+            {
+                $timeStarted = date_create($row[9]);
+                $timeLimit = date_create($row[8]);
+                $hoursLeft = date_format($timeLimit, "G"). " hours";
+                $minutesLeft = date_format($timeLimit, "i"). " minutes";
+                $studentEndTime = date_add(date_create($row[9]), date_interval_create_from_date_string($hoursLeft));
+                $studentEndTime = date_format(date_add($studentEndTime, date_interval_create_from_date_string($minutesLeft)), "Y-m-d H:i:s");
+            }
+            
+            
             if($current_datetime >= date_format($startDateTime, "Y-m-d H:i:s"))
             {
                if(empty($row[5]))
@@ -75,37 +87,45 @@
                   {
                      if(empty($row[7]))
                      {
-                        $status = "Will be available ". date_format($startDateTime, "F j, Y") . " at " . date_format($startDateTime, "g:ia");
-                        $gradeStatus = '';
+                        if(isset($row[9]))
+                        {
+                            $status = 'You started, but never submitted this test. The time is still ticking...';
+                            $gradeStatus = "You still need to submit this test.";
+                        }
+                        else
+                        {
+                            $status = 'Available to Take.';
+                            $gradeStatus = "You haven't taken this test yet.";
+                        }
                         $takeTestButton = "<span id='button'>".
                                           "<input type='submit' id='takeTestButton' name='takeTestButton' value='".$row[6]."'/>".
                                           "</span>";
                      }
                      else
                      {
-                        $status = "Taken";
-                        $gradeStatus = 'Pending';
+                        $status = "Test Submitted.";
+                        $gradeStatus = 'Waiting for the instructor...';
                         $takeTestButton = '';
                      }
                   }
                   else
                   {
-                     $status = "Past Due";
-                     $gradeStatus = '0.00%';
-                     $takeTestButton = '';
+                    $status = "Past Due.";
+                    $gradeStatus = '0.00% (You never submitted this test)';
+                    $takeTestButton = '';
                   }
                }
                else
                {
-                  $status = "Taken";
-                  $gradeStatus = $row[5] . '%';
-                  $takeTestButton = '';
+                    $status = "Test Submitted.";
+                    $gradeStatus = $row[5] . '%';
+                    $takeTestButton = '';
                }
             }
             else
             {
-               $status = 'Not Available Yet';
-               $gradeStatus = '';
+               $status = 'Will be available at the time shown.';
+               $gradeStatus = "You can't take this test yet.";
                $takeTestButton = '';
             }
             

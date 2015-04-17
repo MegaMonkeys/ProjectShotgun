@@ -46,23 +46,23 @@
 </HEAD>
 
 <BODY>
-
+<?php include_once 'reload_goback.php'; ?>
 <div id="load_screen"><img src="images/megamonkeysloading.png" />loading document</div>
 <div class="header">
    <img src="images/header.png" class="header"/>
-   <div class="title"><img src="images/logo.png" class="logo"/></div>
+   <!--<div class="title"><img src="images/logo.png" class="logo"/></div>
    <form action="logout.php" method="post">
       <input type="submit" value="Sign out" class="logout-button">
-   </form>
+   </form>-->
 </div>
-<div id='cssmenu'>
+<!--<div id='cssmenu'>
    <ul>
       <li class='loginPage.html'><a href='#'><span>Home</span></a></li>
       <li><a href='#'><span>About</span></a></li>
       <li><a href='#'><span>Team</span></a></li>
       <li class='last'><a href='#'><span>Contact</span></a></li>
    </ul>
-</div>
+</div>-->
 
 <div class="content">
 

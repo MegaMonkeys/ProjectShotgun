@@ -37,7 +37,7 @@
       {  //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
          $row = mysqli_fetch_row($sql_result);
          echo '<tr>';
-            echo '<td id="courseTD"type="submit" onclick="get_class_test(' . $row[2] . ')">';
+            echo '<td id="courseTD" type="submit" value="'.$row[2].'" onclick="get_class_test(' . $row[2] . ')">';
                echo ($row[0] . ' - ' . $row[1]);
             echo '</td>';
          echo '</tr>';
@@ -53,7 +53,8 @@
       include 'db_connection.php';
       $sql_command = "SELECT `SECTION_ID`,`TEST_NAME`, `PUBLISHED`, `START_DATE`, `END_DATE`, `TEST_ID`\n"
          . "FROM `test`\n"
-         . "WHERE `SECTION_ID` =" . $section_no;
+         . "WHERE `SECTION_ID` =" . $section_no . "\n"
+         . "ORDER BY START_DATE, CREATED_DATE";
       $sql_result = mysqli_query($connection, $sql_command);
 
       $sql_now = "SELECT NOW()";
@@ -79,7 +80,7 @@
             $grade_count = mysqli_fetch_row(mysqli_query($connection, $sql_grade));
             $grade_count = $grade_count[0];
 		 
-			//(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
+			//(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done (6) No Student
 			$test_status = $row[2];
 			if( $test_status == 1 ) {
 				if($row[3] > $current_datetime) {
@@ -93,14 +94,17 @@
 					$test_status = 4;
 				}
 				if($test_count == $enroll_count) {
-               $test_status = 4;
-            }
-            if($test_status == 4 && $enroll_count == $grade_count) {
-               $test_status = 5;
-               $sql_avg_grade = "select SUM(FINAL_GRADE)/COUNT(FINAL_GRADE) from student_test where test_id = ".$row[5];
-               $avg_grade = mysqli_fetch_row(mysqli_query($connection, $sql_avg_grade));
-               $avg_grade = $avg_grade[0];
-            }
+					$test_status = 4;
+				}
+				if($test_status == 4 && $enroll_count == 0) {
+					$test_status = 6;
+				}
+				if($test_status == 4 && $enroll_count == $grade_count && enroll_count != 0) {
+				   $test_status = 5;
+				   $sql_avg_grade = "select SUM(FINAL_GRADE)/COUNT(FINAL_GRADE) from student_test where test_id = ".$row[5];
+				   $avg_grade = mysqli_fetch_row(mysqli_query($connection, $sql_avg_grade));
+				   $avg_grade = $avg_grade[0];
+				}
 			}
 			
 			
@@ -109,7 +113,7 @@
             echo     "<span id='testTitle'>" . $row[1] ."</span>";
             echo     "<span id='button'>";
 			   echo     "<form method='post' action='javascript:void(0);'>";
-            if($test_status==0 || $test_status==2)
+            if($test_status==0 || $test_status==2 || $test_status==6)
             echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
             echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
             //echo        "<button type='submit' value=$row[5] id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
@@ -158,15 +162,17 @@
       //(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
 	  
 	  if($test_status == 0)
-		 return '<b>Status:</b> Test Saved. Ready to Publish';
+		 return '<b>Status:</b> Test Saved, but not Published. Publish to make viewable to students.';
 	  else if($test_status == 2)
-         return '<b>Status:</b> Published (Not Available)';
+         return '<b>Status:</b> Test Published. Students can view, but can\'t take until the specified time';
 	  else if($test_status == 3)
-		 return '<b>Status:</b> Published (Test in Progress)';
+		 return '<b>Status:</b> Test Published. Students can currently take this test.';
 	  else if($test_status == 4)
-	     return '<b>Status:</b> Ready to Grade';
+	     return '<b>Status:</b> Test Completed. Ready to Review and Grade.';
 	  else if($test_status == 5)
 	     return '<b>Class Average:</b> ';
+	  else if($test_status == 6)
+	     return '<b>Status: Test Published, but there are no students enrolled in this class.</b> ';
    }
 
    //TeacherHomePage.php

@@ -4,6 +4,9 @@ body{
     color: #6a6272;
     font-family: Calibri;
 }
+.invalid{
+color: red;
+}
 #slides{
   position: fixed;
   margin-top: -70px;

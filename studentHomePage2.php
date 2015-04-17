@@ -8,6 +8,7 @@
 <HTML>
 <link rel="stylesheet" type="text/css" href="studentHomePage2.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<link rel="stylesheet" type="text/css" href="statistic.css">
 <link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
 <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
 <script src="jquery_api/jquery.min.js"></script>
@@ -26,15 +27,17 @@
 </script>
 <?php include_once 'php_control_student.php'; ?>
 
-<?php include_once 'php_control_student.php'; ?>
-
 <HEAD>
     <script>
         $(function() {
+	        var winWidth = $(window).width();
+	        var winHeight = $(window).height();
+	        var dialogWidth = winWidth * 0.9;
+	        var dialogHeight = winHeight * 0.9;
             $( "#openDialog").on("click", function(){
                 $( "#dialog-modal" ).dialog({
-                    height:'auto',
-                    width:'auto',
+	                height: dialogHeight,
+                    width: dialogWidth,
                     modal: true
                 });
                 $( "#dialog-modal" ).show();
@@ -60,13 +63,13 @@
         });
     </script>
     <TITLE>
-        INGENIOUS - Online Testing Center
+        INGENIOUS
     </TITLE>
 	<link rel="icon" type="logo/png" href="images/monkeyhead.png">
 </HEAD>
-
-<a href="#" id="openDialog" class="stats" style="...">Statistics</a>
-<div id="dialog-modal" title="Student Statistics" style="display:none">
+<?php include_once 'reload_goback.php'; ?>
+<a href="#" id="openDialog" class="stats" style="...">Grades</a>
+<div id="dialog-modal" title="Grades" style="display:none">
     <html>
     <div>
         <?php
@@ -76,14 +79,16 @@
 
         $overall_grade = mysqli_fetch_array(mysqli_query($connection, "select FORMAT(AVG(final_grade), 2) from student join enrollment using(student_id) join student_test using(student_id) join test using (section_id) where student_test.test_id = test.test_id AND student_id = ".$student_id));
 
-        echo "<p>OVERALL GRADE: $overall_grade[0]";
+        echo "<p>OVERALL GRADE: ";
+        if (is_numeric($overall_grade[0]))
+        	echo "$overall_grade[0]%";
         if (!is_numeric($overall_grade[0]))
         	echo "No Grade Yet";
         echo "<br></p>";
 
 		$classAndInstructorResult = mysqli_query($connection, "select course_no, '-', section_no, description, instructor_title, first_name, last_name, section_id from section join course using(course_no) join instructor using(instructor_id) join enrollment using(section_id) where student_id = ".$student_id." order by course_no, section_no");
 
-        echo "<table style='border: solid 1px black' id='statsTable'>";
+        echo "<table id='statsTable'>";
         echo "<tr><th>CLASS</th><th>INSTRUCTOR</th><th>YOUR CLASS GRADE</th></tr>";
         
         while ($row1 = mysqli_fetch_array($classAndInstructorResult)){
@@ -110,17 +115,17 @@
     </html>
 </div>
 
-<BODY style="background:#F6F9FC; font-family:Calabri;" class="cbp-spmenu-push">
+<BODY style="background:#F6F9FC; font-family:Calibri;" class="cbp-spmenu-push">
 
 <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 
 
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
-<a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
-<a href='#'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About</span></a>
+<a href='studentHomePage2.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
+<a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
 <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
-<a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Help</span></a>
+<a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
 <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
 
     
@@ -134,7 +139,8 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <a href="#" id="showRightPush" class="button"><img src="images/menu.png" class="menuImage" /></a>
+            <div> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
+            <a href="#" id="showRightPush" class="button"><class="menuImage" /></a>
         </section>
     </div>
 </div>
@@ -244,7 +250,7 @@
 
 	<div class="container">
 		<div class="header">
-			<img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+         <a href="./studentHomePage2.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
 			<!-- <span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>-->
 		</div>
 		
@@ -289,6 +295,7 @@
    
 
    function get_class_test(section_no, student_id) {
+      class_selected(section_no);
       //$("#testTable").attr("display", "none");
       $("#testTable").fadeOut(1);
       $(".loader").fadeIn("slow");
@@ -303,6 +310,22 @@
          }
       });
    }
+
+   /*function class_selected(class_data) {
+      for(i=0; i< $('#courseTable td').length; i++ )
+         $('#courseTable td').eq(i).css('background-color', '#FF9900');
+      $(class_data).css('background-color', 'blue');
+      alert($(class_data).attr('value'));
+   }*/
+   function class_selected(section_no) {
+      for (i = 0; i < $('#courseTable td').length; i++) {
+         if( $('#courseTable td').eq(i).attr('value') == section_no )
+            $('#courseTable td').eq(i).css('background-color', 'blue');
+         else
+            $('#courseTable td').eq(i).css('background-color', '#FF9900');
+      }
+   }
+
    $(document).ajaxComplete(function() {
       $(".loader").fadeOut(1);
       $("#testTable").fadeIn("slow");

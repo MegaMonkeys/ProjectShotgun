@@ -8,6 +8,7 @@
 <HTML>
    <link rel="stylesheet" type="text/css" href="teacherHomePage.css">
    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+   <link rel="stylesheet" type="text/css" href="statistic.css">
    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
    <link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
    <script src="tabcontent.js" type="text/javascript"></script>
@@ -42,32 +43,40 @@
         });
     </script>
     <TITLE>
-        INGENIOUS - Online Testing Center
+        INGENIOUS
     </TITLE>
-    <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
+   <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 </HEAD>
 
    <a href="#" id="openDialog" class="stats" style="display: none;">Statistics</a>
+   <div id="dialog-confirm-delete-test" title="Are you sure about this?" style="background-color: #ADD6FF; ">
+		<p>
+			<div style="font-size: 20px;">Are you sure you delete this test? After it is deleted, the test can no longer be recovered, and students can no longer take this test.
+			</div>
+		</p>
+	</div>
    <div id="dialog-modal" title="Class Statistics" style="display:none">
    
    </div>
 
-<BODY style="background:#F6F9FC; font-family:Calabri;" class="cbp-spmenu-push">
- <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
+<BODY style="background:#F6F9FC; font-family:Calibri;" class="cbp-spmenu-push">
+<?php include_once 'reload_goback.php'; ?>
+<div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
 <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
-<a href='#'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About</span></a>
+<a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
 <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
-<a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Help</span></a>
+<a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
 <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
 </nav>
 <div class="container">
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <a href="#" id="showRightPush" class="button"><img src="images/menu.png" class="menuImage" /></a>
+            <div> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
+            <a href="#" id="showRightPush" class="button"><!--<img src="images/menu.png" class="menuImage" />--></a>
         </section>
     </div>
 </div>
@@ -173,12 +182,12 @@
 </script>
 <!-- END of JavaScript to make Hidden Side Menu Work -->
 
-   <?php include_once 'reload_goback.php'; ?>
-  
-   
+
+
+
    <div class="container" >
       <div class="header">
-         <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+         <a href="./teacherHomePage.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
          <!-- <span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>-->
       </div>
 
@@ -189,7 +198,8 @@
                <input type="submit" value="+ Create Test" class="create-button"/>
                <input type="number" id="creat_section" name="creat_section" value="-1" style="display:none;">
             </form>
-            <div class="courses">
+			
+            <div class="courses"> <h2>Courses</h2>
                <table id="courseTable">
                   <?php $class_list = get_class_list(); ?>
                </table>
@@ -225,6 +235,7 @@
    $(".loader").fadeOut(1);
 
    function get_class_test(section_id) {
+      class_selected(section_id);
       current = section_id;
       $(".welcome").fadeOut(1);
       $("#testTable").fadeOut(1);
@@ -241,6 +252,15 @@
             //alert(responseText);
          }
       });
+   }
+
+   function class_selected(section_id) {
+      for (i = 0; i < $('#courseTable td').length; i++) {
+         if( $('#courseTable td').eq(i).attr('value') == section_id )
+            $('#courseTable td').eq(i).css('background-color', 'blue');
+         else
+            $('#courseTable td').eq(i).css('background-color', '#FF9900');
+      }
    }
 
    function delete_test(test_id) {
@@ -264,21 +284,96 @@
       $("#testTable").fadeIn("slow");
    });
    
+      $(function (){
+		$( "#dialog-confirm-delete-test" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Delete": function() {
+			$( this ).dialog( "close" );
+				 $("#testTable").fadeOut(1);
+				 $(".loader").fadeIn("slow");
+                 var data = 'teacherHomePage_control.php?action=delete&section_id=' + current + '&test_id=' + test_id;
+				 $('#testTable').load(data);
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+
+
+  });
+   
+   <!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+   function delete_test(test_id) {
+   $(function (){
+		$( "#dialog-confirm-delete-test" ).dialog({
+		autoOpen: true,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Delete": function() {
+			$( this ).dialog( "close" );
+				 $("#testTable").fadeOut(1);
+				 $(".loader").fadeIn("slow");
+                 var data = 'teacherHomePage_control.php?action=delete&section_id=' + current + '&test_id=' + test_id;
+				 $('#testTable').load(data);
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+
+    $( "#deleteButton" ).click(function() {
+      $( "#dialog-confirm-delete-test" ).dialog( "open" );
+    });
+  });
+}
+<!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+   
+   
+   
    
    //When Page Loads
    $(function() {
       page_resize();
-      
+      var winWidth = $(window).width();
+	  var winHeight = $(window).height();
+	  var dialogWidth = winWidth * 0.9;
+	  var dialogHeight = winHeight * 0.9;
 	  $( "#openDialog").on("click", function(){
-	    //alert(current);
+          //alert(current);
 	    var data = 'teacherStatistics.php?section=' + current;
 		$("#dialog-modal").load(data, function (responseText, textStatus, XMLHttpRequest) {
 		   if (textStatus == "success") {
 			  //alert("donw");
 			  //$( "#dialog-modal" ).show();
 $( "#dialog-modal" ).dialog({
-height:'auto',
-width:'auto',
+height: dialogHeight,
+width: dialogWidth,
 modal: true
 });
 		   }
@@ -299,7 +394,7 @@ modal: true
          //$('#classTitle').css("left", 300 + ($(window).width() - 1100) / 2);
          $('.courses').css("max-height", $(window).height() - 350);
          //$('.testEachCourse').css("left", 300 + ($(window).width() - 1100) / 2);
-         $('.testEachCourse').css("min-height", $(window).height() - 195 );
+         $('.testEachCourse').css("min-height", $(window).height() - 198 );
       }
 </script>
 
