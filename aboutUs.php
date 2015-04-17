@@ -2,6 +2,7 @@
 <HTML>
 <link rel="stylesheet" type="text/css" href="loginStyle.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<link rel="stylesheet" type="text/css" href="aboutUs.css">
 <link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
 <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
 <script src="jquery_api/jquery.min.js"></script>
@@ -171,6 +172,32 @@
         <div class="sticky-navigation">
         </div>
         <div class="contents">
+			<div class="steve">
+				<br /><br />
+				<table>
+					<tr>
+						<td>
+							<img src="images/logo.png" style="width:800px;"/>
+						</td>
+						<td>
+							<h1> Hello, my name is Steve. </h1><br />
+							<h3> And I’m the immaculate face of MegaMonkeys, Inc., the Mega Minds behind
+							Ingenious. It’s our hope that your time here has been both profitable and
+							enjoyable, (although we know we may not be at the top of the students' favs
+							list). That caveat aside, whether you’re a teacher or a student, it’s our intent
+							to make your online academic experience as naturally intuitive as possible.
+							<br /><br />Here at MegaMonkeys, Inc. we thrive on initiative, ingenuity, and bananas.
+							Our corporate structure is designed around the simple concept that happy,
+							well-fed Code Monkeys produce Ingenious code that, in turn, creates
+							naturally intuitive websites.
+							<br /><br />
+							Thank you for being Mega.
+							<br /><br />
+							- Steve </h3>
+						</td>
+					</tr>
+				</table>
+			</div>
 		</div>
         <div class="footer">
             &copy; MegaMonkeys, Inc.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/monkeyhead2.png" class="monkeyheadfooter"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pensacola Christian College 2015
