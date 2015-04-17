@@ -23,12 +23,12 @@ width : 100px;
 #statsTable tr:first-child
 {
 
-    background-color: #6874e8;
+    background-color: #0096d2;
     color: whitesmoke;
     height: 100px;
 }
 #statsTable tr:last-child{
-    background-color: #f7b32d;
+    background-color: #ff9900;
     color: #2d2f37;
 }
 .firstColTitle{
