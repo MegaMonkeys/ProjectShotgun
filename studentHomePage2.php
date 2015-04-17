@@ -8,6 +8,7 @@
 <HTML>
 <link rel="stylesheet" type="text/css" href="studentHomePage2.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<link rel="stylesheet" type="text/css" href="statistic.css">
 <link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
 <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
 <script src="jquery_api/jquery.min.js"></script>
@@ -24,8 +25,6 @@
         $('.sticky-navigation').waypoint('sticky');
     });
 </script>
-<?php include_once 'php_control_student.php'; ?>
-
 <?php include_once 'php_control_student.php'; ?>
 
 <HEAD>
@@ -69,8 +68,8 @@
 	<link rel="icon" type="logo/png" href="images/monkeyhead.png">
 </HEAD>
 
-<a href="#" id="openDialog" class="stats" style="...">Statistics</a>
-<div id="dialog-modal" title="Student Statistics" style="display:none">
+<a href="#" id="openDialog" class="stats" style="...">Grades</a>
+<div id="dialog-modal" title="Grades" style="display:none">
     <html>
     <div>
         <?php
@@ -89,7 +88,7 @@
 
 		$classAndInstructorResult = mysqli_query($connection, "select course_no, '-', section_no, description, instructor_title, first_name, last_name, section_id from section join course using(course_no) join instructor using(instructor_id) join enrollment using(section_id) where student_id = ".$student_id." order by course_no, section_no");
 
-        echo "<table style='border: solid 1px black' id='statsTable'>";
+        echo "<table id='statsTable'>";
         echo "<tr><th>CLASS</th><th>INSTRUCTOR</th><th>YOUR CLASS GRADE</th></tr>";
         
         while ($row1 = mysqli_fetch_array($classAndInstructorResult)){
@@ -140,7 +139,7 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <a href="#" id="showRightPush" class="button"><img src="images/menu.png" class="menuImage" /></a>
+            <a href="#" id="showRightPush" class="button"><class="menuImage" /></a>
         </section>
     </div>
 </div>

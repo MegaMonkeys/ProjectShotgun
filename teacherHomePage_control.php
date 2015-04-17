@@ -161,17 +161,17 @@
       //(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
 	  
 	  if($test_status == 0)
-		 return '<b>Status:</b> Test Saved. Ready to Publish';
+		 return '<b>Status:</b> Test Saved, but not Published. Publish to make viewable to students.';
 	  else if($test_status == 2)
-         return '<b>Status:</b> Published (Not Available)';
+         return '<b>Status:</b> Test Published. Students can view, but can\'t take until the specified time';
 	  else if($test_status == 3)
-		 return '<b>Status:</b> Published (Test in Progress)';
+		 return '<b>Status:</b> Test Published. Students can currently take this test.';
 	  else if($test_status == 4)
-	     return '<b>Status:</b> Ready to Grade';
+	     return '<b>Status:</b> Test Completed. Ready to Review and Grade.';
 	  else if($test_status == 5)
 	     return '<b>Class Average:</b> ';
 	  else if($test_status == 6)
-	     return '<b>Status: Published. But there is no student enrolled in this class.</b> ';
+	     return '<b>Status: Test Published, but there are no students enrolled in this class.</b> ';
    }
 
    //TeacherHomePage.php
