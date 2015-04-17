@@ -37,7 +37,7 @@
       {  //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
          $row = mysqli_fetch_row($sql_result);
          echo '<tr>';
-            echo '<td id="courseTD"type="submit" onclick="get_class_test(' . $row[2] . ')">';
+            echo '<td id="courseTD" type="submit" value="'.$row[2].'" onclick="get_class_test(' . $row[2] . ')">';
                echo ($row[0] . ' - ' . $row[1]);
             echo '</td>';
          echo '</tr>';
@@ -53,7 +53,8 @@
       include 'db_connection.php';
       $sql_command = "SELECT `SECTION_ID`,`TEST_NAME`, `PUBLISHED`, `START_DATE`, `END_DATE`, `TEST_ID`\n"
          . "FROM `test`\n"
-         . "WHERE `SECTION_ID` =" . $section_no;
+         . "WHERE `SECTION_ID` =" . $section_no . "\n"
+         . "ORDER BY START_DATE, CREATED_DATE";
       $sql_result = mysqli_query($connection, $sql_command);
 
       $sql_now = "SELECT NOW()";

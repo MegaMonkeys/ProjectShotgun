@@ -226,7 +226,7 @@
 
    function load_question_type($q_type, $q_text, $q_pt, $q_id)
    {
-      if($q_type == 1 || $q_type == 3)
+      if($q_type == 0 || $q_type == 3)
       {
          include 'db_connection.php';
          $sql_command = "SELECT * FROM `answer` WHERE QUES_ID = " . $q_id . ";";
@@ -242,8 +242,8 @@
             $form_array[$q_type] .
             '<input class="required_field" type="text" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
             '<textarea required class="required_field" rows="3" placeholder="True/False Question" maxlength="200">'.$q_text.'</textarea>'.
-            '<input type="radio" style="margin-left: 23%;"' . ($q_type==1||@$row[2]? 'checked': '') . '> True'.
-            '<input type="radio" style="margin-left: 23%;"' . ($q_type==1||@!$row[2]? 'checked': '') . '> False',
+            '<input type="radio" style="margin-left: 23%;"' . (@$row[2]=='True'? 'checked': '') . '> True'.
+            '<input type="radio" style="margin-left: 23%;"' . (@$row[2]=='False'? 'checked': '') . '> False',
 
             //Index:1 - Multiple Choice Question
             $form_array[$q_type] .
