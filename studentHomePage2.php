@@ -67,7 +67,7 @@
     </TITLE>
 	<link rel="icon" type="logo/png" href="images/monkeyhead.png">
 </HEAD>
-
+<?php include_once 'reload_goback.php'; ?>
 <a href="#" id="openDialog" class="stats" style="...">Grades</a>
 <div id="dialog-modal" title="Grades" style="display:none">
     <html>
@@ -139,6 +139,7 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
+            <div> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
             <a href="#" id="showRightPush" class="button"><class="menuImage" /></a>
         </section>
     </div>
@@ -249,7 +250,7 @@
 
 	<div class="container">
 		<div class="header">
-			<img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+         <a href="./studentHomePage2.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
 			<!-- <span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>-->
 		</div>
 		
@@ -294,6 +295,7 @@
    
 
    function get_class_test(section_no, student_id) {
+      class_selected(section_no);
       //$("#testTable").attr("display", "none");
       $("#testTable").fadeOut(1);
       $(".loader").fadeIn("slow");
@@ -308,6 +310,22 @@
          }
       });
    }
+
+   /*function class_selected(class_data) {
+      for(i=0; i< $('#courseTable td').length; i++ )
+         $('#courseTable td').eq(i).css('background-color', '#FF9900');
+      $(class_data).css('background-color', 'blue');
+      alert($(class_data).attr('value'));
+   }*/
+   function class_selected(section_no) {
+      for (i = 0; i < $('#courseTable td').length; i++) {
+         if( $('#courseTable td').eq(i).attr('value') == section_no )
+            $('#courseTable td').eq(i).css('background-color', 'blue');
+         else
+            $('#courseTable td').eq(i).css('background-color', '#FF9900');
+      }
+   }
+
    $(document).ajaxComplete(function() {
       $(".loader").fadeOut(1);
       $("#testTable").fadeIn("slow");
