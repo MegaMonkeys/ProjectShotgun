@@ -18,6 +18,7 @@
       <script src="./testMakingPage.js"></script>
       <link rel="stylesheet" type="text/css" href="testMakingPage.css">
       <link rel="stylesheet" type="text/css" href="stylesheet.css">
+      <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
       <?php include_once 'testMakingPage_control.php'; ?>
 
       <style>
@@ -43,38 +44,213 @@
                //$("p:first").replaceWith("Hello world!");
             });
          });
+
+         function validateForm(status) {
+            var valid = true;
+            $('.required_field').each(function () { if ($(this).val() === '') { valid = false; return false; } });
+
+            if(valid) {
+               //var today = get_today();
+               //var time  = get_time();
+               if( !isDate($('#startDate')) ) return false;
+               if( !isDate($('#endDate')) )   return false;
+
+               if($('#startDate').val() > $('#endDate').val()) {
+                  alert('Start Date cannot be set after End Date');
+                  $('#startDate').focus();
+                  return false;
+               }
+
+            // YC 2015-4-16 11:38 PM
+               if( $('#startTime').val() > $('#endTime').val() && $('#startDate').val() == $('#endDate').val() ) {
+                  alert('Start Time cannot be set after End Time');
+                  $('#startTime').focus();
+                  return false;
+               }
+
+			   // YC 2015-4-16 1:27 PM
+			      if($('#startDate').val() < get_today() && status == 'publish' ) {
+                  alert('Start Date is already past');
+                  $('#startDate').focus();
+                  return false;
+               }
+            // YC 2015-4-16 11:43 PM
+               if($('#startDate').val() == get_today() && status == 'publish' && $('#startTime').val().substring(0, 5) <  get_time().substring(0, 5) ) {
+                  alert('Start Time is already past. Current Time is '+ get_time_ampm());
+                  $('#startTime').focus();
+                  return false;
+               }
+
+               return true;
+            }
+         }
+
+         function isDate(current) {
+            //var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+            var re = /^\d{4}-\d{1,2}-\d{1,2}$/;
+            var sDate = current.val();
+            if (re.test(sDate)) {
+               var dArr = sDate.split("-");
+               var d = new Date(sDate);
+               //return d.getMonth() + 1 == dArr[0] && d.getDate() == dArr[1] && d.getFullYear() == dArr[2];
+               return true;
+            }
+            else {
+               alert("Please enter valid date");
+               current.focus();
+               return false;
+            }
+         }
+
+         function publish_check() {
+            if( $("#sortable2 li").length == 0) {
+                  alert('At least 1 Question is required to publish the test');
+                  return false;
+            }
+            else if ( $("#sortable2 li").length == 1 ) {
+               var attr_name = jQuery('#sortable2 li').eq(0).children('input').eq(0).attr('name');
+               if (attr_name.substring(attr_name.length - 1) == "I" ) {
+                  alert('At least 1 Question is required to publish the test');
+                  return false;
+               }
+            }
+            return true;
+         }
+		 
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->		
+// Publish Dialog Box 
+	$(function() {
+		$( "#dialog-confirm-publish" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Publish!!!": function() {
+			$( this ).dialog( "close" );
+				document.form.action="create_test.php";
+					document.form.submit();
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+
+    $( "#publish" ).click(function() {
+       if(validateForm('publish'))
+         if(publish_check())
+            $( "#dialog-confirm-publish" ).dialog( "open" );
+    });
+  });  
+// Save Dialog Box
+	$(function() {
+		$( "#dialog-confirm-save" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  400,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Save for Later...": function() {
+			$( this ).dialog( "close" );
+				document.form.action="create_test.php";
+				document.form.submit();
+			},
+			Cancel: function() {
+			$( this ).dialog( "close" );
+			}
+		}
+	});
+	
+    $( "#save" ).click(function() { //alert($('#startTime').val() > $('#endTime').val());
+       if(validateForm('save'))
+            $( "#dialog-confirm-save" ).dialog( "open" );
+    });
+  });
+// Cancel Dialog Box
+	$(function() {
+		$( "#dialog-confirm-cancel" ).dialog({
+		autoOpen: false,
+		resizable: false,
+		height: 250,
+		width:  700,
+		modal: true,
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "explode",
+			duration: 1000
+		},
+		buttons: {
+			"Return to Test Creation": function() {
+			$( this ).dialog( "close" );
+				$( this ).dialog( "close" );
+			},
+			"Leave And Return to Home Page": function() {
+				window.location.assign("./teacherHomePage.php");
+			}
+		}
+	});
+	
+    $( "#cancel" ).click(function() {
+      $( "#dialog-confirm-cancel" ).dialog( "open" );
+    });
+  });
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
       </script>
 
       <TITLE>
-         INGENIOUS - Online Testing Center
+         INGENIOUS
       </TITLE>
       <link rel="icon" type="logo/png" href="images/monkeyhead.png">
    </HEAD>
 
-   <BODY style="background:#F6F9FC; font-family:Arial;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
+   <BODY  style="font-family:Calibri;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
    <div class="container">
         <div class="header">
-            <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+            <a href="./teacherHomePage.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
+        </div>
 			<div class="main">
 			 <section class="buttonset">
 				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><img src="images/menu.png" class="menuImage" /></a>
+            <div style="margin-top:-100px"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
+				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
 			 </section>
 			</div>
-        </div>
+
         <div class="sticky-navigation">
         </div>
         <div class="contents">
    <!-- body has the class "cbp-spmenu-push" -->
-   <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
-      <a href='teacherHomePage.php'><span>Home</span></a>
-      <a href='#'><span>About</span></a>
-      <a href='teampage.php'><span>Developers</span></a>
-      <a href='#'><span>Help</span></a>
-      <a href='logout.php' class="last"><span>Sign Out</span></a>
-      <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
-   </nav>
-
+  <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+     <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
+     <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
+     <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
+     <a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
+     <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
+  </nav>
+  <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
    <!-- START of JavaScript to make Hidden Side Menu Work -->
    <script>
       /*!
@@ -163,12 +339,26 @@
 
       })( window );
 
+      var position_value = true;
+      function tessss() {
+         if (position_value) {
+            $('#middle').css('position', 'fixed');
+            $('.footer').css('position', 'fixed');
+            position_value = false;
+         }
+         else {
+            $('#middle').css('position', 'relative');
+            $('.footer').css('position', 'relative');
+            position_value = true;
+         }
+      }
+
 
       var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
           showRightPush = document.getElementById( 'showRightPush' ),
           body = document.body;
 
-      showRightPush.onclick = function() {
+      showRightPush.onclick = function() {tessss();
          classie.toggle( this, 'active' );
          classie.toggle( body, 'cbp-spmenu-push-toleft' );
          classie.toggle( menuRight, 'cbp-spmenu-open' );
@@ -179,9 +369,31 @@
       <div id="load_screen"><img src="images/monkeyload.gif" /> </div>
 
    <div id="wrap">
-      <div class="loader" align="center"></div>
+      <!--<div class="loader" align="center"></div>-->
          <div id="content">
-            <form method="post" action="javascript:void(0);">
+            <form name="form" method="post" action="javascript:void(0);">
+				<input type="text" class="button_type" id="button_type" name="button_type" style="display:none;">
+				<input type="text" class="button_id" id="button_id" name="button_id" style="display:none;">
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+				<div id="dialog-confirm-publish" title="Are you sure about this?" style="background-color: #ADD6FF; ">
+					<p>
+						<div style="font-size: 20px;">Are you sure you wish to publish this test? Not only will it be saved, students will then be able to view and take this test.
+						</div>
+					</p>
+				</div>
+				<div id="dialog-confirm-save" title="Is this your intended action?" style="background-color: #ADD6FF; ">
+					<p>
+						<div style="font-size: 20px;">Are you sure you wish to save this test? Students will NOT be able to view or take it; however, you will be able to edit it later.
+						</div>
+					</p>
+				</div>
+				<div id="dialog-confirm-cancel" title="Did you mean to do this?" style="background-color: #ADD6FF; ">
+					<p>
+						<div style="font-size: 20px;">Are you sure you want to stop creating this test? Keep in mind that this test is not saved unless you explicitly save it, and any progress made on the creation of this test WILL BE LOST!!!
+						</div>
+					</p>
+				</div>
+<!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
                <table>
                   <tr>
                      <td id="left">
@@ -231,8 +443,8 @@
                               <tr>
                                  <td>Time limit</td>
                                  <td>
-                                    <input type="number" id="hours" name="hours" min="0" max="10" class="inputs" onkeydown="return isNumberKey(event)" placeholder="0" value="1" size="2"> hr
-                                    <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" onkeydown="return isNumberKey(event)" placeholder="50" value="0" size="2"> min
+                                    <input type="number" id="hours" name="hours" min="0" max="23" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="1" value="1" size="2" > hr
+                                    <input type="number" id="minutes" name="minutes" min="0" max="59" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="0" value="0" size="3" > min
                                  </td>
                               </tr>
                            </table>
@@ -241,10 +453,10 @@
                            <div id="optionButton">
                               <table id="optionButtonTable">
                                  <tr>
-                                    <td><button type="submit" value="publish" id="publish" name="publish" formaction="create_test.php"></button></td> <!--onclick="publish_test()"-->
-                                    <td><button type="submit" value="save"    id="save"    name="save"    formaction="create_test.php"></button></td>
+                                    <td><button type="submit" id="publish" name="publish" value ="publish" onclick="$('#button_type').attr('value','publish');" ></button></td> <!--onclick="publish_test()"-->
+                                    <td><button type="submit" id="save"    name="save"    value="save"     onclick="$('#button_type').attr('value','save');"></button></td>
                                     <td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>
-                                    <td><button type="submit" value="cancel"  id="cancel"  name="cancel"  onclick="cancel_test()"> </button></td>
+                                    <td><button type="submit" id="cancel"  name="cancel"  value="cancel" > </button></td>
                                  </tr>
                                  <tr>
                                     <td>Publish</td>
@@ -266,14 +478,14 @@
                      </td>
                      <td id="middle">
                         <div class="scroll">
-                           Test Name:  &nbsp;<input type="text" id="testName" name="testName" class="inputs" placeholder="Test #1" size="50">
+                           Test Name:  &nbsp;<input required class="required_field inputs" type="text" id="testName" name="testName" placeholder="Test Name" size="45" style="font-size:18px;"> <!--class="inputs"-->
 
-                           <div>
+                           <!--<div>
                               <div id="text_instruc_heading">CS 414 Test Instruction</div>
                               <textarea id="test_inst_text" name="test_instruc_text" rows="4" placeholder="Enter Test Instructions . . ."></textarea>
-                           </div>
+                           </div>-->
 
-                           <hr align="left"> 
+                           <hr align="left" style="margin-top: 5px">
 
                            <!-- Where Questions Will Be Placed (YC) -->
                            Questions: <br />
@@ -284,8 +496,8 @@
                            </div>
                            <div>
                            PLEDGE:<br />
-                           <textarea id="pledge_text" type="text" name="pledge" class="inputs"
-                                     rows="3" style="width: 98%; height: auto;"></textarea> <!-- width:600px; -->
+                           <textarea required class="required_field inputs" id="pledge_text" type="text" name="pledge"
+                                     rows="3" style="width: 98%; height: auto;"></textarea> <!-- width:600px; --> <!--class="inputs"-->
                            </div>
                         </div>
                      </td>
@@ -297,9 +509,9 @@
      <div id="info_loading"></div>
 
     </div>
-        <div class="footer">
-            &copy; MegaMonkeys, Inc. <img src="images/monkeyhead.png" class="monkeyheadfooter"/> Pensacola Christian College 2015
-        </div>
+      <div class="footer">
+         &copy; MegaMonkeys, Inc.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/monkeyhead2.png" class="monkeyheadfooter"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pensacola Christian College 2015
+      </div>
 	</div>
 
    </BODY>
@@ -313,6 +525,23 @@
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
       var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
       return today;
+   }
+   function get_time() {
+      var now = new Date();
+      var time = now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
+      return time;
+   }
+   function get_time_ampm() {
+      var now = new Date();
+      var ampm = (hour>=12)? "PM" : "AM";
+      var hour = now.getHours();
+      var min  = now.getMinutes();
+
+      var hour = (hour>12)? hour-12 : ((hour==0)? 12:hour);
+
+      var time = ((hour < 10)? "0"+hour: hour) + ":" + ((min < 10)? "0"+min: min) +" "+ampm;
+      return time;
+
    }
 
    $(document).ready(function(){
@@ -346,14 +575,14 @@
    function get_test(t_no)
    {
       $("#content").fadeOut(1);
-      $(".loader").fadeIn("slow");
+      $("#load_screen").fadeIn("slow");//$(".loader").fadeIn("slow");
       var data = 'testMakingPage_control.php?load=1&test_no=' + t_no;
       $('#info_loading').load(data);
       var data = 'testMakingPage_control.php?action=load&test_no=' + t_no;
       $('#sortable2').load(data);
    }
    $(document).ajaxComplete(function() {
-      $(".loader").fadeOut(1);
+      $("#load_screen").fadeOut(1);//$(".loader").fadeOut(1);
       $("#content").fadeIn("slow");
    });
 
@@ -363,22 +592,17 @@
    function preview_test() {
       alert("Under Construction");
    }
-   function cancel_test() {
-      publish_check();
-      if( confirm("Are You Sure ?") ) {
-         window.location.assign("./teacherHomePage.php");
-      }
-      else
-         alert("OK");
-   }
+// Commented out by G3!!!!!!!!!!!!!!!!!! This code's function is now handled by a popup!!!!!
+//   function cancel_test() {
+//      publish_check();
+//      if( confirm("Are You Sure ?") ) {
+//         window.location.assign("./teacherHomePage.php");
+//      }
+//      else
+//         alert("OK");
+//   }
    /////////////////////////////////////
-   function publish_check() {
-      var today = get_today();
-      if($('#startDate').val() > $('#endDate').val())
-         alert('NO');
-      if($('#startDate').val() < today)
-         alert('NO PAST');
-   }
+
 
    /*function get_section() {
     var data = 'testMakingPage_control.php?action=' + <?php //echo $_SESSION['user_id']; ?> + '&course_no=' + $('#courseNo').val();
@@ -390,13 +614,14 @@
    if( isset( $_GET['test_no'] ) ) {
       if( test_no_check($_GET['test_no']) ) {
          echo "<script type='text/javascript'>get_test(" . $_GET['test_no'] . ");</script>";
-         echo "<script type='text/javascript'>$('#save').attr('value'," . $_GET['test_no'] . ");</script>";
-         echo "<script type='text/javascript'>$('#publish').attr('value'," . $_GET['test_no'] . ");</script>";
+         //echo "<script type='text/javascript'>$('#save').attr('value'," . $_GET['test_no'] . ");</script>";
+         //echo "<script type='text/javascript'>$('#publish').attr('value'," . $_GET['test_no'] . ");</script>";
+		 echo "<script type='text/javascript'>$('#button_id').attr('value'," . $_GET['test_no'] . ");</script>";
       }
       else {
          echo "<script type='text/javascript'>window.location.assign('./teacherHomePage.php');</script>";
       }
    }
    else
-      echo "<script type='text/javascript'>$('.loader').fadeOut(1);</script>";
+      echo "<script type='text/javascript'>$('#load_screen').fadeOut(1);//$('.loader').fadeOut(1);</script>";
 ?>

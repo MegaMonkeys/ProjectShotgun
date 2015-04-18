@@ -10,16 +10,16 @@
 #test_info {
    position: absolute;
    top: 10px;
-   left: 390px;
-   min-width: 920px;
+   left: 400px;
+   min-width: 850px;
 }
 #test_info td{
    text-align: center;
    border: 1px solid lightblue;
 }
 #f_t_name {
-   min-width: 270px;
-   max-width: 270px;
+   min-width: 200px;
+   max-width: 200px;
 }
 #f_s_name {
    min-width: 300px;
@@ -47,12 +47,11 @@
 
 .testQuestions{
     position: relative;
-    top: 30px;
+	padding-top: 100px;
     left: 300px;
     width: 900px;
 /*    overflow-y: scroll;*/
    border-spacing: 15px;
-   border: 5px solid lightblue;
    z-index:50;
 }
 .essayText{
@@ -163,136 +162,6 @@ div.content{
     font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;
     color: #ffffff;
 }
-
-
-
-
-/* this is the menu */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
-#cssmenu {
-   position: fixed;
-   background: rgba(0,0,0,0);
-   top: 30px;
-   right : 10%;
-   width: 500px;
-   z-index: 100;
-}
-#cssmenu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    line-height: 1;
-    display: block;
-    zoom: 1;
-}
-#cssmenu ul:after {
-    content: " ";
-    display: block;
-    font-size: 0;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
-#cssmenu ul li {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-}
-#cssmenu.align-right ul li {
-    float: right;
-}
-#cssmenu.align-center ul {
-    text-align: center;
-}
-#cssmenu ul li a {
-    color: #fff;
-    text-decoration: none;
-    display: block;
-    padding: 15px 25px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 14px;
-    position: relative;
-    -webkit-transition: color .25s;
-    -moz-transition: color .25s;
-    -ms-transition: color .25s;
-    -o-transition: color .25s;
-    transition: color .25s;
-}
-#cssmenu ul li a:hover {
-    color: #ffffff ;
-}
-#cssmenu ul li a:hover:before {
-    width: 100%;
-}
-#cssmenu ul li a:after {
-    content: "";
-    display: block;
-    position: absolute;
-    right: -3px;
-    top: 19px;
-    height: 6px;
-    width: 6px;
-    background: #fff;
-    opacity: .5;
-}
-#cssmenu ul li a:before {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    width: 0;
-    background: #fff;
-    -webkit-transition: width .25s;
-    -moz-transition: width .25s;
-    -ms-transition: width .25s;
-    -o-transition: width .25s;
-    transition: width .25s;
-}
-#cssmenu ul li.last > a:after,
-#cssmenu ul li:last-child > a:after {
-    display: none;
-}
-#cssmenu ul li.active a {
-    color: #fff;
-}
-#cssmenu ul li.active a:before {
-    width: 100%;
-}
-#cssmenu.align-right li.last > a:after,
-#cssmenu.align-right li:last-child > a:after {
-    display: block;
-}
-#cssmenu.align-right li:first-child a:after {
-    display: none;
-}
-@media screen and (max-width: 768px) {
-    #cssmenu ul li {
-        float: none;
-        display: block;
-    }
-    #cssmenu ul li a {
-        width: 100%;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        border-bottom: 1px solid #fff;
-    }
-    #cssmenu ul li.last > a,
-    #cssmenu ul li:last-child > a {
-        border: 0;
-    }
-    #cssmenu ul li a:after {
-        display: none;
-    }
-    #cssmenu ul li a:before {
-        display: none;
-    }
-}
-
 .loader {
    position: relative;
    margin-left: auto;
