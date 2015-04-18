@@ -50,7 +50,6 @@
 	padding-top: 100px;
     left: 300px;
     width: 900px;
-/*    overflow-y: scroll;*/
    border-spacing: 15px;
    z-index:50;
 }
@@ -93,7 +92,6 @@ top: 200px;
 position: fixed;
 height:auto;
 top: 240px;
-overflow-y:scroll;
    z-index:30;
 }
 .submit-button {

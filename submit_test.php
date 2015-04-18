@@ -236,5 +236,5 @@
     mysqli_close($connection);
     
     echo '<br /><br />If you are not redirected to your home page, click here: <a href="studentHomePage2.php">Home.</a>';
-   // header("Location: studentHomePage2.php");
+    header("Location: studentHomePage2.php");
 ?>
