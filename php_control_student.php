@@ -45,10 +45,10 @@
    function get_test_list($section_no, $student_id)
    {
       include 'db_connection.php';
-      $sql_command = "SELECT SECTION_ID, TEST_NAME, PUBLISHED, START_DATE, END_DATE, FINAL_GRADE, TEST_ID, objective_grade, time_limit, date_time
+      $sql_command = "SELECT SECTION_ID, TEST_NAME, PUBLISHED, START_DATE, END_DATE, FINAL_GRADE, TEST_ID, OBJECTIVE_GRADE, TIME_LIMIT, DATE_TIME, SIGNED_PLEDGE
                         FROM enrollment e join test using (section_id)
 						 left outer join student_test using (test_id, student_id)
-						where e.student_id = " . $student_id . " and section_id = " . $section_no . " and published = 1";
+						where e.student_id = " . $student_id . " and section_id = " . $section_no . " and published = 1 order by START_DATE, END_DATE";
 
       $sql_result = mysqli_query($connection, $sql_command);
       $numRows = $counter = mysqli_num_rows($sql_result);
@@ -75,7 +75,10 @@
                 $hoursLeft = date_format($timeLimit, "G"). " hours";
                 $minutesLeft = date_format($timeLimit, "i"). " minutes";
                 $studentEndTime = date_add(date_create($row[9]), date_interval_create_from_date_string($hoursLeft));
-                $studentEndTime = date_format(date_add($studentEndTime, date_interval_create_from_date_string($minutesLeft)), "Y-m-d H:i:s");
+                $studentEndTime = date_add($studentEndTime, date_interval_create_from_date_string($minutesLeft));
+        
+            //    $timeLeft = date_diff($current_datetime, $studentEndTime);     // JB - Not working for some reason.
+            //    $strTimeLeft = date_interval_format($timeLeft, "%H:%I:%S:%r");
             }
             
             
@@ -117,9 +120,18 @@
                }
                else
                {
-                    $status = "Test Submitted.";
-                    $gradeStatus = $row[5] . '%';
-                    $takeTestButton = '';
+                    if($row[10])
+                    {
+                        $status = "Test Submitted.";
+                        $gradeStatus = $row[5] . '%';
+                        $takeTestButton = '';
+                    }
+                    else
+                    {
+                        $status = "Test Submitted.";
+                        $gradeStatus = $row[5] . "% (You didn't sign the pledge)";
+                        $takeTestButton = '';
+                    }
                }
             }
             else
