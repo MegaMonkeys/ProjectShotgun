@@ -7,13 +7,17 @@
     
     echo 'submit_test.php <br /><br />';    
     
+    $signature = $_POST['signature'];
+    $sessionName = $_SESSION['user_name'];
+    $studentName = $sessionName[0] . ' ' . $sessionName[1];
     $student_id = $_SESSION['user_id'];
     $testID = $_POST['testID'];
     $numEntries = $_POST['numEntries'];
     $hasEssay = false;
     $objPoints = 0;
     
-
+    echo $studentName . '<br />';
+    echo $signature . '<br />';
   
   // Delete the old answers if this test is a retake
   mysqli_query($connection, 'delete from student_answer where student = ' . $student_id . ' and ques_id in (select ques_id from question where test_id = ' . $testID . ')');
@@ -21,11 +25,12 @@
 
     for($x = 1; $x <= $numEntries; $x++)
     {
-        echo '<br />Question ';
         $qIDtype = isset($_POST['Q'.$x.'ID']) ? $_POST['Q'.$x.'ID'] : 'No such question';
         $qInfo = explode(",", $qIDtype);
         $qID = $qInfo[0];
         $qType = $qInfo[1];
+        
+        echo '<br />Question ';
         echo $qType.' ';
         echo $qID;
         echo ': ';
@@ -204,11 +209,17 @@
         $row = mysqli_fetch_row($result);
         $grade = (float)$objPoints / (float)$row[0] * 100.0;
     }
+    
+    if($signature === $studentName)
+        $signed = '1';
+    else
+        $signed = '0';
 
-    $sqlComm = "update student_test set objective_grade = " . $objPoints . ","
-                                      . " essay_grade = " . $essayPoints . ","
-                                      . " final_grade = " . $grade
-                 . " where test_id = " . $testID . " and student_id = " . $student_id;
+    $sqlComm = "update student_test set objective_grade = " . $objPoints . ", "
+                                      . "essay_grade = "    . $essayPoints . ", "
+                                      . "final_grade = "    . $grade . ", "
+                                      . "signed_pledge = "  . $signed . " "
+                 . "where test_id = " . $testID . " and student_id = " . $student_id;
     mysqli_query($connection, $sqlComm);
     echo '<br /><br />'.$sqlComm;
 

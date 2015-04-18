@@ -40,8 +40,9 @@
 #button{
     float: right;
 }
-
-
+#errorMsg{
+    color:red;
+}
 #testInformation{
 font-weight: bold;
 position: fixed;

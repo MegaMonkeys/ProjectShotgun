@@ -268,7 +268,9 @@
             $('#courseTable td').eq(i).css('background-color', '#FF9900');
       }
    }
+   
 <!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
    function delete_test(test_id) {
       $("#testTable").fadeOut(1);
       $(".loader").fadeIn("slow");
@@ -358,6 +360,7 @@
 	});
 	$(".ui-dialog-titlebar-close").hide();
 	
+
     $( "#deleteButton" ).click(function() {
       $( "#dialog-confirm-delete-test" ).dialog( "open" );
     });
