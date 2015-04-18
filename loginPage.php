@@ -26,19 +26,23 @@
          }
       }
    ?>
-
+   <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="loginStyle.css">
    <HEAD>
       <style>
          div#load_screen{
-            background:#FFF;
             opacity:0.7;
             position:fixed;
             z-index:10;
-            top: 0px;
+            top: 30%;
             width:100%;
             height:100%;
          }
+		 #imageLoad{
+		 display: block;
+    margin-left: auto;
+    margin-right: auto ;
+		 }
       </style>
       <script>
          window.addEventListener("load", function(){
@@ -51,10 +55,10 @@
           INGENIOUS
       </TITLE>
        <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
+	   <div id="load_screen"><img src="images/monkeyload.gif" id="imageLoad"/></div>
    </HEAD>
 <BODY  style="font-family:Calibri;">
-   <div id="load_screen"><img src="images/monkeyload.gif" /></div>
-   
+
     <div class="container">
         <div class="header">
             <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
@@ -155,14 +159,14 @@
     <div id="slider1_container" style="position: relative; margin: 0 auto;
         top: 0px; left: 0px; width: 1200px; height: 600px; overflow: hidden;">
         <!-- Loading Screen -->
-        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+      <!--<div u="loading" style="position: absolute; top: 0px; left: 0px;">
             <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
                 top: 0px; left: 0px; width: 100%; height: 100%;">
             </div>
             <div style="position: absolute; display: block; background: url(images/monkeyload.gif) no-repeat center center;
                 top: 0px; left: 0px; width: 100%; height: 100%;">
             </div>
-        </div>
+        </div>-->
         <!-- Slides Container -->
         <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1300px; height: 500px;
              overflow: hidden;">
@@ -301,7 +305,7 @@
 
       if($count == 0) {
          mysqli_close($connection);
-         return "INVALID LOGIN";
+         return "<div class='invalid'><i class='fa fa-exclamation-triangle'></i> INVALID LOGIN</div>";
       }
       else if($count == 1) {
          //$row = mysqli_fetch_row($sql_result);
@@ -320,7 +324,7 @@
          }
          else { //If Length Check fails
             mysqli_close($connection);
-            return "INVALID LOGIN";
+            return "<div class='invalid'><i class='fa fa-exclamation-triangle'></i> INVALID LOGIN</div>";
          }
 
          $sql_result  = mysqli_query($connection, $sql_command);

@@ -1,13 +1,12 @@
 body{
-    background: #ECECEC;
+	background-size: cover;
     margin:0px;
-    color:#333;
 	font-family: Calibri;
 }
 .stats{
     position: absolute;
     top: 110px;
-    left: 1000px;
+    left: 1279px;
     background-color: #FF9900;
     display:inline-block;
     cursor:pointer;
@@ -28,7 +27,7 @@ body{
 .courses{
     position: absolute;
     top: 150px;
-	left: 400px;
+	left: 350px;
     width: 220px;
 }
 .testEachCourse{
@@ -191,7 +190,7 @@ div.content{
 
 /********************************************************/
 
-@media screen and (max-width: 1700px) {
+@media screen and (max-width: 1770px) {
    .courses{
       position: absolute;
       left: 300px;
@@ -201,34 +200,65 @@ div.content{
       left: 450px;
    }
    .stats {
-      top: 110px;
-      left: 1202px;
+      left: 1200px;
    }
 }
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1600px) {
    .courses{
       position: absolute;
-      left: 80px;
+      left: 250px;
       width: 220px;
    }
    .testEachCourse, #classTitle {
       left: 250px;
    }
    .stats {
-      top: 110px;
-      left: 985px;
+      left: 1150px;
    }
 }
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1550px) {
+   .courses{
+      left: 200px;
+   }
+   .stats {
+      left: 1100px;
+   }
+}
+@media screen and (max-width: 1500px) {
+   .courses{
+      left: 150px;
+   }
+   .stats {
+      left: 1050px;
+   }
+}
+@media screen and (max-width: 1450px) {
+   .courses{
+      left: 100px;
+   }
+   .stats {
+      left: 1000px;
+   }
+}
+@media screen and (max-width: 1400px) {
+   .courses{
+      left: 50px;
+   }
+   .stats {
+      left: 950px;
+   }
+}
+@media screen and (max-width: 1200px) {
    .courses{
       position: static;
       margin-top: 15px;
+	  margin-bottom: 10px;
    }
    .testEachCourse, #classTitle {
-      left: 0px;
+	  position: static;
    }
    .stats {
-      top: 410px;
-      left: 720px;
+      top: 130px;
+      left: 724px;
    }
 }

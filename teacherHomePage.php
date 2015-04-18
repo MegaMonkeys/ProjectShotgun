@@ -8,6 +8,7 @@
 <HTML>
    <link rel="stylesheet" type="text/css" href="teacherHomePage.css">
    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+   <link rel="stylesheet" type="text/css" href="statistic.css">
    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
    <link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
    <script src="tabcontent.js" type="text/javascript"></script>
@@ -34,6 +35,12 @@
             width:100%;
             height:100%;
         }
+		.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+			float: none;
+		}
+		.ui-dialog .ui-dialog-buttonpane {
+			text-align: center; /* left/center/right */
+		}
     </style>
     <script>
         window.addEventListener("load", function(){
@@ -48,7 +55,7 @@
 </HEAD>
 
    <a href="#" id="openDialog" class="stats" style="display: none;">Statistics</a>
-   <div id="dialog-confirm-delete-test" title="Are you sure about this?" style="background-color: #ADD6FF; ">
+   <div id="dialog-confirm-delete-test" title="Are you sure about this?" style="background-color: #ADE8FF; ">
 		<p>
 			<div style="font-size: 20px;">Are you sure you delete this test? After it is deleted, the test can no longer be recovered, and students can no longer take this test.
 			</div>
@@ -195,7 +202,8 @@
                <input type="submit" value="+ Create Test" class="create-button"/>
                <input type="number" id="creat_section" name="creat_section" value="-1" style="display:none;">
             </form>
-            <div class="courses">
+			
+            <div class="courses"> <h2>Courses</h2>
                <table id="courseTable">
                   <?php $class_list = get_class_list(); ?>
                </table>
@@ -248,7 +256,7 @@
          }
       });
    }
-
+<!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
    function delete_test(test_id) {
       $("#testTable").fadeOut(1);
       $(".loader").fadeIn("slow");
@@ -273,17 +281,18 @@
       $(function (){
 		$( "#dialog-confirm-delete-test" ).dialog({
 		autoOpen: false,
-		resizable: false,
-		height: 250,
-		width:  400,
+		resizable: true,
+		height: 350,
+		width:  450,
 		modal: true,
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 500
 		},
 		hide: {
-			effect: "explode",
-			duration: 1000
+			effect: "drop", 
+			direction: "down",
+			duration: 500
 		},
 		buttons: {
 			"Delete": function() {
@@ -293,12 +302,14 @@
                  var data = 'teacherHomePage_control.php?action=delete&section_id=' + current + '&test_id=' + test_id;
 				 $('#testTable').load(data);
 			},
-			Cancel: function() {
+			"Cancel": function() {
 			$( this ).dialog( "close" );
 			}
 		}
 	});
-
+	$(".ui-dialog-titlebar-close").hide();
+	
+<!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 
   });
    
@@ -307,17 +318,18 @@
    $(function (){
 		$( "#dialog-confirm-delete-test" ).dialog({
 		autoOpen: true,
-		resizable: false,
-		height: 250,
-		width:  400,
+		resizable: true,
+		height: 350,
+		width:  450,
 		modal: true,
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 500
 		},
 		hide: {
-			effect: "explode",
-			duration: 1000
+			effect: "drop", 
+			direction: "down",
+			duration: 500
 		},
 		buttons: {
 			"Delete": function() {
@@ -327,12 +339,13 @@
                  var data = 'teacherHomePage_control.php?action=delete&section_id=' + current + '&test_id=' + test_id;
 				 $('#testTable').load(data);
 			},
-			Cancel: function() {
+			"Cancel": function() {
 			$( this ).dialog( "close" );
 			}
 		}
 	});
-
+	$(".ui-dialog-titlebar-close").hide();
+	
     $( "#deleteButton" ).click(function() {
       $( "#dialog-confirm-delete-test" ).dialog( "open" );
     });
@@ -351,7 +364,7 @@
 	  var dialogWidth = winWidth * 0.9;
 	  var dialogHeight = winHeight * 0.9;
 	  $( "#openDialog").on("click", function(){
-	    //alert(current);
+          //alert(current);
 	    var data = 'teacherStatistics.php?section=' + current;
 		$("#dialog-modal").load(data, function (responseText, textStatus, XMLHttpRequest) {
 		   if (textStatus == "success") {
