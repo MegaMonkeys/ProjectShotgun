@@ -14,7 +14,7 @@
    //Total class average
    $result5 = array();
 
-   echo "<p>".$class[0],$class[1],$class[2]." ".$class[3]."</p>";
+   echo "<p id='statTitle'><br />".$class[0],$class[1],$class[2]." ".$class[3]."<br /><br /></p>";
    echo "<p></p>";
    
    $count = mysqli_num_rows($result1);
@@ -26,7 +26,7 @@
       echo "<th> No test information to show :( </th>";
    }
    else {
-      echo "<table style='border: solid 1px black' id='statsTable'>";
+      echo "<table id='statsTable'>";
 
       echo "<tr><th>STUDENTS</th>";
       do {
@@ -55,7 +55,7 @@
          }
          $row6 = mysqli_fetch_array($result6);
          if (is_numeric($row6[0]))
-         	echo "<th>$row6[0]</th>";
+         	echo "<th>$row6[0]%</th>";
          if (!is_numeric($row6[0]))
          	echo "<th>No Data</th>";
          echo "</tr>";

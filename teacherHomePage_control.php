@@ -37,7 +37,7 @@
       {  //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
          $row = mysqli_fetch_row($sql_result);
          echo '<tr>';
-            echo '<td id="courseTD"type="submit" onclick="get_class_test(' . $row[2] . ')">';
+            echo '<td id="courseTD" type="submit" value="'.$row[2].'" onclick="get_class_test(' . $row[2] . ')">';
                echo ($row[0] . ' - ' . $row[1]);
             echo '</td>';
          echo '</tr>';
@@ -53,7 +53,8 @@
       include 'db_connection.php';
       $sql_command = "SELECT `SECTION_ID`,`TEST_NAME`, `PUBLISHED`, `START_DATE`, `END_DATE`, `TEST_ID`\n"
          . "FROM `test`\n"
-         . "WHERE `SECTION_ID` =" . $section_no;
+         . "WHERE `SECTION_ID` =" . $section_no . "\n"
+         . "ORDER BY START_DATE, CREATED_DATE";
       $sql_result = mysqli_query($connection, $sql_command);
 
       $sql_now = "SELECT NOW()";
@@ -161,17 +162,17 @@
       //(0)Saved (1)Published (2) Not Available (3) Test In Progress (4) Ready to Grade (5) Grade Done
 	  
 	  if($test_status == 0)
-		 return '<b>Status:</b> Test Saved. Ready to Publish';
+		 return '<b>Status:</b> Test Saved, but not Published. Publish to make viewable to students.';
 	  else if($test_status == 2)
-         return '<b>Status:</b> Published (Not Available)';
+         return '<b>Status:</b> Test Published. Students can view, but can\'t take until the specified time';
 	  else if($test_status == 3)
-		 return '<b>Status:</b> Published (Test in Progress)';
+		 return '<b>Status:</b> Test Published. Students can currently take this test.';
 	  else if($test_status == 4)
-	     return '<b>Status:</b> Ready to Grade';
+	     return '<b>Status:</b> Test Completed. Ready to Review and Grade.';
 	  else if($test_status == 5)
 	     return '<b>Class Average:</b> ';
 	  else if($test_status == 6)
-	     return '<b>Status: Published. But there is no student enrolled in this class.</b> ';
+	     return '<b>Status: Test Published, but there are no students enrolled in this class.</b> ';
    }
 
    //TeacherHomePage.php

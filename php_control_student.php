@@ -29,7 +29,7 @@
       {  //[0]-COURSE_NO [1]-SECTION_NO [2]-SECTION_ID [3]-COURSE_DESCRIPTION
          $row = mysqli_fetch_row($sql_result);
          echo '<tr>';
-            echo '<td id="courseTD"type="submit" onclick="get_class_test(' . $row[2] . ', ' . $row[4] . ')">';
+            echo '<td id="courseTD" type="submit" value="'.$row[2].'" onclick="get_class_test(' . $row[2] . ', ' . $row[4] . ')">';
                echo ($row[0] . ' - ' . $row[1]);
             echo '</td>';
          echo '</tr>';
@@ -89,12 +89,12 @@
                      {
                         if(isset($row[9]))
                         {
-                            $status = 'Unfinished';
-                            $gradeStatus = "This test needs to be finished!";
+                            $status = 'You started, but never submitted this test. The time is still ticking...';
+                            $gradeStatus = "You still need to submit this test.";
                         }
                         else
                         {
-                            $status = 'Available to Take';
+                            $status = 'Available to Take.';
                             $gradeStatus = "You haven't taken this test yet.";
                         }
                         $takeTestButton = "<span id='button'>".
@@ -103,29 +103,29 @@
                      }
                      else
                      {
-                        $status = "Taken";
-                        $gradeStatus = 'Waiting for the instructor.';
+                        $status = "Test Submitted.";
+                        $gradeStatus = 'Waiting for the instructor...';
                         $takeTestButton = '';
                      }
                   }
                   else
                   {
-                    $status = "Past Due";
-                    $gradeStatus = '0.00% (You never took this test.)';
+                    $status = "Past Due.";
+                    $gradeStatus = '0.00% (You never submitted this test)';
                     $takeTestButton = '';
                   }
                }
                else
                {
+                    $status = "Test Submitted.";
                     $gradeStatus = $row[5] . '%';
-                    $status = "Taken";
                     $takeTestButton = '';
                }
             }
             else
             {
-               $status = 'Will be available at the time shown above';
-               $gradeStatus = "You haven't taken this test yet";
+               $status = 'Will be available at the time shown.';
+               $gradeStatus = "You can't take this test yet.";
                $takeTestButton = '';
             }
             

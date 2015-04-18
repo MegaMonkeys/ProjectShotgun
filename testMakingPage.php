@@ -45,28 +45,42 @@
             });
          });
 
-         function validateForm() {
+         function validateForm(status) {
             var valid = true;
-            $('.required_field').each(function () {
-               if ($(this).val() === '') {
-                  valid = false;
-                  return false;
-               }
-            });
+            $('.required_field').each(function () { if ($(this).val() === '') { valid = false; return false; } });
+
             if(valid) {
-               var today = get_today();
+               //var today = get_today();
+               //var time  = get_time();
                if( !isDate($('#startDate')) ) return false;
-               if( !isDate($('#endDate')) ) return false;
+               if( !isDate($('#endDate')) )   return false;
 
                if($('#startDate').val() > $('#endDate').val()) {
                   alert('Start Date cannot be set after End Date');
+                  $('#startDate').focus();
                   return false;
                }
+
+            // YC 2015-4-16 11:38 PM
+               if( $('#startTime').val() > $('#endTime').val() && $('#startDate').val() == $('#endDate').val() ) {
+                  alert('Start Time cannot be set after End Time');
+                  $('#startTime').focus();
+                  return false;
+               }
+
 			   // YC 2015-4-16 1:27 PM
-			   if($('#startDate').val() < today ) {
+			      if($('#startDate').val() < get_today() && status == 'publish' ) {
                   alert('Start Date is already past');
+                  $('#startDate').focus();
                   return false;
                }
+            // YC 2015-4-16 11:43 PM
+               if($('#startDate').val() == get_today() && status == 'publish' && $('#startTime').val().substring(0, 5) <  get_time().substring(0, 5) ) {
+                  alert('Start Time is already past. Current Time is '+ get_time_ampm());
+                  $('#startTime').focus();
+                  return false;
+               }
+
                return true;
             }
          }
@@ -133,7 +147,7 @@
 	});
 
     $( "#publish" ).click(function() {
-       if(validateForm())
+       if(validateForm('publish'))
          if(publish_check())
             $( "#dialog-confirm-publish" ).dialog( "open" );
     });
@@ -166,8 +180,8 @@
 		}
 	});
 	
-    $( "#save" ).click(function() {
-       if(validateForm())
+    $( "#save" ).click(function() { //alert($('#startTime').val() > $('#endTime').val());
+       if(validateForm('save'))
             $( "#dialog-confirm-save" ).dialog( "open" );
     });
   });
@@ -215,14 +229,16 @@
    <BODY  style="font-family:Calibri;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
    <div class="container">
         <div class="header">
-            <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+            <a href="./teacherHomePage.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
+        </div>
 			<div class="main">
 			 <section class="buttonset">
 				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
+            <div style="margin-top:-100px"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
 				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
 			 </section>
 			</div>
-        </div>
+
         <div class="sticky-navigation">
         </div>
         <div class="contents">
@@ -509,6 +525,23 @@
       var month = ("0" + (now.getMonth() + 1)).slice(-2);
       var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
       return today;
+   }
+   function get_time() {
+      var now = new Date();
+      var time = now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
+      return time;
+   }
+   function get_time_ampm() {
+      var now = new Date();
+      var ampm = (hour>=12)? "PM" : "AM";
+      var hour = now.getHours();
+      var min  = now.getMinutes();
+
+      var hour = (hour>12)? hour-12 : ((hour==0)? 12:hour);
+
+      var time = ((hour < 10)? "0"+hour: hour) + ":" + ((min < 10)? "0"+min: min) +" "+ampm;
+      return time;
+
    }
 
    $(document).ready(function(){

@@ -8,6 +8,7 @@
 <HTML>
    <link rel="stylesheet" type="text/css" href="teacherHomePage.css">
    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+   <link rel="stylesheet" type="text/css" href="statistic.css">
    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
    <link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
    <script src="tabcontent.js" type="text/javascript"></script>
@@ -44,7 +45,7 @@
     <TITLE>
         INGENIOUS
     </TITLE>
-    <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
+   <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 </HEAD>
 
    <a href="#" id="openDialog" class="stats" style="display: none;">Statistics</a>
@@ -59,6 +60,7 @@
    </div>
 
 <BODY style="background:#F6F9FC; font-family:Calibri;" class="cbp-spmenu-push">
+<?php include_once 'reload_goback.php'; ?>
 <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
@@ -73,6 +75,7 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
+            <div> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
             <a href="#" id="showRightPush" class="button"><!--<img src="images/menu.png" class="menuImage" />--></a>
         </section>
     </div>
@@ -179,12 +182,12 @@
 </script>
 <!-- END of JavaScript to make Hidden Side Menu Work -->
 
-   <?php include_once 'reload_goback.php'; ?>
+
 
 
    <div class="container" >
       <div class="header">
-         <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+         <a href="./teacherHomePage.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
          <!-- <span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>-->
       </div>
 
@@ -232,6 +235,7 @@
    $(".loader").fadeOut(1);
 
    function get_class_test(section_id) {
+      class_selected(section_id);
       current = section_id;
       $(".welcome").fadeOut(1);
       $("#testTable").fadeOut(1);
@@ -248,6 +252,15 @@
             //alert(responseText);
          }
       });
+   }
+
+   function class_selected(section_id) {
+      for (i = 0; i < $('#courseTable td').length; i++) {
+         if( $('#courseTable td').eq(i).attr('value') == section_id )
+            $('#courseTable td').eq(i).css('background-color', 'blue');
+         else
+            $('#courseTable td').eq(i).css('background-color', '#FF9900');
+      }
    }
 
    function delete_test(test_id) {
@@ -352,7 +365,7 @@
 	  var dialogWidth = winWidth * 0.9;
 	  var dialogHeight = winHeight * 0.9;
 	  $( "#openDialog").on("click", function(){
-	    //alert(current);
+          //alert(current);
 	    var data = 'teacherStatistics.php?section=' + current;
 		$("#dialog-modal").load(data, function (responseText, textStatus, XMLHttpRequest) {
 		   if (textStatus == "success") {
