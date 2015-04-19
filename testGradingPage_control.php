@@ -67,7 +67,8 @@
 				. "join student s\n"
 				. "on t.section_id = e.section_id\n"
 				. "and e.student_id = s.student_id\n"
-				. "where test_id = " . $_POST['gradeButton'];
+				. "where test_id = " . $_POST['gradeButton']
+                . " order by last_name, first_name";
 	  
 	  
 	  $test = "SELECT s.student_id, first_name, last_name\n"
@@ -83,7 +84,7 @@
       for($i = 1; $i <= @mysqli_num_rows($sql_result); $i++) {
          //[0]-STUDENT_ID [1]-FIRST_NAME [2]-LAST_NAME
          $row = mysqli_fetch_row($sql_result);
-         $s_name = $row[1] . ', ' . $row[2];
+         $s_name = $row[2] . ', ' . $row[1];
          echo '<tr>';
             echo '<td id="studentTD" type="submit" onclick="get_student_test('.$_POST['gradeButton'].','.$row[0].','."'".$s_name."'".' )">';
                   echo($s_name);
@@ -92,7 +93,7 @@
 		 if($i == 1) {
 			global $st_id, $st_name;
 			$st_id = $row[0];
-			$st_name = $s_name;
+			$st_name = $row[1] . ' ' . $row[2];
 		 }
       }
    }
@@ -335,7 +336,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
          $ex = mysqli_fetch_row($sql_result_ex);
          mysqli_close($connection);
          $data =
-            '<tr><td id="trueFalse">'.
+            '<tr><td id="trueFalse" class="questionTD">'.
             '<table>'.
             '<tr>'.
             '<td width="50px">'.
@@ -377,7 +378,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
          mysqli_close($connection);
 
          $data =
-            '<tr><td id="multipleChoice">'.
+            '<tr><td id="multipleChoice" class="questionTD">'.
             '<table>'.
             '<tr>'.
             '<td width="50px">'.
@@ -437,7 +438,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
          mysqli_close($connection);
 
          $data =
-            '<tr><td id="manyChoice">'.
+            '<tr><td id="manyChoice" class="questionTD">'.
             '<table>'.
             '<tr>'.
             '<td width="50px">'.
@@ -476,7 +477,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
          $ex = mysqli_fetch_row($sql_result_ex);
          mysqli_close($connection);
          $data =
-            '<tr><td id="shortAnswer">'.
+            '<tr><td id="shortAnswer" class="questionTD">'.
             '<table>'.
             '<tr>'.
             '<td width="50px">'.
@@ -504,7 +505,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
          $ex = mysqli_fetch_row($sql_result_ex);
          mysqli_close($connection);
          $data =
-            '<tr><td id="essay">'.
+            '<tr><td id="essay" class="questionTD">'.
             '<table>'.
             '<tr>'.
             '<td width="50px">'.
