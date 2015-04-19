@@ -1,4 +1,6 @@
-
+#logo img{
+   border-style: none;
+}
 #wrapper{
    width : 100%;
    height: auto;
@@ -7,15 +9,17 @@
    z-index:30;
    background-image: url('images/bg-body.jpg');
 }
-#test_info {
+#test_info table {
    position: absolute;
    top: 10px;
    left: 400px;
    min-width: 850px;
+   background-color: #3399FF;
+   color: white;
+   text-shadow:0px 1px 0px #8a3e3e;
 }
 #test_info td{
    text-align: center;
-   border: 1px solid lightblue;
 }
 #f_t_name {
    min-width: 200px;
@@ -44,6 +48,15 @@
   background-color: #3399FF;
   cursor:pointer;
 }
+#test_table
+{
+    border-spacing: 15px;
+}
+.questionTD
+{
+    background-color: white;
+    padding: 10px;
+}
 
 .testQuestions{
     position: relative;
@@ -67,7 +80,7 @@
 	padding-left: 20px;
 	padding-right: 20px;
 	font-size: 30px;
-	border:1px solid #66CCFF;
+    background-color: white;
 }
 #theQuestion{
 	padding-left:0px;
@@ -170,5 +183,5 @@ div.content{
    background: url('./images/monkeyload.gif') 50% 50% no-repeat;
 }
 .table_border_style table{
-	border:1px solid #66CCFF;
+	
 }
