@@ -80,7 +80,6 @@
                   $('#startTime').focus();
                   return false;
                }
-
                return true;
             }
          }
