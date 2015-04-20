@@ -31,7 +31,8 @@
          $sql_command = "UPDATE student_answer\n"
          ."SET stu_points = ".$_GET['n'.($i+1)]."\n"
          ."WHERE ques_id = ".$q_id_array[$i]."\n"
-         ."AND student_id = ".$_GET['s_id']."\n";
+         ."AND student_id = ".$_GET['s_id']."\n"
+         ."LIMIT 1";
          mysqli_query($connection, $sql_command);
          $student_total = $student_total + $_GET['n'.($i+1)];
       }
@@ -208,24 +209,24 @@
 
       $data =
          '<tr>'.
-            '<td id="Matching">'.
+            '<td id="Matching" class="questionTD">'.
                '<table>'.
                   '<tr>'.
                      '<td width="50%">Matching</td>'.
                      '<td colspan="1" width="750px">'.
                         //'<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
                      '</td>'.
-                     '<td width="50px">'.'Stu.'.'</td>'.
-                     '<td width="50px">'.'Ans.'.'</td>'.
+                     '<td width="50px" class="s_ans">'.'Stu.'.'</td>'.
+                     '<td width="50px" class="t_ans">'.'Ans.'.'</td>'.
                   '</tr>';
 
       for($i=0,$ascii=65;$i<$count_matching; $i++, $ascii++, $q++) {
-         $temp =
+         $temp =//
                   '<tr>' .
                      '<td><span style="padding-left:10px;">Q.' . $q . " " . $row[$i*$count_matching][3] . '</span></td>' .
                      '<td>&#'.$ascii.';. '.$array_ans_list[$i] .'</td>' .
-                     '<td>&#' . $array_ans_list_form[$array_students_ans[$i]] . ';</td>' .
-                     '<td>&#' . $array_ans_list_form[$array_test_ans[$i]] . ';</td>' .
+                     '<td class="s_ans" style="text-align:center;">&#' . $array_ans_list_form[$array_students_ans[$i]] . ';</td>' .
+                     '<td class="t_ans" style="text-align:center;">&#' . $array_ans_list_form[$array_test_ans[$i]] . ';</td>' .
                   '</tr>';
          $data = $data . $temp;
       }
@@ -343,16 +344,16 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$row[6].'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($ex[1]=="True")? 'checked':'') . '>True'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($ex[1]=="True")? 'checked':'') . '><span '.(($ex[1]=="True")? 'class="s_ans"':'').'>True</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($ex[1]=="False")? 'checked':'') . '>False'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($ex[1]=="False")? 'checked':'') . '><span '.(($ex[1]=="False")? 'class="s_ans"':'').'>False</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -375,6 +376,15 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
                $data = mysqli_fetch_row($sql_result);
                array_push($t_ans_array, $data[0]);
             }
+
+         $sql_command = "SELECT ans_text, correct\n"
+            . "FROM answer\n"
+            . "WHERE ques_id = " . $row[1] . "\n"
+            . "AND correct = 1";
+         $sql_result = mysqli_query($connection, $sql_command);
+         $data = mysqli_fetch_row($sql_result);
+         $ans_text = $data[0];
+
          mysqli_close($connection);
 
          $data =
@@ -385,24 +395,24 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$ans_text.'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.$t_ans_array[0].
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.'<span '.(($ex[1]==$t_ans_array[0])?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.$t_ans_array[1].
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.'<span '.(($ex[1]==$t_ans_array[1])?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.$t_ans_array[2].
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.'<span '.(($ex[1]==$t_ans_array[2])?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.$t_ans_array[3].
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.'<span '.(($ex[1]==$t_ans_array[3])?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -430,9 +440,11 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             }
 
             $s_ans_array = array();
+            $s_ans_point = 0;
             for($i = 1; $i <= @mysqli_num_rows($sql_result_ex); $i++) {
                $ex = mysqli_fetch_row($sql_result_ex);
                array_push($s_ans_array, $ex[1]);
+               $s_ans_point += $ex[2];
             }
 
          mysqli_close($connection);
@@ -445,30 +457,30 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$ans_text.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$ans_text.'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[0], $s_ans_array))?'checked':'').' value="a">'.$t_ans_array[0].
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[0], $s_ans_array))?'checked':'').' value="a">'.'<span '.((in_array($t_ans_array[0], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[1], $s_ans_array))?'checked':'').' value="c">'.$t_ans_array[1].
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[1], $s_ans_array))?'checked':'').' value="c">'.'<span '.((in_array($t_ans_array[1], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[2], $s_ans_array))?'checked':'').' value="b">'.$t_ans_array[2].
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[2], $s_ans_array))?'checked':'').' value="b">'.'<span '.((in_array($t_ans_array[2], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[3], $s_ans_array))?'checked':'').' value="d">'.$t_ans_array[3].
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[3], $s_ans_array))?'checked':'').' value="d">'.'<span '.((in_array($t_ans_array[3], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
             '</td>'.
             '<td class="pointBox" id="pointBox'.$q.'">'.
-            '<input type="text" value="'.((is_null($ex[2]))?0:$ex[2]).'" onkeydown="return isNumberKey(event)" onkeyup="calculate_total()" maxlength="3" style="width:40px;" class="points" id="p'.$q.'">/'.$row[4].
+            '<input type="text" value="'.$s_ans_point/*((is_null($ex[2]))?0:$ex[2])*/.'" onkeydown="return isNumberKey(event)" onkeyup="calculate_total()" maxlength="3" style="width:40px;" class="points" id="p'.$q.'">/'.$row[4].
             '</td>'.
             '</tr>';
          return $data;
@@ -484,13 +496,13 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Ans: '.$row[6].'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="text" name="shortAns" style="width:95%; height:25px;" value="'.$ex[1].'">'.
+            '<input disabled type="text" name="shortAns" style="width:95%; height:25px; font-size:20px; background-color:white;" class="s_ans" value="'.$ex[1].'">'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -518,7 +530,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<textarea disabled type="text" name="essayAns" value="" class="essayText">'.$ex[1].'</textarea>'.
+            '<textarea disabled type="text" name="essayAns" value="" style="font-size:20px; background-color:white; overflow:auto;" class="essayText s_ans">'.$ex[1].'</textarea>'.
             '</td>'.
             '</tr>'.
             '</table>'.

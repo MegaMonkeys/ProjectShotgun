@@ -65,6 +65,7 @@
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+   <span id="name_tab"><?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?></span>
    <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
    <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
    <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
@@ -75,6 +76,7 @@
    <div class="main">
       <section class="buttonset">
          <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
+         <div id="name_tag"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
          <a href="#" id="showRightPush" class="button"></a>
       </section>
    </div>
@@ -192,10 +194,10 @@
       <div id="test_info">
          <table>
             <tr>
-               <td><b>Test Name</b></td>
-               <td><b>Student Name</b></td>
-               <td><b>Student Point</b></td>
-               <td><b>Total Point</b></td>
+               <td><b>Test</b></td>
+               <td><b>Student</b></td>
+               <td><b>Actual</b></td>
+               <td><b>Total</b></td>
                <td><b>%</b></td>
                <td></td>
             </tr>
@@ -211,7 +213,7 @@
       </div>
 
       <div class="content">
-         <div id="studentList">Student List:</div>
+         <div id="studentList"><h2>Students</h2></div>
          <div id="studentInformation">
             <table id="studentTable">
                <?php get_student_list(); ?>
