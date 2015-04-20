@@ -122,6 +122,7 @@
 
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+<span id="name_tab"><?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?></span>
 <a href='studentHomePage2.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
 <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
 <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
@@ -139,7 +140,7 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <div> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
+           <span id="name_tag"><?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?></span>
             <a href="#" id="showRightPush" class="button"><class="menuImage" /></a>
         </section>
     </div>
@@ -320,7 +321,7 @@
    function class_selected(section_no) {
       for (i = 0; i < $('#courseTable td').length; i++) {
          if( $('#courseTable td').eq(i).attr('value') == section_no )
-            $('#courseTable td').eq(i).css('background-color', 'blue');
+            $('#courseTable td').eq(i).css('background-color', 'rgb(0,150,210)');
          else
             $('#courseTable td').eq(i).css('background-color', '#FF9900');
       }

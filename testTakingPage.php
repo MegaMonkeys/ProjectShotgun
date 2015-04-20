@@ -219,6 +219,7 @@
 	
 	<div class="header">
 		<img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+      <div id="name_tag"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
       <!--<span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>-->
 	</div>
 		

@@ -72,7 +72,7 @@
      	}
         echo "</th>";
       }
-      $row4_2 = array_sum($result5) / count($result5);
+      @$row4_2 = array_sum($result5) / count($result5);
       echo "<th>Total class avg: ";   
       if (is_numeric($row4_2))
             echo "$row4_2%";
