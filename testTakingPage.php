@@ -29,6 +29,8 @@
     <?php
         $testID = isset($_POST['takeTestButton']) ? $_POST['takeTestButton'] : '-1';
         $studentID = $_SESSION['user_id'];
+        $sessionName = $_SESSION['user_name'];
+        $studentName = $sessionName[0] . ' ' . $sessionName[1];
         
         include 'db_connection.php';
         
@@ -47,7 +49,7 @@
         }
 
         // Get the test information
-        $sqlComm = 'select course_no, section_no, test_name, time_limit, date_time
+        $sqlComm = 'select course_no, section_no, test_name, time_limit, date_time, pledge
                     from test join section using (section_id) left outer join student_test using (test_id) where test_id = '.$testID.' and student_id = '.$studentID;
         $testInfo = mysqli_query($connection, $sqlComm);
         $infoRow = mysqli_fetch_row($testInfo);
@@ -59,6 +61,7 @@
         $minutesLeft = date_format($timeLimit, "i"). " minutes";
         $studentEndTime = date_add(date_create($infoRow[4]), date_interval_create_from_date_string($hoursLeft));
         $studentEndTime = date_add($studentEndTime, date_interval_create_from_date_string($minutesLeft));
+        $pledge = $infoRow[5];
         
         $timeLeft = date_diff($current_datetime, $studentEndTime);
         $strTimeLeft = date_interval_format($timeLeft, "%H:%I:%S:%r");
@@ -81,30 +84,40 @@
 	$(function() {
         // JB added this submitDialog variable. See the line below.
 		var submitDialog = $( "#dialog-confirm-submit" ).dialog({
-		autoOpen: false,
-		resizable: false,
-		height: 250,
-		width:  400,
-		modal: true,
-		show: {
-			effect: "blind",
-			duration: 1000
-		},
-		hide: {
-			effect: "explode",
-			duration: 1000
-		},
-		buttons: {
-			"Submit!!!": function() {
-			$( this ).dialog( "close" );
-				submitTest();
-				//document.form.submit();
-			},
-			Cancel: function() {
-			$( this ).dialog( "close" );
-			}
-		}
-	});
+                                autoOpen: false,
+                                resizable: false,
+                                height: 500,
+                                width:  800,
+                                modal: true,
+                                show: {
+                                    effect: "blind",
+                                    duration: 1000
+                                },
+                                hide: {
+                                    effect: "explode",
+                                    duration: 1000
+                                },
+                                buttons: {
+                                    "Submit": function() {
+                                        if("<?php echo $studentName; ?>" === document.getElementById('signature').value) {
+                                            $( this ).dialog( "close" );
+                                            submitTest();
+                                            //document.form.submit();
+                                        }
+                                        else {
+                                            document.getElementById('errorMsg').innerHTML = "Name does not match!";
+                                        }
+                                    },
+                                    "Submit Without Signing": function() {
+                                        document.getElementById('signature').value = "";
+                                        $( this ).dialog( "close" );
+                                        submitTest();
+                                    },
+                                    Cancel: function() {
+                                        $( this ).dialog( "close" );
+                                    }
+                                }
+                            });
     // JB added this so pledge signature will get sent with the rest of the test when they click submit.
     submitDialog.parent().appendTo($("#testForm"));
 
@@ -152,26 +165,37 @@
                    
         // JB added this timeUpDialog variable. See the line below.
 	$timeUpDialog = $( "#dialog-confirm-submit" ).dialog({
-		autoOpen: true,
-		resizable: false,
-		height: 250,
-		width:  400,
-		modal: true,
-		show: {
-			effect: "blind",
-			duration: 1000
-		},
-		hide: {
-			effect: "explode",
-			duration: 1000
-		},
-		buttons: {
-			"Submit!!!": function() {
-			$( this ).dialog( "close" );
-				submitTest();
-			}
-		}
-	});
+                        autoOpen: true,
+                        resizable: false,
+                        height: 500,
+                        width:  800,
+                        modal: true,
+                        show: {
+                            effect: "blind",
+                            duration: 1000
+                        },
+                        hide: {
+                            effect: "explode",
+                            duration: 1000
+                        },
+                        buttons: {
+                            "Submit": function() {
+                                if("<?php echo $studentName; ?>" === document.getElementById('signature').value) {
+                                    $( this ).dialog( "close" );
+                                    submitTest();
+                                    //document.form.submit();
+                                }
+                                else {
+                                    document.getElementById('errorMsg').innerHTML = "Name does not match!";
+                                }
+                            },
+                            "Submit Without Signing": function() {
+                                document.getElementById('signature').value = "";
+                                $( this ).dialog( "close" );
+                                submitTest();
+                            }
+                        }
+                    });
     // JB added this so pledge signature will get sent with the rest of the test when they click submit.
     timeUpDialog.parent().appendTo($("#testForm"));
     
@@ -226,9 +250,13 @@
         <form name="testForm" id ="testForm" action="submit_test.php" method="post">
             <div id="dialog-confirm-submit" title="Pledge" style="background-color: #ADD6FF; ">
                 <p>
-                    <div style="font-size: 20px;">Please
+                    <div style="font-size: 20px;">
+                        <?php echo $pledge; ?><br />
+                        If you can honestly do so, sign your name exactly as it appears:
                     </div>
-                    <input type="textbox" name="signature" value="My Name" onclick="this.select()" style="width:350px;">
+                    <input type="text" autofocus style="display:none;"/>
+                    <input type="textbox" id="signature" name="signature" placeholder="<?php echo $studentName; ?>" onclick="this.select()" style="width:350px;"><br />
+                    <span id="errorMsg"></span>
                 </p>
             </div>
             <?php

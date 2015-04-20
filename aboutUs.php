@@ -181,10 +181,10 @@
 						</td>
 						<td>
 							<h1> Hello, my name is Steve. </h1><br />
-							<h3> And I\'m the immaculate face of MegaMonkeys, Inc., the Mega Minds behind
-							Ingenious. It\'s our hope that your time here has been both profitable and
-							enjoyable, (although we know we may not be at the top of the students' favs
-							list). That caveat aside, whether you\'re a teacher or a student, it\'s our intent
+							<h3> And I&rsquo;m the immaculate face of MegaMonkeys, Inc., the Mega Minds behind
+							Ingenious. It&rsquo;s our hope that your time here has been both profitable and
+							enjoyable, (although we know we may not be at the top of the students&rsquo; favs
+							list). That caveat aside, whether you&rsquo;re a teacher or a student, it&rsquo;s our intent
 							to make your online academic experience as naturally intuitive as possible.
 							<br /><br />Here at MegaMonkeys, Inc. we thrive on initiative, ingenuity, and bananas.
 							Our corporate structure is designed around the simple concept that happy,
