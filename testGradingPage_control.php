@@ -344,7 +344,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Ans: '.$row[6].'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$row[6].'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
@@ -395,7 +395,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Ans: '.$ans_text.'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$ans_text.'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
@@ -457,7 +457,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Ans: '.$ans_text.'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$ans_text.'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
@@ -502,7 +502,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="text" name="shortAns" style="width:95%; height:25px; font-size:20px;" class="s_ans" value="'.$ex[1].'">'.
+            '<input disabled type="text" name="shortAns" style="width:95%; height:25px; font-size:20px; background-color:white;" class="s_ans" value="'.$ex[1].'">'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -530,7 +530,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<textarea disabled type="text" name="essayAns" value="" style="font-size:20px;" class="essayText s_ans">'.$ex[1].'</textarea>'.
+            '<textarea disabled type="text" name="essayAns" value="" style="font-size:20px; background-color:white; overflow:auto;" class="essayText s_ans">'.$ex[1].'</textarea>'.
             '</td>'.
             '</tr>'.
             '</table>'.
