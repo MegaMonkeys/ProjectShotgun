@@ -133,6 +133,17 @@ float: right;
     font-weight: 300;
 }
 
+#name_tab {
+   display: block;
+   text-decoration: none;
+   text-align: left;
+   color: #fff;
+   padding-left: 20px;
+   font-size: 2em;
+   font-weight: 300;
+   padding-top: 20px;
+}
+
 .cbp-spmenu a:hover {
     background: #0096d2;
 }
@@ -208,4 +219,13 @@ float: right;
     .cbp-spmenu-push-toright {
         left: 190px;
     }
+}
+
+#name_tag {
+   position:absolute;
+   right: 10px;
+   width: 200px;
+   top: 33px;
+   color: white;
+   text-align: right;
 }
