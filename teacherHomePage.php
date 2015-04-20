@@ -35,6 +35,12 @@
             width:100%;
             height:100%;
         }
+		.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+			float: none;
+		}
+		.ui-dialog .ui-dialog-buttonpane {
+			text-align: center; /* left/center/right */
+		}
     </style>
     <script>
         window.addEventListener("load", function(){
@@ -49,7 +55,7 @@
 </HEAD>
 
    <a href="#" id="openDialog" class="stats" style="display: none;">Statistics</a>
-   <div id="dialog-confirm-delete-test" title="Are you sure about this?" style="background-color: #ADD6FF; ">
+   <div id="dialog-confirm-delete-test" title="Are you sure about this?" style="background-color: #ADE8FF; ">
 		<p>
 			<div style="font-size: 20px;">Are you sure you delete this test? After it is deleted, the test can no longer be recovered, and students can no longer take this test.
 			</div>
@@ -253,15 +259,17 @@
          }
       });
    }
-
+   
    function class_selected(section_id) {
       for (i = 0; i < $('#courseTable td').length; i++) {
          if( $('#courseTable td').eq(i).attr('value') == section_id )
-            $('#courseTable td').eq(i).css('background-color', 'blue');
+            $('#courseTable td').eq(i).css('background-color', 'rgb(0,150,210)');
          else
             $('#courseTable td').eq(i).css('background-color', '#FF9900');
       }
    }
+   
+<!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 
    function delete_test(test_id) {
       $("#testTable").fadeOut(1);
@@ -287,17 +295,18 @@
       $(function (){
 		$( "#dialog-confirm-delete-test" ).dialog({
 		autoOpen: false,
-		resizable: false,
-		height: 250,
-		width:  400,
+		resizable: true,
+		height: 350,
+		width:  450,
 		modal: true,
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 500
 		},
 		hide: {
-			effect: "explode",
-			duration: 1000
+			effect: "drop", 
+			direction: "down",
+			duration: 500
 		},
 		buttons: {
 			"Delete": function() {
@@ -307,12 +316,14 @@
                  var data = 'teacherHomePage_control.php?action=delete&section_id=' + current + '&test_id=' + test_id;
 				 $('#testTable').load(data);
 			},
-			Cancel: function() {
+			"Cancel": function() {
 			$( this ).dialog( "close" );
 			}
 		}
 	});
-
+	$(".ui-dialog-titlebar-close").hide();
+	
+<!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 
   });
    
@@ -321,17 +332,18 @@
    $(function (){
 		$( "#dialog-confirm-delete-test" ).dialog({
 		autoOpen: true,
-		resizable: false,
-		height: 250,
-		width:  400,
+		resizable: true,
+		height: 350,
+		width:  450,
 		modal: true,
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 500
 		},
 		hide: {
-			effect: "explode",
-			duration: 1000
+			effect: "drop", 
+			direction: "down",
+			duration: 500
 		},
 		buttons: {
 			"Delete": function() {
@@ -341,11 +353,13 @@
                  var data = 'teacherHomePage_control.php?action=delete&section_id=' + current + '&test_id=' + test_id;
 				 $('#testTable').load(data);
 			},
-			Cancel: function() {
+			"Cancel": function() {
 			$( this ).dialog( "close" );
 			}
 		}
 	});
+	$(".ui-dialog-titlebar-close").hide();
+	
 
     $( "#deleteButton" ).click(function() {
       $( "#dialog-confirm-delete-test" ).dialog( "open" );

@@ -75,7 +75,7 @@
    <div class="main">
       <section class="buttonset">
          <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-         <a href="#" id="showRightPush" class="button"><img src="images/menu.png" class="menuImage" /></a>
+         <a href="#" id="showRightPush" class="button"></a>
       </section>
    </div>
 </div>
@@ -184,7 +184,7 @@
 <div class="container" >
    <div class="header">
       <!--<img src="images/header.png" class="header"/>-->
-      <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+      <a href="teacherHomePage.php" id="logo"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
    </div>
    <div class="sticky-navigation"></div>
 
@@ -192,12 +192,12 @@
       <div id="test_info">
          <table>
             <tr>
-               <td>Test Name</td>
-               <td>Student Name</td>
-               <td>Student Point</td>
-               <td>Total Point</td>
-               <td>%</td>
-               <td>Save</td>
+               <td><b>Test Name</b></td>
+               <td><b>Student Name</b></td>
+               <td><b>Student Point</b></td>
+               <td><b>Total Point</b></td>
+               <td><b>%</b></td>
+               <td></td>
             </tr>
             <tr>
                <td id="f_t_name"></td>
