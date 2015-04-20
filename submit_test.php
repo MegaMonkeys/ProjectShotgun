@@ -195,31 +195,37 @@
     }
     
     // Update grade in student_test table
-    if($hasEssay)
-    {
-        $essayPoints = "null";
-        $grade = "null";
-    }
-    else
-    {
-        $essayPoints = "0";
-        
-        $sql = "select sum(points) from question where test_id = " . $testID;
-        $result = mysqli_query($connection, $sql);
-        $row = mysqli_fetch_row($result);
-        $grade = (float)$objPoints / (float)$row[0] * 100.0;
-    }
-    
     if($signature === $studentName)
+    {
         $signed = '1';
+        if($hasEssay)
+        {
+            $essayPoints = "null";
+            $grade = "null";
+        }
+        else
+        {
+            $essayPoints = "0";
+            
+            $sql = "select sum(points) from question where test_id = " . $testID;
+            $result = mysqli_query($connection, $sql);
+            $row = mysqli_fetch_row($result);
+            $grade = (float)$objPoints / (float)$row[0] * 100.0;
+        }
+    }
     else
+    {
         $signed = '0';
+        $essayPoints = '0';
+        $objPoints = '0';
+        $grade = '0';
+    }
 
-    $sqlComm = "update student_test set objective_grade = " . $objPoints . ", "
-                                      . "essay_grade = "    . $essayPoints . ", "
-                                      . "final_grade = "    . $grade . ", "
-                                      . "signed_pledge = "  . $signed . " "
-                 . "where test_id = " . $testID . " and student_id = " . $student_id;
+    $sqlComm = "update student_test set objective_grade = "  . $objPoints
+                                      . ", essay_grade = "   . $essayPoints
+                                      . ", final_grade = "   . $grade
+                                      . ", signed_pledge = " . $signed
+                 . " where test_id = " . $testID . " and student_id = " . $student_id;
     mysqli_query($connection, $sqlComm);
     echo '<br /><br />'.$sqlComm;
 
@@ -229,5 +235,6 @@
     
     mysqli_close($connection);
     
+    echo '<br /><br />If you are not redirected to your home page, click here: <a href="studentHomePage2.php">Home.</a>';
     header("Location: studentHomePage2.php");
 ?>
