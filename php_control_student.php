@@ -152,10 +152,12 @@
             $counter--;
          }
          if($counter == $numRows)
-            echo "<tr><td>Looks like there aren't any tests for this course. Check back later.</td></tr>";
+            //echo "<tr><td>Looks like there aren't any tests for this course. Check back later.</td></tr>";
+            echo "<tr><td><img id='welcome_bg' src='./images/no test student.png' style='width:80%; height:80%;margin: 10% 10%;'></td></tr>";
       }
       else
-         echo "<tr><td>Looks like there aren't any tests for this course. Check back later.</td></tr>";
+         //echo "<tr><td>Looks like there aren't any tests for this course. Check back later.</td></tr>";
+         echo "<tr><td><img id='welcome_bg' src='./images/no test student.png' style='width:80%; height:80%;margin: 10% 10%;'></td></tr>";
 
       mysqli_close($connection);
    }
