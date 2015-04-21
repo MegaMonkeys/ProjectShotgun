@@ -229,3 +229,7 @@ float: right;
    color: white;
    text-align: right;
 }
+
+#showRightPush {
+   text-align: center;
+}

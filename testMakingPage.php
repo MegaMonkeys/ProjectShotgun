@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <HTML>
    <HEAD>
+      <link rel="stylesheet" type="text/css" href="tooltip.css">
       <!-- jQuery API JavaScript & CSS Do Not Remove (YC)-->
       <script src="./jquery_api/jquery-1.10.2.js"></script>
       <script src="./jquery_api/jquery.min.js"></script>
@@ -167,7 +168,7 @@
 			<div class="main">
 			 <section class="buttonset">
 				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
+				<a href="#" id="showRightPush" class="button tooltip-bottom" data-tooltip='Menu' style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
 			 </section>
 			</div>
 
