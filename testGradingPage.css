@@ -1,4 +1,6 @@
-
+#logo img{
+   border-style: none;
+}
 #wrapper{
    width : 100%;
    height: auto;
@@ -7,17 +9,22 @@
    z-index:30;
    background-image: url('images/bg-body.jpg');
 }
-#test_info {
+#test_info table {
    position: absolute;
    top: 10px;
    left: 400px;
    min-width: 850px;
+   background-color: #3399FF;
+   color: white;
+   text-shadow:0px 1px 0px #8a3e3e;
+   border-collapse: collapse;
 }
 #test_info td{
    text-align: center;
-   border: 1px solid lightblue;
+   border: 1px solid lightsteelblue;
 }
 #f_t_name {
+   text-align: left;
    min-width: 200px;
    max-width: 200px;
 }
@@ -26,8 +33,8 @@
    max-width: 300px;
 }
 #f_percent {
-   min-width: 60px;
-   max-width: 60px;
+   min-width: 80px;
+   max-width: 120px;
 }
 #studentTable{
   width: 200px;
@@ -44,15 +51,29 @@
   background-color: #3399FF;
   cursor:pointer;
 }
+#test_table
+{
+    border-spacing: 15px;
+}
+.questionTD
+{
+    background-color: white;
+    padding: 10px;
+}
 
 .testQuestions{
     position: relative;
-	padding-top: 100px;
+	margin-top: 50px;
     left: 300px;
     width: 900px;
-/*    overflow-y: scroll;*/
    border-spacing: 15px;
    z-index:50;
+}
+#t_save {
+   width:50px;
+   height: 21px;
+   background-color: #FF9900;
+   border-style: none;
 }
 .essayText{
 	width: 95%;
@@ -68,7 +89,7 @@
 	padding-left: 20px;
 	padding-right: 20px;
 	font-size: 30px;
-	border:1px solid #66CCFF;
+    background-color: white;
 }
 #theQuestion{
 	padding-left:0px;
@@ -88,12 +109,12 @@
 #studentList{
 position: fixed;
 top: 200px;
+font-family: Calibri;
 }
 #studentInformation{
 position: fixed;
 height:auto;
 top: 240px;
-overflow-y:scroll;
    z-index:30;
 }
 .submit-button {
@@ -172,5 +193,13 @@ div.content{
    background: url('./images/monkeyload.gif') 50% 50% no-repeat;
 }
 .table_border_style table{
-	border:1px solid #66CCFF;
+	
+}
+
+.t_ans {
+   color:orangered;
+}
+
+.s_ans {
+   color: cadetblue;
 }

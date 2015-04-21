@@ -51,7 +51,7 @@
     <TITLE>
         INGENIOUS
     </TITLE>
-    <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
+   <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 </HEAD>
 
    <a href="#" id="openDialog" class="stats" style="display: none;">Statistics</a>
@@ -66,10 +66,12 @@
    </div>
 
 <BODY style="background:#F6F9FC; font-family:Calibri;" class="cbp-spmenu-push">
+<?php include_once 'reload_goback.php'; ?>
 <div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+<span id="name_tab"><?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?></span>
 <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
 <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
 <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
@@ -80,6 +82,7 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
+            <div id="name_tag"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
             <a href="#" id="showRightPush" class="button"><!--<img src="images/menu.png" class="menuImage" />--></a>
         </section>
     </div>
@@ -186,12 +189,12 @@
 </script>
 <!-- END of JavaScript to make Hidden Side Menu Work -->
 
-   <?php include_once 'reload_goback.php'; ?>
+
 
 
    <div class="container" >
       <div class="header">
-         <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+         <a href="./teacherHomePage.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
          <!-- <span id="menu"><img src="images/menu.png" alt="Ingenious logo" style="width:70px;"> </span>-->
       </div>
 
@@ -239,6 +242,7 @@
    $(".loader").fadeOut(1);
 
    function get_class_test(section_id) {
+      class_selected(section_id);
       current = section_id;
       $(".welcome").fadeOut(1);
       $("#testTable").fadeOut(1);
@@ -256,7 +260,18 @@
          }
       });
    }
+   
+   function class_selected(section_id) {
+      for (i = 0; i < $('#courseTable td').length; i++) {
+         if( $('#courseTable td').eq(i).attr('value') == section_id )
+            $('#courseTable td').eq(i).css('background-color', 'rgb(0,150,210)');
+         else
+            $('#courseTable td').eq(i).css('background-color', '#FF9900');
+      }
+   }
+   
 <!--CODE ADDED BY G3 FOR DELETE_TEST POPUP DIALOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
    function delete_test(test_id) {
       $("#testTable").fadeOut(1);
       $(".loader").fadeIn("slow");
@@ -346,6 +361,7 @@
 	});
 	$(".ui-dialog-titlebar-close").hide();
 	
+
     $( "#deleteButton" ).click(function() {
       $( "#dialog-confirm-delete-test" ).dialog( "open" );
     });

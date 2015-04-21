@@ -20,6 +20,11 @@
    -o-transition: all 0.3s ease-out;
    transition: all 0.3s ease-out;
 }
+.inputsTime  {
+   min-width: 50px;
+   margin: 0 0 0 0;
+   padding: 0 0 0 0;
+}
 
 .inputs:focus {
    border-color: #BBB;

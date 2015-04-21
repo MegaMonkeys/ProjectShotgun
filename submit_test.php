@@ -7,13 +7,17 @@
     
     echo 'submit_test.php <br /><br />';    
     
+    $signature = $_POST['signature'];
+    $sessionName = $_SESSION['user_name'];
+    $studentName = $sessionName[0] . ' ' . $sessionName[1];
     $student_id = $_SESSION['user_id'];
     $testID = $_POST['testID'];
     $numEntries = $_POST['numEntries'];
     $hasEssay = false;
     $objPoints = 0;
     
-
+    echo $studentName . '<br />';
+    echo $signature . '<br />';
   
   // Delete the old answers if this test is a retake
   mysqli_query($connection, 'delete from student_answer where student = ' . $student_id . ' and ques_id in (select ques_id from question where test_id = ' . $testID . ')');
@@ -21,11 +25,12 @@
 
     for($x = 1; $x <= $numEntries; $x++)
     {
-        echo '<br />Question ';
         $qIDtype = isset($_POST['Q'.$x.'ID']) ? $_POST['Q'.$x.'ID'] : 'No such question';
         $qInfo = explode(",", $qIDtype);
         $qID = $qInfo[0];
         $qType = $qInfo[1];
+        
+        echo '<br />Question ';
         echo $qType.' ';
         echo $qID;
         echo ': ';
@@ -190,24 +195,36 @@
     }
     
     // Update grade in student_test table
-    if($hasEssay)
+    if($signature === $studentName)
     {
-        $essayPoints = "null";
-        $grade = "null";
+        $signed = '1';
+        if($hasEssay)
+        {
+            $essayPoints = "null";
+            $grade = "null";
+        }
+        else
+        {
+            $essayPoints = "0";
+            
+            $sql = "select sum(points) from question where test_id = " . $testID;
+            $result = mysqli_query($connection, $sql);
+            $row = mysqli_fetch_row($result);
+            $grade = (float)$objPoints / (float)$row[0] * 100.0;
+        }
     }
     else
     {
-        $essayPoints = "0";
-        
-        $sql = "select sum(points) from question where test_id = " . $testID;
-        $result = mysqli_query($connection, $sql);
-        $row = mysqli_fetch_row($result);
-        $grade = (float)$objPoints / (float)$row[0] * 100.0;
+        $signed = '0';
+        $essayPoints = '0';
+        $objPoints = '0';
+        $grade = '0';
     }
 
-    $sqlComm = "update student_test set objective_grade = " . $objPoints . ","
-                                      . " essay_grade = " . $essayPoints . ","
-                                      . " final_grade = " . $grade
+    $sqlComm = "update student_test set objective_grade = "  . $objPoints
+                                      . ", essay_grade = "   . $essayPoints
+                                      . ", final_grade = "   . $grade
+                                      . ", signed_pledge = " . $signed
                  . " where test_id = " . $testID . " and student_id = " . $student_id;
     mysqli_query($connection, $sqlComm);
     echo '<br /><br />'.$sqlComm;
@@ -218,5 +235,6 @@
     
     mysqli_close($connection);
     
+    echo '<br /><br />If you are not redirected to your home page, click here: <a href="studentHomePage2.php">Home.</a>';
     header("Location: studentHomePage2.php");
 ?>

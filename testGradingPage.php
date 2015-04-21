@@ -65,6 +65,7 @@
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+   <span id="name_tab"><?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?></span>
    <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
    <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
    <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
@@ -75,7 +76,8 @@
    <div class="main">
       <section class="buttonset">
          <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-         <a href="#" id="showRightPush" class="button"><img src="images/menu.png" class="menuImage" /></a>
+         <div id="name_tag"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
+         <a href="#" id="showRightPush" class="button"></a>
       </section>
    </div>
 </div>
@@ -184,7 +186,7 @@
 <div class="container" >
    <div class="header">
       <!--<img src="images/header.png" class="header"/>-->
-      <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+      <a href="teacherHomePage.php" id="logo"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
    </div>
    <div class="sticky-navigation"></div>
 
@@ -192,12 +194,12 @@
       <div id="test_info">
          <table>
             <tr>
-               <td>Test Name</td>
-               <td>Student Name</td>
-               <td>Student Point</td>
-               <td>Total Point</td>
-               <td>%</td>
-               <td>Save</td>
+               <td><b>Test</b></td>
+               <td><b>Student</b></td>
+               <td><b>Actual</b></td>
+               <td><b>Total</b></td>
+               <td><b>%</b></td>
+               <td></td>
             </tr>
             <tr>
                <td id="f_t_name"></td>
@@ -211,7 +213,7 @@
       </div>
 
       <div class="content">
-         <div id="studentList">Student List:</div>
+         <div id="studentList"><h2>Students</h2></div>
          <div id="studentInformation">
             <table id="studentTable">
                <?php get_student_list(); ?>

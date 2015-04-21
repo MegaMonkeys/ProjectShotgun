@@ -248,10 +248,10 @@ div.content{
       left: 100px;
    }
    .testEachCourse, #classTitle {
-      left: 250px;
+      left: 350px;
    }
    .stats {
-      left: 1000px;
+      left: 1100px;
    }
 }
 @media screen and (max-width: 1400px) {

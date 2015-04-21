@@ -193,8 +193,7 @@
          mysqli_close($connection);
       }
 
-   function load_question_info($data)
-   {
+   function load_question_info($data) {
       return
          '<script type="text/javascript">'.
             '$("#testName").val("' . $data[0] . '");' .
@@ -203,7 +202,9 @@
             '$("#startDate").val("' . substr($data[1], 0, 10) . '");' .
             '$("#endDate").val("' . substr($data[2], 0, 10) . '");' .
             '$("#startTime").val("' . substr($data[1], 11, 18) . '");' .
+            'set_time("'.substr($data[1], 11, 18).'", "start");' .
             '$("#endTime").val("' . substr($data[2], 11, 18) . '");' .
+            'set_time("'.substr($data[2], 11, 18).'", "end");' .
             '$("#hours").val("' . intval(substr($data[3], 0, 2)) . '");' .
             '$("#minutes").val("' . intval(substr($data[3], 3, 5)) . '");' .
             '$("#courseNo").val("' . preg_replace('/\s+/', '', $data[6]) . '");' .
@@ -214,19 +215,19 @@
 
    function load_question_form($data)
    {
-      $q_types = array('True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay', 'Instruction');
+      $q_types = array('Instruction', 'True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay');
       $q_type = array_search($data[3], $q_types);
       echo '<li class="ui-state-default tess">';
       echo '<span>::</span> ';
       echo     load_question_type($q_type, $data[4], $data[5], $data[0]);
-      echo     ($q_type == 1 || $q_type == 2 ? load_question_option(($q_type == 1 ? "radio" : "checkbox"), $data[0]) : "");
-      echo     ($q_type == 0 || $q_type == 3 || $q_type == 4 ? load_question_extra() : "");
+      echo     ($q_type == 2 || $q_type == 3 ? load_question_option(($q_type == 2 ? "radio" : "checkbox"), $data[0]) : "");
+      echo     ($q_type == 1 || $q_type == 4 || $q_type == 5 ? load_question_extra() : "");
       echo '</li>';
    }
 
    function load_question_type($q_type, $q_text, $q_pt, $q_id)
    {
-      if($q_type == 1 || $q_type == 3)
+      if($q_type == 1 || $q_type == 4)
       {
          include 'db_connection.php';
          $sql_command = "SELECT * FROM `answer` WHERE QUES_ID = " . $q_id . ";";
@@ -235,46 +236,46 @@
          mysqli_close($connection);
       }
 
-      $form_array = array('True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question', 'Instruction');
+      $form_array = array('Instruction', 'True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question');
       $form_text_array =
          array(
-            //Index:0 - True/False Question
-            $form_array[$q_type] .
-            '<input class="required_field" type="text" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
-            '<textarea required class="required_field" rows="3" placeholder="True/False Question" maxlength="200">'.$q_text.'</textarea>'.
-            '<input type="radio" style="margin-left: 23%;"' . ($q_type==1||@$row[2]? 'checked': '') . '> True'.
-            '<input type="radio" style="margin-left: 23%;"' . ($q_type==1||@!$row[2]? 'checked': '') . '> False',
-
-            //Index:1 - Multiple Choice Question
-            $form_array[$q_type] .
-            '<input class="required_field" type="text" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
-            //'<input type="button" value="Option" onclick="add_option(this);"><br>'.
-            '<textarea equired class="required_field" rows="3" placeholder="Multiple Choice Question" maxlength="200">'.$q_text.'</textarea>' ,
-
-            //Index:2 - Many Choices
-            $form_array[$q_type] .
-            '<input type="text" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
-            //'<input type="button" value="Option" onclick="add_option(this);"><br>'.
-            '<textarea required class="required_field" rows="3" placeholder="Many Choice Question" maxlength="200">'.$q_text.'</textarea>',
-
-            //Index:3 - Short Answer Question
-            $form_array[$q_type] .
-            '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
-            '<textarea required class="required_field" rows="3" placeholder="Short Answer Question" maxlength="200">'.$q_text.'</textarea>'.
-            'Answer: <input required class="required_field" type="text" maxlength="50" size="55" value="' . @$row[2] . '">',
-
-            //Index:4 - Essay
-            $form_array[$q_type] .
-            '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
-            '<textarea required class="required_field" rows="4" placeholder="Essay Question" maxlength="250">'.$q_text.'</textarea><br>',
-
-            //Index:5 - Instruction
+            //Index:0 - Instruction
             $form_array[$q_type] .
             '<button class="bin_button" type="button" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeQ(this);">' .
             '<input type="image" width="100%" height="100%" src="./images/recycle_close.jpeg">' .
             '</button><br>' .
             '<textarea required class="required_field" rows="2" placeholder="Type Instruction" maxlength="200">'.$q_text.'</textarea>' .
-            '<input type="hidden">'
+            '<input type="hidden">',
+
+            //Index:1 - True/False Question
+            $form_array[$q_type] .
+            '<input class="required_field" type="text" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            '<textarea required class="required_field" rows="3" placeholder="True/False Question" maxlength="200">'.$q_text.'</textarea>'.
+            '<input type="radio" style="margin-left: 23%;"' . (@$row[2]=='True'? 'checked': '') . '> True'.
+            '<input type="radio" style="margin-left: 23%;"' . (@$row[2]=='False'? 'checked': '') . '> False',
+
+            //Index:2 - Multiple Choice Question
+            $form_array[$q_type] .
+            '<input class="required_field" type="text" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            //'<input type="button" value="Option" onclick="add_option(this);"><br>'.
+            '<textarea equired class="required_field" rows="3" placeholder="Multiple Choice Question" maxlength="200">'.$q_text.'</textarea>' ,
+
+            //Index:3 - Many Choices
+            $form_array[$q_type] .
+            '<input type="text" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            //'<input type="button" value="Option" onclick="add_option(this);"><br>'.
+            '<textarea required class="required_field" rows="3" placeholder="Many Choice Question" maxlength="200">'.$q_text.'</textarea>',
+
+            //Index:4 - Short Answer Question
+            $form_array[$q_type] .
+            '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            '<textarea required class="required_field" rows="3" placeholder="Short Answer Question" maxlength="200">'.$q_text.'</textarea>'.
+            'Answer: <input required class="required_field" type="text" maxlength="50" size="55" value="' . @$row[2] . '">',
+
+            //Index:5 - Essay
+            $form_array[$q_type] .
+            '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="'.$q_pt.'"><qp style="float:right;"> Point-&nbsp;</qp>'.
+            '<textarea required class="required_field" rows="4" placeholder="Essay Question" maxlength="250">'.$q_text.'</textarea><br>'
 
             //'<textarea required name="ques_random" rows="4" placeholder="Nothing Nothing"></textarea>'
          );
