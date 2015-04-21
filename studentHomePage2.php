@@ -6,6 +6,7 @@
 
 <!DOCTYPE html>
 <HTML>
+<link rel="stylesheet" type="text/css" href="tooltip.css">
 <link rel="stylesheet" type="text/css" href="studentHomePage2.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <link rel="stylesheet" type="text/css" href="statistic.css">
@@ -140,7 +141,7 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <a href="#" id="showRightPush" class="button"><class="menuImage" /></a>
+            <a href="#" id="showRightPush" class="button tooltip-bottom" data-tooltip='Menu'><class="menuImage" /></a>
         </section>
     </div>
 </div>
