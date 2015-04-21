@@ -3,45 +3,45 @@
 //Question Form
 var form_array =
    [
+      'Instruction',
       'True/False Question',
       'Multiple Choice Question',
       'Many Choice Question',
       'Short Answer Question',
       'Essay Question',
-      'Instruction',
       'Matching'
    ];
 var form_text_array =
 	[
-   //Index:0 - True/False Question
+   //Index:0 - Instruction
+      '<button class="bin_button" type="button" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeQ(this);">'+
+      '<input type="image" width="100%" height="100%" src="./images/recycle_close.jpeg">' +
+      '</button><br>' +
+      '<textarea required class="required_field" rows="2" placeholder="Type Instruction" maxlength="200"></textarea>' +
+      '<input type="hidden">',
+
+   //Index:1 - True/False Question
 		'<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required class="required_field" rows="3" placeholder="True/False Question" maxlength="200"></textarea>' +
       '<input type="radio" checked style="margin-left: 23%;"> True' +
 		'<input type="radio"         style="margin-left: 23%;"> False',
 
-   //Index:1 - Multiple Choice Question
+   //Index:2 - Multiple Choice Question
       '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required class="required_field" rows="3" placeholder="Multiple Choice Question" maxlength="200"></textarea>',
 
-   //Index:2 - Many Choices
+   //Index:3 - Many Choices
       '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required class="required_field" rows="3" placeholder="Many Choice Question" maxlength="200"></textarea>',
 
-   //Index:3 - Short Answer Question
+   //Index:4 - Short Answer Question
       '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="2"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required class="required_field" rows="3" placeholder="Short Answer Question" maxlength="200"></textarea>' +
       'Answer: <input required class="required_field" type="text"  maxlength="50" size="55">',
 
-   //Index:4 - Essay
+   //Index:5 - Essay
       '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="5"><qp style="float:right;"> Point-&nbsp;</qp>' +
 		'<textarea required class="required_field" rows="4" placeholder="Essay Question" maxlength="250"></textarea><br>',
-
-   //Index:5 - Instruction
-      '<button class="bin_button" type="button" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeQ(this);">'+
-      '<input type="image" width="100%" height="100%" src="./images/recycle_close.jpeg">' +
-      '</button><br>' +
-		'<textarea required class="required_field" rows="2" placeholder="Type Instruction" maxlength="200"></textarea>' +
-      '<input type="hidden">',
 
    //Index:6 - Matching
       '<input type="text" class="required_field" maxlength="3" size="3" style="float: right;" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" value="2"><qp style="float:right;"> Point-&nbsp;</qp><br />'
@@ -115,6 +115,110 @@ var matching_field =
          $('#minutes').val('1');
       //isNum(current);
    }
+   function isDate(current) {
+      //var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+      var re = /^\d{4}-\d{1,2}-\d{1,2}$/;
+      var sDate = current.val();
+      if (re.test(sDate)) {
+         var dArr = sDate.split("-");
+         var d = new Date(sDate);
+         //return d.getMonth() + 1 == dArr[0] && d.getDate() == dArr[1] && d.getFullYear() == dArr[2];
+         return true;
+      }
+      else {
+         alert("Please enter valid date");
+         current.focus();
+         return false;
+      }
+   }
+   // YOUNGCHAN - DATE PICKER
+   $(function() {
+      $('#startDate').datepick({dateFormat: 'yyyy-mm-dd', defaultDate: get_today()/*'2015-12-12'*/, selectDefaultDate: true});
+      $('#endDate').datepick({dateFormat: 'yyyy-mm-dd', defaultDate: get_today()/*'2015-12-12'*/, selectDefaultDate: true});
+      $(".start_time_change").change(function() {
+         var hour = parseInt($("#start_time_hour").val());
+         var min  = parseInt($("#start_time_min").val());
+         if($("#start_time_ampm").val()=="AM") {
+            if(hour==12) hour = 0;
+         }
+         if($("#start_time_ampm").val()=="PM") {
+            if(hour!=12) hour= parseInt(hour)+12;
+         }
+         hour = (hour < 10)? "0"+hour : hour;
+         min  = (min < 10 )? "0"+min  : min;
+         $("#startTime").val(hour+":"+min+":00");
+      });
+      $(".end_time_change").change(function() {
+         var hour = $("#end_time_hour").val();
+         var min  = $("#end_time_min").val();
+         if($("#end_time_ampm").val()=="AM") {
+            if(hour==12) hour = 0;
+         }
+         if($("#end_time_ampm").val()=="PM") {
+            if(hour!=12) hour= parseInt(hour)+12;
+         }
+         hour = (hour < 10)? "0"+hour : hour;
+         min  = (min < 10 )? "0"+min  : min;
+         $("#endTime").val(hour+":"+min+":00");
+      });
+   });
+   // YOUNGCHAN - DATE PICKER
+
+   function validateForm(status) {
+      var valid = true;
+      $('.required_field').each(function () { if ($(this).val() === '') { valid = false; return false; } });
+
+      if(valid) {
+         //var today = get_today();
+         //var time  = get_time();
+         if( !isDate($('#startDate')) ) return false;
+         if( !isDate($('#endDate')) )   return false;
+
+         if($('#startDate').val() > $('#endDate').val()) {
+            alert('Start Date cannot be set after End Date');
+            $('#endDate').focus();
+            return false;
+         }
+
+         // YC 2015-4-16 11:38 PM
+         if( $('#startTime').val() > $('#endTime').val() && $('#startDate').val() == $('#endDate').val() ) {
+            alert('Start Time cannot be set after End Time');
+            //$('#startTime').focus();
+            $('#start_time_hour').focus();
+            return false;
+         }
+
+         // YC 2015-4-16 1:27 PM
+         if($('#startDate').val() < get_today() && status == 'publish' ) {
+            alert('Start Date is already past');
+            $('#startDate').focus();
+            return false;
+         }
+         // YC 2015-4-16 11:43 PM
+         /*if($('#startDate').val() == get_today() && status == 'publish' && $('#startTime').val().substring(0, 5) <  get_time().substring(0, 5) ) {
+            alert('Start Time is already past. Current Time is '+ get_time_ampm());
+            //$('#startTime').focus();
+            $('#start_time_hour').focus();
+            return false;
+         }*/
+         return true;
+      }
+   }
+
+   function publish_check() {
+      if( $("#sortable2 li").length == 0) {
+         alert('At least 1 Question is required to publish the test');
+         return false;
+      }
+      else if ( $("#sortable2 li").length == 1 ) {
+         var attr_name = jQuery('#sortable2 li').eq(0).children('input').eq(0).attr('name');
+         if (attr_name.substring(attr_name.length - 1) == "I" ) {
+            alert('At least 1 Question is required to publish the test');
+            return false;
+         }
+      }
+      return true;
+   }
 
 
     function removeQ (para) {
@@ -166,7 +270,7 @@ var matching_field =
 
 
       //Loop Through All Question Form Types
-	  var loop_limit = $("#sortable2 li").length;
+	   var loop_limit = $("#sortable2 li").length;
 		for(index=0,id_count=0,q_count=0; id_count<loop_limit; index++,id_count++) {
 		
 			var current = jQuery('#sortable2 li').eq(index);
@@ -179,7 +283,7 @@ var matching_field =
             };
 
 			//Update Question Number
-         if( q_type != 5 && q_type != 6 )
+         if( q_type != 0 && q_type != 6 )
 			   current.children('span').text('Q.' + (++q_count) + ' ');
 
          if( q_type == 0 || q_type == 1 ||q_type == 2 ||q_type == 3 ||q_type == 4 || q_type == 5 ) {
@@ -189,7 +293,7 @@ var matching_field =
             //Set ID for Question Text
             current.children('textarea').eq(0).attr("name", "Q" + (id_count + 1) + "T");
             //Set ID for Question Point
-            if (q_type != 5)
+            if (q_type != 0)
                current.children('input').eq(0).attr("name", "Q" + (id_count + 1) + "P");
             else {
                current.children('input').eq(0).attr("name", "Q" + (id_count + 1) + "I");
@@ -199,14 +303,14 @@ var matching_field =
 
          //matching (TF)
          // True / False Question
-			if ( q_type == 0 ) {
+			if ( q_type == 1 ) {
 				current.children('input').eq(1).attr("name", "Q"+(id_count+1)+"O");
             current.children('input').eq(2).attr("name", "Q"+(id_count+1)+"O");
             current.children('input').eq(1).attr("value", "True");
             current.children('input').eq(2).attr("value", "False");
 			}
          //Multiple Choice Question
-         else if( q_type == 1 ) {
+         else if( q_type == 2 ) {
             var o_table = current.children('table').children('tbody');
             //Radio - Multiple Choice
             //ID is setted in the function
@@ -227,7 +331,7 @@ var matching_field =
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "4");
          }
          //Many Choice Question
-         else if( q_type == 2) {
+         else if( q_type == 3) {
             var o_table = current.children('table').children('tbody');
             //Checkbox - Many Choice
             //ID is setted in the function
@@ -252,15 +356,15 @@ var matching_field =
             o_table.children('tr').eq(1).children('td').eq(1).children('input').eq(0).attr("value", "1");
          }
          //Short Answer Question
-			else if( q_type == 3 ) {
+			else if( q_type == 4 ) {
 				current.children('input').eq(1).attr("name", "Q"+(id_count+1)+"A");
 			}
          //Essay Question
-         else if( q_type == 4) {
+         else if( q_type == 5) {
 
          }
          //Instruction
-         else if( q_type == 5) {
+         else if( q_type == 0) {
             current.children('input').eq(0).attr("value", "0");
          }
          //MATCHING !!!!
@@ -440,10 +544,10 @@ $(function() {
                     $(document).scrollTop( ($(document).height() - $(window).height()) * cur_po );
 
 
-					if( x == 1 || x == 2) {
+					if( x == 2 || x == 3) {
 						//Radio - Multiple Choice, Checkbox - Many Choice
 						//ID is setted in the function
-						pop_option(current, index, ((x==1) ? "radio" : "checkbox") );
+						pop_option(current, index, ((x==2) ? "radio" : "checkbox") );
 					}
 
                if( x==6 ) {
@@ -451,27 +555,16 @@ $(function() {
                   var data2 = '<div style="border:1px solid #ccc; width: 45%;">Answers:</div>';
                   var datas =
                      '<table style="border:1px solid #ccc; width: 100%; position:relative;">' +
-                        /*'<tr>' +
-                           '<td style="width: 50%;">Questions:' +
-                              '<button onclick="addQue(this);" style="float:right; margin-right:20px;">Add Question</button></td>' +
-                           '<td style="width: 50%;">Answers:' +
-                              '<button onclick="addOpt(this);" style="float:right; margin-right:20px;">Add Answer</button></td>' +
-                        '</tr>' +*/
                         '<tr>' +
-                           /*'<td>'+matching_field+'</div>' +
-                           '<td>'+matching_field+'</div>' +*/
                            '<td>'+matching_question+'</td>' +
                         '</tr>' +
                      '</table>' +
                      '<button type="button" style="margin-right: 5px; height: 18px;" onclick="addMatchQ(this);">Add New Option</button>';
 
-
-
-                  //<input type="text"  maxlength="50" size="55">
                   current.append(datas);
                }
 
-					if( x==0 || x== 3 || x==4 || x==6) {
+					if( x==1 || x== 4 || x==5 || x==6) {
 						//var del_button = '<input type="button" value="Delete" style="float:right" onclick="sizes(this);"><br>';
 						var del_button =
 							'<button class="bin_button" type="button" onmouseover="recy_onHover(this);" onmouseout="recy_offHover(this);" onclick="removeQ(this);">'+

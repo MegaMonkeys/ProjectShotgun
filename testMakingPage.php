@@ -21,6 +21,11 @@
       <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
       <?php include_once 'testMakingPage_control.php'; ?>
 
+      <!-- DatePicker API (YoungChan) -->
+      <link rel="stylesheet" type="text/css" href="./jquery_api/jquery.datepick.css">
+      <script type="text/javascript" src="./jquery_api/jquery.plugin.js"></script>
+      <script type="text/javascript" src="./jquery_api/jquery.datepick.js"></script>
+
       <style>
          div#load_screen{
             background:#FFF;
@@ -44,77 +49,6 @@
                //$("p:first").replaceWith("Hello world!");
             });
          });
-
-         function validateForm(status) {
-            var valid = true;
-            $('.required_field').each(function () { if ($(this).val() === '') { valid = false; return false; } });
-
-            if(valid) {
-               //var today = get_today();
-               //var time  = get_time();
-               if( !isDate($('#startDate')) ) return false;
-               if( !isDate($('#endDate')) )   return false;
-
-               if($('#startDate').val() > $('#endDate').val()) {
-                  alert('Start Date cannot be set after End Date');
-                  $('#startDate').focus();
-                  return false;
-               }
-
-            // YC 2015-4-16 11:38 PM
-               if( $('#startTime').val() > $('#endTime').val() && $('#startDate').val() == $('#endDate').val() ) {
-                  alert('Start Time cannot be set after End Time');
-                  $('#startTime').focus();
-                  return false;
-               }
-
-			   // YC 2015-4-16 1:27 PM
-			      if($('#startDate').val() < get_today() && status == 'publish' ) {
-                  alert('Start Date is already past');
-                  $('#startDate').focus();
-                  return false;
-               }
-            // YC 2015-4-16 11:43 PM
-               if($('#startDate').val() == get_today() && status == 'publish' && $('#startTime').val().substring(0, 5) <  get_time().substring(0, 5) ) {
-                  alert('Start Time is already past. Current Time is '+ get_time_ampm());
-                  $('#startTime').focus();
-                  return false;
-               }
-               return true;
-            }
-         }
-
-         function isDate(current) {
-            //var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-            var re = /^\d{4}-\d{1,2}-\d{1,2}$/;
-            var sDate = current.val();
-            if (re.test(sDate)) {
-               var dArr = sDate.split("-");
-               var d = new Date(sDate);
-               //return d.getMonth() + 1 == dArr[0] && d.getDate() == dArr[1] && d.getFullYear() == dArr[2];
-               return true;
-            }
-            else {
-               alert("Please enter valid date");
-               current.focus();
-               return false;
-            }
-         }
-
-         function publish_check() {
-            if( $("#sortable2 li").length == 0) {
-                  alert('At least 1 Question is required to publish the test');
-                  return false;
-            }
-            else if ( $("#sortable2 li").length == 1 ) {
-               var attr_name = jQuery('#sortable2 li').eq(0).children('input').eq(0).attr('name');
-               if (attr_name.substring(attr_name.length - 1) == "I" ) {
-                  alert('At least 1 Question is required to publish the test');
-                  return false;
-               }
-            }
-            return true;
-         }
 		 
 <!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->		
 // Publish Dialog Box 
@@ -228,12 +162,11 @@
    <BODY  style="font-family:Calibri;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
    <div class="container">
         <div class="header">
-            <a href="./teacherHomePage.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
+            <a href="./teacherHomePage.php" id="logo"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
         </div>
 			<div class="main">
 			 <section class="buttonset">
 				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <div style="margin-top:-100px"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
 				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
 			 </section>
 			</div>
@@ -243,6 +176,7 @@
         <div class="contents">
    <!-- body has the class "cbp-spmenu-push" -->
   <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+     <span id="name_tab"><?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?></span>
      <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
      <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
      <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
@@ -398,14 +332,66 @@
                      <td id="left">
                          
                         <div class="informationForm">
-                           Class : &nbsp;
-                           <select id="courseNo" name="courseNo" class="inputs" style="width:80px;" onchange="get_sections()">
-                              <?php get_course_list(); get_section_list(); ?>
-                           </select>
-                           Section :
-                           <select id="sectionNo" name="sectionNo" class="inputs" style="width:50px;">
+                           
+                           
+                           <!--Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="startDate"  name="startDate" class="inputs"> <input type="time" class="inputs" id="startTime" name="startTime"><br />
+                           End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="endDate" name="endDate" class="inputs"> <input type="time" class="inputs" id="endTime" name="endTime"><br />
+                           Time limit : &nbsp;<input type="number" id="hours" name="hours" min="0" max="10" class="inputs" placeholder="0" size="2"> hr &nbsp;
+                           &nbsp;&nbsp;&nbsp;
+                           <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" placeholder="50" size="2"> min-->
+                           <table>
+                              <tr>
+                                 <td style="width:auto">Class </td>
+                                 <td>
+                                    <select id="courseNo" name="courseNo" class="inputs" style="width:80px; margin-right:20px;" onchange="get_sections()"><?php get_course_list(); get_section_list(); ?></select>
+                                    Section <select id="sectionNo" name="sectionNo" class="inputs" style="width:50px;"></select>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>Start</td>
+                                 <td>
+                                    <!--<input type="date" class="inputs" id="startDate" name="startDate" style="width:135px;">-->
+                                       <input type="time" class="inputs" id="startTime" name="startTime" style="width:90px; display: none;">
+                                    <input type="text" class="inputs" id="startDate" name="startDate" placeholder="yyyy-mm-dd" style="width:100px;">
+                                    <select id="start_time_hour" class="inputsTime start_time_change">
+                                       <?php get_time_hour_list(); ?>
+                                    </select>
+                                    <select id="start_time_min" class="inputsTime start_time_change">
+                                       <?php get_time_min_list(); ?>
+                                    </select>
+                                    <select id="start_time_ampm" class="inputsTime start_time_change">
+                                       <option value="AM">AM</option>
+                                       <option value="PM">PM</option>
+                                    </select>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>End</td>
+                                 <td>
+                                    <!--<input type="date" class="inputs" id="endDate" name="endDate" style="width:135px;">-->
+                                       <input type="time" class="inputs" id="endTime" name="endTime" style="width:90px; display: none;">
+                                    <input type="text" class="inputs" id="endDate" name="endDate" placeholder="yyyy-mm-dd" style="width:100px;">
+                                    <select id="end_time_hour" class="inputsTime end_time_change">
+                                       <?php get_time_hour_list(); ?>
+                                    </select>
+                                    <select id="end_time_min" class="inputsTime end_time_change">
+                                       <?php get_time_min_list(); ?>
+                                    </select>
+                                    <select id="end_time_ampm" class="inputsTime end_time_change">
+                                       <option value="AM">AM</option>
+                                       <option value="PM">PM</option>
+                                    </select>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>Time Limit</td>
+                                 <td>
+                                    <input type="number" id="hours" style="text-align: center;" name="hours" min="0" max="23" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="1" value="1" size="2" > hr
+                                    <input type="number" id="minutes" style="margin-left:20px; text-align: center;" name="minutes" min="0" max="59" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="0" value="0" size="3" > min
+                                 </td>
+                              </tr>
+                           </table>
 
-                           </select><br />
                            <script>
                               function get_sections() {
                                  //reset section_list
@@ -419,48 +405,19 @@
                                  $('#sectionNo').val( $("option"+course).first().val() );
                               }
                            </script>
-                           <!--Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="startDate"  name="startDate" class="inputs"> <input type="time" class="inputs" id="startTime" name="startTime"><br />
-                           End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="endDate" name="endDate" class="inputs"> <input type="time" class="inputs" id="endTime" name="endTime"><br />
-                           Time limit : &nbsp;<input type="number" id="hours" name="hours" min="0" max="10" class="inputs" placeholder="0" size="2"> hr &nbsp;
-                           &nbsp;&nbsp;&nbsp;
-                           <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" placeholder="50" size="2"> min-->
-                           <table>
-                              <tr>
-                                 <td style="width:110px">Start</td>
-                                 <td>
-                                    <input type="date" class="inputs" id="startDate" name="startDate" style="width:135px;">
-                                    <input type="time" class="inputs" id="startTime" name="startTime" style="width:90px;">
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>End</td>
-                                 <td>
-                                    <input type="date" class="inputs" id="endDate" name="endDate" style="width:135px;">
-                                    <input type="time" class="inputs" id="endTime" name="endTime" style="width:90px;">
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>Time limit</td>
-                                 <td>
-                                    <input type="number" id="hours" name="hours" min="0" max="23" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="1" value="1" size="2" > hr
-                                    <input type="number" id="minutes" name="minutes" min="0" max="59" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="0" value="0" size="3" > min
-                                 </td>
-                              </tr>
-                           </table>
-
 
                            <div id="optionButton">
                               <table id="optionButtonTable">
                                  <tr>
                                     <td><button type="submit" id="publish" name="publish" value ="publish" onclick="$('#button_type').attr('value','publish');" ></button></td> <!--onclick="publish_test()"-->
                                     <td><button type="submit" id="save"    name="save"    value="save"     onclick="$('#button_type').attr('value','save');"></button></td>
-                                    <td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>
+                                    <!--<td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>-->
                                     <td><button type="submit" id="cancel"  name="cancel"  value="cancel" > </button></td>
                                  </tr>
                                  <tr>
                                     <td>Publish</td>
                                     <td>Save</td>
-                                    <td>Preview</td>
+                                    <!--<td>Preview</td>-->
                                     <td>Cancel</td>
                                  </tr>
                               </table>
@@ -477,7 +434,7 @@
                      </td>
                      <td id="middle">
                         <div class="scroll">
-                           Test Name:  &nbsp;<input required class="required_field inputs" type="text" id="testName" name="testName" placeholder="Test Name" size="45" style="font-size:18px;"> <!--class="inputs"-->
+                           Test Name:  &nbsp;<input required class="required_field inputs" type="text" id="testName" name="testName" placeholder="Test Name" size="45" style="font-size:18px; width:80%;"> <!--class="inputs"-->
 
                            <!--<div>
                               <div id="text_instruc_heading">CS 414 Test Instruction</div>
@@ -532,8 +489,8 @@
    }
    function get_time_ampm() {
       var now = new Date();
-      var ampm = (hour>=12)? "PM" : "AM";
       var hour = now.getHours();
+      var ampm = (hour>=12)? "PM" : "AM";
       var min  = now.getMinutes();
 
       var hour = (hour>12)? hour-12 : ((hour==0)? 12:hour);
@@ -547,10 +504,16 @@
       var today = get_today();
 
       $("#startDate").val(today);
-      $("#endDate").val(today);
-
       $("#startTime").val('00:00:00');
-      $("#endTime").val('23:59:00');
+      $("#start_time_hour").val('12');
+      $("#start_time_min").val('0');
+      $("#start_time_ampm").val('AM');
+
+      $("#endDate").val(today);
+      $("#endTime").val('23:55:00');
+      $("#end_time_hour").val('12');
+      $("#end_time_min").val('55');
+      $("#end_time_ampm").val('PM');
 
 		var post_section = <?php echo (isset($_POST['creat_section'])? $_POST['creat_section']: -1); ?>;
 		//alert(post_section);
@@ -566,10 +529,29 @@
          get_sections();
          document.getElementById("sectionNo").value = post_section;
       }
-	  
    });
 
    get_sections();
+
+   function set_time(time_data,start_end)
+   {
+      //alert(time_data);
+      //alert(time_data.split(":"));
+      var hour = parseInt(time_data.split(":")[0]);
+      var min  = parseInt(time_data.split(":")[1]);
+      var ampm = "AM";
+      if(hour>=12) {
+         ampm = "PM";
+         hour = hour - 12;
+      }
+      if(hour==0)
+        hour = 12;
+      if(min%5!=0)
+         min = min - min%5;
+      $("#"+start_end+"_time_hour").val(hour);
+      $("#"+start_end+"_time_min").val(min);
+      $("#"+start_end+"_time_ampm").val(ampm);
+   }
 
    function get_test(t_no)
    {
@@ -578,7 +560,15 @@
       var data = 'testMakingPage_control.php?load=1&test_no=' + t_no;
       $('#info_loading').load(data);
       var data = 'testMakingPage_control.php?action=load&test_no=' + t_no;
-      $('#sortable2').load(data);
+      $('#sortable2').load(data, function (responseText, textStatus, XMLHttpRequest) {
+         if (textStatus == "success") {
+            resetQnum();
+            $("#sortable2").css({"height": "auto"});
+            $("#sortable2").css("background-image", "none");
+         }
+         if (textStatus == "error") {
+         }
+      });
    }
    $(document).ajaxComplete(function() {
       $("#load_screen").fadeOut(1);//$(".loader").fadeOut(1);
@@ -623,4 +613,16 @@
    }
    else
       echo "<script type='text/javascript'>$('#load_screen').fadeOut(1);//$('.loader').fadeOut(1);</script>";
+?>
+
+<!-- PHP FUNCTIONS FOR startTime & EndTime -->
+<?php
+function get_time_hour_list() {
+   for($i=1; $i<=12; $i++)
+      echo '<option value="'.$i.'">'.$i.'</option>';
+}
+function get_time_min_list() {
+   for($i=0; $i<=55; $i+=5)
+      echo '<option value="'.$i.'">'.$i.'</option>';
+}
 ?>
