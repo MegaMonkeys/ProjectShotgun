@@ -87,7 +87,7 @@
          $row = mysqli_fetch_row($sql_result);
          $s_name = $row[2] . ', ' . $row[1];
          echo '<tr>';
-            echo '<td id="studentTD" type="submit" onclick="get_student_test('.$_POST['gradeButton'].','.$row[0].','."'".$s_name."'".' )">';
+            echo '<td id="studentTD" type="submit" value="'.$row[0].'" onclick="get_student_test('.$_POST['gradeButton'].','.$row[0].','."'".$s_name."'".' )">';
                   echo($s_name);
             echo '</td>';
          echo '</tr>';
@@ -344,16 +344,16 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Ans: '.$row[6].'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$row[6].'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($ex[1]=="True")? 'checked':'') . '><span '.(($ex[1]=="True")? 'class="s_ans"':'').'>True</span>'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($ex[1]=="True")? 'checked':'') . '> <span '.(($ex[1]=="True")? 'class="s_ans"':'').'>True</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($ex[1]=="False")? 'checked':'') . '><span '.(($ex[1]=="False")? 'class="s_ans"':'').'>False</span>'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($ex[1]=="False")? 'checked':'') . '> <span '.(($ex[1]=="False")? 'class="s_ans"':'').'>False</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -395,24 +395,24 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Ans: '.$ans_text.'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$ans_text.'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.'<span '.(($ex[1]==$t_ans_array[0])?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.' <span '.(($ex[1]==$t_ans_array[0])?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.'<span '.(($ex[1]==$t_ans_array[1])?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.' <span '.(($ex[1]==$t_ans_array[1])?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.'<span '.(($ex[1]==$t_ans_array[2])?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.' <span '.(($ex[1]==$t_ans_array[2])?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.'<span '.(($ex[1]==$t_ans_array[3])?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.' <span '.(($ex[1]==$t_ans_array[3])?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -457,24 +457,24 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Ans: '.$ans_text.'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$ans_text.'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[0], $s_ans_array))?'checked':'').' value="a">'.'<span '.((in_array($t_ans_array[0], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[0], $s_ans_array))?'checked':'').' value="a">'.' <span '.((in_array($t_ans_array[0], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[1], $s_ans_array))?'checked':'').' value="c">'.'<span '.((in_array($t_ans_array[1], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[1], $s_ans_array))?'checked':'').' value="c">'.' <span '.((in_array($t_ans_array[1], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[2], $s_ans_array))?'checked':'').' value="b">'.'<span '.((in_array($t_ans_array[2], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[2], $s_ans_array))?'checked':'').' value="b">'.' <span '.((in_array($t_ans_array[2], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[3], $s_ans_array))?'checked':'').' value="d">'.'<span '.((in_array($t_ans_array[3], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[3], $s_ans_array))?'checked':'').' value="d">'.' <span '.((in_array($t_ans_array[3], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -502,7 +502,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="text" name="shortAns" style="width:95%; height:25px; font-size:20px;" class="s_ans" value="'.$ex[1].'">'.
+            '<input disabled type="text" name="shortAns" style="width:95%; height:25px; font-size:20px; background-color:white;" class="s_ans" value="'.$ex[1].'">'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -530,7 +530,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<textarea disabled type="text" name="essayAns" value="" style="font-size:20px;" class="essayText s_ans">'.$ex[1].'</textarea>'.
+            '<textarea disabled type="text" name="essayAns" value="" style="font-size:20px; background-color:white; overflow:auto;" class="essayText s_ans">'.$ex[1].'</textarea>'.
             '</td>'.
             '</tr>'.
             '</table>'.

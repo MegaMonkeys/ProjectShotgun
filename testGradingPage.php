@@ -57,7 +57,7 @@
     <TITLE>
        INGENIOUS
     </TITLE>
-
+    <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 </HEAD>
 
 <BODY style="font-family:Calibri;" class="cbp-spmenu-push">
@@ -76,7 +76,7 @@
    <div class="main">
       <section class="buttonset">
          <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-         <div id="name_tag"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
+         
          <a href="#" id="showRightPush" class="button"></a>
       </section>
    </div>
@@ -194,10 +194,10 @@
       <div id="test_info">
          <table>
             <tr>
-               <td><b>Test Name</b></td>
-               <td><b>Student Name</b></td>
-               <td><b>Student Point</b></td>
-               <td><b>Total Point</b></td>
+               <td><b>Test</b></td>
+               <td><b>Student</b></td>
+               <td><b>Actual</b></td>
+               <td><b>Total</b></td>
                <td><b>%</b></td>
                <td></td>
             </tr>
@@ -213,7 +213,7 @@
       </div>
 
       <div class="content">
-         <div id="studentList">Student List:</div>
+         <div id="studentList"><h2>Students</h2></div>
          <div id="studentInformation">
             <table id="studentTable">
                <?php get_student_list(); ?>
@@ -252,8 +252,8 @@
 
    function get_student_test(test_id, student_id, s_name) {
       //alert(test_id + " " + student_id);
+      student_selected(student_id);
       var data = 'testGradingPage_control.php?action=get&test_id='+test_id+'&student_id='+student_id;
-
       $("#test_table").fadeOut(1);
       $(".loader").fadeIn("slow");
       $('#test_table').load(data, function (responseText, textStatus, XMLHttpRequest) {
@@ -269,6 +269,15 @@
       });
       f_s_name.innerHTML = s_name;
       s_id = student_id;
+   }
+   
+   function student_selected(student_id) {
+      for (i = 0; i < $('#studentTable td').length; i++) {
+         if( $('#studentTable td').eq(i).attr('value') == student_id )
+            $('#studentTable td').eq(i).css('background-color', 'rgb(0,150,210)');
+         else
+            $('#studentTable td').eq(i).css('background-color', '#FF9900');
+      }
    }
 
    $(document).ajaxComplete(function() {
