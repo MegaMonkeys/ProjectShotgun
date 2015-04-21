@@ -194,10 +194,10 @@
       <div id="test_info">
          <table>
             <tr>
-               <td><b>Test Name</b></td>
-               <td><b>Student Name</b></td>
-               <td><b>Student Point</b></td>
-               <td><b>Total Point</b></td>
+               <td><b>Test</b></td>
+               <td><b>Student</b></td>
+               <td><b>Actual</b></td>
+               <td><b>Total</b></td>
                <td><b>%</b></td>
                <td></td>
             </tr>
@@ -213,7 +213,7 @@
       </div>
 
       <div class="content">
-         <div id="studentList">Student List:</div>
+         <div id="studentList"><h2>Students</h2></div>
          <div id="studentInformation">
             <table id="studentTable">
                <?php get_student_list(); ?>
