@@ -131,7 +131,8 @@
          }
       }
       else
-         echo "Looks like there aren't any tests for this course";
+         //echo "Looks like there aren't any tests for this course";
+         echo "<img src='./images/teacherno test.png' style='width:80%; height:80%;margin: 10% 10%;'>";
 
       mysqli_close($connection);
    }
@@ -172,7 +173,7 @@
 	  else if($test_status == 5)
 	     return '<b>Class Average:</b> ';
 	  else if($test_status == 6)
-	     return '<b>Status: Test Published, but there are no students enrolled in this class.</b> ';
+	     return '<b>Status:</b> Test Published, but there are no students enrolled in this class.';
    }
 
    //TeacherHomePage.php
