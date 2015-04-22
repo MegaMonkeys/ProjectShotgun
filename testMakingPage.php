@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <HTML>
    <HEAD>
+      <link rel="stylesheet" type="text/css" href="tooltip.css">
       <!-- jQuery API JavaScript & CSS Do Not Remove (YC)-->
       <script src="./jquery_api/jquery-1.10.2.js"></script>
       <script src="./jquery_api/jquery.min.js"></script>
@@ -28,14 +29,18 @@
 
       <style>
          div#load_screen{
-            background:#FFF;
             opacity:0.7;
             position:fixed;
             z-index:10;
-            top: 0px;
+            top: 30%;
             width:100%;
             height:100%;
          }
+		 #imageLoad{
+		 display: block;
+		margin-left: auto;
+		margin-right: auto ;
+		 }
       </style>
 
       <script>
@@ -160,15 +165,17 @@
    </HEAD>
 
    <BODY  style="font-family:Calibri;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
-   <div class="container">
+
+<div id="load_screen"><img src="images/monkeyload.gif" id="imageLoad"/></div>  
+
+  <div class="container">
         <div class="header">
-            <a href="./teacherHomePage.php"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
+            <a href="./teacherHomePage.php" id="logo"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
         </div>
 			<div class="main">
 			 <section class="buttonset">
 				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <div id="name_tag" style="margin-top:-100px"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
-				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
+				<a href="#" id="showRightPush" class="button tooltip-bottom" data-tooltip='Menu' style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
 			 </section>
 			</div>
 
@@ -181,7 +188,7 @@
      <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
      <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
      <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
-     <a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
+     <a href='helpPage.php'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
      <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
   </nav>
   <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
@@ -300,8 +307,6 @@
    </script>
    <!-- END of JavaScript to make Hidden Side Menu Work -->
 
-      <div id="load_screen"><img src="images/monkeyload.gif" /> </div>
-
    <div id="wrap">
       <!--<div class="loader" align="center"></div>-->
          <div id="content">
@@ -333,27 +338,8 @@
                      <td id="left">
                          
                         <div class="informationForm">
-                           Class : &nbsp;
-                           <select id="courseNo" name="courseNo" class="inputs" style="width:80px;" onchange="get_sections()">
-                              <?php get_course_list(); get_section_list(); ?>
-                           </select>
-                           Section :
-                           <select id="sectionNo" name="sectionNo" class="inputs" style="width:50px;">
-
-                           </select><br />
-                           <script>
-                              function get_sections() {
-                                 //reset section_list
-                                 document.getElementById('sectionNo').innerHTML = <?php echo json_encode($GLOBALS['section_list']); ?>;
-                                 //display only select course sections
-                                 var html_code = "";
-                                 for( i=0;i<document.getElementsByClassName($('#courseNo').val()).length;i++ )
-                                    html_code += document.getElementsByClassName($('#courseNo').val())[i].outerHTML;
-                                 document.getElementById('sectionNo').innerHTML = html_code;
-                                 var course = "."+$('#courseNo').val();
-                                 $('#sectionNo').val( $("option"+course).first().val() );
-                              }
-                           </script>
+                           
+                           
                            <!--Start : &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="startDate"  name="startDate" class="inputs"> <input type="time" class="inputs" id="startTime" name="startTime"><br />
                            End : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="endDate" name="endDate" class="inputs"> <input type="time" class="inputs" id="endTime" name="endTime"><br />
                            Time limit : &nbsp;<input type="number" id="hours" name="hours" min="0" max="10" class="inputs" placeholder="0" size="2"> hr &nbsp;
@@ -361,7 +347,14 @@
                            <input type="number" id="minutes" name="minutes" min="0" max="60" class="inputs" placeholder="50" size="2"> min-->
                            <table>
                               <tr>
-                                 <td style="width:110px">Start</td>
+                                 <td style="width:auto">Class </td>
+                                 <td>
+                                    <select id="courseNo" name="courseNo" class="inputs" style="width:80px; margin-right:20px;" onchange="get_sections()"><?php get_course_list(); get_section_list(); ?></select>
+                                    Section <select id="sectionNo" name="sectionNo" class="inputs" style="width:50px;"></select>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>Start</td>
                                  <td>
                                     <!--<input type="date" class="inputs" id="startDate" name="startDate" style="width:135px;">-->
                                        <input type="time" class="inputs" id="startTime" name="startTime" style="width:90px; display: none;">
@@ -397,27 +390,40 @@
                                  </td>
                               </tr>
                               <tr>
-                                 <td>Time limit</td>
+                                 <td>Time Limit</td>
                                  <td>
-                                    <input type="number" id="hours" name="hours" min="0" max="23" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="1" value="1" size="2" > hr
-                                    <input type="number" id="minutes" name="minutes" min="0" max="59" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="0" value="0" size="3" > min
+                                    <input type="number" id="hours" style="text-align: center;" name="hours" min="0" max="23" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="1" value="1" size="2" > hr
+                                    <input type="number" id="minutes" style="margin-left:20px; text-align: center;" name="minutes" min="0" max="59" class="inputs" onkeydown="return isNumberKey(event)" onkeyup="isNum(this)" onblur="numCheck(this)" placeholder="0" value="0" size="3" > min
                                  </td>
                               </tr>
                            </table>
 
+                           <script>
+                              function get_sections() {
+                                 //reset section_list
+                                 document.getElementById('sectionNo').innerHTML = <?php echo json_encode($GLOBALS['section_list']); ?>;
+                                 //display only select course sections
+                                 var html_code = "";
+                                 for( i=0;i<document.getElementsByClassName($('#courseNo').val()).length;i++ )
+                                    html_code += document.getElementsByClassName($('#courseNo').val())[i].outerHTML;
+                                 document.getElementById('sectionNo').innerHTML = html_code;
+                                 var course = "."+$('#courseNo').val();
+                                 $('#sectionNo').val( $("option"+course).first().val() );
+                              }
+                           </script>
 
                            <div id="optionButton">
                               <table id="optionButtonTable">
                                  <tr>
                                     <td><button type="submit" id="publish" name="publish" value ="publish" onclick="$('#button_type').attr('value','publish');" ></button></td> <!--onclick="publish_test()"-->
                                     <td><button type="submit" id="save"    name="save"    value="save"     onclick="$('#button_type').attr('value','save');"></button></td>
-                                    <td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>
+                                    <!--<td><button type="submit" value="preview" id="preview" name="preview" onclick="preview_test()"></button></td>-->
                                     <td><button type="submit" id="cancel"  name="cancel"  value="cancel" > </button></td>
                                  </tr>
                                  <tr>
                                     <td>Publish</td>
                                     <td>Save</td>
-                                    <td>Preview</td>
+                                    <!--<td>Preview</td>-->
                                     <td>Cancel</td>
                                  </tr>
                               </table>
@@ -434,7 +440,7 @@
                      </td>
                      <td id="middle">
                         <div class="scroll">
-                           Test Name:  &nbsp;<input required class="required_field inputs" type="text" id="testName" name="testName" placeholder="Test Name" size="45" style="font-size:18px;"> <!--class="inputs"-->
+                           Test Name:  &nbsp;<input required class="required_field inputs" type="text" id="testName" name="testName" placeholder="Test Name" size="45" style="font-size:18px; width:80%;"> <!--class="inputs"-->
 
                            <!--<div>
                               <div id="text_instruc_heading">CS 414 Test Instruction</div>
@@ -544,6 +550,8 @@
          ampm = "PM";
          hour = hour - 12;
       }
+      if(hour==0)
+        hour = 12;
       if(min%5!=0)
          min = min - min%5;
       $("#"+start_end+"_time_hour").val(hour);
@@ -558,7 +566,15 @@
       var data = 'testMakingPage_control.php?load=1&test_no=' + t_no;
       $('#info_loading').load(data);
       var data = 'testMakingPage_control.php?action=load&test_no=' + t_no;
-      $('#sortable2').load(data);
+      $('#sortable2').load(data, function (responseText, textStatus, XMLHttpRequest) {
+         if (textStatus == "success") {
+            resetQnum();
+            $("#sortable2").css({"height": "auto"});
+            $("#sortable2").css("background-image", "none");
+         }
+         if (textStatus == "error") {
+         }
+      });
    }
    $(document).ajaxComplete(function() {
       $("#load_screen").fadeOut(1);//$(".loader").fadeOut(1);

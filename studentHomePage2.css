@@ -1,3 +1,6 @@
+#logo img{
+   border-style: none;
+}
 body{
 	background-size: cover;
     margin:0px;
@@ -6,7 +9,6 @@ body{
 .stats{
     position: absolute;
     top: 110px;
-    left: 1279px;
     background-color: #FF9900;
     display:inline-block;
     cursor:pointer;
@@ -74,18 +76,20 @@ body{
     float: right;
 }
 #takeTestButton {
-    width: 40px;
-    height:40px;
+    width: 120px;
+    height:50px;
     display: inline-block;
-    background: url(images/buttons/edit.png);
-    background-size: contain;
+    background: url(images/buttons/taketest.png);
+	background-repeat: no-repeat;
+	background-size: cover;
     border: 0px;
     margin-right:20px;
     color: rgba(0,0,0,0);
 }
 #takeTestButton:hover{
-    background: url(images/buttons/editHover.png);
-    background-size: contain;
+    background: url(images/buttons/taketest.png);
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 #takeTestButton:hover:after{

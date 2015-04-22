@@ -135,7 +135,7 @@
                   load_question_form($row);
                $question_data += array($row[0], $row[4], $row[5]); //Q_ID, Que, Pt
             }
-            echo load_question_refresh();
+            //echo load_question_refresh();
          }
       }
       //echo  load_question_info($info);

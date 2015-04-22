@@ -99,7 +99,7 @@
 				if($test_status == 4 && $enroll_count == 0) {
 					$test_status = 6;
 				}
-				if($test_status == 4 && $enroll_count == $grade_count && enroll_count != 0) {
+				if($test_status == 4 && $enroll_count == $grade_count && $enroll_count != 0) {
 				   $test_status = 5;
 				   $sql_avg_grade = "select SUM(FINAL_GRADE)/COUNT(FINAL_GRADE) from student_test where test_id = ".$row[5];
 				   $avg_grade = mysqli_fetch_row(mysqli_query($connection, $sql_avg_grade));
@@ -114,8 +114,8 @@
             echo     "<span id='button'>";
 			   echo     "<form method='post' action='javascript:void(0);'>";
             if($test_status==0 || $test_status==2 || $test_status==6)
-            echo        "<button type='submit' value=$row[5] id='editButton' name='editButton' onclick='modify_test($row[5])'></button>";
-            echo        "<button type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
+            echo        "<button data-tooltip='Edit'   class='tooltip-bottom' type='submit' value=$row[5] id='editButton'   name='editButton'   onclick='modify_test($row[5])'></button>";
+            echo        "<button data-tooltip='Delete' class='tooltip-bottom' type='submit' value=$row[5] id='deleteButton' name='deleteButton' onclick='delete_test($row[5])'></button>";
             //echo        "<button type='submit' value=$row[5] id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
             echo        generate_grade_button($test_status, $row[5]);
 			   echo     "</form>";
@@ -131,7 +131,8 @@
          }
       }
       else
-         echo "Looks like there aren't any tests for this course";
+         //echo "Looks like there aren't any tests for this course";
+         echo "<img src='./images/teacherno test.png' style='width:80%; height:80%;margin: 10% 10%;'>";
 
       mysqli_close($connection);
    }
@@ -150,8 +151,8 @@
 
    function generate_grade_button($test_status, $test_id)
    {
-      if($test_status == 4 || $test_status == 5)
-         return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
+      if(true)//$test_status == 4 || $test_status == 5)
+         return "<button type='submit' data-tooltip='Grade' class='tooltip-bottom' value=$test_id id='gradeButton' name='gradeButton' formaction='testGradingpage.php'></button>";
       else
          //return "<button type='submit' value=$test_id id='gradeButton' name='gradeButton' onclick='grade_test($test_id)'></button>";
 		 return "";
@@ -172,7 +173,7 @@
 	  else if($test_status == 5)
 	     return '<b>Class Average:</b> ';
 	  else if($test_status == 6)
-	     return '<b>Status: Test Published, but there are no students enrolled in this class.</b> ';
+	     return '<b>Status:</b> Test Published, but there are no students enrolled in this class.';
    }
 
    //TeacherHomePage.php

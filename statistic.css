@@ -2,7 +2,7 @@
     font-family: Calibri;
     font-size: 20px;
     text-align: center;
-	
+	margin: 0 auto; /* YoungChan */
 }
 
 #statsTable tr:nth-child(odd){
@@ -15,7 +15,9 @@
     color: #696967;
 }
 #statsTable td{
-width : 100px;
+width : auto;
+   min-width: 100px;
+   max-widows: 200px;
 }
 #statsTable tr:hover{
     background-color: #cbdbf7;
