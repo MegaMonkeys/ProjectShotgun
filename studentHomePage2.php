@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="tooltip.css">
 <link rel="stylesheet" type="text/css" href="studentHomePage2.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
-<link rel="stylesheet" type="text/css" href="statistic.css">
+<link rel="stylesheet" type="text/css" href="statistic2.css">
 <link rel="stylesheet" href="jquery-ui-1.11.4.custom/jquery-ui.css">
 <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
 <script src="jquery_api/jquery.min.js"></script>
@@ -76,7 +76,7 @@
 </HEAD>
 <?php include_once 'reload_goback.php'; ?>
 <a href="#" id="openDialog" class="stats" style="...">Grades</a>
-<div id="dialog-modal" title="Grades" style="display:none">
+<div id="dialog-modal" title="Grades" style="display:none; color: #ff9900;background-color: #f3f3f3;float: none;text-align: center;">
     <html>
     <div>
         <?php
@@ -86,12 +86,14 @@
 
         $overall_grade = mysqli_fetch_array(mysqli_query($connection, "select FORMAT(AVG(final_grade), 2) from student join enrollment using(student_id) join student_test using(student_id) join test using (section_id) where student_test.test_id = test.test_id AND student_id = ".$student_id));
 
+        echo "<br /><br />";
         echo "<p>OVERALL GRADE: ";
         if (is_numeric($overall_grade[0]))
         	echo "$overall_grade[0]%";
         if (!is_numeric($overall_grade[0]))
         	echo "No Grade Yet";
-        echo "<br></p>";
+        echo "</p>";
+        echo "<br /><br />";
 
 		$classAndInstructorResult = mysqli_query($connection, "select course_no, '-', section_no, description, instructor_title, first_name, last_name, section_id from section join course using(course_no) join instructor using(instructor_id) join enrollment using(section_id) where student_id = ".$student_id." order by course_no, section_no");
 
@@ -144,7 +146,7 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <a href="#" id="showRightPush" class="button tooltip-bottom" data-tooltip='Menu'><class="menuImage" /></a>
+            <a href="#" id="showRightPush" class="button tooltip-bottom"><class="menuImage" /></a>
         </section>
     </div>
 </div>

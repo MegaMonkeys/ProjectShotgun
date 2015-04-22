@@ -208,25 +208,25 @@ function initialize() {
 			<!--<span id="thetitle">Teacher: </span><br />-->
 			<div id="accordion">
 				<h3><span id="questiontitle">Q: Are the test questions graded automatically?</span></h3>
-				<div><p>A: Every test question is graded automatically, except for the essay and short answer questions.<br />
-				Tests with essay questions will be submitted to the teacher to finalize the grade,<br />
+				<div><p>A: Every test question is graded automatically, except for the essay and short answer questions.
+				Tests with essay questions will be submitted to the teacher to finalize the grade,
 				then they will be available for the student to see.</p></div>
 				<h3><span id="questiontitle">Q: What is the difference between saving a test and publishing it?</span></h3>
-				<div><p>A: Saving a test allows you to exit and edit it later. <br />
-				Publishing a test makes it viewable for students to take within the specified time <br />
-				period and disallows you from editing any further.</p></div>
+				<div><p>A: Saving a test allows you to exit and edit it later.
+				Publishing a test makes it viewable for students to take within the specified time
+				period and disallows you from editing it any further.</p></div>
 				<h3><span id="questiontitle">Q: When I delete a test, does that make it unavailable for my students to take?</span></h3>
-				<div><p>A: Yes, deleting a test also makes it unavailable for any students enrolled in that course.</p></div>
+				<div><p>A: Yes, deleting a test also makes it unavailable for your students.</p></div>
 
 			<!--	//<span id="thetitle">Students: </span><br />-->
 				<h3><span id="questiontitle">Q: I was in the middle of taking a test, and my browser crashed. Now what?</span></h3>
-				<div><p>A: Your test is still available to be completed, just go to your home page and click the Take Test button.<br />
+				<div><p>A: Your test is still available to be completed, just go to your home page and click the Take Test button.
 				However none of your answers were saved, and the time is still counting down from when you started the test.</p></div>
-				<h3><span id="questiontitle">Q: What happends if I click the "I cheated" button?</span></h3>
+				<h3><span id="questiontitle">Q: What happens if I click the "I cheated" button?</span></h3>
 				<div><p>A: You will get a zero on your test. If you accidently click the button, please contact your teacher.</p></div>
 			</div>
 				<span id="emailus">Can't find your answer? Please contact us at <a href="mailto:megamonkeys12345@gmail.com?subject=Questions">
-				megamonkeys12345@gmail.com</a></span>
+				megamonkeys@gmail.com</a></span>
 				  
 			<br /><br />
 			<div id="title2">Where are we? </div>
@@ -236,9 +236,9 @@ function initialize() {
 			<tr>
 			<td width="540px"><div id="map-canvas"></div></td>
 			<td><i class="fa fa-map-marker">
-			</i> &nbsp;250 Brent Lane, Pensacola, FL 32503<br />
-			<i class="fa fa-envelope-o"></i> megamonkeys@gmail.com<br />
-			<i class="fa fa-phone"></i> (850) 261-7818 or (850) 291-1816<br /></td>
+			</i> &nbsp;&nbsp;250 Brent Lane, Pensacola, FL 32503<br />
+			<i class="fa fa-envelope-o"></i> &nbsp;megamonkeys@gmail.com<br />
+			<i class="fa fa-phone"></i> &nbsp;&nbsp;(850) 261-7818 or (850) 291-1816<br /></td>
 			</tr>
 			</table>
 			

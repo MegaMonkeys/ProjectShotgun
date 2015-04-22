@@ -30,6 +30,12 @@
 		margin-left: auto;
 		margin-right: auto ;
 		 }
+		.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+			float: none;
+		}		 
+		 .ui-dialog .ui-dialog-buttonpane {
+			text-align: center;
+		}		 
     </style>
     <?php
         $testID = isset($_POST['takeTestButton']) ? $_POST['takeTestButton'] : '-1';
@@ -96,14 +102,15 @@
                                 modal: true,
                                 show: {
                                     effect: "blind",
-                                    duration: 1000
+                                    duration: 500
                                 },
                                 hide: {
-                                    effect: "explode",
-                                    duration: 1000
+                					effect: "drop", 
+									direction: "down",
+									duration: 500
                                 },
                                 buttons: {
-                                    "Submit": function() {
+                                    "Submit for Grading": function() {
                                         if("<?php echo $studentName; ?>" === document.getElementById('signature').value) {
                                             $( this ).dialog( "close" );
                                             submitTest();
@@ -113,7 +120,7 @@
                                             document.getElementById('errorMsg').innerHTML = "Name does not match!";
                                         }
                                     },
-                                    "Submit Without Signing": function() {
+                                    "I Cheated!": function() {
                                         document.getElementById('signature').value = "";
                                         $( this ).dialog( "close" );
                                         submitTest();
@@ -123,6 +130,7 @@
                                     }
                                 }
                             });
+                            $(".ui-dialog-titlebar-close").hide();
     // JB added this so pledge signature will get sent with the rest of the test when they click submit.
     submitDialog.parent().appendTo($("#testForm"));
 
@@ -254,11 +262,11 @@
 
     <div class="testQuestions">
         <form name="testForm" id ="testForm" action="submit_test.php" method="post">
-            <div id="dialog-confirm-submit" title="Pledge" style="background-color: #ADD6FF; ">
+            <div id="dialog-confirm-submit" title="Pledge" style="background-color: #f3f3f3; ">
                 <p>
                     <div style="font-size: 20px;">
                         <?php echo $pledge; ?><br />
-                        If you can honestly do so, sign your name exactly as it appears:
+                        If you can do so honestly, sign your name exactly as it appears:
                     </div>
                     <input type="text" autofocus style="display:none;"/>
                     <input type="textbox" id="signature" name="signature" placeholder="<?php echo $studentName; ?>" onclick="this.select()" style="width:350px;"><br />

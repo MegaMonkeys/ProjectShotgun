@@ -41,6 +41,12 @@
 		margin-left: auto;
 		margin-right: auto ;
 		 }
+		.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+			float: none;
+		}		 
+		 .ui-dialog .ui-dialog-buttonpane {
+			text-align: center;
+		}
       </style>
 
       <script>
@@ -61,28 +67,30 @@
 		$( "#dialog-confirm-publish" ).dialog({
 		autoOpen: false,
 		resizable: false,
-		height: 250,
-		width:  400,
+		height: 350,
+		width:  450,
 		modal: true,
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 500
 		},
 		hide: {
-			effect: "explode",
-			duration: 1000
+			effect: "drop", 
+			direction: "down",
+			duration: 500
 		},
 		buttons: {
-			"Publish!!!": function() {
+			"Publish": function() {
 			$( this ).dialog( "close" );
 				document.form.action="create_test.php";
 					document.form.submit();
 			},
-			Cancel: function() {
+			"Cancel": function() {
 			$( this ).dialog( "close" );
 			}
 		}
 	});
+	$(".ui-dialog-titlebar-close").hide();
 
     $( "#publish" ).click(function() {
        if(validateForm('publish'))
@@ -95,19 +103,20 @@
 		$( "#dialog-confirm-save" ).dialog({
 		autoOpen: false,
 		resizable: false,
-		height: 250,
-		width:  400,
+		height: 350,
+		width:  450,
 		modal: true,
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 500
 		},
 		hide: {
-			effect: "explode",
-			duration: 1000
+			effect: "drop",
+			direction: "down",
+			duration: 500
 		},
 		buttons: {
-			"Save for Later...": function() {
+			"Save": function() {
 			$( this ).dialog( "close" );
 				document.form.action="create_test.php";
 				document.form.submit();
@@ -117,6 +126,7 @@
 			}
 		}
 	});
+	$(".ui-dialog-titlebar-close").hide();
 	
     $( "#save" ).click(function() { //alert($('#startTime').val() > $('#endTime').val());
        if(validateForm('save'))
@@ -128,28 +138,29 @@
 		$( "#dialog-confirm-cancel" ).dialog({
 		autoOpen: false,
 		resizable: false,
-		height: 250,
-		width:  700,
+		height: 350,
+		width:  550,
 		modal: true,
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 500
 		},
 		hide: {
-			effect: "explode",
-			duration: 1000
+			effect: "drop", 
+			direction: "down",
+			duration: 500
 		},
 		buttons: {
-			"Return to Test Creation": function() {
+			"Resume Test Making": function() {
 			$( this ).dialog( "close" );
 				$( this ).dialog( "close" );
 			},
-			"Leave And Return to Home Page": function() {
+			"Go to Home Page": function() {
 				window.location.assign("./teacherHomePage.php");
 			}
 		}
 	});
-	
+	$(".ui-dialog-titlebar-close").hide();
     $( "#cancel" ).click(function() {
       $( "#dialog-confirm-cancel" ).dialog( "open" );
     });
@@ -175,7 +186,7 @@
 			<div class="main">
 			 <section class="buttonset">
 				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-				<a href="#" id="showRightPush" class="button tooltip-bottom" data-tooltip='Menu' style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
+				<a href="#" id="showRightPush" class="button tooltip-bottom" style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
 			 </section>
 			</div>
 
@@ -314,21 +325,21 @@
 				<input type="text" class="button_type" id="button_type" name="button_type" style="display:none;">
 				<input type="text" class="button_id" id="button_id" name="button_id" style="display:none;">
 <!-- INSERTED BY G3 FOR POPUPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-				<div id="dialog-confirm-publish" title="Are you sure about this?" style="background-color: #ADD6FF; ">
+				<div id="dialog-confirm-publish" title="Did you mean to do this?" style="background-color: #f3f3f3; ">
 					<p>
-						<div style="font-size: 20px;">Are you sure you wish to publish this test? Not only will it be saved, students will then be able to view and take this test.
+						<div style="font-size: 20px;">Are you sure you want to publish this test? If you do so, it will be saved and students will be able to take it.
 						</div>
 					</p>
 				</div>
-				<div id="dialog-confirm-save" title="Is this your intended action?" style="background-color: #ADD6FF; ">
+				<div id="dialog-confirm-save" title="Did you mean to do this?" style="background-color: #f3f3f3; ">
 					<p>
-						<div style="font-size: 20px;">Are you sure you wish to save this test? Students will NOT be able to view or take it; however, you will be able to edit it later.
+						<div style="font-size: 20px;">Are you sure you want to save this test? Students will not be able to view or take it yet. However, you will be able to edit it later.
 						</div>
 					</p>
 				</div>
-				<div id="dialog-confirm-cancel" title="Did you mean to do this?" style="background-color: #ADD6FF; ">
+				<div id="dialog-confirm-cancel" title="Did you mean to do this?" style="background-color: #f3f3f3; ">
 					<p>
-						<div style="font-size: 20px;">Are you sure you want to stop creating this test? Keep in mind that this test is not saved unless you explicitly save it, and any progress made on the creation of this test WILL BE LOST!!!
+						<div style="font-size: 20px;">Are you sure you want to stop making this test? Note that this test is not saved unless you explicitly save it, and any progress made on the creation of this test will be lost.
 						</div>
 					</p>
 				</div>

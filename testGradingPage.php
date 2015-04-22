@@ -206,7 +206,7 @@
                <td><b>Actual</b></td>
                <td><b>Total</b></td>
                <td><b>%</b></td>
-               <td id="f_save" rowspan="2"><button id="t_save" class="tooltip-bottom" type="button" data-tooltip="Save" onclick="testing()"></button></td>
+               <td></td>
             </tr>
             <tr>
                <td id="f_t_name"></td>
