@@ -100,7 +100,7 @@
                             $status = 'Available to Take.';
                             $gradeStatus = "You haven't taken this test yet.";
                         }
-                        $takeTestButton = "<span id='button' style='text-align:center' class='tooltip-bottom' data-tooltip='Take the test'>".
+                        $takeTestButton = "<span id='button' style='text-align:center;' class='tooltip-bottom' data-tooltip='Take the test'>".
                                           "<input type='submit' id='takeTestButton' name='takeTestButton' value='".$row[6]."'/>".
                                           "</span>";
                      }
