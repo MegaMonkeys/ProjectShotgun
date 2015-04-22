@@ -7,7 +7,7 @@
          die("mysqli_init failed");
 
       //Set connection time out
-      mysqli_options($connection, MYSQLI_OPT_CONNECT_TIMEOUT, "5");
+      mysqli_options($connection, MYSQLI_OPT_CONNECT_TIMEOUT, "3");
 
       //Connect to the MySQL Server
       //Warning Disabled
@@ -16,6 +16,6 @@
             die("<br>Connect Error : " . mysqli_connect_error());
          }
       }
-      //else
+      else
          //echo "Connected successfully<br>";
 ?>

@@ -8,10 +8,7 @@
    z-index:100;
    min-width: 700px;
 }
-#name_tag{
-padding-right: 50px;
-font-size:30px;
-}
+
 .testQuestions{
     position: relative;
 	margin-top: 20px;

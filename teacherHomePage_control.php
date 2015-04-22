@@ -14,7 +14,9 @@
    }
    if( isset( $_GET['section_id'] ) )
    {
-      get_test_list($_GET['section_id']);
+      include 'db_connection.php';
+      get_test_list($_GET['section_id'], $connection);
+      mysqli_close($connection);
    }
 
 
@@ -48,9 +50,9 @@
    }
 
    //TeacherHomePage.php
-   function get_test_list($section_no)
+   function get_test_list($section_no, $connection)
    {
-      include 'db_connection.php';
+      //include 'db_connection.php';
       $sql_command = "SELECT `SECTION_ID`,`TEST_NAME`, `PUBLISHED`, `START_DATE`, `END_DATE`, `TEST_ID`\n"
          . "FROM `test`\n"
          . "WHERE `SECTION_ID` =" . $section_no . "\n"
@@ -134,7 +136,7 @@
          //echo "Looks like there aren't any tests for this course";
          echo "<img src='./images/teacherno test.png' style='width:80%; height:80%;margin: 10% 10%;'>";
 
-      mysqli_close($connection);
+      //mysqli_close($connection);
    }
 
    function display_date($start, $end)

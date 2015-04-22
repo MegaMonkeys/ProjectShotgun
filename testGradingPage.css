@@ -214,3 +214,11 @@ div.content{
 .s_ans {
    color: blue;
 }
+
+.s_ans_correct {
+   color: green;
+}
+
+.s_ans_wrong {
+   color:orangered;
+}

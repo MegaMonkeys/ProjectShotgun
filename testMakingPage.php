@@ -349,7 +349,7 @@
                               <tr>
                                  <td style="width:auto">Class </td>
                                  <td>
-                                    <select id="courseNo" name="courseNo" class="inputs" style="width:80px; margin-right:20px;" onchange="get_sections()"><?php get_course_list(); get_section_list(); ?></select>
+                                    <select id="courseNo" name="courseNo" class="inputs" style="width:80px; margin-right:20px;" onchange="get_sections()"><?php include 'db_connection.php'; get_course_list($connection); get_section_list($connection); mysqli_close($connection) ?></select>
                                     Section <select id="sectionNo" name="sectionNo" class="inputs" style="width:50px;"></select>
                                  </td>
                               </tr>

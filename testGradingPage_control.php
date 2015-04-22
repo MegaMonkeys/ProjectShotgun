@@ -121,29 +121,39 @@
 
    function get_test($test_id, $student_id, $connection) {
       //include 'db_connection.php';
-      $sql_command_student = "SELECT SIGNED_PLEDGE, OBJECTIVE_GRADE, ESSAY_GRADE, FINAL_GRADE, START_DATE, END_DATE, TIME_LIMIT, DATE_TIME"
-         . " FROM test t JOIN student_test s ON t.test_id = s.test_id WHERE STUDENT_ID = ".$student_id." AND s.TEST_ID = ".$test_id;
+      //$sql_command_student = "SELECT SIGNED_PLEDGE, OBJECTIVE_GRADE, ESSAY_GRADE, FINAL_GRADE, START_DATE, END_DATE, TIME_LIMIT, DATE_TIME"
+      //   . " FROM test t JOIN student_test s ON t.test_id = s.test_id WHERE STUDENT_ID = ".$student_id." AND s.TEST_ID = ".$test_id;
+
+      $sql_command_test    = "SELECT START_DATE, END_DATE, TIME_LIMIT FROM TEST WHERE TEST_ID = ".$test_id;
+      $sql_command_student = "SELECT SIGNED_PLEDGE, OBJECTIVE_GRADE, ESSAY_GRADE, FINAL_GRADE, DATE_TIME FROM student_test WHERE student_id = ".$student_id." AND test_id = " . $test_id;
+      $sql_now = "SELECT NOW()";
+      $now = mysqli_fetch_row(mysqli_query($connection, $sql_now));
+
+      $sql_result_test     = mysqli_query($connection, $sql_command_test);
       $sql_result_student  = mysqli_query($connection, $sql_command_student);
+      $result_t_row = mysqli_fetch_row($sql_result_test);
+
+
+
       $student_test_avail    = (mysqli_num_rows($sql_result_student)==1)?true:false;
       $student_test_pledge   = false;
-      $student_test_progress = false;
-      $test_duration         = false;
+      $test_progress = false;
 
       if($student_test_avail) {
-         $result_row = mysqli_fetch_row($sql_result_student);
-         $student_test_pledge = ($result_row[0]==1)?true:false;
+         $result_s_row = mysqli_fetch_row($sql_result_student);
 
-         if($result_row[1]==null && $result_row[2]==null && $result_row[3]==null)
-            $student_test_progress = true;
+         $student_test_pledge = $result_s_row[0];
 
-         //if(time_duration_check($result_row[4], $result_row[5],$result_row[6],$result_row[7], $connection))
-            //$test_duration = true;
       }
 
-      if($student_test_progress)
+      $test_progress = $result_t_row[1]>$now[0]? true:false;
+
+      if($student_test_avail && $test_progress && $student_test_pledge == null)
          echo "<B1>Student is currently taking the test, please wait ...</B1>";
-      elseif(!$student_test_avail)
-         echo "<B1>Student did not took or have not started the test</B1>";
+      elseif(!$student_test_avail && !$test_progress)
+         echo "<B1>Student did not took the test</B1>";
+      elseif(!$student_test_avail && $test_progress)
+         echo "<B1>Student have not started the test</B1>";
       elseif($student_test_avail) {
          if($student_test_pledge==0) echo "<B1>Student did not signed the pledge !!</B1>";
 
@@ -242,16 +252,17 @@
                      '<td colspan="1" width="750px">'.
                         //'<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
                      '</td>'.
-                     '<td width="50px" class="s_ans">'.'Stu.'.'</td>'.
-                     '<td width="50px" class="t_ans">'.'Ans.'.'</td>'.
+                     '<td width="50px">'.'Stu.'.'</td>'.
+                     '<td width="50px">'.'Ans.'.'</td>'.
                   '</tr>';
 
       for($i=0,$ascii=65;$i<$count_matching; $i++, $ascii++, $q++) {
+         $ans_class_color = ($array_ans_list_form[$array_students_ans[$i]]==$array_ans_list_form[$array_test_ans[$i]])?'class="s_ans_correct"':'class="s_ans_wrong"';
          $temp =//
                   '<tr>' .
                      '<td><span style="padding-left:10px;">Q.' . $q . " " . $row[$i*$count_matching][3] . '</span></td>' .
                      '<td>&#'.$ascii.';. '.$array_ans_list[$i] .'</td>' .
-                     '<td class="s_ans" style="text-align:center;">&#' . $array_ans_list_form[$array_students_ans[$i]] . ';</td>' .
+                     '<td '.$ans_class_color.' style="text-align:center;">&#' . $array_ans_list_form[$array_students_ans[$i]] . ';</td>' .
                      '<td class="t_ans" style="text-align:center;">&#' . $array_ans_list_form[$array_test_ans[$i]] . ';</td>' .
                   '</tr>';
          $data = $data . $temp;
@@ -362,6 +373,8 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
       if( $row[2] == "True/False" ) {
          $ex = mysqli_fetch_row($sql_result_ex);
          //mysqli_close($connection);
+         $ans_class_color = ($row[6]==$ex[1])?'class="s_ans_correct"':'class="s_ans_wrong"';
+
          $data =
             '<tr><td id="trueFalse" class="questionTD">'.
             '<table>'.
@@ -370,16 +383,16 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$row[6].'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span style="float:right;">Ans. <span class="t_ans" >'.$row[6].'</span></span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($ex[1]=="True")? 'checked':'') . '> <span '.(($ex[1]=="True")? 'class="s_ans"':'').'>True</span>'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true" ' . (($ex[1]=="True")? 'checked':'') . '> <span '.(($ex[1]=="True")? $ans_class_color:'').(($ex[1]=="")? 'class="s_ans_wrong"':'').'>True</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($ex[1]=="False")? 'checked':'') . '> <span '.(($ex[1]=="False")? 'class="s_ans"':'').'>False</span>'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false" ' . (($ex[1]=="False")? 'checked':'') . '> <span '.(($ex[1]=="False")? $ans_class_color:'').(($ex[1]=="")? 'class="s_ans_wrong"':'').'>False</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -412,7 +425,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
          $ans_text = $data[0];
 
          //mysqli_close($connection);
-
+         $ans_class_color = ($ans_text==$ex[1])?'class="s_ans_correct"':'class="s_ans_wrong"';
          $data =
             '<tr><td id="multipleChoice" class="questionTD">'.
             '<table>'.
@@ -421,24 +434,24 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$ans_text.'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span style="float:right;">Ans. <span class="t_ans" >'.$ans_text.'</span></span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.' <span '.(($ex[1]==$t_ans_array[0])?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.' <span '.(($ex[1]==$t_ans_array[0])?$ans_class_color:'').(($ex[1]=="")? 'class="s_ans_wrong"':'').'>'.$t_ans_array[0].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.' <span '.(($ex[1]==$t_ans_array[1])?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.' <span '.(($ex[1]==$t_ans_array[1])?$ans_class_color:'').(($ex[1]=="")? 'class="s_ans_wrong"':'').'>'.$t_ans_array[1].'</span>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.' <span '.(($ex[1]==$t_ans_array[2])?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.' <span '.(($ex[1]==$t_ans_array[2])?$ans_class_color:'').(($ex[1]=="")? 'class="s_ans_wrong"':'').'>'.$t_ans_array[2].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.' <span '.(($ex[1]==$t_ans_array[3])?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.' <span '.(($ex[1]==$t_ans_array[3])?$ans_class_color:'').(($ex[1]=="")? 'class="s_ans_wrong"':'').'>'.$t_ans_array[3].'</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -465,16 +478,19 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
                array_push($t_ans_array, $data[0]);
             }
 
+
+            $s_ans_text = "";
             $s_ans_array = array();
             $s_ans_point = 0;
             for($i = 1; $i <= @mysqli_num_rows($sql_result_ex); $i++) {
                $ex = mysqli_fetch_row($sql_result_ex);
+               $s_ans_text .= ((!$s_ans_text=="")?", ":""). $ex[1];
                array_push($s_ans_array, $ex[1]);
                $s_ans_point += $ex[2];
             }
 
          //mysqli_close($connection);
-
+         $ans_class_color = ($s_ans_text===$ans_text)?'class="s_ans_correct"':'class="s_ans_wrong"';
          $data =
             '<tr><td id="manyChoice" class="questionTD">'.
             '<table>'.
@@ -483,24 +499,24 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td colspan="2" width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$ans_text.'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span style="float:right;">Ans. <span class="t_ans" >'.$ans_text.'</span></span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[0], $s_ans_array))?'checked':'').' value="a">'.' <span '.((in_array($t_ans_array[0], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[0], $s_ans_array))?'checked':'').' value="a">'.' <span '.((in_array($t_ans_array[0], $s_ans_array))?$ans_class_color:'').(($s_ans_text=="")? 'class="s_ans_wrong"':'').'>'.$t_ans_array[0].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[1], $s_ans_array))?'checked':'').' value="c">'.' <span '.((in_array($t_ans_array[1], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[1], $s_ans_array))?'checked':'').' value="c">'.' <span '.((in_array($t_ans_array[1], $s_ans_array))?$ans_class_color:'').(($s_ans_text=="")? 'class="s_ans_wrong"':'').'>'.$t_ans_array[1].'</span>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[2], $s_ans_array))?'checked':'').' value="b">'.' <span '.((in_array($t_ans_array[2], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[2], $s_ans_array))?'checked':'').' value="b">'.' <span '.((in_array($t_ans_array[2], $s_ans_array))?$ans_class_color:'').(($s_ans_text=="")? 'class="s_ans_wrong"':'').'>'.$t_ans_array[2].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[3], $s_ans_array))?'checked':'').' value="d">'.' <span '.((in_array($t_ans_array[3], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[3], $s_ans_array))?'checked':'').' value="d">'.' <span '.((in_array($t_ans_array[3], $s_ans_array))?$ans_class_color:'').(($s_ans_text=="")? 'class="s_ans_wrong"':'').'>'.$t_ans_array[3].'</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -522,7 +538,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$row[6].'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span style="float:right;">Ans. <span class="t_ans" >'.$row[6].'</span></span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.

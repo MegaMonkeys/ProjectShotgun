@@ -45,3 +45,6 @@ text-align: center;
 width:100%;
 
 }
+.ui-dialog-titlebar-close {
+   visibility: visible;
+}

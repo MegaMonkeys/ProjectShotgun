@@ -364,7 +364,7 @@
                             echo    '<td width="850"><span id="theQuestion">'.$row[3].'</span> ('.$row[4].')</td>';
                             echo '</tr><tr>';
                             echo    '<td></td>';
-                            echo    '<td><input type="text" name="Q'.$x.'A" value=""></td>';
+                            echo    '<td><input type="text" name="Q'.$x.'A" value="" style="width:80%;"></td>';
                             echo '</tr>';
                             echo '</table>';
                             echo '</tr></td>';

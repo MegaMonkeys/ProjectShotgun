@@ -11,8 +11,8 @@
 
 
    //TestMakingPage.php
-   function get_course_list() {
-      include 'db_connection.php';
+   function get_course_list($connection) {
+      //include 'db_connection.php';
       $sql_command = "SELECT distinct(`course`.`COURSE_NO`)\n"
          . "FROM `section`\n"
          . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
@@ -29,15 +29,15 @@
    }
 
    //TestMakingPage.php
-   function get_section_list() {
-      include 'db_connection.php';
+   function get_section_list($connection) {
+      //include 'db_connection.php';
       $sql_command = "SELECT `course`.`COURSE_NO`, `section`.`SECTION_NO`, `section`.`SECTION_ID`\n"
          . "FROM `section`\n"
          . " LEFT JOIN `cs414_team2`.`course` ON `section`.`COURSE_NO` = `course`.`COURSE_NO` \n"
          . " WHERE INSTRUCTOR_ID = " . $_SESSION['user_id'];
 
       $sql_result = mysqli_query($connection, $sql_command);
-                    mysqli_close($connection);
+                    //mysqli_close($connection);
 
       $GLOBALS['section_list'] = '';
       for ($i = 0; $i < @mysqli_num_rows($sql_result); $i++) {
@@ -132,7 +132,7 @@
                   load_question_matching($matching_size, $array_matching);
                }
                else
-                  load_question_form($row);
+                  load_question_form($row,$connection);
                $question_data += array($row[0], $row[4], $row[5]); //Q_ID, Que, Pt
             }
             //echo load_question_refresh();
@@ -213,27 +213,27 @@
       //echo '<option class="section_op ' . preg_replace('/\s+/', '', $row[0]) . '" value="' . $row[2] . '">' . $row[1] . '</option>';
    }
 
-   function load_question_form($data)
+   function load_question_form($data, $connection)
    {
       $q_types = array('Instruction', 'True/False', 'Multiple Choice', 'Many Choice', 'Short Answer', 'Essay');
       $q_type = array_search($data[3], $q_types);
       echo '<li class="ui-state-default tess">';
       echo '<span>::</span> ';
-      echo     load_question_type($q_type, $data[4], $data[5], $data[0]);
-      echo     ($q_type == 2 || $q_type == 3 ? load_question_option(($q_type == 2 ? "radio" : "checkbox"), $data[0]) : "");
+      echo     load_question_type($q_type, $data[4], $data[5], $data[0], $connection);
+      echo     ($q_type == 2 || $q_type == 3 ? load_question_option( ($q_type == 2 ? "radio" : "checkbox"), $data[0], $connection) : "");
       echo     ($q_type == 1 || $q_type == 4 || $q_type == 5 ? load_question_extra() : "");
       echo '</li>';
    }
 
-   function load_question_type($q_type, $q_text, $q_pt, $q_id)
+   function load_question_type($q_type, $q_text, $q_pt, $q_id, $connection)
    {
       if($q_type == 1 || $q_type == 4)
       {
-         include 'db_connection.php';
+         //include 'db_connection.php';
          $sql_command = "SELECT * FROM `answer` WHERE QUES_ID = " . $q_id . ";";
          $sql_result = mysqli_query($connection, $sql_command);
          $row = mysqli_fetch_row($sql_result);
-         mysqli_close($connection);
+         //mysqli_close($connection);
       }
 
       $form_array = array('Instruction', 'True/False Question', 'Multiple Choice Question', 'Many Choice Question', 'Short Answer Question', 'Essay Question');
@@ -301,12 +301,12 @@
       return $del_button;
    }
 
-   function load_question_option($o_type, $q_id)
+   function load_question_option($o_type, $q_id, $connection)
    {
-      include 'db_connection.php';
+      //include 'db_connection.php';
       $sql_command = "SELECT * FROM `answer` WHERE QUES_ID = " . $q_id . ";";
       $sql_result = mysqli_query($connection, $sql_command);
-      mysqli_close($connection);
+      //mysqli_close($connection);
       $row = array();
       for ($i = 0; $i < mysqli_num_rows($sql_result); $i++) {
          $row[$i] = mysqli_fetch_row($sql_result);

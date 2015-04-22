@@ -223,13 +223,18 @@ float: right;
 
 #name_tag {
    position:absolute;
-   right: 10px;
-   width: 200px;
+   right: 20px;
+   width: auto;
    top: 33px;
    color: white;
    text-align: right;
+   font-size:30px;
 }
 
 #showRightPush {
    text-align: center;
+}
+
+.ui-dialog-titlebar-close {
+   visibility: hidden;
 }

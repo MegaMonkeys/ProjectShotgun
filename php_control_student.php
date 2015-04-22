@@ -1,7 +1,7 @@
 <?php
    if( isset( $_GET['section_no'] ) )
    {
-      get_test_list($_GET['section_no'], $_GET['student_id'] );
+      get_test_list($_GET['section_no'], $_GET['student_id']);
    }
    $first_user = 0;
    
