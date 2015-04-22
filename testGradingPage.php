@@ -27,15 +27,20 @@
 <?php include_once 'testGradingPage_control.php'; ?>
 <HEAD>
     <style>
-        div#load_screen{
-            background:#FFF;
+         div#load_screen{
             opacity:0.7;
             position:fixed;
             z-index:10;
-            top: 0px;
+            top: 30%;
             width:100%;
             height:100%;
-        }
+         }
+		 #imageLoad{
+		 display: block;
+		margin-left: auto;
+		margin-right: auto ;
+		 }
+
     </style>
     <script>
         window.addEventListener("load", function(){
@@ -57,11 +62,12 @@
     <TITLE>
        INGENIOUS
     </TITLE>
-
+    <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
 </HEAD>
 
 <BODY style="font-family:Calibri;" class="cbp-spmenu-push">
-<div id="load_screen"><img src="images/monkeyload.gif" />loading document</div>
+
+<div id="load_screen"><img src="images/monkeyload.gif" id="imageLoad"/></div>
 <!-- body has the class "cbp-spmenu-push" -->
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
@@ -69,14 +75,14 @@
    <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
    <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
    <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
-   <a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
+   <a href='helpPage.php'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
    <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
 </nav>
 <div class="container">
    <div class="main">
       <section class="buttonset">
          <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-         <div id="name_tag"> <?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?> </div>
+         
          <a href="#" id="showRightPush" class="button"></a>
       </section>
    </div>
@@ -252,8 +258,8 @@
 
    function get_student_test(test_id, student_id, s_name) {
       //alert(test_id + " " + student_id);
+      student_selected(student_id);
       var data = 'testGradingPage_control.php?action=get&test_id='+test_id+'&student_id='+student_id;
-
       $("#test_table").fadeOut(1);
       $(".loader").fadeIn("slow");
       $('#test_table').load(data, function (responseText, textStatus, XMLHttpRequest) {
@@ -269,6 +275,15 @@
       });
       f_s_name.innerHTML = s_name;
       s_id = student_id;
+   }
+   
+   function student_selected(student_id) {
+      for (i = 0; i < $('#studentTable td').length; i++) {
+         if( $('#studentTable td').eq(i).attr('value') == student_id )
+            $('#studentTable td').eq(i).css('background-color', 'rgb(0,150,210)');
+         else
+            $('#studentTable td').eq(i).css('background-color', '#FF9900');
+      }
    }
 
    $(document).ajaxComplete(function() {

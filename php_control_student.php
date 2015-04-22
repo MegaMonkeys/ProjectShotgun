@@ -100,7 +100,7 @@
                             $status = 'Available to Take.';
                             $gradeStatus = "You haven't taken this test yet.";
                         }
-                        $takeTestButton = "<span id='button'>".
+                        $takeTestButton = "<span id='button' style='text-align:center;' class='tooltip-bottom' data-tooltip='Take the test'>".
                                           "<input type='submit' id='takeTestButton' name='takeTestButton' value='".$row[6]."'/>".
                                           "</span>";
                      }
@@ -152,10 +152,12 @@
             $counter--;
          }
          if($counter == $numRows)
-            echo "<tr><td>Looks like there aren't any tests for this course. Check back later.</td></tr>";
+            //echo "<tr><td>Looks like there aren't any tests for this course. Check back later.</td></tr>";
+            echo "<tr><td><img id='welcome_bg' src='./images/no test student.png' style='width:80%; height:80%;margin: 10% 10%;'></td></tr>";
       }
       else
-         echo "<tr><td>Looks like there aren't any tests for this course. Check back later.</td></tr>";
+         //echo "<tr><td>Looks like there aren't any tests for this course. Check back later.</td></tr>";
+         echo "<tr><td><img id='welcome_bg' src='./images/no test student.png' style='width:80%; height:80%;margin: 10% 10%;'></td></tr>";
 
       mysqli_close($connection);
    }

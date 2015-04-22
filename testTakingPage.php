@@ -14,17 +14,22 @@
 <script src="./jquery_api/jquery-1.10.2.js"></script>
 <script src="./jquery_api/jquery.min.js"></script>
 <script src="./jquery_api/jquery-ui.js"></script>
+    
 <HEAD>
     <style>
-        div#load_screen{
-            background:#FFF;
+         div#load_screen{
             opacity:0.7;
             position:fixed;
             z-index:10;
-            top: 0px;
+            top: 30%;
             width:100%;
             height:100%;
-        }
+         }
+		 #imageLoad{
+		 display: block;
+		margin-left: auto;
+		margin-right: auto ;
+		 }
     </style>
     <?php
         $testID = isset($_POST['takeTestButton']) ? $_POST['takeTestButton'] : '-1';
@@ -215,7 +220,7 @@
 </HEAD>
 
 <BODY style="font-family:Calibri;" class="cbp-spmenu-push" onload="interval = setInterval('timer()', 1000)">
-<div id="load_screen"><img src="images/megamonkeysloading.png" /></div>
+<div id="load_screen"><img src="images/monkeyload.gif" id="imageLoad"/></div>  
 	
 	<div class="header">
 		<img src="images/logo.png" alt="Ingenious logo" style="width:250px;">

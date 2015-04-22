@@ -19,9 +19,13 @@
     echo $studentName . '<br />';
     echo $signature . '<br />';
   
-  // Delete the old answers if this test is a retake
-  mysqli_query($connection, 'delete from student_answer where student = ' . $student_id . ' and ques_id in (select ques_id from question where test_id = ' . $testID . ')');
-    
+    // Delete the old answers if this test is a retake
+    mysqli_query($connection, 'delete from student_answer where student = ' . $student_id . ' and ques_id in (select ques_id from question where test_id = ' . $testID . ')');
+  
+    if($signature === $studentName)
+        $signed = '1';
+    else
+        $signed = '0';
 
     for($x = 1; $x <= $numEntries; $x++)
     {
@@ -43,7 +47,7 @@
                 $sqlSelectAns = 'select ans_text, points from answer join question using (ques_id) where correct = 1 and ques_id = '.$qID;
                 $correctAnswers = mysqli_query($connection, $sqlSelectAns);
                 $row = mysqli_fetch_row($correctAnswers);
-                if($_POST['Q'.$x.'A'] === $row[0])
+                if($_POST['Q'.$x.'A'] === $row[0] && $signed)
                     $ptsEarned = $row[1];
                 
                 $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)
@@ -69,7 +73,7 @@
                 $sqlSelectAns = 'select ans_text, points from answer join question using (ques_id) where correct = 1 and ques_id = '.$qID;
                 $correctAnswers = mysqli_query($connection, $sqlSelectAns);
                 $row = mysqli_fetch_row($correctAnswers);
-                if($_POST['Q'.$x.'A'] === $row[0])
+                if($_POST['Q'.$x.'A'] === $row[0] && $signed)
                     $ptsEarned = $row[1];
                 
                 $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)"
@@ -121,7 +125,7 @@
                 }
             }
             echo "<br />Correct: ".$correct;
-            if($correct)
+            if($correct && $signed)
             {
                 $ptsEarned = $corAns[0][1];
                 $objPoints += $ptsEarned;
@@ -182,7 +186,7 @@
                 $sqlSelectAns = 'select ans_text, points from answer join question using (ques_id) where correct = 1 and ques_id = '.$qID;
                 $correctAnswers = mysqli_query($connection, $sqlSelectAns);
                 $row = mysqli_fetch_row($correctAnswers);
-                if($_POST['Q'.$x.'A'] === $row[0])
+                if($_POST['Q'.$x.'A'] === $row[0] && $signed)
                     $ptsEarned = $row[1];
                 
                 $sqlComm = "insert into student_answer (student_id, ques_id, stu_ans_text, stu_points)"
@@ -195,9 +199,8 @@
     }
     
     // Update grade in student_test table
-    if($signature === $studentName)
+    if($signed)
     {
-        $signed = '1';
         if($hasEssay)
         {
             $essayPoints = "null";
@@ -215,7 +218,6 @@
     }
     else
     {
-        $signed = '0';
         $essayPoints = '0';
         $objPoints = '0';
         $grade = '0';

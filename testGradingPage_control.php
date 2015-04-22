@@ -1,16 +1,19 @@
 <?php
-   $matching_count = 0;
 	//$_POST['gradeButton'] => TEST_ID
    if( isset( $_GET['action'] ) ) {
+      include 'db_connection.php';
+
       if( $_GET['action'] == 'get' )
-         get_test($_GET['test_id'], $_GET['student_id']);
+         get_test($_GET['test_id'], $_GET['student_id'], $connection);
       if( $_GET['action'] == 'save' )
-         save_test();
+         save_test($connection);
+
+      mysqli_close($connection);
    }
 
-   function save_test() {
+   function save_test($connection) {
       //echo $_GET['count'];
-      include 'db_connection.php';
+      //include 'db_connection.php';
       $sql_command = "SELECT ques_id, points\n"
          . "FROM question\n"
          . "WHERE test_id = " . $_GET['t_id'] . "\n"
@@ -43,9 +46,7 @@
          . "AND test_id = " . $_GET['t_id'];
       mysqli_query($connection, $sql_command);
 
-
-
-      mysqli_close($connection);
+      //mysqli_close($connection);
    }
 
    function testing() {
@@ -87,7 +88,7 @@
          $row = mysqli_fetch_row($sql_result);
          $s_name = $row[2] . ', ' . $row[1];
          echo '<tr>';
-            echo '<td id="studentTD" type="submit" onclick="get_student_test('.$_POST['gradeButton'].','.$row[0].','."'".$s_name."'".' )">';
+            echo '<td id="studentTD" type="submit" value="'.$row[0].'" onclick="get_student_test('.$_POST['gradeButton'].','.$row[0].','."'".$s_name."'".' )">';
                   echo($s_name);
             echo '</td>';
          echo '</tr>';
@@ -107,57 +108,82 @@
       return mysqli_fetch_row($sql_result);
    }
 
-   function get_test($test_id, $student_id) {
-      include 'db_connection.php';
-      $sql_command = "SELECT test_id, q.ques_id, ques_type, ques_text, points, ans_id, ans_text, correct\n"
-         . "FROM question q\n"
-         . "LEFT OUTER JOIN answer a\n"
-         . "ON q.ques_id = a.ques_id\n"
-         . "WHERE test_id = " . $test_id . "\n"
-         . "ORDER BY q.ques_id";
-         /*"SELECT s.ques_id, ans_id, ques_no, ques_type, ques_text, ans_text, stu_ans_text, points, stu_points\n"
-         . "FROM\n"
-         . "(SELECT q.ques_id, q.ques_no, ques_type, ques_text, stu_ans_text, points, stu_points\n"
-         . "FROM question q\n"
-         . "LEFT OUTER JOIN student_answer s\n"
-         . "ON q.ques_id = s.ques_id\n"
-         . "WHERE test_id = " . $test_id . "\n"
-         . "AND student_id = " . $student_id ."\n"
-         . "OR student_id IS NULL) s\n"
-         . "LEFT OUTER JOIN answer a\n"
-         . "on s.ques_id = a.ques_id\n"
-         . "WHERE correct IS NULL\n"
-         . "OR correct = 1\n"
-         . "ORDER BY ques_no";*/
-      $sql_result = mysqli_query($connection, $sql_command);
+   function time_duration_check($start, $end, $duration, $started, $connection)
+   {
+      $sql_now = "SELECT NOW()";
+      $now = mysqli_fetch_row(mysqli_query($connection, $sql_now));
+
+      if($now > $end)
+         return false;
+
+      return false;
+   }
+
+   function get_test($test_id, $student_id, $connection) {
+      //include 'db_connection.php';
+      $sql_command_student = "SELECT SIGNED_PLEDGE, OBJECTIVE_GRADE, ESSAY_GRADE, FINAL_GRADE, START_DATE, END_DATE, TIME_LIMIT, DATE_TIME"
+         . " FROM test t JOIN student_test s ON t.test_id = s.test_id WHERE STUDENT_ID = ".$student_id." AND s.TEST_ID = ".$test_id;
+      $sql_result_student  = mysqli_query($connection, $sql_command_student);
+      $student_test_avail    = (mysqli_num_rows($sql_result_student)==1)?true:false;
+      $student_test_pledge   = false;
+      $student_test_progress = false;
+      $test_duration         = false;
+
+      if($student_test_avail) {
+         $result_row = mysqli_fetch_row($sql_result_student);
+         $student_test_pledge = ($result_row[0]==1)?true:false;
+
+         if($result_row[1]==null && $result_row[2]==null && $result_row[3]==null)
+            $student_test_progress = true;
+
+         //if(time_duration_check($result_row[4], $result_row[5],$result_row[6],$result_row[7], $connection))
+            //$test_duration = true;
+      }
+
+      if($student_test_progress)
+         echo "<B1>Student is currently taking the test, please wait ...</B1>";
+      elseif(!$student_test_avail)
+         echo "<B1>Student did not took or have not started the test</B1>";
+      elseif($student_test_avail) {
+         if($student_test_pledge==0) echo "<B1>Student did not signed the pledge !!</B1>";
+
+         $sql_command = "SELECT test_id, q.ques_id, ques_type, ques_text, points, ans_id, ans_text, correct\n"
+            . "FROM question q\n"
+            . "LEFT OUTER JOIN answer a\n"
+            . "ON q.ques_id = a.ques_id\n"
+            . "WHERE test_id = " . $test_id . "\n"
+            . "ORDER BY q.ques_id";
+         $sql_result = mysqli_query($connection, $sql_command);
 
 
-      $ques_id = "";
-      $count_matching = 0;
-      $array_matching = array();
+         $ques_id = "";
+         $count_matching = 0;
+         $array_matching = array();
 
-      for($i = 1, $q=0; $i <= @mysqli_num_rows($sql_result); $i++) {
-         $row = mysqli_fetch_row($sql_result);
-         if( $row[1] != $ques_id ) {
+         for($i = 1, $q=0; $i <= @mysqli_num_rows($sql_result); $i++) {
+            $row = mysqli_fetch_row($sql_result);
+            if( $row[1] != $ques_id ) {
 
-            if( $row[2] == "Matching" ) {
-               $count_matching = get_matching_count($connection, $row, $student_id);
-               array_push($array_matching, $row);
-               for($z=1; $z<$count_matching*$count_matching; $z++, $i++) {
-                  $row = mysqli_fetch_row($sql_result);
+               if( $row[2] == "Matching" ) {
+                  $count_matching = get_matching_count($connection, $row, $student_id);
                   array_push($array_matching, $row);
+                  for($z=1; $z<$count_matching*$count_matching; $z++, $i++) {
+                     $row = mysqli_fetch_row($sql_result);
+                     array_push($array_matching, $row);
+                  }
+                  echo get_test_type_matching($array_matching, ++$q, $student_id, $count_matching, $connection, $row[4]);
+                  $q = $q + $count_matching - 1;
+                  $ques_id = $row[1];
                }
-               echo get_test_type_matching($array_matching, ++$q, $student_id, $count_matching, $connection, $row[4]);
-               $q = $q + $count_matching - 1;
-               $ques_id = $row[1];
-            }
-            else {
-               echo get_test_type($row, (($row[2] != "Instruction") ? ++$q : $q), $student_id, $sql_result);
-               $ques_id = $row[1];
+               else {
+                  echo get_test_type($row, (($row[2] != "Instruction") ? ++$q : $q), $student_id, $sql_result, $connection);
+                  $ques_id = $row[1];
+               }
             }
          }
       }
-      mysqli_close($connection);
+
+      //mysqli_close($connection);
    }
 
    function get_matching_count($temp_connection, $row, $student_id) {
@@ -179,8 +205,8 @@
       return $matching_form_count;
    }
 
-   function get_test_type_matching($row, $q, $student_id, $count_matching, $connections, $point) {
-		include 'db_connection.php';
+   function get_test_type_matching($row, $q, $student_id, $count_matching, $connection, $point) {
+		//include 'db_connection.php';
       $array_students_ans = array();
       $array_students_points = array();
       for($i=0; $i<$count_matching; $i++) {
@@ -253,8 +279,8 @@
       return $data;
    }
 
-   function get_test_type($row, $q, $student_id, $main_result) {
-      include 'db_connection.php';
+   function get_test_type($row, $q, $student_id, $main_result, $connection) {
+      //include 'db_connection.php';
       $sql_command_ex = "SELECT q.ques_id, stu_ans_text, stu_points\n"
          . "FROM question q\n"
          . "LEFT OUTER JOIN student_answer a\n"
@@ -335,7 +361,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
 
       if( $row[2] == "True/False" ) {
          $ex = mysqli_fetch_row($sql_result_ex);
-         mysqli_close($connection);
+         //mysqli_close($connection);
          $data =
             '<tr><td id="trueFalse" class="questionTD">'.
             '<table>'.
@@ -350,10 +376,10 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($ex[1]=="True")? 'checked':'') . '><span '.(($ex[1]=="True")? 'class="s_ans"':'').'>True</span>'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="true"' . (($ex[1]=="True")? 'checked':'') . '> <span '.(($ex[1]=="True")? 'class="s_ans"':'').'>True</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($ex[1]=="False")? 'checked':'') . '><span '.(($ex[1]=="False")? 'class="s_ans"':'').'>False</span>'.
+            '<input disabled type="radio" name="trueFalseAns'.$q.'" value="false"' . (($ex[1]=="False")? 'checked':'') . '> <span '.(($ex[1]=="False")? 'class="s_ans"':'').'>False</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -385,7 +411,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
          $data = mysqli_fetch_row($sql_result);
          $ans_text = $data[0];
 
-         mysqli_close($connection);
+         //mysqli_close($connection);
 
          $data =
             '<tr><td id="multipleChoice" class="questionTD">'.
@@ -401,18 +427,18 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.'<span '.(($ex[1]==$t_ans_array[0])?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[0])?'checked':'').' value="a">'.' <span '.(($ex[1]==$t_ans_array[0])?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.'<span '.(($ex[1]==$t_ans_array[1])?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[1])?'checked':'').' value="c">'.' <span '.(($ex[1]==$t_ans_array[1])?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.'<span '.(($ex[1]==$t_ans_array[2])?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[2])?'checked':'').' value="b">'.' <span '.(($ex[1]==$t_ans_array[2])?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.'<span '.(($ex[1]==$t_ans_array[3])?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
+            '<input disabled type="radio" name="multipleChoiceAns'.$q.'"'.(($ex[1]==$t_ans_array[3])?'checked':'').' value="d">'.' <span '.(($ex[1]==$t_ans_array[3])?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -447,7 +473,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
                $s_ans_point += $ex[2];
             }
 
-         mysqli_close($connection);
+         //mysqli_close($connection);
 
          $data =
             '<tr><td id="manyChoice" class="questionTD">'.
@@ -463,18 +489,18 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '<tr>'.
             '<td></td>'.
             '<td style="width:45%">'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[0], $s_ans_array))?'checked':'').' value="a">'.'<span '.((in_array($t_ans_array[0], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[0], $s_ans_array))?'checked':'').' value="a">'.' <span '.((in_array($t_ans_array[0], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[0].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[1], $s_ans_array))?'checked':'').' value="c">'.'<span '.((in_array($t_ans_array[1], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[1], $s_ans_array))?'checked':'').' value="c">'.' <span '.((in_array($t_ans_array[1], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[1].'</span>'.
             '</tr>'.
             '<tr>'.
             '<td></td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[2], $s_ans_array))?'checked':'').' value="b">'.'<span '.((in_array($t_ans_array[2], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[2], $s_ans_array))?'checked':'').' value="b">'.' <span '.((in_array($t_ans_array[2], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[2].'</span>'.
             '</td>'.
             '<td>'.
-            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[3], $s_ans_array))?'checked':'').' value="d">'.'<span '.((in_array($t_ans_array[3], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
+            '<input disabled type="checkbox" name="manyChoiceAns'.$q.'"'.((in_array($t_ans_array[3], $s_ans_array))?'checked':'').' value="d">'.' <span '.((in_array($t_ans_array[3], $s_ans_array))?'class="s_ans"':'').'>'.$t_ans_array[3].'</span>'.
             '</td>'.
             '</tr>'.
             '</table>'.
@@ -487,7 +513,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
       }
       else if( $row[2] == "Short Answer" ) {
          $ex = mysqli_fetch_row($sql_result_ex);
-         mysqli_close($connection);
+         //mysqli_close($connection);
          $data =
             '<tr><td id="shortAnswer" class="questionTD">'.
             '<table>'.
@@ -515,7 +541,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
       }
       else if( $row[2] == "Essay" ) {
          $ex = mysqli_fetch_row($sql_result_ex);
-         mysqli_close($connection);
+         //mysqli_close($connection);
          $data =
             '<tr><td id="essay" class="questionTD">'.
             '<table>'.
@@ -541,6 +567,6 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             '</tr>';
          return $data;
       }
-      mysqli_close($connection);
+      //mysqli_close($connection);
    }
 ?>
