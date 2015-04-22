@@ -70,10 +70,21 @@
    z-index:50;
 }
 #t_save {
-   width:50px;
-   height: 21px;
-   background-color: #FF9900;
-   border-style: none;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    background: url(images/options/save.png);
+    background-size: contain;
+    border: no-border;
+	margin-left: 0px;
+	position: relative;
+}
+#f_save {
+	margin: 0px;
+	padding: 0px;
+	font-size: 0px;
+	text-align: center;
+	vertical-align: middle;
 }
 .essayText{
 	width: 95%;
@@ -197,9 +208,9 @@ div.content{
 }
 
 .t_ans {
-   color:orangered;
+   color:green;
 }
 
 .s_ans {
-   color: cadetblue;
+   color: blue;
 }

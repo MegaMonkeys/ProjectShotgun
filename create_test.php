@@ -215,7 +215,7 @@
                $sqlComm = "insert into answer (ques_id, ans_text, correct)".
                  " values (".$quesID.", '".$_POST['Q'.$baseQ.'M'.$x]."', ".$optIsCorrect.")";
                mysqli_query($connection, $sqlComm);
-               echo '<br /><br />'.$sqlComm;
+               //echo '<br /><br />'.$sqlComm;
             }
          }
       }

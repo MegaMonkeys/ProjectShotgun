@@ -522,7 +522,7 @@ for($x=1,$ascii=65;$x<=$matching_form_count; $x++, $ascii++, $q++) {
             $q.'.'.
             '</td>'.
             '<td width="750px">'.
-            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Ans: '.$row[6].'</span>'.
+            '<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') <span class="t_ans" style="float:right;">Answer: '.$row[6].'</span>'.
             '</td>'.
             '</tr>'.
             '<tr>'.
