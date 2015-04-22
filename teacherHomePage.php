@@ -44,7 +44,7 @@
 			float: none;
 		}
 		.ui-dialog .ui-dialog-buttonpane {
-			text-align: center; /* left/center/right */
+			text-align: center;
 		}
     </style>
     <script>
@@ -61,13 +61,13 @@
 </HEAD>
 
    <a href="#" id="openDialog" class="stats" style="display: none;">Statistics</a>
-   <div id="dialog-confirm-delete-test" title="Are you sure about this?" style="background-color: #ADE8FF; ">
+   <div id="dialog-confirm-delete-test" title="Are you sure about this?" style="background-color: #f3f3f3;">
 		<p>
-			<div style="font-size: 20px;">Are you sure you delete this test? After it is deleted, the test can no longer be recovered, and students can no longer take this test.
+			<div style="font-size: 20px;">Are you sure you want to delete this test? After the test is deleted, it can no longer be recovered, and students can no longer take it.
 			</div>
 		</p>
 	</div>
-   <div id="dialog-modal" title="Class Statistics" style="display:none">
+   <div id="dialog-modal" title="Class Statistics" style="display:none; background-color: #f3f3f3;">
    
    </div>
 
