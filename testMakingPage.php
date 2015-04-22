@@ -7,6 +7,7 @@
 <!DOCTYPE html>
 <HTML>
    <HEAD>
+      <link rel="stylesheet" type="text/css" href="tooltip.css">
       <!-- jQuery API JavaScript & CSS Do Not Remove (YC)-->
       <script src="./jquery_api/jquery-1.10.2.js"></script>
       <script src="./jquery_api/jquery.min.js"></script>
@@ -28,14 +29,18 @@
 
       <style>
          div#load_screen{
-            background:#FFF;
             opacity:0.7;
             position:fixed;
             z-index:10;
-            top: 0px;
+            top: 30%;
             width:100%;
             height:100%;
          }
+		 #imageLoad{
+		 display: block;
+		margin-left: auto;
+		margin-right: auto ;
+		 }
       </style>
 
       <script>
@@ -160,14 +165,17 @@
    </HEAD>
 
    <BODY  style="font-family:Calibri;" class="cbp-spmenu-push"><!-- oncontextmenu="return false" onselectstart="return false" ondragstart="return false">-->
-   <div class="container">
+
+<div id="load_screen"><img src="images/monkeyload.gif" id="imageLoad"/></div>  
+
+  <div class="container">
         <div class="header">
             <a href="./teacherHomePage.php" id="logo"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
         </div>
 			<div class="main">
 			 <section class="buttonset">
 				<!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-				<a href="#" id="showRightPush" class="button" style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
+				<a href="#" id="showRightPush" class="button tooltip-bottom" data-tooltip='Menu' style="margin-top:-5px"><!--<img src="images/menu.png" class="menuImage" />--></a>
 			 </section>
 			</div>
 
@@ -180,7 +188,7 @@
      <a href='teacherHomePage.php'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
      <a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
      <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
-     <a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
+     <a href='helpPage.php'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
      <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
   </nav>
   <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
@@ -298,8 +306,6 @@
       };
    </script>
    <!-- END of JavaScript to make Hidden Side Menu Work -->
-
-      <div id="load_screen"><img src="images/monkeyload.gif" /> </div>
 
    <div id="wrap">
       <!--<div class="loader" align="center"></div>-->
