@@ -36,8 +36,10 @@
       echo "<th>CUMULATIVE AVG</th>";
       echo "</tr>";
 
+      $row2Count = 0;
       while ($row2 = mysqli_fetch_array($result2)) {
          echo "<tr>";
+         $row2Count += 1;
          echo "<td>$row2[1]"." "."$row2[2]</td>";
          $student_id = $row2[0];
          //Student grades
@@ -50,34 +52,38 @@
             if (is_numeric($row3[0]))
 	        	echo "<td>$row3[0]%</td>";
             if (!is_numeric($row3[0]))
-            	echo "<td>No Data</td>";
+            	echo "<td>No Grade Yet</td>";
             $thisRowCount += 1;
          }
          $row6 = mysqli_fetch_array($result6);
          if (is_numeric($row6[0]))
          	echo "<th>$row6[0]%</th>";
          if (!is_numeric($row6[0]))
-         	echo "<th>No Data</th>";
+         	echo "<th>No Grade Yet</th>";
          echo "</tr>";
+      }
+      if ($row2Count == 0)
+      {
+	      echo "<tr><td>No Grade Yet</td><td>No Grade Yet</td><td>No Grade Yet</td></tr>";
       }
 
       echo "<tr><th>AVG</th>";
       while ($row4 = mysqli_fetch_array($result4)) {
 	     echo "<th>";
 		 if (!is_numeric($row4[0]))
-            echo "No Data</th>";
+            echo "No Grade Yet</th>";
         if (is_numeric($row4[0])){
 	     	echo "$row4[0]%";
 	     	array_push($result5, $row4[0]);
      	}
         echo "</th>";
       }
-      @$row4_2 = array_sum($result5) / count($result5);
-      echo "<th>Total class avg: ";   
+      @$row4_2 = round((array_sum($result5) / count($result5)),2);
+      echo "<th>Total Class Avg: ";   
       if (is_numeric($row4_2))
             echo "$row4_2%";
       if (!is_numeric($row4_2))
-            echo "No Data";
+            echo "No Grade Yet";
       echo "</th>";      
 
       echo "</tr>";

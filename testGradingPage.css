@@ -70,6 +70,7 @@
    z-index:50;
 }
 #t_save {
+<<<<<<< HEAD
     width: 40px;
     height: 40px;
     display: inline-block;
@@ -85,6 +86,12 @@
 	font-size: 0px;
 	text-align: center;
 	vertical-align: middle;
+=======
+   width:50px;
+   height: 21px;
+   background-color: #FF9900;
+   border-style: none;
+>>>>>>> origin/development
 }
 .essayText{
 	width: 95%;
@@ -208,9 +215,9 @@ div.content{
 }
 
 .t_ans {
-   color:green;
+   color:orangered;
 }
 
 .s_ans {
-   color: blue;
+   color: cadetblue;
 }

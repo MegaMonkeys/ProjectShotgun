@@ -1,7 +1,7 @@
 ﻿/* http://keith-wood.name/datepick.html
    Date picker for jQuery v5.0.0.
    Written by Keith Wood (kbwood{at}iinet.com.au) February 2010.
-   Licensed under the MIT (http://keith-wood.name/licence.html) licence. 
+   Licensed under the MIT (http://keith-wood.name/licence.html) licence.
    Please attribute the author if you use it. */
 
 (function($) { // Hide scope, no $ conflict
