@@ -7,6 +7,7 @@
 ?>
 <!DOCTYPE html>
 <HTML>
+<link rel="stylesheet" type="text/css" href="tooltip.css">
 <link rel="stylesheet" type="text/css" href="testGradingPage.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <script src="tabcontent.js" type="text/javascript"></script>
@@ -205,7 +206,7 @@
                <td><b>Actual</b></td>
                <td><b>Total</b></td>
                <td><b>%</b></td>
-               <td></td>
+               <td id="f_save" rowspan="2"><button id="t_save" class="tooltip-bottom" type="button" data-tooltip="Save" onclick="testing()"></button></td>
             </tr>
             <tr>
                <td id="f_t_name"></td>
@@ -213,7 +214,7 @@
                <td id="f_s_point"></td>
                <td id="f_t_point"></td>
                <td id="f_percent"></td>
-               <td id="f_save"><button id="t_save" type="button" onclick="testing()">Save</button></td>
+               
             </tr>
          </table>
       </div>
@@ -265,6 +266,7 @@
       $('#test_table').load(data, function (responseText, textStatus, XMLHttpRequest) {
          if (textStatus == "success") {
             calculate_total();
+			document.getElementById("t_save").style.backgroundImage = "url('images/options/save.png')";
             document.getElementById("t_save").disabled = true;
             $(".loader").fadeOut(1);
             $("#test_table").fadeIn("slow");
@@ -314,6 +316,7 @@
       var percent = parseFloat(s_total/t_total*100).toFixed(2);
       f_percent.innerHTML = ((!$.isNumeric(percent))?parseFloat(0).toFixed(2):percent);
       document.getElementById("t_save").disabled = false;
+	  document.getElementById("t_save").style.backgroundImage = "url('images/options/saveEnable.png')";
    }
 
    function testing() {
