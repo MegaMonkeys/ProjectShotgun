@@ -1,5 +1,10 @@
+<?php
+   session_start();
+   include_once 'sessionCheck.php';
+?>
 <!DOCTYPE html>
 <HTML>
+<link rel="stylesheet" type="text/css" href="tooltip.css">
 <link rel="stylesheet" type="text/css" href="loginStyle.css">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <link rel="stylesheet" type="text/css" href="aboutUs.css">
@@ -22,14 +27,18 @@
    <HEAD>
       <style>
          div#load_screen{
-            background:#FFF;
             opacity:0.7;
             position:fixed;
             z-index:10;
-            top: 0px;
+            top: 30%;
             width:100%;
             height:100%;
          }
+		 #imageLoad{
+		 display: block;
+		margin-left: auto;
+		margin-right: auto ;
+		 }
       </style>
       <script>
          window.addEventListener("load", function(){
@@ -44,14 +53,15 @@
        <link rel="icon" type="logo/png" href="images/monkeyhead2.png">
    </HEAD>
 <BODY style="font-family:Calibri;" class="cbp-spmenu-push">
-   <div id="load_screen"><img src="images/monkeyload.gif" /></div>
+  <div id="load_screen"><img src="images/monkeyload.gif" id="imageLoad"/></div>
    
 <!-- body has the class "cbp-spmenu-push" -->
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
-<a href='javascript: history.go(-1)'><i class="fa fa-hand-o-left"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back</span></a>
-<a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>
+<span id="name_tab"><?php echo $_SESSION['user_name'][0].' '.$_SESSION['user_name'][1]; ?></span>
+<a href='./'><i class="fa fa-home"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</span></a>
+<!--<a href='aboutUs.php'><i class="fa fa-info"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About Us</span></a>-->
 <a href='teampage.php'><i class="fa fa-user"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers</span></a>
-<a href='#'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
+<a href='helpPage.php'><i class="fa fa-question"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Need Help?</span></a>
 <a href='logout.php' class="last"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Out</span></a>
 <!--<form action="logout.php"><input type="submit" value="Sign out" class="logout-button"></form>-->
 </nav>
@@ -59,7 +69,7 @@
     <div class="main">
         <section class="buttonset">
             <!-- Class "cbp-spmenu-open" gets applied to menu and "cbp-spmenu-push-toleft" or "cbp-spmenu-push-toright" to the body -->
-            <a href="#" id="showRightPush" class="button"></a>
+           <a href="#" id="showRightPush" class="button tooltip-bottom"><!--<img src="images/menu.png" class="menuImage" />--></a>
         </section>
     </div>
 </div>
@@ -167,7 +177,7 @@
    
     <div class="container">
         <div class="header">
-            <img src="images/logo.png" alt="Ingenious logo" style="width:250px;">
+           <a href="./" id="logo"><img src="images/logo.png" alt="Ingenious logo" style="width:250px;"></a>
         </div>
         <div class="sticky-navigation">
         </div>
@@ -181,10 +191,10 @@
 						</td>
 						<td>
 							<h1> Hello, my name is Steve. </h1><br />
-							<h3> And I’m the immaculate face of MegaMonkeys, Inc., the Mega Minds behind
-							Ingenious. It’s our hope that your time here has been both profitable and
-							enjoyable, (although we know we may not be at the top of the students' favs
-							list). That caveat aside, whether you’re a teacher or a student, it’s our intent
+							<h3> And I&rsquo;m the immaculate face of MegaMonkeys, Inc., the Mega Minds behind
+							Ingenious. It&rsquo;s our hope that your time here has been both profitable and
+							enjoyable, (although we know we may not be at the top of the students&rsquo; faves
+							list). That caveat aside, whether you&rsquo;re a teacher or a student, it&rsquo;s our intent
 							to make your online academic experience as naturally intuitive as possible.
 							<br /><br />Here at MegaMonkeys, Inc. we thrive on initiative, ingenuity, and bananas.
 							Our corporate structure is designed around the simple concept that happy,
