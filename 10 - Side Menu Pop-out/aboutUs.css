@@ -1,0 +1,15 @@
+h1, h3 {
+	text-align: left;
+	color: #003378;
+	word-wrap: break-word;
+}
+.footer {
+	position: fixed;
+	bottom: 0;
+}
+table {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+	margin-bottom: auto;
+}
