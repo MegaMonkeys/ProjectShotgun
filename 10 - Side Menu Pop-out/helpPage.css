@@ -1,0 +1,78 @@
+body {
+    background-size: cover;
+    margin:0px;
+    font-family: Calibri;
+}
+img.header{
+     width:100%;
+     height:150px;
+ }
+#map-canvas {
+     width: 500px;
+     height: 200px;
+}
+#accordion{
+font-family:Calibri;
+font-size: 20px;
+width: 60%;}
+#emailus{
+font-style: italic;
+}
+a:link{
+ text-decoration: none;
+}
+#questiontitle{
+color:rgb(0,150,210);
+font-weight: bold;
+}
+table{
+width: 100%;
+padding-bottom:50px;
+}
+#thetitle{
+font-size:20px;
+font-weight:bold;
+}
+#title{
+font-size: 40px;
+padding-top: 50px;}
+#title2{
+font-size: 40px;
+}
+.in-contents{
+margin-left: 100px;
+margin-right:100px;
+}
+div.content{
+    width:90%;
+    top: 70px;
+	height: 100%;
+    padding-left:20px;
+    margin:0px auto;
+    text-align: left;
+    line-height:40px;
+    left:0px;
+    right:0px;
+    font-family: Calibri;
+}
+.loader {
+   background-image: url('images/bg-body.jpg');
+   position: absolute;
+   margin-left: auto;
+   margin-right: auto;
+   width: 100%;
+   height: 100%;
+   z-index: 9999;
+   background: url('images/monkeyload.gif') 50% 50% no-repeat;
+}
+/********************************************************/
+
+@media screen and (max-width: 1800px) {
+
+}
+@media screen and (max-width: 1400px) {
+
+}
+@media screen and (max-width: 1100px) {
+
+}

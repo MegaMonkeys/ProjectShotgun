@@ -1,0 +1,229 @@
+#logo img{
+   border-style: none;
+}
+#wrapper{
+   width : 100%;
+   height: auto;
+   position:absolute;
+   top: 100px;
+   z-index:30;
+   background-image: url('images/bg-body.jpg');
+}
+#test_info table {
+   position: absolute;
+   top: 10px;
+   left: 400px;
+   min-width: 850px;
+   background-color: #3399FF;
+   color: white;
+   text-shadow:0px 1px 0px #8a3e3e;
+   border-collapse: collapse;
+}
+#test_info td{
+   text-align: center;
+   border: 1px solid lightsteelblue;
+}
+#f_t_name {
+   text-align: left;
+   min-width: 200px;
+   max-width: 200px;
+}
+#f_s_name {
+   min-width: 300px;
+   max-width: 300px;
+}
+#f_percent {
+   min-width: 80px;
+   max-width: 120px;
+}
+#studentTable{
+  width: 200px;
+}
+#studentTD
+{
+  text-align: left;
+  padding-left: 10px;
+  color: white;
+  background-color:#FF9900 ;
+}
+#studentTD:hover
+{
+  background-color: #3399FF;
+  cursor:pointer;
+}
+#test_table
+{
+    border-spacing: 15px;
+}
+.questionTD
+{
+    background-color: white;
+    padding: 10px;
+}
+
+.testQuestions{
+    position: relative;
+	margin-top: 50px;
+    left: 300px;
+    width: 900px;
+   border-spacing: 15px;
+   z-index:50;
+}
+#t_save {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    background: url(images/options/save.png);
+    background-size: contain;
+    border: no-border;
+	margin-left: 0px;
+	position: relative;
+}
+#f_save {
+	margin: 0px;
+	padding: 0px;
+	font-size: 0px;
+	text-align: center;
+	vertical-align: middle;
+}
+.essayText{
+	width: 95%;
+	height: 100px;
+}
+.points{
+	width: 30px;
+	height: 30px;
+	font-size:20px;
+   text-align: center;
+}
+.pointBox{
+	width:100px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 30px;
+    background-color: white;
+}
+#theQuestion{
+	padding-left:0px;
+}
+#button{
+    float: right;
+}
+
+#classTitle{
+    font-size: 40px;
+    position: fixed;
+    top: 120px;
+    left: 400px;
+    color:black;
+    z-index:100;
+}
+#studentList{
+position: fixed;
+top: 200px;
+font-family: Calibri;
+}
+#studentInformation{
+position: fixed;
+height:auto;
+top: 240px;
+   z-index:30;
+}
+.submit-button {
+    z-index: 26;
+    position: fixed;
+    top: 210px;
+    width: 200px;
+    height: 60px;
+    background-color: rgb(0,150,210);
+    border : 3px solid lightsteelblue;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:20px;
+    font-weight:bold;
+    padding:9px 20px 9px 20px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #8a3e3e;
+}
+.submit-button:hover {
+    background-color:rgb(0,200,250);
+}
+
+.logout-button {
+    z-index:60;
+    position: fixed;
+    right: 50px;
+    top: 10px;
+    width: 150px;
+    box-shadow: 0px 10px 14px -7px #691632;
+    background-color: rgb(187,0,0);
+    border : 2px solid;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:arial;
+    font-size:20px;
+    font-weight:bold;
+    padding:9px 20px 9px 20px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #8a3e3e;
+}
+.logout-button:hover {
+    background-color:rgb(255,40,40);
+}
+
+
+div.content{
+    width:90%;
+    top: 10px;
+    padding-left:20px;
+    margin:0px auto;
+    margin-bottom: 50px;
+    text-align: left;
+    line-height:40px;
+    left:0px;
+    right:0px;
+    font-family: Rockwell;
+}
+.title{
+    top: 30px;
+    position: absolute;
+    left: 250px;
+    font-size: 50px;
+    font-family: Calibri;
+    color: #ffffff;
+}
+.loader {
+   position: relative;
+   margin-left: auto;
+   margin-right: auto;
+   width: 100%;
+   height: 500px;
+   z-index: 9999;
+   background: url('./images/monkeyload.gif') 50% 50% no-repeat;
+}
+.table_border_style table{
+	
+}
+
+.t_ans {
+   color:green;
+}
+
+.s_ans {
+   color: blue;
+}
+
+.s_ans_correct {
+   color: green;
+}
+
+.s_ans_wrong {
+   color:orangered;
+}
+
+B1 {
+   font-size:24px;
+}

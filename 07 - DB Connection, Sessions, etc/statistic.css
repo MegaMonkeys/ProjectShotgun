@@ -1,0 +1,50 @@
+#statsTable {
+    font-family: Calibri;
+    font-size: 20px;
+    text-align: center;
+	margin: 0 auto; /* YoungChan */
+}
+
+#statsTable tr:nth-child(odd){
+    background-color: #fdfdf9;
+    color: #696967;
+}
+#statsTable tr:nth-child(even)
+{
+    background-color: #d5d7d3;
+    color: #696967;
+}
+#statsTable td{
+width : auto;
+   min-width: 100px;
+   max-widows: 200px;
+}
+#statsTable tr:hover{
+    background-color: #cbdbf7;
+}
+#statsTable tr:first-child
+{
+
+    background-color: #0096d2;
+    color: whitesmoke;
+    height: 100px;
+}
+#statsTable tr:last-child{
+    background-color: #ff9900;
+    color: #2d2f37;
+}
+.firstColTitle{
+    background-color: red;
+}
+#statTitle{
+    font-family: Calibri;
+	font-weight: bold;
+	   font-size: 30px;
+color: #f7b32d;
+text-align: center;
+width:100%;
+
+}
+.ui-dialog-titlebar-close {
+   visibility: visible;
+}
