@@ -269,8 +269,8 @@
                      '<td colspan="1" width="750px">'.
                         //'<span id="theQuestion">'.$row[3].'</span> ('.$row[4].') - Ans: '.$row[6].
                      '</td>'.
-                     '<td width="50px">'.'Stu.'.'</td>'.
-                     '<td width="50px">'.'Ans.'.'</td>'.
+                     '<td width="50px" class="s_ans">'.'Stu.'.'</td>'.
+                     '<td width="50px" class="t_ans">'.'Ans.'.'</td>'.
                   '</tr>';
 
       for($i=0,$ascii=65;$i<$count_matching; $i++, $ascii++, $q++) {
